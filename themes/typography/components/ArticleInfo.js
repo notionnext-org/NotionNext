@@ -17,10 +17,10 @@ export default function ArticleInfo(props) {
 
   return (
     <section className='mt-2 text-gray-600 dark:text-gray-400 leading-8'>
-      <h2 className='blog-item-title mb-5 font-bold text-black text-xl md:text-2xl no-underline'>
+      <h1 className='blog-item-title mb-5 font-bold text-black text-xl md:text-2xl no-underline'>
         {siteConfig('POST_TITLE_ICON') && <NotionIcon icon={post?.pageIcon} />}
         {post?.title}
-      </h2>
+      </h1>
 
       <div className='flex flex-wrap text-[var(--primary-color)] dark:text-gray-300'>
         {post?.type !== 'Page' && (
