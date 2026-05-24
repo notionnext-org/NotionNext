@@ -1066,10 +1066,10 @@
   resolved "https://registry.npmmirror.com/@img/sharp-win32-x64/-/sharp-win32-x64-0.34.5.tgz"
   integrity sha512-+29YMsqY2/9eFEiW93eqWnuLcWcufowXewwSNIT6UwZdUUCrM3oFjMWH/Z6/TMmb4hlFenmfAVbpWeup2jryCw==
 
-"@ioredis/commands@^1.1.1":
-  version "1.2.0"
-  resolved "https://mirrors.cloud.tencent.com/npm/@ioredis/commands/-/commands-1.2.0.tgz"
-  integrity sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==
+"@ioredis/commands@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@ioredis/commands/-/commands-1.5.1.tgz#a0a3449993b10c7aeb91ecb0d5f1a23692297e51"
+  integrity sha512-JH8ZL/ywcJyR9MmJ5BNqZllXNZQqQbnVZOqpPQqE1vHiFgAw4NHbvE0FOduNU8IX9babitBT46571OnPTT0Zcw==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -1766,60 +1766,58 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@supabase/auth-js@2.105.1":
-  version "2.105.1"
-  resolved "https://registry.npmmirror.com/@supabase/auth-js/-/auth-js-2.105.1.tgz"
-  integrity sha512-zc4s8Xg4truwE1Q4Q8M8oUVDARMd05pKh73NyQsMbYU1HDdDN2iiKzena/yu+yJze3WrD4c092FdckPiK1rLQw==
+"@supabase/auth-js@2.106.0":
+  version "2.106.0"
+  resolved "https://registry.yarnpkg.com/@supabase/auth-js/-/auth-js-2.106.0.tgz#a166c86ac350afbac0e2cc282620086eb58d59cf"
+  integrity sha512-JY7602OvjK2l3BjsQkpePpxR+6P0iG37gCrZNWAMhAuNh1iFnhGRwj/y5EshUG0INMPGFrj0UA9MErQ/kOEKFg==
   dependencies:
     tslib "2.8.1"
 
-"@supabase/functions-js@2.105.1":
-  version "2.105.1"
-  resolved "https://registry.npmmirror.com/@supabase/functions-js/-/functions-js-2.105.1.tgz"
-  integrity sha512-dTk1e7oE51VGc1lS2S0J0NLo0Wp4JYChj74ArJKbIWgoWuFwO0wcJYjeyOV3AAEpKst8/LQWUZOUKO1tRXBrpA==
+"@supabase/functions-js@2.106.0":
+  version "2.106.0"
+  resolved "https://registry.yarnpkg.com/@supabase/functions-js/-/functions-js-2.106.0.tgz#639afbf30e51ff5eb465689d6d4c2f17493fae6e"
+  integrity sha512-ADIkJYH5w7HbnGVAAlCbyKoLF5QdfyezBLfYXpUqhxZOacK6YepOvnP/8p4p+50bhTPWp6VhDxu19KO7e/qU2g==
   dependencies:
     tslib "2.8.1"
 
-"@supabase/phoenix@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.npmmirror.com/@supabase/phoenix/-/phoenix-0.4.1.tgz"
-  integrity sha512-hWGJkDAfWUNY8k0C080u3sGNFd2ncl9erhKgP7hnGkgJWEfT5Pd/SXal4QmWXBECVlZrannMAc9sBaaRyWpiUA==
+"@supabase/phoenix@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@supabase/phoenix/-/phoenix-0.4.2.tgz#f64a5d319a7a0b75a36cdb5d786961fa0dbf234d"
+  integrity sha512-YSAGnmDAfuleFCVt3CeurQZAhxRfXWeZIIkwp7NhYzQ1UwW6ePSnzsFAiUm/mbCkfoCf70QQHKW/K6RKh52a4A==
 
-"@supabase/postgrest-js@2.105.1":
-  version "2.105.1"
-  resolved "https://registry.npmmirror.com/@supabase/postgrest-js/-/postgrest-js-2.105.1.tgz"
-  integrity sha512-6SbtsoWC55xfsm7gbfLqvF+yIwTQEbjt+jFGf4klDpwSnUy17Hv5x0Dq52oqwTQlw6Ta0h1D5gTP0/pApqNojA==
+"@supabase/postgrest-js@2.106.0":
+  version "2.106.0"
+  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-2.106.0.tgz#cd2d6e24722ac28150a9a3e18e2e0f7722764b95"
+  integrity sha512-vNKFAXQrtmUn7J3LbN+uMlt0jciAwRIBpdy6Do4DKrpf1xj0kJhbqXTX4y8ziewWUEEx8G5GPnDmprXXaO9f3w==
   dependencies:
     tslib "2.8.1"
 
-"@supabase/realtime-js@2.105.1":
-  version "2.105.1"
-  resolved "https://registry.npmmirror.com/@supabase/realtime-js/-/realtime-js-2.105.1.tgz"
-  integrity sha512-3X3cUEl5cJ4lRQHr1hXHx0b98OaL97RRO2vrRZ98FD91JV/MquZHhrGJSv/+IkOnjF6E2e0RUOxE8P3Zi035ow==
+"@supabase/realtime-js@2.106.0":
+  version "2.106.0"
+  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-2.106.0.tgz#f15d0da4ae78e2cb1156f1d2dae86401dbef4451"
+  integrity sha512-mYZoaYpkyjlecixbvxCu0h3jw12uHfEcUqNdaRATNI8zQVI5arels+VJzAGcHwNiD+/Juv0OXIuk+M7SHsdI4A==
   dependencies:
-    "@supabase/phoenix" "^0.4.1"
-    "@types/ws" "^8.18.1"
+    "@supabase/phoenix" "^0.4.2"
     tslib "2.8.1"
-    ws "^8.18.2"
 
-"@supabase/storage-js@2.105.1":
-  version "2.105.1"
-  resolved "https://registry.npmmirror.com/@supabase/storage-js/-/storage-js-2.105.1.tgz"
-  integrity sha512-owfdCNH5ikXXDusjzsgU6LavEBqGUoueOnL/9XIucld70/WJ/rbqp89K//c9QPICDNuegsmpoeasydDAiucLKQ==
+"@supabase/storage-js@2.106.0":
+  version "2.106.0"
+  resolved "https://registry.yarnpkg.com/@supabase/storage-js/-/storage-js-2.106.0.tgz#41a40551a111b2d288920df2b14e3db93cc2dba9"
+  integrity sha512-BHc3nIjD3zfdDxBenphXrLJSoQ+qwo24VD96cVzmjBFbQVk5krvwRNUXrA5ozPplA3Vhlst2d/hy9R9ViqH2lg==
   dependencies:
     iceberg-js "^0.8.1"
     tslib "2.8.1"
 
-"@supabase/supabase-js@^2.57.4":
-  version "2.105.1"
-  resolved "https://registry.npmmirror.com/@supabase/supabase-js/-/supabase-js-2.105.1.tgz"
-  integrity sha512-4gn6HmsAkCCVU7p8JmgKGhHJ5Btod4ZzSp8qKZf4JHaTxbhaIK86/usHzeLxWv7EJJDhBmILDmJOSOf9iF4CLA==
+"@supabase/supabase-js@^2.106.0":
+  version "2.106.0"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.106.0.tgz#3c32be98ca809eb600b04a2b079da13d8d42fc31"
+  integrity sha512-OOoo3sLj9iVXNp6b+fkyOfFeQrvvNy7nQbaONNf72dOaictUeS39hFDS9argIRTag6M3ZxIypNWcrDAwLgUihQ==
   dependencies:
-    "@supabase/auth-js" "2.105.1"
-    "@supabase/functions-js" "2.105.1"
-    "@supabase/postgrest-js" "2.105.1"
-    "@supabase/realtime-js" "2.105.1"
-    "@supabase/storage-js" "2.105.1"
+    "@supabase/auth-js" "2.106.0"
+    "@supabase/functions-js" "2.106.0"
+    "@supabase/postgrest-js" "2.106.0"
+    "@supabase/realtime-js" "2.106.0"
+    "@supabase/storage-js" "2.106.0"
 
 "@swc/counter@^0.1.3":
   version "0.1.3"
@@ -1899,9 +1897,9 @@
   integrity sha512-vq7fv0rnt+QTXgPxr5Hjc210p6YKq2kmdziLgnsZGgLJ9e6VAShx1pACLuRjd/AS/sr7phAR58OIIpf0LlmQNw==
 
 "@tootallnate/once@2":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz"
-  integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.1.tgz#35adc6222e3662fa2222ce123b961476a746b9ea"
+  integrity sha512-HqmEUIGRJ5fSXchkVgR5F7qn48bDBzv0kWj/Kfu5e6uci4UlEeng4331LnBkWffb++Ei3FOVLxo8JJWMFBDMeQ==
 
 "@tootallnate/quickjs-emscripten@^0.23.0":
   version "0.23.0"
@@ -2076,13 +2074,6 @@
   resolved "https://registry.npmjs.org/@types/web-bluetooth/-/web-bluetooth-0.0.21.tgz"
   integrity sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==
 
-"@types/ws@^8.18.1":
-  version "8.18.1"
-  resolved "https://registry.npmmirror.com/@types/ws/-/ws-8.18.1.tgz"
-  integrity sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==
-  dependencies:
-    "@types/node" "*"
-
 "@types/yargs-parser@*":
   version "21.0.3"
   resolved "https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-21.0.3.tgz"
@@ -2239,17 +2230,17 @@
   resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.6.1.tgz#b4e16daf445cf6cd365a91e43d86e9e5b3428ddc"
   integrity sha512-oH9He/bEM+6oKlv3chWuOOcp8Y6fo6/PSro8hEkgCW3pu9/OiCXiUpRUogDh3Fs3LH2sosDrx8CxeOLBEE+afg==
 
-"@vercel/functions@^3.4.3":
-  version "3.4.3"
-  resolved "https://registry.npmjs.org/@vercel/functions/-/functions-3.4.3.tgz"
-  integrity sha512-kA14KIUVgAY6VXbhZ5jjY+s0883cV3cZqIU3WhrSRxuJ9KvxatMjtmzl0K23HK59oOUjYl7HaE/eYMmhmqpZzw==
+"@vercel/functions@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@vercel/functions/-/functions-3.6.0.tgz#f9441294d1bfdfff49b530fa0b4667fa36963214"
+  integrity sha512-Xj68JYqqJwtqFWJN7EWmFN7MOiUjv5whjw48UEKqQbg8r7hRkhuJhncTU0ba3jJCh/wxEuLWckrtsKcrHQraxw==
   dependencies:
-    "@vercel/oidc" "3.2.0"
+    "@vercel/oidc" "3.4.1"
 
-"@vercel/oidc@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/@vercel/oidc/-/oidc-3.2.0.tgz"
-  integrity sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug==
+"@vercel/oidc@3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@vercel/oidc/-/oidc-3.4.1.tgz#7f7f0361da6e021273bbf5bf467f5c495488c91e"
+  integrity sha512-H6B+/ig/GoahccL3WZjiHayHw1H5KhvTJNceqYulwfK9kkz5iul2hTmYzcJ7tTCQzyd0dutuL9xYFZCyLUqsog==
 
 "@vitejs/plugin-vue@^5.2.1":
   version "5.2.4"
@@ -5229,12 +5220,12 @@ intl-messageformat@^10.5.3:
     "@formatjs/icu-messageformat-parser" "2.11.4"
     tslib "^2.8.0"
 
-ioredis@^5.6.1:
-  version "5.6.1"
-  resolved "https://registry.npmjs.org/ioredis/-/ioredis-5.6.1.tgz"
-  integrity sha512-UxC0Yv1Y4WRJiGQxQkP0hfdL0/5/6YvdfOOClRgJ0qppSarkhneSa6UvkMkms0AkdGimSH3Ikqm+6mkMmX7vGA==
+ioredis@^5.10.1:
+  version "5.10.1"
+  resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.10.1.tgz#6082781d8aec8d51ee4936bf81d0610404db1e3d"
+  integrity sha512-HuEDBTI70aYdx1v6U97SbNx9F1+svQKBDo30o0b9fw055LMepzpOOd0Ccg9Q6tbqmBSJaMuY0fB7yw9/vjBYCA==
   dependencies:
-    "@ioredis/commands" "^1.1.1"
+    "@ioredis/commands" "1.5.1"
     cluster-key-slot "^1.1.0"
     debug "^4.3.4"
     denque "^2.1.0"
@@ -9435,7 +9426,7 @@ ws@^8.11.0:
   resolved "https://registry.npmjs.org/ws/-/ws-8.18.3.tgz"
   integrity sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==
 
-ws@^8.18.2, ws@^8.19.0:
+ws@^8.19.0:
   version "8.20.0"
   resolved "https://registry.npmmirror.com/ws/-/ws-8.20.0.tgz"
   integrity sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==

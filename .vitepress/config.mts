@@ -70,6 +70,7 @@ export default defineConfig({
             { text: 'Vercel 静态导出', link: '/user-guide/deploy/vercel-static' },
             { text: 'Cloudflare 文档站', link: '/user-guide/deploy/cloudflare-pages-docs' },
             { text: 'Cloudflare 博客静态', link: '/user-guide/deploy/cloudflare-pages' },
+            { text: 'EdgeOne Pages', link: '/user-guide/deploy/edgeone-pages' },
             { text: '构建性能调优', link: '/user-guide/deploy/build-tuning' },
             { text: 'Netlify', link: '/user-guide/deploy/netlify' },
             { text: 'VPS', link: '/user-guide/deploy/vps' }
