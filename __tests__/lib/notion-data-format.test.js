@@ -81,27 +81,53 @@ describe('Notion data format compatibility', () => {
     expect(pageIds).toEqual(['page_1', 'page_2'])
   })
 
-  it('falls back to legacy collection query block ids', () => {
+  it('supplements truncated page_sort from the selected view query only', () => {
     const pageIds = getAllPageIds(
       {
         collection_1: {
           view_1: {
             collection_group_results: {
-              blockIds: ['page_1']
+              blockIds: ['page_1', 'page_2']
             }
           },
           view_2: {
-            blockIds: ['page_2']
+            blockIds: ['hidden_page']
           }
         }
       },
       'collection_1',
-      {},
+      {
+        view_1: {
+          value: {
+            value: {
+              page_sort: ['page_1']
+            }
+          }
+        }
+      },
       ['view_1'],
       {}
     )
 
-    expect(pageIds).toEqual(expect.arrayContaining(['page_1', 'page_2']))
+    expect(pageIds).toEqual(['page_1', 'page_2'])
+    expect(pageIds).not.toContain('hidden_page')
+  })
+
+  it('falls back to all query blocks when no selected view is available', () => {
+    const pageIds = getAllPageIds(
+      {
+        collection_1: {
+          view_1: { blockIds: ['page_1'] },
+          view_2: { blockIds: ['page_2'] }
+        }
+      },
+      'collection_1',
+      {},
+      [],
+      {}
+    )
+
+    expect(pageIds).toEqual(['page_1', 'page_2'])
   })
 
   it('normalizes nested blocks and strips crdt fields before rendering', () => {
