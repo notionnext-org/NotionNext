@@ -41,6 +41,7 @@ const BLOG = {
   ...require('./conf/widget.config'), // 悬浮在网页上的挂件，聊天客服、宠物挂件、音乐播放器等
   ...require('./conf/ad.config'), // 广告营收插件
   ...require('./conf/plugin.config'), // 其他第三方插件 algolia全文索引
+  ...require('./conf/ai.config'), // AI 相关配置（AI摘要、AI聊天机器人等）
   ...require('./conf/performance.config'), // 性能优化配置
   ...require('./conf/top-tag.config'), // 置顶文章全局配置
 

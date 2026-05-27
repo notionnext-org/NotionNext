@@ -58,7 +58,7 @@ function validateOptimizationTasks() {
       checks: [
         { file: 'tsconfig.json', desc: 'TypeScript 配置', validate: validateTSConfig },
         { file: '.eslintrc.js', desc: 'ESLint 配置' },
-        { file: '.prettierrc.js', desc: 'Prettier 配置' },
+        { file: '.prettierrc.json', desc: 'Prettier 配置' },
         { file: 'lib/utils/errorHandler.js', desc: '错误处理工具' },
         { file: 'types/index.ts', desc: '类型定义文件' },
         { file: 'scripts/quality-check.js', desc: '质量检查脚本' }

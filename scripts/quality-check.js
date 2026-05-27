@@ -129,7 +129,7 @@ async function main() {
   // 检查配置文件
   const configFiles = [
     { path: '.eslintrc.js', name: 'ESLint 配置' },
-    { path: '.prettierrc.js', name: 'Prettier 配置' },
+    { path: '.prettierrc.json', name: 'Prettier 配置' },
     { path: 'tsconfig.json', name: 'TypeScript 配置' },
     { path: 'next.config.js', name: 'Next.js 配置' }
   ]
