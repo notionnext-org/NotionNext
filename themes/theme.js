@@ -44,7 +44,6 @@ const getLayoutLoading = (themeName, layoutName) => {
   if (themeName === 'magzine' && layoutName === 'LayoutIndex') {
     return MagzineLayoutLoading
   }
-  return undefined
 }
 
 const normalizeThemeName = themeValue => {
@@ -164,20 +163,21 @@ export const useLayoutByTheme = ({ layoutName, theme }) => {
     return layoutByThemeCache.get(cacheKey)
   }
 
-  const DynamicLayoutComponent = dynamic(
-    () =>
-      import(`@/themes/${themeQuery}`).then(componentsSource => {
-        const Selected =
-          componentsSource[layoutName] || componentsSource.LayoutSlug
-        if (!Selected) {
-          throw new Error(
-            `[theme] Layout "${layoutName}" missing in themes/${themeQuery}`
-          )
-        }
-        return Selected
-      }),
-    { ssr: true, loading: getLayoutLoading(themeQuery, layoutName) }
-  )
+  const loadLayout = () =>
+    import(`@/themes/${themeQuery}`).then(componentsSource => {
+      const Selected =
+        componentsSource[layoutName] || componentsSource.LayoutSlug
+      if (!Selected) {
+        throw new Error(
+          `[theme] Layout "${layoutName}" missing in themes/${themeQuery}`
+        )
+      }
+      return Selected
+    })
+  const layoutLoading = getLayoutLoading(themeQuery, layoutName)
+  const DynamicLayoutComponent = layoutLoading
+    ? dynamic(loadLayout, { ssr: true, loading: layoutLoading })
+    : dynamic(loadLayout, { ssr: true })
   layoutByThemeCache.set(cacheKey, DynamicLayoutComponent)
   scheduleFixThemeDOM(themeQuery === BLOG.THEME ? 80 : 240)
   return DynamicLayoutComponent
