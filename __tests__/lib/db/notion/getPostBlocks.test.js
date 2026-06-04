@@ -83,4 +83,33 @@ describe('formatNotionBlock', () => {
 
     expect(formatted['hosted-video'].value.type).toBe('video')
   })
+
+  it('keeps child blocks renderable for quote containers without title properties', () => {
+    const formatted = formatNotionBlock({
+      quote_container: {
+        value: {
+          id: 'quote_container',
+          type: 'quote',
+          content: ['quote_child']
+        }
+      },
+      quote_child: {
+        value: {
+          id: 'quote_child',
+          type: 'text',
+          parent_id: 'quote_container',
+          properties: {
+            title: [['Nested quote text']]
+          }
+        }
+      }
+    })
+
+    expect(formatted.quote_container.value).toMatchObject({
+      type: 'quote',
+      content: ['quote_child'],
+      properties: { title: [] }
+    })
+    expect(formatted.quote_child.value.parent_id).toBe('quote_container')
+  })
 })
