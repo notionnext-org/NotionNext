@@ -154,7 +154,7 @@ const ExternalPlugin = props => {
         const taskId = window.requestIdleCallback(callback)
         return () => window.cancelIdleCallback(taskId)
       }
-      const timeoutId = window.setTimeout(callback, 0)
+      const timeoutId = window.setTimeout(() => callback(), 0)
       return () => window.clearTimeout(timeoutId)
     }
 
