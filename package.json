@@ -71,7 +71,7 @@
     "@clerk/nextjs": "^5.7.6",
     "@headlessui/react": "^1.7.19",
     "@next/bundle-analyzer": "^12.3.7",
-    "@supabase/supabase-js": "^2.106.2",
+    "@supabase/supabase-js": "^2.107.0",
     "@tabler/icons-react": "^3.36.1",
     "@vercel/analytics": "^1.6.1",
     "@vercel/functions": "^3.6.0",
