@@ -114,6 +114,34 @@ describe('Notion data format compatibility', () => {
     expect(pageIds).not.toContain('hidden_page')
   })
 
+  it('does not fall back to page_sort when the selected view query is empty', () => {
+    const pageIds = getAllPageIds(
+      {
+        collection_1: {
+          view_1: {
+            collection_group_results: {
+              blockIds: []
+            }
+          }
+        }
+      },
+      'collection_1',
+      {
+        view_1: {
+          value: {
+            value: {
+              page_sort: ['filtered_out_page']
+            }
+          }
+        }
+      },
+      ['view_1'],
+      {}
+    )
+
+    expect(pageIds).toEqual([])
+  })
+
   it('matches selected view query when collection ids use different uuid formats', () => {
     const pageIds = getAllPageIds(
       {
