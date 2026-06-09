@@ -191,6 +191,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { text: 'Notion 数据库', link: '/user-guide/notion-database' },
+            { text: '社区站数据库模板', link: '/user-guide/notion/community-site-template' },
             { text: '排版示例', link: '/user-guide/notion/example-article' },
             { text: '备份 Notion', link: '/user-guide/notion/notion-backup' },
             { text: 'Notion 模板', link: '/user-guide/notion/notion-template' },
