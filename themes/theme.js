@@ -10,6 +10,42 @@ const baseLayoutCache = new Map()
 const layoutByThemeCache = new Map()
 let domFixTimer = null
 
+const MagzineLayoutLoading = () => (
+  <div className='w-full bg-[#f6f6f1] dark:bg-black'>
+    <div className='mx-auto w-full max-w-screen-3xl px-4 py-10 lg:px-0'>
+      <div className='grid gap-10 xl:grid-cols-2'>
+        <div className='space-y-5'>
+          <div className='h-80 w-full animate-pulse bg-gray-200 dark:bg-gray-800' />
+          <div className='h-4 w-28 animate-pulse bg-gray-200 dark:bg-gray-800' />
+          <div className='h-10 w-4/5 animate-pulse bg-gray-200 dark:bg-gray-800' />
+          <div className='h-4 w-2/3 animate-pulse bg-gray-200 dark:bg-gray-800' />
+        </div>
+        <div className='space-y-6'>
+          <div className='h-48 w-full animate-pulse bg-gray-200 dark:bg-gray-800' />
+          {[0, 1].map(item => (
+            <div
+              key={item}
+              className='flex gap-6 border-t border-gray-300 pt-6 dark:border-gray-800'>
+              <div className='min-w-0 flex-1 space-y-3'>
+                <div className='h-4 w-24 animate-pulse bg-gray-200 dark:bg-gray-800' />
+                <div className='h-6 w-4/5 animate-pulse bg-gray-200 dark:bg-gray-800' />
+                <div className='h-4 w-2/3 animate-pulse bg-gray-200 dark:bg-gray-800' />
+              </div>
+              <div className='h-32 w-32 shrink-0 animate-pulse bg-gray-200 dark:bg-gray-800' />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
+const getLayoutLoading = (themeName, layoutName) => {
+  if (themeName === 'magzine' && layoutName === 'LayoutIndex') {
+    return MagzineLayoutLoading
+  }
+}
+
 const normalizeThemeName = themeValue => {
   if (!themeValue || typeof themeValue !== 'string') return BLOG.THEME
   const firstTheme = themeValue.split(',')[0].trim()
@@ -127,20 +163,21 @@ export const useLayoutByTheme = ({ layoutName, theme }) => {
     return layoutByThemeCache.get(cacheKey)
   }
 
-  const DynamicLayoutComponent = dynamic(
-    () =>
-      import(`@/themes/${themeQuery}`).then(componentsSource => {
-        const Selected =
-          componentsSource[layoutName] || componentsSource.LayoutSlug
-        if (!Selected) {
-          throw new Error(
-            `[theme] Layout "${layoutName}" missing in themes/${themeQuery}`
-          )
-        }
-        return Selected
-      }),
-    { ssr: true }
-  )
+  const loadLayout = () =>
+    import(`@/themes/${themeQuery}`).then(componentsSource => {
+      const Selected =
+        componentsSource[layoutName] || componentsSource.LayoutSlug
+      if (!Selected) {
+        throw new Error(
+          `[theme] Layout "${layoutName}" missing in themes/${themeQuery}`
+        )
+      }
+      return Selected
+    })
+  const layoutLoading = getLayoutLoading(themeQuery, layoutName)
+  const DynamicLayoutComponent = layoutLoading
+    ? dynamic(loadLayout, { ssr: true, loading: layoutLoading })
+    : dynamic(loadLayout, { ssr: true })
   layoutByThemeCache.set(cacheKey, DynamicLayoutComponent)
   scheduleFixThemeDOM(themeQuery === BLOG.THEME ? 80 : 240)
   return DynamicLayoutComponent

@@ -7,14 +7,14 @@ import Catalog from './Catalog'
 export default function FloatTocButton(props) {
   const [tocVisible, changeTocVisible] = useState(false)
 
-  const { post } = props
+  const { post, lock } = props
 
   const toggleToc = () => {
     changeTocVisible(!tocVisible)
   }
 
-  //   没有目录就隐藏该按钮
-  if (!post || !post.toc || post.toc.length < 1) {
+  //   没有目录或文章上锁时隐藏该按钮
+  if (!post || lock || !post.toc || post.toc.length < 1) {
     return <></>
   }
 

@@ -49,7 +49,9 @@ export interface BasePage {
 
 export interface NavPage {
   id?: string
+  short_id?: string
   title: string
+  type?: PageType
   slug: string
   summary?: string
   category?: string
@@ -79,6 +81,7 @@ export interface SiteData {
 
   allPages: BasePage[]
   allNavPages: NavPage[]
+  allLinkPages: NavPage[]
   latestPosts: BasePage[]
 
   categoryOptions: Array<Record<string, unknown>>

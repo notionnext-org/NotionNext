@@ -14,7 +14,7 @@ export const BackToTopButton = () => {
       return (-c / 2) * (t * (t - 2) - 1) + b
     }
 
-    window.addEventListener('scroll', navBarScollListener)
+    window.addEventListener('scroll', navBarScollListener, { passive: true })
     return () => {
       window.removeEventListener('scroll', navBarScollListener)
     }

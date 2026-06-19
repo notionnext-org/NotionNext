@@ -9,7 +9,17 @@ const themesDir = path.join(root, 'themes')
 const reportDir = path.join(root, '.perf', 'theme-audit')
 const rawDir = path.join(reportDir, 'raw')
 const docsPerfDir = path.join(root, 'docs', 'performance')
-const lighthouseBin = path.join(root, 'node_modules', '.bin', 'lighthouse')
+const lighthouseBin = (() => {
+  const cmdBin = process.platform === 'win32'
+    ? path.join(root, 'node_modules', '.bin', 'lighthouse.cmd')
+    : path.join(root, 'node_modules', '.bin', 'lighthouse')
+  if (fs.existsSync(cmdBin)) return cmdBin
+
+  const cliJs = path.join(root, 'node_modules', 'lighthouse', 'cli', 'cli.js')
+  if (fs.existsSync(cliJs)) return cliJs
+
+  return path.join(root, 'node_modules', '.bin', 'lighthouse')
+})()
 const baseUrl = process.env.THEME_AUDIT_BASE_URL || 'http://localhost:3000'
 const includeThemes = (process.env.THEME_AUDIT_THEMES || '')
   .split(',')
@@ -29,6 +39,7 @@ function getThemes() {
 }
 
 function runLighthouse(url, outputPath) {
+  const command = lighthouseBin
   const args = [
     url,
     '--quiet',
@@ -39,7 +50,7 @@ function runLighthouse(url, outputPath) {
     '--max-wait-for-load=45000',
     '--throttling-method=simulate'
   ]
-  const result = spawnSync(lighthouseBin, args, {
+  const result = spawnSync(command, args, {
     cwd: root,
     stdio: 'pipe',
     env: process.env
@@ -125,7 +136,7 @@ function ensureDirs() {
   fs.mkdirSync(docsPerfDir, { recursive: true })
 }
 
-async function main() {
+function main() {
   if (!fs.existsSync(lighthouseBin)) {
     throw new Error('Missing lighthouse binary. Run `yarn install` first.')
   }
@@ -150,7 +161,7 @@ async function main() {
   fs.writeFileSync(summaryPath, JSON.stringify(results, null, 2))
   writeMarkdown(results, markdownPath)
 
-  // 可提交产物：作为主题性能基线与协作规范的一部分
+  // Persist audit artifacts for cross-session performance tracking and review.
   const trackedJsonPath = path.join(docsPerfDir, 'theme-audit-latest.json')
   const trackedMarkdownPath = path.join(docsPerfDir, 'theme-audit-latest.md')
   fs.writeFileSync(trackedJsonPath, JSON.stringify(results, null, 2))
@@ -161,7 +172,9 @@ async function main() {
   )
 }
 
-main().catch(err => {
+try {
+  main()
+} catch (err) {
   console.error(err.message || err)
   process.exit(1)
-})
+}

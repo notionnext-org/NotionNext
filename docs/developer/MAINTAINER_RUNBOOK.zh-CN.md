@@ -18,7 +18,7 @@
 1. 浏览 [Discussions](https://github.com/notionnext-org/NotionNext/discussions)：`组织成员申请`、未回复的「使用问答」。  
 2. 扫一眼 [Dependabot PR](https://github.com/notionnext-org/NotionNext/pulls?q=is%3Apr+author%3Aapp%2Fdependabot)（可批量合并 patch/dev 依赖）。  
 3. 合并队列：优先 `documentation` / `good first issue` 且 **CI 全绿** 的 PR。  
-4. 仅在发版窗口处理 `package.json` 版本与 [changelog](../../user-guide/changelog/latest.md)。
+4. 仅在发版窗口处理 `package.json` 版本与 [changelog](../user-guide/changelog/latest.md)。
 
 Founder 可跳过第 3 步中纯文档 PR（若已授权文档维护者）。
 
@@ -56,7 +56,7 @@ Founder 可跳过第 3 步中纯文档 PR（若已授权文档维护者）。
 
 ## 6. Org Admin 一次性设置（合规 + 省力）
 
-在 [GOVERNANCE.zh-CN.md](../../GOVERNANCE.zh-CN.md#github-设置清单org-admin) 基础上建议：
+在 [GOVERNANCE.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md#github-设置清单org-admin) 基础上建议：
 
 - [ ] **Require status checks**：`Lint & type-check`、`Unit tests`、`Lockfile consistency`（文档 PR 可加 `VitePress build`）  
 - [ ] **Require PR** 进 `main`（Founder 亦走 PR，紧急 hotfix 例外并公告）  
@@ -74,7 +74,7 @@ Founder 可跳过第 3 步中纯文档 PR（若已授权文档维护者）。
 
 ## 8. 相关文档
 
-- [GOVERNANCE.zh-CN.md](../../GOVERNANCE.zh-CN.md)  
+- [GOVERNANCE.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md)
 - [MAINTENANCE_PHILOSOPHY.zh-CN.md](./MAINTENANCE_PHILOSOPHY.zh-CN.md)  
 - [CONTRIBUTION_WORKFLOW.md](./CONTRIBUTION_WORKFLOW.md)
 

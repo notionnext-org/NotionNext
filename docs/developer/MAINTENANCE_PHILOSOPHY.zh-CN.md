@@ -1,6 +1,6 @@
 # 维护与变更尺度（共识）
 
-本文面向**核心维护者与高频贡献者**，与 [贡献指南](../CONTRIBUTING.zh-CN.md)、[提交与 PR 规范](./CONTRIBUTION_WORKFLOW.md)一起阅读。目标是在欢迎贡献的同时，**尽量避免大量不可控、难回滚的改动**，降低 `main` 与下游 fork 被拖离稳定形态的风险。
+本文面向**核心维护者与高频贡献者**，与 [贡献指南](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.zh-CN.md)、[提交与 PR 规范](./CONTRIBUTION_WORKFLOW.md)一起阅读。目标是在欢迎贡献的同时，**尽量避免大量不可控、难回滚的改动**，降低 `main` 与下游 fork 被拖离稳定形态的风险。
 
 ## 原则
 

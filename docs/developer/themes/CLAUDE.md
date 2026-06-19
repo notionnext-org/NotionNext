@@ -409,7 +409,7 @@ create index if not exists idx_claude_contrib_snapshots_updated
    - 优先 GitHub API
    - 失败则本地 fallback
 4. 前端 `ProfileHome` 直接渲染：
-   - `<div className="markdown-body" dangerouslySetInnerHTML={{ __html: readmeHtml }} />`
+   - `<div className="markdown-body" dangerouslySetInnerHTML=&#123;&#123; __html: readmeHtml &#125;&#125; />`
 
 样式来源：
 

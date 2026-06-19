@@ -74,7 +74,7 @@ const Catalog = ({ post }) => {
     if (!content) return // 防止 content 不存在
     
     // 添加滚动和内容变化的监听
-    content.addEventListener('scroll', actionSectionScrollSpy)
+    content.addEventListener('scroll', actionSectionScrollSpy, { passive: true })
     
     // 初始执行一次
     setTimeout(() => {

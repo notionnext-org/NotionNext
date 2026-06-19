@@ -29,5 +29,5 @@ Endspace 是受《明日方舟：终末地》官网视觉风格启发的 NotionN
 
 ## 维护注意
 
-- 与 [主题迁移指南](../developer/THEME_MIGRATION_GUIDE.zh-CN.md) 对齐：菜单、暗色模式、评论、TOC 等应走 NotionNext 全局约定。
+- 与 [主题迁移指南](../THEME_MIGRATION_GUIDE.zh-CN.md) 对齐：菜单、暗色模式、评论、TOC 等应走 NotionNext 全局约定。
 - 上游 `theme` 分支为单一主题包；若上游更新，建议以目录为单位对比合并。

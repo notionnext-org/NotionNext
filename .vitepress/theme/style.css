@@ -1,1 +1,415 @@
 /* 文档站主题扩展 */
+
+.VPSidebar a.nn-unread-leaf,
+.VPSidebarNav a.nn-unread-leaf,
+aside a.nn-unread-leaf,
+.VPSidebarItem .item,
+.VPSidebarItem .text,
+.VPSidebarItem .link {
+  position: relative;
+}
+
+.nn-unread-dot {
+  position: absolute;
+  top: 7px;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--vp-c-bg);
+  border-radius: 999px;
+  background: #e11d48;
+  content: '';
+  box-shadow: 0 0 0 2px color-mix(in srgb, #e11d48 18%, transparent);
+}
+
+.VPSidebarItem.nn-has-visible-unread > .item .nn-unread-dot {
+  top: 2px;
+  right: -10px;
+}
+
+.VPSidebarItem.nn-has-unread:not(.collapsed) > .item .nn-parent-unread-dot {
+  display: none;
+}
+
+.VPHome .VPHomeHero .main {
+  max-width: 680px;
+}
+
+.VPHome .VPHomeHero .tagline {
+  max-width: 620px;
+}
+
+.nn-home-section {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.nn-home-section + .nn-home-section {
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.nn-home-section h2 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--vp-c-text-1);
+  font-size: 32px;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.nn-home-section p {
+  color: var(--vp-c-text-2);
+  line-height: 1.75;
+}
+
+.nn-home-kicker {
+  margin: 0 0 10px;
+  color: var(--vp-c-brand-1) !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.nn-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.nn-section-heading a {
+  flex: 0 0 auto;
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nn-home-compare,
+.nn-home-open {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.nn-compare-grid,
+.nn-open-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.nn-compare-card,
+.nn-open-grid > div,
+.nn-step-card,
+.nn-usecase-grid > a,
+.nn-theme-card,
+.nn-faq-list details {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+}
+
+.VPHome .VPHomeHero .name,
+.VPHome .VPHomeHero .text,
+.VPHome .VPHomeHero .tagline,
+.VPHome .VPHomeHero .actions,
+.VPHome .VPHomeHero .image,
+.VPHome .VPFeature,
+.nn-home-section,
+.nn-home-section .nn-home-kicker,
+.nn-home-section h2,
+.nn-section-heading > a,
+.nn-compare-card,
+.nn-step-card,
+.nn-theme-card,
+.nn-usecase-grid > a,
+.nn-open-grid > div,
+.nn-faq-list details {
+  will-change: transform, opacity;
+}
+
+.nn-compare-card {
+  min-height: 220px;
+  padding: 24px;
+}
+
+.nn-compare-card span {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--vp-c-text-3);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.nn-compare-card strong {
+  display: block;
+  color: var(--vp-c-text-1);
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.nn-compare-card-strong {
+  background: color-mix(in srgb, var(--vp-c-brand-soft) 70%, var(--vp-c-bg-soft));
+}
+
+.nn-step-grid,
+.nn-usecase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.nn-step-card,
+.nn-usecase-grid > a {
+  display: block;
+  min-height: 190px;
+  padding: 22px;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nn-step-card:hover,
+.nn-usecase-grid > a:hover,
+.nn-theme-card:hover {
+  border-color: var(--vp-c-brand-1);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nn-step-card,
+  .nn-usecase-grid > a,
+  .nn-theme-card {
+    transition: none;
+  }
+
+  .nn-step-card:hover,
+  .nn-usecase-grid > a:hover,
+  .nn-theme-card:hover {
+    transform: none;
+  }
+}
+
+.nn-step-card span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-weight: 800;
+}
+
+.nn-step-card strong,
+.nn-usecase-grid strong,
+.nn-open-grid strong,
+.nn-theme-card strong {
+  display: block;
+  color: var(--vp-c-text-1);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.nn-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.nn-theme-card {
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nn-theme-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.nn-theme-card strong {
+  padding: 16px 16px 2px;
+}
+
+.nn-theme-card span {
+  display: block;
+  min-height: 48px;
+  padding: 0 16px 16px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.nn-usecase-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.nn-usecase-grid > a {
+  min-height: 210px;
+}
+
+.nn-open-grid > div {
+  min-height: 122px;
+  padding: 20px;
+}
+
+.nn-open-grid span {
+  display: block;
+  margin-top: 8px;
+  color: var(--vp-c-text-2);
+  line-height: 1.65;
+}
+
+.nn-faq-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.nn-faq-list details {
+  padding: 18px 20px;
+}
+
+.nn-faq-list summary {
+  cursor: pointer;
+  color: var(--vp-c-text-1);
+  font-weight: 700;
+}
+
+.nn-faq-list p {
+  margin: 12px 0 0;
+}
+
+@media (max-width: 960px) {
+  .nn-home-compare,
+  .nn-home-open,
+  .nn-step-grid,
+  .nn-theme-grid,
+  .nn-usecase-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nn-home-compare,
+  .nn-home-open {
+    align-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .VPHome {
+    overflow-x: hidden;
+  }
+
+  .VPHome .VPHomeHero .container,
+  .VPHome .VPHomeHero .main,
+  .VPHome .VPHomeHero .text,
+  .VPHome .VPHomeHero .tagline {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .VPHome .VPHomeHero .container {
+    box-sizing: border-box;
+    padding-inline: 24px;
+  }
+
+  .VPHome .VPHomeHero .text {
+    width: 100%;
+    max-width: 280px;
+    margin-inline: auto;
+    font-size: 28px;
+    line-height: 1.18;
+    white-space: normal;
+  }
+
+  .VPHome .VPHomeHero .tagline {
+    max-width: 280px;
+    margin-inline: auto;
+    font-size: 18px;
+    line-height: 1.7;
+    white-space: normal;
+  }
+
+  .VPHome .VPHomeHero .actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: min(100%, 280px);
+    margin-inline: auto;
+  }
+
+  .VPHome .VPHomeHero .action {
+    min-width: 0;
+  }
+
+  .VPHome .VPHomeHero .VPButton {
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .VPHome .VPFeatures .items {
+    grid-template-columns: 1fr !important;
+    max-width: 100%;
+  }
+
+  .VPHome .VPFeature {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .VPHome .VPFeature .title,
+  .VPHome .VPFeature .details {
+    max-width: 280px;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .nn-home-section {
+    padding: 40px 20px;
+  }
+
+  .nn-home-section h2 {
+    font-size: 26px;
+  }
+
+  .nn-section-heading {
+    display: block;
+  }
+
+  .nn-section-heading a {
+    display: inline-block;
+    margin-top: 14px;
+  }
+
+  .nn-home-compare,
+  .nn-home-open,
+  .nn-compare-grid,
+  .nn-open-grid,
+  .nn-step-grid,
+  .nn-theme-grid,
+  .nn-usecase-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nn-compare-card,
+  .nn-step-card,
+  .nn-usecase-grid > a {
+    min-height: auto;
+  }
+}

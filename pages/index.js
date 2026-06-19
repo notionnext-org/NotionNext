@@ -1,6 +1,10 @@
 import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
-import { fetchGlobalAllData, getPostBlocks } from '@/lib/db/SiteDataApi'
+import {
+  cleanPostSummaries,
+  fetchGlobalAllData,
+  getPostBlocks
+} from '@/lib/db/SiteDataApi'
 import { formatNotionBlock } from '@/lib/db/notion/getPostBlocks'
 import { generateRobotsTxt } from '@/lib/utils/robots.txt'
 import { generateRss, shouldGenerateRssForLocale } from '@/lib/utils/rss'
@@ -55,6 +59,11 @@ export async function getStaticProps(req) {
     4,
     props?.NOTION_CONFIG
   )
+  const POST_LIST_PREVIEW = siteConfig(
+    'POST_LIST_PREVIEW',
+    false,
+    props?.NOTION_CONFIG
+  )
   props.posts = props.allPages?.filter(
     page => page.type === 'Post' && page.status === 'Published'
   )
@@ -70,7 +79,7 @@ export async function getStaticProps(req) {
   }
 
   // 预览文章内容
-  if (siteConfig('POST_LIST_PREVIEW', false, props?.NOTION_CONFIG)) {
+  if (POST_LIST_PREVIEW) {
     const previewLimit = pLimit(
       siteConfig('POST_PREVIEW_CONCURRENCY', 5, props?.NOTION_CONFIG)
     )
@@ -89,7 +98,6 @@ export async function getStaticProps(req) {
       )
     )
   }
-
   const isBuildLifecycle = ['build', 'export'].includes(
     process.env.npm_lifecycle_event
   )
@@ -112,6 +120,10 @@ export async function getStaticProps(req) {
 
   // 生成全文索引 - 仅在 yarn build 时执行 && process.env.npm_lifecycle_event === 'build'
 
+  if (!POST_LIST_PREVIEW) {
+    props.posts = cleanPostSummaries(props.posts)
+  }
+  props.latestPosts = cleanPostSummaries(props.latestPosts)
   delete props.allPages
 
   return {

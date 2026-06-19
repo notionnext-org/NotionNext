@@ -3,7 +3,7 @@ import { convertInnerUrl } from '@/lib/db/notion/convertInnerUrl'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { GlobalStyle } from './GlobalStyle'
 import { initGoogleAdsense } from './GoogleAdsense'
 
@@ -132,36 +132,60 @@ const ExternalPlugin = props => {
   const UMAMI_HOST = siteConfig('UMAMI_HOST', null, NOTION_CONFIG)
   const UMAMI_ID = siteConfig('UMAMI_ID', null, NOTION_CONFIG)
 
-  // 自定义样式css和js引入
-  if (isBrowser) {
-    // 初始化AOS动画
-    // 静态导入本地自定义样式
-    loadExternalResource('/css/custom.css', 'css')
-    loadExternalResource('/js/custom.js', 'js')
+  const externalCssList = useMemo(() => {
+    return Array.isArray(CUSTOM_EXTERNAL_CSS)
+      ? CUSTOM_EXTERNAL_CSS.filter(url => !!url)
+      : []
+  }, [CUSTOM_EXTERNAL_CSS])
 
-    // 自动添加图片阴影
-    if (IMG_SHADOW) {
-      loadExternalResource('/css/img-shadow.css', 'css')
+  const externalJsList = useMemo(() => {
+    return Array.isArray(CUSTOM_EXTERNAL_JS)
+      ? CUSTOM_EXTERNAL_JS.filter(url => !!url)
+      : []
+  }, [CUSTOM_EXTERNAL_JS])
+
+  useEffect(() => {
+    if (!isBrowser) {
+      return
     }
 
-    if (ANIMATE_CSS_URL) {
-      loadExternalResource(ANIMATE_CSS_URL, 'css')
-    }
-
-    // 导入外部自定义脚本
-    if (CUSTOM_EXTERNAL_JS && CUSTOM_EXTERNAL_JS.length > 0) {
-      for (const url of CUSTOM_EXTERNAL_JS) {
-        loadExternalResource(url, 'js')
+    const scheduleTask = callback => {
+      if (window.requestIdleCallback) {
+        const taskId = window.requestIdleCallback(callback)
+        return () => window.cancelIdleCallback(taskId)
       }
+      const timeoutId = window.setTimeout(() => callback(), 0)
+      return () => window.clearTimeout(timeoutId)
     }
 
-    // 导入外部自定义样式
-    if (CUSTOM_EXTERNAL_CSS && CUSTOM_EXTERNAL_CSS.length > 0) {
-      for (const url of CUSTOM_EXTERNAL_CSS) {
-        loadExternalResource(url, 'css')
-      }
+    const cancelTasks = []
+    cancelTasks.push(
+      scheduleTask(() => {
+        loadExternalResource('/css/custom.css', 'css')
+        loadExternalResource('/js/custom.js', 'js')
+
+        if (IMG_SHADOW) {
+          loadExternalResource('/css/img-shadow.css', 'css')
+        }
+
+        if (ANIMATE_CSS_URL) {
+          loadExternalResource(ANIMATE_CSS_URL, 'css')
+        }
+
+        for (const url of externalJsList) {
+          loadExternalResource(url, 'js')
+        }
+
+        for (const url of externalCssList) {
+          loadExternalResource(url, 'css')
+        }
+      })
+    )
+
+    return () => {
+      cancelTasks.forEach(cancel => cancel?.())
     }
-  }
+  }, [ANIMATE_CSS_URL, IMG_SHADOW, externalCssList, externalJsList])
 
   const router = useRouter()
   useEffect(() => {
@@ -174,18 +198,25 @@ const ExternalPlugin = props => {
 
     setTimeout(() => {
       // 映射url
-      convertInnerUrl({ allPages: props?.allNavPages, lang: lang })
+      convertInnerUrl({
+        allPages: props?.allLinkPages || props?.allNavPages,
+        lang: lang
+      })
     }, 500)
   }, [router])
 
   useEffect(() => {
-    // 执行注入脚本
-    // eslint-disable-next-line no-eval
-    if (GLOBAL_JS && GLOBAL_JS.trim() !== '') {
-      // console.log('Inject JS:', GLOBAL_JS);
+    if (!isBrowser || !GLOBAL_JS || GLOBAL_JS.trim() === '') {
+      return
     }
-    eval(GLOBAL_JS)
-  })
+
+    try {
+      // eslint-disable-next-line no-eval
+      eval(GLOBAL_JS)
+    } catch (error) {
+      console.error('Failed to execute GLOBAL_JS:', error)
+    }
+  }, [GLOBAL_JS])
 
   if (DISABLE_PLUGIN) {
     return null

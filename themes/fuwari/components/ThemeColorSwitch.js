@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { siteConfig } from '@/lib/config'
 import CONFIG from '../config'
 
@@ -16,26 +16,32 @@ function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`
 }
 
-const ThemeColorSwitch = ({ onColorChange }) => {
+function normalizeHue(value, fallback) {
+  const hue = Number.parseInt(value, 10)
+  if (!Number.isFinite(hue)) return fallback
+  return Math.min(360, Math.max(0, hue))
+}
+
+const ThemeColorSwitch = ({ panelRef, visible = true, onColorChange }) => {
   const enabled = siteConfig('FUWARI_WIDGET_THEME_COLOR_SWITCHER', true, CONFIG)
-  const defaultHue = siteConfig('FUWARI_THEME_COLOR_HUE', 250, CONFIG)
+  const defaultHue = normalizeHue(siteConfig('FUWARI_THEME_COLOR_HUE', 250, CONFIG), 250)
   const [hue, setHue] = useState(defaultHue)
   const color = useMemo(() => hslToHex(hue, 85, 62), [hue])
 
-  const applyColor = (nextColor, nextHue) => {
+  const applyColor = useCallback((nextColor, nextHue) => {
     const root = document.getElementById('theme-fuwari')
     if (!root) return
     root.style.setProperty('--fuwari-primary', nextColor)
     root.style.setProperty('--fuwari-primary-soft', `hsla(${nextHue}, 85%, 62%, 0.14)`)
     root.style.setProperty('--fuwari-gradient', `linear-gradient(135deg, hsl(${nextHue}, 85%, 62%) 0%, hsl(${(nextHue + 45) % 360}, 88%, 70%) 100%)`)
-  }
+  }, [])
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_HUE_KEY)
-    const initialHue = stored ? parseInt(stored, 10) : defaultHue
+    const initialHue = stored ? normalizeHue(stored, defaultHue) : defaultHue
     setHue(initialHue)
     applyColor(hslToHex(initialHue, 85, 62), initialHue)
-  }, [])
+  }, [applyColor, defaultHue])
 
   const handleSelect = nextHue => {
     setHue(nextHue)
@@ -45,14 +51,17 @@ const ThemeColorSwitch = ({ onColorChange }) => {
     onColorChange?.(nextColor)
   }
 
-  if (!enabled) return null
+  if (!visible || !enabled) return null
 
-  const copyHex = async () => {
-    await navigator.clipboard.writeText(color)
+  const copyHex = () => {
+    void navigator.clipboard.writeText(color)
   }
 
   return (
-    <section className='fuwari-theme-panel p-4'>
+    <div
+      ref={panelRef}
+      className='fuwari-card absolute right-3 md:right-4 top-12 p-0 w-[min(20rem,calc(100vw-2rem))] md:w-80 z-50'>
+      <section className='fuwari-theme-panel p-4'>
       <div className='flex items-center justify-between mb-3'>
         <h3 className='fuwari-section-title text-xl font-bold'>Theme Color</h3>
         <div className='flex items-center gap-2'>
@@ -83,7 +92,8 @@ const ThemeColorSwitch = ({ onColorChange }) => {
         />
       </div>
       <p className='text-xs text-[var(--fuwari-muted)] mt-2 break-all'>Current HEX: {color}</p>
-    </section>
+      </section>
+    </div>
   )
 }
 

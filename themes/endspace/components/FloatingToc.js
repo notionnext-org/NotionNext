@@ -1,72 +1,80 @@
-import throttle from 'lodash.throttle'
 import { uuidToId } from 'notion-utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { IconListTree, IconChevronRight } from '@tabler/icons-react'
 
 /**
  * FloatingToc Component - Endspace Theme Industrial Style
- * Floating TOC navigation component - right side floating panel
- * Tabler Icons for Futuristic Feel
  */
 const FloatingToc = ({ toc }) => {
   const [activeSection, setActiveSection] = useState(null)
   const [progress, setProgress] = useState(0)
-  const [isExpanded, setIsExpanded] = useState(true) // Default expanded
+  const [isExpanded, setIsExpanded] = useState(true)
   const tRef = useRef(null)
   const tocIds = useRef([])
+  const rafRef = useRef(null)
+  const progressRef = useRef(0)
+  const activeSectionRef = useRef(null)
 
-  // Listen to scroll events
-  useEffect(() => {
-    window.addEventListener('scroll', actionSectionScrollSpy)
-    window.addEventListener('scroll', updateProgress)
-    actionSectionScrollSpy()
-    updateProgress()
-    return () => {
-      window.removeEventListener('scroll', actionSectionScrollSpy)
-      window.removeEventListener('scroll', updateProgress)
+  const updateScrollState = useCallback(() => {
+    const scrollTop = window.scrollY
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight
+    const nextProgress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
+    if (nextProgress !== progressRef.current) {
+      progressRef.current = nextProgress
+      setProgress(nextProgress)
+    }
+
+    const sections = document.getElementsByClassName('notion-h')
+    let prevBBox = null
+    let currentSectionId = activeSectionRef.current
+    for (let i = 0; i < sections.length; ++i) {
+      const section = sections[i]
+      if (!section || !(section instanceof Element)) continue
+      if (!currentSectionId) {
+        currentSectionId = section.getAttribute('data-id')
+      }
+      const bbox = section.getBoundingClientRect()
+      const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
+      const offset = Math.max(150, prevHeight / 4)
+      if (bbox.top - offset < 0) {
+        currentSectionId = section.getAttribute('data-id')
+        prevBBox = bbox
+        continue
+      }
+      break
+    }
+    if (currentSectionId !== activeSectionRef.current) {
+      activeSectionRef.current = currentSectionId
+      setActiveSection(currentSectionId)
+    }
+    const ids = tocIds.current
+    if (tRef.current && ids.length > 0) {
+      const index = ids.indexOf(currentSectionId) || 0
+      tRef.current.scrollTo({ top: 32 * index - 60, behavior: 'smooth' })
     }
   }, [])
 
-  // Update reading progress
-  const updateProgress = () => {
-    const scrollTop = window.scrollY
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight
-    const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
-    setProgress(progress)
-  }
+  const onScroll = useCallback(() => {
+    if (rafRef.current) {
+      return
+    }
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      updateScrollState()
+    })
+  }, [updateScrollState])
 
-  // Sync selected TOC item
-  const throttleMs = 200
-  const actionSectionScrollSpy = useCallback(
-    throttle(() => {
-      const sections = document.getElementsByClassName('notion-h')
-      let prevBBox = null
-      let currentSectionId = activeSection
-      for (let i = 0; i < sections.length; ++i) {
-        const section = sections[i]
-        if (!section || !(section instanceof Element)) continue
-        if (!currentSectionId) {
-          currentSectionId = section.getAttribute('data-id')
-        }
-        const bbox = section.getBoundingClientRect()
-        const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
-        const offset = Math.max(150, prevHeight / 4)
-        if (bbox.top - offset < 0) {
-          currentSectionId = section.getAttribute('data-id')
-          prevBBox = bbox
-          continue
-        }
-        break
+  // Listen to scroll events
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
       }
-      setActiveSection(currentSectionId)
-      // Auto scroll TOC
-      const ids = tocIds.current
-      if (tRef.current && ids.length > 0) {
-        const index = ids.indexOf(currentSectionId) || 0
-        tRef.current.scrollTo({ top: 32 * index - 60, behavior: 'smooth' })
-      }
-    }, throttleMs)
-  )
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [onScroll])
 
   // Return null if no TOC
   if (!toc || toc.length < 1) {
@@ -83,10 +91,9 @@ const FloatingToc = ({ toc }) => {
       style={{
         right: '1rem',
         top: 'auto',
-        bottom: '100px' // Stacked: Scroll (32px) -> TOC (100px)
+        bottom: '100px'
       }}
     >
-      {/* Floating Container */}
       <div 
         className={`transition-all duration-300 ease-out ${
           isExpanded 
@@ -97,7 +104,6 @@ const FloatingToc = ({ toc }) => {
           maxHeight: '70vh'
         }}
       >
-        {/* Toggle Button */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className={`flex items-center justify-center transition-all duration-300 shadow-md cursor-pointer border hover:-translate-y-1 hover:shadow-lg relative group rounded-full ${
@@ -114,10 +120,8 @@ const FloatingToc = ({ toc }) => {
           )}
         </button>
 
-        {/* Expanded Content */}
         {isExpanded && (
           <div className="p-4">
-            {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-bold text-[var(--endspace-text-primary)] flex items-center">
                 <IconListTree size={16} stroke={2} className="mr-2" />
@@ -131,7 +135,6 @@ const FloatingToc = ({ toc }) => {
               </div>
             </div>
 
-            {/* TOC Items */}
             <div 
               ref={tRef}
               className="overflow-y-auto overflow-x-hidden max-h-[50vh] scroll-smooth border-l border-[var(--endspace-border-base)] pl-4"
@@ -164,7 +167,6 @@ const FloatingToc = ({ toc }) => {
               </nav>
             </div>
 
-            {/* Footer */}
             <div className="mt-4 pt-2 border-t border-[var(--endspace-border-base)]">
               <div className="text-[10px] font-mono text-[var(--endspace-text-muted)]">
                 {toc.length} SECTIONS

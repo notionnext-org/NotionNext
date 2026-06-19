@@ -56,7 +56,7 @@ export default function Header(props) {
   // 向下滚动时，调整导航条高度
   useEffect(() => {
     scrollTrigger()
-    window.addEventListener('scroll', scrollTrigger)
+    window.addEventListener('scroll', scrollTrigger, { passive: true })
     return () => {
       window.removeEventListener('scroll', scrollTrigger)
     }

@@ -9,6 +9,7 @@ export function handleDataBeforeReturn(db: SiteData): SiteData {
   db.customMenu = cleanIds(db.customMenu)
 
   db.allNavPages = cleanPages(db.allNavPages, db.tagOptions)
+  db.allLinkPages = cleanPages(db.allLinkPages, db.tagOptions)
   db.allPages = cleanPages(db.allPages, db.tagOptions)
   db.latestPosts = cleanPages(db.latestPosts, db.tagOptions)
 

@@ -67,6 +67,24 @@
   --notion-header-height: 45px;
 }
 
+/* Dark mode: override Notion CSS variables so tags, mentions, etc. are readable */
+html.dark {
+  --fg-color: rgba(255, 255, 255, 0.9) !important;
+  --fg-color-0: rgba(255, 255, 255, 0.09);
+  --fg-color-1: rgba(255, 255, 255, 0.16);
+  --fg-color-2: rgba(255, 255, 255, 0.4);
+  --fg-color-3: rgba(255, 255, 255, 0.6);
+  --fg-color-4: #fff;
+  --fg-color-5: rgba(255, 255, 255, 0.024);
+  --fg-color-6: rgba(255, 255, 255, 0.8);
+  --fg-color-icon: var(--fg-color);
+
+  --bg-color: #191919;
+  --bg-color-0: rgba(200, 200, 200, 0.15);
+  --bg-color-1: rgb(30, 30, 30);
+  --bg-color-2: rgba(200, 200, 200, 0.15);
+}
+
 .notion {
   font-size: 16px;
   line-height: 1.5;
@@ -387,6 +405,32 @@
 
 summary > .notion-h {
   display: inline;
+}
+
+.notion details {
+  width: 100%;
+  padding: 3px 2px;
+}
+
+.notion details > summary {
+  cursor: pointer;
+  outline: none;
+  font-size: 1em;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.notion details > summary::marker {
+  font-size: 0.8em;
+}
+
+.notion details > summary::-webkit-details-marker {
+  font-size: 0.8em;
+}
+
+.notion details > :not(summary) {
+  margin-left: 1.1em;
 }
 
 .notion-h {
@@ -2136,4 +2180,22 @@ figure.notion-asset-wrapper.notion-asset-wrapper-video > div {
 /* 画廊左右边线不展示Bug */
 .notion-gallery {
   padding: 0 16px;
+}
+
+/* Dark mode: database property tags (select / multi_select) text readability */
+html.dark .notion-property-select-item,
+html.dark .notion-property-status-item,
+html.dark .notion-property-multi_select-item {
+  color: #fff !important;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark mode: link-mention text readability */
+html.dark .notion-link-mention-title,
+html.dark .notion-link-mention-provider {
+  color: var(--fg-color) !important;
+}
+
+html.dark .notion-link-mention-link {
+  color: inherit;
 }

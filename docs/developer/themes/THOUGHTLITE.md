@@ -86,7 +86,7 @@ NEXT_PUBLIC_THEME=thoughtlite
 2. **改布局与路由** 以 `themes/thoughtlite/index.js` 中各 `Layout*` 为入口；列表子组件在 `themes/thoughtlite/components/`。
 3. **对齐上游视觉** 时建议只对照 [上游演示站](https://thought-lite.ttio.workers.dev/) 与公开 UI 行为，**避免整文件拷贝**上游 GPL 源码；大段引用需在 PR 中说明合规路径。
 4. **数据字段**：时间线依赖 `post.publishDay`、`post.publishDate`（由 Notion 属性映射，见 `lib/db/notion/getPageProperties.js`）；勿写死 Notion 内部 ID。
-5. **与其它主题对齐行为** 时，可参考 [FUWARI.md](./FUWARI.md) 与 [主题迁移指南（中文）](../developer/THEME_MIGRATION_GUIDE.zh-CN.md) 中的菜单、评论、TOC、插件位等约定。
+5. **与其它主题对齐行为** 时，可参考 [FUWARI.md](./FUWARI.md) 与 [主题迁移指南（中文）](../THEME_MIGRATION_GUIDE.zh-CN.md) 中的菜单、评论、TOC、插件位等约定。
 6. **更新主题切换预览** 时替换 `public/images/themes-preview/thoughtlite.png`，并运行 `yarn perf:compress-theme-previews` 更新 webp（若仓库保留该脚本）。
 7. **合并前自检**：`yarn lint --dir themes/thoughtlite`、`NEXT_PUBLIC_THEME=thoughtlite` 下手动点一遍主要路由（首页、文章、归档、分类、标签、搜索、404、加密文）。
 

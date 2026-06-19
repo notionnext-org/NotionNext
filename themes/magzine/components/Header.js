@@ -4,7 +4,6 @@ import DashboardButton from '@/components/ui/dashboard/DashboardButton'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import throttle from 'lodash.throttle'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { useMagzineGlobal } from '..'
@@ -22,7 +21,6 @@ export default function Header(props) {
   const { customNav, customMenu } = props
   const [isOpen, setOpen] = useState(false)
   const collapseRef = useRef(null)
-  const lastScrollY = useRef(0) // 用于存储上一次的滚动位置
   const { locale } = useGlobal()
   const router = useRouter()
   const { searchModal } = useMagzineGlobal()
@@ -60,32 +58,9 @@ export default function Header(props) {
     setOpen(!isOpen)
   }
 
-  // 向下滚动时，调整导航条高度
   useEffect(() => {
-    scrollTrigger()
     setOpen(false)
-    window.addEventListener('scroll', scrollTrigger)
-    return () => {
-      window.removeEventListener('scroll', scrollTrigger)
-    }
   }, [router])
-
-  const throttleMs = 150
-
-  const scrollTrigger = throttle(() => {
-    const scrollS = window.scrollY
-    if (scrollS === lastScrollY.current) return // 如果滚动位置没有变化，则不做任何操作
-
-    const nav = document.querySelector('#top-navbar')
-    const narrowNav = scrollS > 60
-    if (narrowNav) {
-      nav && nav.classList.replace('h-20', 'h-14')
-    } else {
-      nav && nav.classList.replace('h-14', 'h-20')
-    }
-
-    lastScrollY.current = scrollS // 更新上一次的滚动位置
-  }, throttleMs)
 
   const [showSearchInput, changeShowSearchInput] = useState(false)
 

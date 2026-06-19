@@ -2,6 +2,7 @@
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import SmartLink from '@/components/SmartLink'
+import CONFIG from '../config'
 
 /**
  * 博文列表
@@ -9,10 +10,11 @@ import SmartLink from '@/components/SmartLink'
  * @returns
  */
 export const Blog = ({ posts }) => {
-  const enable = siteConfig('PROXIO_BLOG_ENABLE')
+  const enable = siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG)
   if (!enable) {
     return null
   }
+  const autoShowCover = siteConfig('PROXIO_BLOG_AUTO_SHOW_COVER', false, CONFIG)
 
   // 博客列表默认显示summary文字，当鼠标指向时显示文章封面。这里可选把summary文字替换成图片占位符。
   const PROXIO_BLOG_PLACEHOLDER_IMG_URL_1 = siteConfig(
@@ -36,7 +38,8 @@ export const Blog = ({ posts }) => {
           {/* 区块标题文字 */}
           <div
             className='-mx-4 flex flex-wrap justify-center wow fadeInUp'
-            data-wow-delay='.2s'>
+            data-wow-delay='.2s'
+          >
             <div className='w-full px-4 py-4'>
               <div className='mx-auto max-w-[485px] text-center space-y-4'>
                 <span className='px-3 py-0.5 rounded-2xl mb-2 dark:bg-dark-1 border border-gray-200 dark:border-[#333333] dark:text-white'>
@@ -52,6 +55,7 @@ export const Blog = ({ posts }) => {
           {/* 博客列表 此处优先展示3片文章 */}
           <div className='-mx-4 grid md:grid-cols-2 grid-cols-1'>
             {posts?.map((item, index) => {
+              const shouldShowCover = autoShowCover && item?.pageCoverThumbnail
               // 文章封面图片，默认使用占位符 根据index 判断获取的时哪一张图片
               let coverImg = PROXIO_BLOG_PLACEHOLDER_IMG_URL_1
               if (index === 0) {
@@ -67,7 +71,8 @@ export const Blog = ({ posts }) => {
                 <div key={index} className='w-full px-4'>
                   <div
                     className='wow fadeInUp group mb-10 relative overflow-hidden blog'
-                    data-wow-delay='.1s'>
+                    data-wow-delay='.1s'
+                  >
                     <div className='relative rounded-xl border overflow-hidden shadow-md dark:border-gray-700 dark:bg-gray-800'>
                       <SmartLink href={item?.href} className='block'>
                         {item.pageCoverThumbnail && (
@@ -79,9 +84,21 @@ export const Blog = ({ posts }) => {
                           />
                         )}
                         {/* 遮罩层，仅覆盖图片部分 */}
-                        <div className='absolute inset-0 bg-gray-100 dark:bg-hexo-black-gray transition-all duration-500 group-hover:opacity-50 group-hover:bg-black' />
+                        <div
+                          className={`absolute inset-0 transition-all duration-500 group-hover:opacity-50 group-hover:bg-black ${
+                            shouldShowCover
+                              ? 'opacity-0'
+                              : 'bg-gray-100 dark:bg-hexo-black-gray'
+                          }`}
+                        />
                         {/* 鼠标悬停时显示的文字内容 */}
-                        <div className='absolute inset-0 flex items-center justify-center group-hover:scale-110 duration-200 group-hover:text-white'>
+                        <div
+                          className={`absolute inset-0 flex items-center justify-center group-hover:scale-110 duration-200 group-hover:text-white ${
+                            shouldShowCover
+                              ? 'opacity-0 group-hover:opacity-100'
+                              : ''
+                          }`}
+                        >
                           {!coverImg && (
                             <p className='max-w-[370px] text-base text-body-color dark:text-dark-6 flex items-center justify-center duration-200 group-hover:text-white '>
                               {item.summary}
@@ -102,7 +119,8 @@ export const Blog = ({ posts }) => {
                       <h3>
                         <SmartLink
                           href={item?.href}
-                          className='mb-4 inline-block text-xl font-semibold text-dark hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl'>
+                          className='mb-4 inline-block text-xl font-semibold text-dark hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl lg:text-xl xl:text-2xl'
+                        >
                           {item.title}
                         </SmartLink>
                       </h3>

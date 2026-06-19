@@ -1,20 +1,95 @@
 import { defineConfig } from 'vitepress'
+import { execFileSync } from 'node:child_process'
+import { existsSync, readFileSync, statSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { getThemeSidebarItems } from '../scripts/lib/builtin-themes.mjs'
 
 const themeDocLinks = getThemeSidebarItems()
+const projectRoot = fileURLToPath(new URL('../', import.meta.url))
 
 const giscusEnabled = process.env.VITE_GISCUS_ENABLED !== 'false'
 const giscusRepoId = process.env.VITE_GISCUS_REPO_ID || ''
 const giscusCategoryId = process.env.VITE_GISCUS_CATEGORY_ID || ''
 
 /**
- * 在线站仅发布：
- *   docs/index.md
- *   docs/DOCUMENTATION_POLICY.md
- *   docs/user-guide/**
- * 开发者文档在 docs/developer/**（整目录排除）
+ * 在线站发布用户教程、开发文档与社区文档。
+ * 根目录 README 仍作为 GitHub 目录说明，不进入 VitePress。
  */
-const srcExclude = ['developer/**', 'README.md', 'README.en.md']
+const srcExclude = ['**/README.md', '**/README.en.md']
+
+function getMarkdownTitle(filePath: string) {
+  const content = readFileSync(filePath, 'utf8')
+  const title = content.match(/^#\s+(.+)$/m)?.[1]?.trim()
+  return title || filePath.split(/[\\/]/).pop()?.replace(/\.md$/, '') || filePath
+}
+
+function getLastUpdatedAt(filePath: string) {
+  try {
+    const timestamp = execFileSync('git', ['log', '-1', '--format=%ct', '--', filePath], {
+      cwd: projectRoot,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim()
+
+    if (timestamp) {
+      return Number(timestamp) * 1000
+    }
+  } catch {
+    // Fall back to filesystem time when git history is unavailable in a deploy checkout.
+  }
+
+  return statSync(filePath).mtimeMs
+}
+
+function toDocLink(repoPath: string) {
+  let link = `/${repoPath.replace(/^docs\//, '').replace(/\.md$/, '')}`
+
+  if (link.endsWith('/index')) {
+    link = link.slice(0, -'/index'.length) || '/'
+  }
+
+  return link
+}
+
+function getUpdatedDocs() {
+  const trackedDocs = execFileSync('git', ['ls-files', 'docs'], {
+    cwd: projectRoot,
+    encoding: 'utf8'
+  })
+    .split(/\r?\n/)
+    .filter((repoPath) => {
+      return (
+        repoPath.endsWith('.md') &&
+        !repoPath.endsWith('/README.md') &&
+        !repoPath.endsWith('/README.en.md') &&
+        !repoPath.includes('/public/')
+      )
+    })
+
+  return trackedDocs
+    .map((repoPath) => {
+      const filePath = fileURLToPath(new URL(`../${repoPath}`, import.meta.url))
+
+      if (!existsSync(filePath)) {
+        return null
+      }
+
+      return {
+        link: toDocLink(repoPath),
+        title: getMarkdownTitle(filePath),
+        updatedAt: Math.floor(getLastUpdatedAt(filePath)),
+        isIndex: repoPath.endsWith('/index.md')
+      }
+    })
+    .filter(
+      (item): item is { link: string; title: string; updatedAt: number; isIndex: boolean } =>
+        Boolean(item)
+    )
+    .sort((a, b) => b.updatedAt - a.updatedAt)
+}
+
+const updatedDocs = getUpdatedDocs()
+const recentUpdatedDocs = updatedDocs.filter((doc) => !doc.isIndex).slice(0, 5)
 
 export default defineConfig({
   title: 'NotionNext 使用说明',
@@ -24,17 +99,31 @@ export default defineConfig({
   srcExclude,
   cleanUrls: true,
   lastUpdated: true,
+  vite: {
+    css: {
+      postcss: {
+        plugins: []
+      }
+    }
+  },
   ignoreDeadLinks: [/^https?:\/\//],
   head: [
     ['link', { rel: 'icon', href: '/brand/notionnext-logo.png', type: 'image/png' }],
     ['link', { rel: 'apple-touch-icon', href: '/brand/notionnext-logo.png' }]
   ],
+  transformHtml(html) {
+    return html.replace(/rel="preload stylesheet"/g, 'rel="stylesheet"')
+  },
   themeConfig: {
     logo: '/brand/notionnext-logo.png',
+    updatedDocs,
+    recentUpdatedDocs,
     nav: [
       { text: '开始搭建', link: '/user-guide/start-here', activeMatch: '/user-guide/' },
+      { text: '更新日志', link: '/user-guide/changelog/latest', activeMatch: '/user-guide/changelog/' },
       { text: '主题', link: '/user-guide/themes/THEMES_CATALOG', activeMatch: '/user-guide/themes/' },
       { text: '参考手册', link: '/user-guide/reference/features', activeMatch: '/user-guide/reference/' },
+      { text: '开发文档', link: '/developer/', activeMatch: '/developer/' },
       { text: '维护策略', link: '/DOCUMENTATION_POLICY' },
       { text: '参与社区', link: '/user-guide/community-participate' },
       { text: '参与维护', link: '/user-guide/maintain-docs' },
@@ -57,6 +146,16 @@ export default defineConfig({
             { text: '配置站点', link: '/user-guide/config-site' },
             { text: '菜单 Menu', link: '/user-guide/menu-secondary' },
             { text: '升级', link: '/user-guide/update' }
+          ]
+        },
+        {
+          text: '更新日志',
+          items: [
+            { text: '最新版本', link: '/user-guide/changelog/latest' },
+            { text: 'V4 历史', link: '/user-guide/changelog/v4-history' },
+            { text: 'V3 历史', link: '/user-guide/changelog/v3-history' },
+            { text: 'V2 历史', link: '/user-guide/changelog/v2-history' },
+            { text: 'V1 历史', link: '/user-guide/changelog/v1-history' }
           ]
         },
         {
@@ -92,6 +191,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { text: 'Notion 数据库', link: '/user-guide/notion-database' },
+            { text: '社区站数据库模板', link: '/user-guide/notion/community-site-template' },
             { text: '排版示例', link: '/user-guide/notion/example-article' },
             { text: '备份 Notion', link: '/user-guide/notion/notion-backup' },
             { text: 'Notion 模板', link: '/user-guide/notion/notion-template' },
@@ -226,15 +326,60 @@ export default defineConfig({
             { text: '迁移索引', link: '/user-guide/ARTICLE_INDEX' }
           ]
         },
+      ],
+      '/developer/': [
         {
-          text: '更新日志',
+          text: '开发入门',
+          items: [
+            { text: '开发文档首页', link: '/developer/' },
+            { text: '快速上手', link: '/developer/GETTING_STARTED' },
+            { text: '架构总览', link: '/developer/ARCHITECTURE' },
+            { text: '目录与模块', link: '/developer/PROJECT_STRUCTURE' },
+            { text: '配置体系', link: '/developer/CONFIGURATION' },
+            { text: '提交与 PR', link: '/developer/CONTRIBUTION_WORKFLOW' }
+          ]
+        },
+        {
+          text: '维护与治理',
           collapsed: true,
           items: [
-            { text: '最新版本', link: '/user-guide/changelog/latest' },
-            { text: 'V4 历史', link: '/user-guide/changelog/v4-history' },
-            { text: 'V3 历史', link: '/user-guide/changelog/v3-history' },
-            { text: 'V2 历史', link: '/user-guide/changelog/v2-history' },
-            { text: 'V1 历史', link: '/user-guide/changelog/v1-history' }
+            { text: '维护哲学', link: '/developer/MAINTENANCE_PHILOSOPHY.zh-CN' },
+            { text: '维护者手册', link: '/developer/MAINTAINER_RUNBOOK.zh-CN' },
+            { text: '版本更新说明', link: '/developer/UPDATE' },
+            { text: '社区路线图', link: '/developer/COMMUNITY_SITE_ROADMAP' },
+            { text: 'RFC', link: '/developer/rfc/' }
+          ]
+        },
+        {
+          text: '主题共建',
+          collapsed: true,
+          items: [
+            { text: '主题开发文档首页', link: '/developer/themes/' },
+            { text: '主题迁移指南', link: '/developer/THEME_MIGRATION_GUIDE.zh-CN' },
+            { text: 'Claude', link: '/developer/themes/CLAUDE' },
+            { text: 'Endspace', link: '/developer/themes/ENDSPACE' },
+            { text: 'Fuwari', link: '/developer/themes/FUWARI' },
+            { text: 'Heo', link: '/developer/themes/HEO' },
+            { text: 'Proxio', link: '/developer/themes/PROXIO' },
+            { text: 'ThoughtLite', link: '/developer/themes/THOUGHTLITE' },
+            { text: 'ThoughtLite 迁移计划', link: '/developer/themes/THOUGHTLITE_MIGRATION_PLAN.zh-CN' }
+          ]
+        },
+        {
+          text: 'English',
+          collapsed: true,
+          items: [
+            { text: 'Getting Started', link: '/developer/GETTING_STARTED.en' },
+            { text: 'Architecture', link: '/developer/ARCHITECTURE.en' },
+            { text: 'Project Structure', link: '/developer/PROJECT_STRUCTURE.en' },
+            { text: 'Configuration', link: '/developer/CONFIGURATION.en' },
+            { text: 'Contribution Workflow', link: '/developer/CONTRIBUTION_WORKFLOW.en' },
+            { text: 'Maintainer Runbook', link: '/developer/MAINTAINER_RUNBOOK.en' },
+            { text: 'Maintenance Philosophy', link: '/developer/MAINTENANCE_PHILOSOPHY.en' },
+            { text: 'Theme Migration Guide', link: '/developer/THEME_MIGRATION_GUIDE' },
+            { text: 'Claude Theme', link: '/developer/themes/CLAUDE.en' },
+            { text: 'Endspace Theme', link: '/developer/themes/ENDSPACE.en' },
+            { text: 'ThoughtLite Theme', link: '/developer/themes/THOUGHTLITE.en' }
           ]
         }
       ],
@@ -245,6 +390,7 @@ export default defineConfig({
             { text: '首页', link: '/' },
             { text: '从这里开始', link: '/user-guide/start-here' },
             { text: '使用说明', link: '/user-guide/intro' },
+            { text: '开发文档', link: '/developer/' },
             { text: '参与社区', link: '/user-guide/community-participate' },
             { text: '文档维护策略', link: '/DOCUMENTATION_POLICY' },
             { text: '参与维护', link: '/user-guide/maintain-docs' },

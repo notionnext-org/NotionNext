@@ -59,11 +59,13 @@ const Comment = ({ frontMatter, className }) => {
     if (!hasGiscus && !scrollComment) {
       return
     }
-    const cleanPath = stripTransientQueryParamsFromAsPath(router.asPath)
-    window.history.replaceState(window.history.state, '', cleanPath)
-    router
-      .replace(cleanPath, undefined, { scroll: false, shallow: true })
-      .catch(() => {})
+    if (scrollComment && !hasGiscus) {
+      const cleanPath = stripTransientQueryParamsFromAsPath(router.asPath)
+      window.history.replaceState(window.history.state, '', cleanPath)
+      router
+        .replace(cleanPath, undefined, { scroll: false, shallow: true })
+        .catch(() => {})
+    }
     if (scrollComment || hasGiscus) {
       const t = window.setTimeout(() => {
         document

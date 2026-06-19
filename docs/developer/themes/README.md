@@ -30,4 +30,4 @@
 
 - 新增主题时，在 **`docs/user-guide/themes/<id>.md`** 写站长说明；仅当需要记录全局改动时再在本目录补开发者文档。
 - 修改 `themes/<id>/config.js` 后运行 `node scripts/generate-theme-user-docs.mjs` 刷新配置表（`proxio` / `heo` 仅更新 `<!-- theme-config-table -->` 段）。
-- **合并主仓库时**：除 `themes/<id>/` 外，需在 **`public/images/themes-preview/`** 提交 `<id>.png` / `<id>.webp`，并更新 **`conf/themeSwitch.manifest.js`**；详见 [主题迁移指南 §8](../developer/THEME_MIGRATION_GUIDE.zh-CN.md)。
+- **合并主仓库时**：除 `themes/<id>/` 外，需在 **`public/images/themes-preview/`** 提交 `<id>.png` / `<id>.webp`，并更新 **`conf/themeSwitch.manifest.js`**；详见 [主题迁移指南 §8](../THEME_MIGRATION_GUIDE.zh-CN.md)。

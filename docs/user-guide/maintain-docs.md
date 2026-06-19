@@ -17,13 +17,13 @@
 | 链接 | 说明 |
 | --- | --- |
 | [docs/](https://github.com/notionnext-org/NotionNext/tree/main/docs) | 目录说明（本 README 在 GitHub 可见） |
-| [docs/user-guide/](https://github.com/notionnext-org/NotionNext/tree/main/docs/user-guide) | **在线站主体**，改教程只动这里 |
-| [docs/developer/](https://github.com/notionnext-org/NotionNext/tree/main/docs/developer) | 开发者文档（不进在线站） |
+| [docs/user-guide/](https://github.com/notionnext-org/NotionNext/tree/main/docs/user-guide) | 使用教程、主题配置、运营与维护 |
+| [docs/developer/](https://github.com/notionnext-org/NotionNext/tree/main/docs/developer) | 架构、贡献、主题迁移与维护文档（在线站可见） |
 
 ## 推荐流程（贡献者）
 
 1. Fork [notionnext-org/NotionNext](https://github.com/notionnext-org/NotionNext) 或具备组织仓库写权限。  
-2. 编辑 `docs/user-guide/**/*.md`（主题配置表可运行 `node scripts/generate-theme-user-docs.mjs`）。  
+2. 编辑 `docs/user-guide/**/*.md` 或 `docs/developer/**/*.md`（主题配置表可运行 `node scripts/generate-theme-user-docs.mjs`）。
 3. 本地预览：`yarn docs:site:dev`。  
 4. 提交 PR，合并 **`main`** 后由 GitHub Actions 部署。  
 

@@ -85,7 +85,7 @@ Use `yarn dev` locally; `?theme=thoughtlite` may work where the app exposes them
 2. Layout entry points: `themes/thoughtlite/index.js` (`Layout*`); presentational pieces under `themes/thoughtlite/components/`.
 3. When **matching upstream visuals**, reference the [public demo](https://thought-lite.ttio.workers.dev/)—avoid pasting **GPL source files**; document any exception in the PR.
 4. Timeline relies on **`publishDay` / `publishDate`** from Notion mapping (`lib/db/notion/getPageProperties.js`).
-5. Cross-theme conventions: see [FUWARI.md](./FUWARI.md) and [THEME_MIGRATION_GUIDE](../developer/THEME_MIGRATION_GUIDE.md).
+5. Cross-theme conventions: see [FUWARI.md](./FUWARI.md) and [THEME_MIGRATION_GUIDE](../THEME_MIGRATION_GUIDE.md).
 6. Refresh theme previews under `public/images/themes-preview/` when the UI changes materially.
 7. Smoke test: `yarn lint --dir themes/thoughtlite` and click through main routes with `NEXT_PUBLIC_THEME=thoughtlite`.
 

@@ -1,6 +1,6 @@
-﻿# 用户教程静态网站
+﻿# 文档静态网站
 
-教程通过 **VitePress** 构建，发布到 [notionnext.tangly1024.com](https://notionnext.tangly1024.com)。
+教程与开发文档通过 **VitePress** 构建，发布到 [notionnext.tangly1024.com](https://notionnext.tangly1024.com)。
 
 ## 本地命令
 
@@ -20,10 +20,12 @@
 docs/
 ├── index.md
 ├── DOCUMENTATION_POLICY.md
-└── user-guide/          ← 全部进入在线站
+├── user-guide/          ← 使用教程
+├── developer/           ← 架构、贡献、主题迁移与维护文档
+└── community/           ← 社区材料
 ```
 
-**不包含** `docs/developer/`（开发者文档仅 GitHub 阅读）。配置见 [`.vitepress/config.mts`](https://github.com/notionnext-org/NotionNext/blob/main/.vitepress/config.mts) 的 `srcExclude: ['developer/**', ...]`。
+除根目录 README 这类仓库目录说明外，文档内容尽量进入在线站。配置见 [`.vitepress/config.mts`](https://github.com/notionnext-org/NotionNext/blob/main/.vitepress/config.mts)。
 
 ## 配置位置
 

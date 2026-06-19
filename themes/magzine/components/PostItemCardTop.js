@@ -39,6 +39,8 @@ const PostItemCardTop = ({ post, showSummary }) => {
                   priority
                   alt={post?.title}
                   src={post?.pageCoverThumbnail}
+                  width={768}
+                  height={320}
                   className='w-full h-80 object-cover hover:scale-125 duration-150'
                 />
               </div>

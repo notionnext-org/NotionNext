@@ -83,6 +83,26 @@ STATIC_PAGE_GENERATION_TIMEOUT=600
 
 构建缓存目录见 `lib/cache/build_session.js`、`.next/cache/notion`。
 
+## 页面数据体积检查
+
+4.10.0 起可以在生产构建后检查 Next.js 页面数据体积：
+
+```bash
+yarn build
+yarn perf:page-data
+```
+
+脚本会扫描 `.next/server/pages/*.json`，并在 `.perf/page-data-budget.json` 写入报告。默认预算为 **128KB**；如果 `overBudgetPages` 为 `0`，说明当前构建没有页面超过默认预算。
+
+可选环境变量：
+
+```bash
+PERF_PAGE_DATA_WARN_KB=160 yarn perf:page-data
+PERF_PAGE_DATA_FAIL=true yarn perf:page-data
+```
+
+站点内容很多、文章列表很长或开启 `POST_LIST_PREVIEW` 时，页面数据可能变大。若报告中首页或列表页超出预算，请优先检查是否把完整 `blockMap`、全文内容或无用配置传给了客户端。
+
 ## 相关文档
 
 - [Cloudflare Pages 静态部署](./cloudflare-pages.md)

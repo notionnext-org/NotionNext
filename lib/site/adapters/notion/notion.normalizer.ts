@@ -23,6 +23,7 @@ export function normalizeNotionSite(
     notice: null,
     allPages: [],
     allNavPages: [],
+    allLinkPages: [],
     latestPosts: [],
     categoryOptions: [],
     tagOptions: [],

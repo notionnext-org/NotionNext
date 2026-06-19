@@ -1,6 +1,6 @@
 # Maintenance and change-control philosophy
 
-This document is for **core maintainers and frequent contributors**. Read it together with [Contributing](../CONTRIBUTING.md) and [Contribution workflow](./CONTRIBUTION_WORKFLOW.en.md). The goal is to welcome contributions while **reducing large, hard-to-control changes** that destabilize `main` and fork ecosystems.
+This document is for **core maintainers and frequent contributors**. Read it together with [Contributing](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.md) and [Contribution workflow](./CONTRIBUTION_WORKFLOW.en.md). The goal is to welcome contributions while **reducing large, hard-to-control changes** that destabilize `main` and fork ecosystems.
 
 ## Principles
 

@@ -14,12 +14,12 @@ node scripts/generate-theme-user-docs.mjs
 
 | ID | 名称 | 特性摘要 | 说明 |
 | --- | --- | --- | --- |
-| `claude` | Claude | 类 Claude Docs 的文档与终端氛围。 | [claude.md](./claude.md) · [开发文档（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/CLAUDE.md) |
+| `claude` | Claude | 类 Claude Docs 的文档与终端氛围。 | [claude.md](./claude.md) · [实现文档](../../developer/themes/CLAUDE.md) |
 | `commerce` | Commerce | 电商与商品展示向页面结构。 | [commerce.md](./commerce.md) |
-| `endspace` | Endspace | 轻工业终末风，侧栏导航、悬浮控件与加载动画。 | [endspace.md](./endspace.md) · [开发文档（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/ENDSPACE.md) |
+| `endspace` | Endspace | 轻工业终末风，侧栏导航、悬浮控件与加载动画。 | [endspace.md](./endspace.md) · [实现文档](../../developer/themes/ENDSPACE.md) |
 | `example` | Example | 示例与演示向默认骨架。 | [example.md](./example.md) |
 | `fukasawa` | Fukasawa | 深川式多栏与侧边信息密度较高。 | [fukasawa.md](./fukasawa.md) |
-| `fuwari` | Fuwari | 日系轻量双栏与主题色板。 | [fuwari.md](./fuwari.md) · [开发文档（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/FUWARI.md) |
+| `fuwari` | Fuwari | 日系轻量双栏与主题色板。 | [fuwari.md](./fuwari.md) · [实现文档](../../developer/themes/FUWARI.md) |
 | `game` | Game | 偏游戏与像素元素装饰。 | [game.md](./game.md) |
 | `gitbook` | GitBook | 文档与手册式侧栏目录结构。 | [gitbook.md](./gitbook.md) |
 | `heo` | Heo | 致敬张洪Heo,丰富的 模块化组件。 | [heo.md](./heo.md) |
@@ -37,7 +37,7 @@ node scripts/generate-theme-user-docs.mjs
 | `proxio` | Proxio | 作品集与个人品牌展示增强。 | [proxio.md](./proxio.md) |
 | `simple` | Simple | 极简清爽，适合文字为主的博客。 | [simple.md](./simple.md) |
 | `starter` | Starter | 落地页与区块化营销向模板。 | [starter.md](./starter.md) |
-| `thoughtlite` | ThoughtLite | 轻阅读向时间线与 Latest 卡片，单列列表与文章卡片排版。 | [thoughtlite.md](./thoughtlite.md) · [开发文档（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/THOUGHTLITE.md) |
+| `thoughtlite` | ThoughtLite | 轻阅读向时间线与 Latest 卡片，单列列表与文章卡片排版。 | [thoughtlite.md](./thoughtlite.md) · [实现文档](../../developer/themes/THOUGHTLITE.md) |
 | `typography` | Typography | 排版优先，强调正文阅读与层级。 | [typography.md](./typography.md) |
 
 <!-- /theme-index-table -->

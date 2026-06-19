@@ -27,9 +27,9 @@
 2. 环境变量：`NEXT_PUBLIC_THEME=thoughtlite`
 3. `blog.config.js` 的 `THEME`
 
-## 开发者深度文档
+## 进阶实现文档
 
-实现细节、全局改动与架构说明见 [ThoughtLite 开发者文档（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/THOUGHTLITE.md)（docs/developer/themes/，与本文站长向说明分工）。
+实现细节、全局改动与架构说明见 [ThoughtLite 实现文档](../../developer/themes/THOUGHTLITE.md)。如果你准备改主题或提交 PR，建议继续阅读。
 
 ## 配置说明
 

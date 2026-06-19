@@ -4,15 +4,17 @@
 
 ## 维护位置（权威来源）
 
-自 **2026 年起**，NotionNext **面向部署者的使用说明** 以本仓库 **`docs/user-guide/`** 目录为**主维护面**，并逐步替代仅依赖 Notion 托管的在线手册（[docs.tangly1024.com](https://docs.tangly1024.com/about)）。
+自 **2026 年起**，NotionNext 文档以本仓库 **`docs/`** 目录为**主维护面**，并逐步替代仅依赖 Notion 托管的在线手册（[docs.tangly1024.com](https://docs.tangly1024.com/about)）。
+
+文档站不再把“站长教程”和“开发者文档”做成访问边界。`user-guide/` 负责从部署、配置、主题使用开始，`developer/` 继续承接架构、贡献、主题迁移和维护决策。借助 AI 开发后，修改主题、排查问题、补文档和提交 PR 的门槛已经降低，文档应鼓励每个使用者逐步成为贡献者。
 
 | 目录 | 用途 |
 | --- | --- |
 | [`docs/user-guide/`](./user-guide/) | 部署、配置、Notion 数据库、菜单、升级等**用户教程**（从官方站点迁移并持续更新） |
 | [`docs/user-guide/reference/`](./user-guide/reference/) | **4.9.x 参考手册**：全站配置索引、Notion 新能力（与 `conf/` 同步维护） |
 | [`docs/user-guide/themes/THEMES_CATALOG.md`](./user-guide/themes/THEMES_CATALOG.md) | **25 个内置主题**全表与选型 |
-| [`docs/developer/themes/`（GitHub）](https://github.com/notionnext-org/NotionNext/tree/main/docs/developer/themes) | **开发者向**长篇（Claude 全局改动等）；站长向在 `user-guide/themes/<id>.md` |
-| [`docs/developer/`（GitHub）](https://github.com/notionnext-org/NotionNext/tree/main/docs/developer) | 架构、贡献流程、主题开发者长文（不进在线站） |
+| [`docs/developer/`](./developer/) | 架构、贡献流程、维护手册、主题迁移、RFC 等进阶文档（在线站可见） |
+| [`docs/developer/themes/`](./developer/themes/) | 主题实现长文、迁移计划、上游来源与许可证说明 |
 
 ## 为何迁到 GitHub
 
@@ -32,8 +34,8 @@
 
 简要规则：
 
-1. 用户向教程 → 编辑 `docs/user-guide/**/*.md`，并同步 [`user-guide` 目录索引](./user-guide/)、[`ARTICLE_INDEX.md`](./user-guide/ARTICLE_INDEX.md)。
-2. 主题说明 → `docs/user-guide/themes/<id>.md`；仅开发细节写 `docs/developer/themes/`。
+1. 使用教程 → 编辑 `docs/user-guide/**/*.md`，并同步 [`user-guide` 目录索引](./user-guide/)、[`ARTICLE_INDEX.md`](./user-guide/ARTICLE_INDEX.md)。
+2. 主题使用说明 → `docs/user-guide/themes/<id>.md`；主题实现、迁移和维护细节 → `docs/developer/themes/`，两边互相链接。
 3. 勿将个人 `.env`、私有 ID 写入示例。
 4. PR 描述中注明：是否替代/补充线上某篇文档（附 slug 或 URL）。
 
@@ -45,4 +47,4 @@
 
 ## English summary
 
-End-user documentation is **maintained in this repo** under `docs/user-guide/`, as the long-term source of truth replacing Notion-only hosting at docs.tangly1024.com. Developer docs remain under `docs/`. Migrated pages link back to the legacy site during transition.
+Documentation is **maintained in this repo** under `docs/`, as the long-term source of truth replacing Notion-only hosting at docs.tangly1024.com. User guides and developer docs are both published to the VitePress site so users can gradually become contributors. Migrated pages link back to the legacy site during transition.

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import throttle from 'lodash.throttle'
 import { uuidToId } from 'notion-utils'
 import { IconClock, IconListTree, IconArrowUp, IconX, IconMessage, IconMoon, IconSun } from '@tabler/icons-react'
 import { siteConfig } from '@/lib/config'
@@ -18,49 +17,65 @@ const FloatingControls = ({ toc, ...props }) => {
   const [activeTab, setActiveTab] = useState(null) // 'logs' | 'toc'
   const [percent, setPercent] = useState(0)
   const [activeSection, setActiveSection] = useState(null)
+  const rafRef = useRef(null)
+  const percentRef = useRef(0)
+  const activeSectionRef = useRef(null)
   
   // -- TOC Logic --
-  useEffect(() => {
-    window.addEventListener('scroll', updateProgress)
-    window.addEventListener('scroll', actionSectionScrollSpy)
-    return () => {
-        window.removeEventListener('scroll', updateProgress)
-      window.removeEventListener('scroll', actionSectionScrollSpy)
+  const updateScrollState = useCallback(() => {
+    const scrollTop = window.scrollY
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight
+    const nextPercent = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
+    if (nextPercent !== percentRef.current) {
+      percentRef.current = nextPercent
+      setPercent(nextPercent)
+    }
+
+    const sections = document.getElementsByClassName('notion-h')
+    let prevBBox = null
+    let currentSectionId = activeSectionRef.current
+    for (let i = 0; i < sections.length; ++i) {
+      const section = sections[i]
+      if (!section || !(section instanceof Element)) continue
+      if (!currentSectionId) {
+        currentSectionId = section.getAttribute('data-id')
+      }
+      const bbox = section.getBoundingClientRect()
+      const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
+      const offset = Math.max(150, prevHeight / 4)
+      if (bbox.top - offset < 0) {
+        currentSectionId = section.getAttribute('data-id')
+        prevBBox = bbox
+        continue
+      }
+      break
+    }
+    if (currentSectionId !== activeSectionRef.current) {
+      activeSectionRef.current = currentSectionId
+      setActiveSection(currentSectionId)
     }
   }, [])
 
-  const updateProgress = () => {
-    const scrollTop = window.scrollY
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight
-    const p = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
-    setPercent(p)
-  }
+  const onScroll = useCallback(() => {
+    if (rafRef.current) {
+      return
+    }
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      updateScrollState()
+    })
+  }, [updateScrollState])
 
-  const actionSectionScrollSpy = useCallback(
-    throttle(() => {
-      const sections = document.getElementsByClassName('notion-h')
-      let prevBBox = null
-      let currentSectionId = activeSection
-      for (let i = 0; i < sections.length; ++i) {
-        const section = sections[i]
-        if (!section || !(section instanceof Element)) continue
-        if (!currentSectionId) {
-          currentSectionId = section.getAttribute('data-id')
-        }
-        const bbox = section.getBoundingClientRect()
-        const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
-        const offset = Math.max(150, prevHeight / 4)
-        if (bbox.top - offset < 0) {
-          currentSectionId = section.getAttribute('data-id')
-          prevBBox = bbox
-          continue
-        }
-        break
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
       }
-      setActiveSection(currentSectionId)
-    }, 200),
-    []
-  )
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [onScroll])
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })

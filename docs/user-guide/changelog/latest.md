@@ -1,61 +1,61 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.9.5.7**（见根目录 `package.json`）
+> 当前主线：**4.10.2**（见根目录 `package.json`）
 
-## 4.9.5.7 发布要点
+## 4.10.2 发布要点
 
-### 新增
+本版本重点提升静态导出与 Cloudflare Pages 等平台的构建效率，并修复 Giscus 登录回跳后仍提示登录的问题。
 
-- 社区 / 组织官网数据层：新增 `Member`、`Event` 类型，可在主题中消费 `allMembers` 与 `allEvents`。
-- Member 数据支持通过 Notion 官方 API 补充读取，适用于非官方 API 视图结果不完整的场景。
+### 构建性能优化
 
-### 修复
+- 新增 Notion 页面正文的版本化构建缓存：正文缓存键会带上文章 `lastEditedDate`，未更新过的文章在下一次构建中可直接复用上次缓存。
+- 构建开始时仍会重新拉取 Notion 数据库索引，确保新文章、隐藏文章、删除文章、slug 与更新时间可以及时生效。
+- 构建清理策略改为只清理数据库索引、静态路径与当前构建 session 等临时缓存，默认保留版本化 `page_block` 正文缓存。
+- `prefetchAllBlockMaps` 会优先检查版本化正文缓存；缓存命中时不再请求 Notion 页面正文。
+- 单篇文章页、公告页和全文搜索读取正文缓存时统一使用版本化缓存键，避免预热缓存和页面渲染缓存不一致。
+- 新增 `NOTION_BUILD_CACHE_PURGE_DATA=true`，需要彻底清理构建缓存时可手动开启。
 
-- 修复 Notion 数据库只应使用所选视图筛选结果的问题，避免其他视图的隐藏条目混入页面列表。
-- 修复 Font Awesome `fa-x-twitter` 图标加载问题。
-- 修复 Endspace 主题自定义多级菜单支持。
-- 修复 Docker 构建未严格使用 `yarn.lock`、PR 多架构构建耗时过长等 CI 问题。
+### Giscus 评论修复
 
-### 安全与依赖
+- 修复 Giscus OAuth 回跳后 `?giscus=...` 参数被页面容器过早清理的问题。
+- 现在 Giscus 脚本会先消费 OAuth 回调 token 并写入 `localStorage`，再清理地址栏参数，避免登录后仍显示“登录后可以评论”。
 
-- 合并 Dependabot patch 更新：`@supabase/supabase-js`、`@clerk/localizations`、开发依赖组等。
-- 通过 Yarn resolutions 收敛多个传递依赖到已修复版本，包括 `qs`、`tmp`、`js-cookie`、`uuid`、`lodash`、`picomatch`、`flatted`、`esbuild`。
+### 同期主线修复
 
-### 维护
+本轮 4.10.2 发布窗口也同步记录了 4.10.1 之后主线上的多项修复：
 
-- 恢复 lint / type-check / 单测 / Docker / VitePress 等 CI 基线。
-- 修复主分支自动版本号 workflow 在受保护分支下直接失败的问题。
-- 版本号已同步到 `4.9.5.7`。
+- 修复嵌入式 Notion collection view 数据未过滤导致页面数据膨胀、无关集合记录泄露到页面 props 的问题。
+- 修复 Notion 新结构中 `sync_block` 的 `content` ID 数组解析问题，避免同步块内容缺失。
+- 修复没有 `properties.title` 的 quote block 渲染异常，提升 Notion 块结构兼容性。
+- 修复数据库页面解析中视图筛选条件因短 ID / UUID 格式不一致而失效的问题。
+- 修复 Fuwari 主题首次渲染时主题色相未立即应用的问题，避免初屏色彩与配置不一致。
+- 修复 Magzine 主题推荐标签默认值处理，避免未配置推荐标签时推荐逻辑异常。
 
-## 4.9.5.x 近期要点（相对旧版文档）
+### 适用场景
 
-| 领域 | 变化 |
-| --- | --- |
-| **组织与仓库** | 主仓库迁至 [notionnext-org/NotionNext](https://github.com/notionnext-org/NotionNext) |
-| **主题** | 新增 **ThoughtLite**；Endspace 支持自定义多级菜单；主题切换 manifest 与预览图规范 |
-| **社区官网** | 新增 `Member` / `Event` 数据类型输出：`allMembers`、`allEvents`；支持官方 Notion API 补充成员数据 |
-| **Notion** | 数据源/集合解析兼容；保留所选 Notion 视图筛选结果；外部媒体（含 **Apple Music** 嵌入）规范化 |
-| **构建** | `staticPaths` 缓存与导出稳定性；不可写缓存目录时回退 tmp；多站点 `NOTION_PAGE_ID` 构建期 `ENAMETOOLONG` 修复；Docker PR 构建范围收敛并使用 `yarn.lock` |
-| **评论** | Notion Config 支持 **WALINE_*** 键名 |
-| **置顶** | 全局 **TOP_TAG** 多置顶排序 |
-| **安全** | 文章密码 **SHA256**（兼容旧 md5） |
-| **依赖安全** | 修复 / 收敛 `qs`、`tmp`、`js-cookie`、`uuid`、`lodash`、`picomatch`、`flatted`、`esbuild` 等安全依赖告警 |
-| **图标** | Font Awesome 默认 CDN 升级，修复 `fa-x-twitter` 图标不可用问题 |
-| **CI / 发版** | 恢复 lint/type-check 基线；版本号自动 bump 改为推送维护分支，兼容受保护 `main` |
-| **文档** | 仓库内 `docs/user-guide/` 用户手册、`DEPLOYMENT.md`、维护哲学文档；EdgeOne Node 版本与 ENOSPC 排错文档 |
+- Cloudflare Pages、Netlify、Vercel 或自托管 CI 中使用 `yarn build` / `yarn export`。
+- 文章数量较多，但每次发布只修改少量 Notion 页面。
+- 构建日志里频繁出现大量 `from:prefetch` / `getPage` 请求，或者部署时间主要消耗在 Notion 页面正文拉取。
 
-完整提交见 [GitHub Releases](https://github.com/notionnext-org/NotionNext/releases)。
+### 使用说明
+
+- Cloudflare Pages 请确保 Build cache 已开启，平台才能在下一次构建恢复 `.next/cache`。
+- 正常情况下无需设置新环境变量。
+- 如果怀疑构建缓存损坏，临时设置 `NOTION_BUILD_CACHE_PURGE_DATA=true` 后重新部署一次即可清空持久正文缓存。
+
+### 验证
+
+- `npx eslint lib\db\notion\getPostBlocks.js lib\build\prefetch.js lib\db\SiteDataApi.js pages\search\[keyword]\index.js pages\search\[keyword]\page\[page].js next.config.js`：通过。
+- `node -e "require('./next.config.js')"`：通过。
+- `git diff --check`：通过。
 
 ## 如何升级
 
-- 站长：[update.md](../update.md)
-- 开发者：[UPDATE.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/UPDATE.md)
+- 站长升级：见 [版本升级指引](../update.md)。
+- 构建性能与 Notion API 限流：见 [构建性能与 Notion API 限流](../deploy/build-tuning.md)。
+- GitHub Release：[NotionNext Releases](https://github.com/notionnext-org/NotionNext/releases)。
 
 ## 历史版本全文
 
-- [v4-history.md](./v4-history.md)（索引）
-- 源站：https://docs.tangly1024.com/article/v4.0
-
-## 原文链接
-
-https://docs.tangly1024.com/article/latest
+- [V4 历史](./v4-history.md)
+- 源站：https://docs.tangly1024.com/article/latest

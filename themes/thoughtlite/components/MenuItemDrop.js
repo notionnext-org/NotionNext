@@ -49,10 +49,10 @@ export const MenuItemDrop = ({ link, variant = 'default' }) => {
     }
 
     updatePosition()
-    window.addEventListener('scroll', updatePosition, true)
+    window.addEventListener('scroll', updatePosition, { passive: true })
     window.addEventListener('resize', updatePosition)
     return () => {
-      window.removeEventListener('scroll', updatePosition, true)
+      window.removeEventListener('scroll', updatePosition, { passive: true })
       window.removeEventListener('resize', updatePosition)
     }
   }, [show, isInline, hasSubMenu])

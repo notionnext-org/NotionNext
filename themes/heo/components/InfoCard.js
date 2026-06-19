@@ -8,6 +8,36 @@ import CONFIG from '../config'
 import Announcement from './Announcement'
 import Card from './Card'
 
+export function normalizeInfoCardGreetings(value) {
+  if (Array.isArray(value)) {
+    return value.map(item => String(item).trim()).filter(Boolean)
+  }
+
+  if (typeof value !== 'string') {
+    return []
+  }
+
+  const trimmed = value.trim()
+  if (!trimmed) {
+    return []
+  }
+
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    try {
+      const parsed = JSON.parse(trimmed.replace(/'/g, '"'))
+      return normalizeInfoCardGreetings(parsed)
+    } catch {
+      return trimmed
+        .slice(1, -1)
+        .split(',')
+        .map(item => item.trim().replace(/^['"]|['"]$/g, ''))
+        .filter(Boolean)
+    }
+  }
+
+  return [trimmed]
+}
+
 /**
  * 社交信息卡
  * @param {*} props
@@ -101,8 +131,13 @@ function MoreButton() {
  * 欢迎语
  */
 function GreetingsWords() {
-  const greetings = siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG)
+  const greetings = normalizeInfoCardGreetings(
+    siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG)
+  )
   const [greeting, setGreeting] = useState(greetings[0])
+  if (greetings.length === 0) {
+    return null
+  }
   // 每次点击，随机获取greetings中的一个
   const handleChangeGreeting = () => {
     const randomIndex = Math.floor(Math.random() * greetings.length)

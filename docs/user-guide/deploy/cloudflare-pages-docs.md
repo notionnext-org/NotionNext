@@ -127,7 +127,7 @@ npx wrangler pages deploy .vitepress/dist --project-name=notionnext-docs
 
 ## 发布范围
 
-见 `.vitepress/config.mts`：`srcExclude: ['developer/**', ...]`，即仅发布 `user-guide/`、`index.md`、`DOCUMENTATION_POLICY.md`。
+见 `.vitepress/config.mts`：在线站发布 `user-guide/`、`developer/`、`community/` 及根目录主要入口页；根目录 README 作为仓库目录说明不进入 VitePress。
 
 ## 文档评论（Giscus，可选）
 

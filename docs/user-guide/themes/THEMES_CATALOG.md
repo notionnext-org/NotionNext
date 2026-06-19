@@ -1,6 +1,6 @@
 # 内置主题全览（25 个）
 
-> 与 `themes/` 目录及 `conf/themeSwitch.manifest.js` 同步 · 当前版本 **4.9.5.7**  
+> 与 `themes/` 目录及 `conf/themeSwitch.manifest.js` 同步 · 当前版本 **4.10.2**
 > 先按站点目标选主题，再进入单个主题文档看配置。
 
 预览：`https://preview.tangly1024.com/?theme=<id>`（`id` 为下表主题 ID，小写）。
@@ -56,7 +56,7 @@
 | `matery` | Matery | Material 卡片列表 | [matery.md](./matery.md) |
 | `nobelium` | Nobelium | 极简 | [nobelium.md](./nobelium.md) |
 | `fukasawa` | Fukasawa | 多栏高密度 | [fukasawa.md](./fukasawa.md) |
-| `fuwari` | Fuwari | 日系双栏色板 | [fuwari.md](./fuwari.md) · [FUWARI.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/FUWARI.md) |
+| `fuwari` | Fuwari | 日系双栏色板 | [fuwari.md](./fuwari.md) · [FUWARI.md](../../developer/themes/FUWARI.md) |
 | `typography` | Typography | 排版优先 | [typography.md](./typography.md) |
 | `nav` | Nav | 导航站/聚合 | [nav.md](./nav.md) |
 | `plog` | Plog | 图文/轻博客 | [plog.md](./plog.md) |
@@ -68,16 +68,16 @@
 | `proxio` | Proxio | 作品集/品牌站 | [proxio.md](./proxio.md) |
 | `commerce` | Commerce | 商品展示 | [commerce.md](./commerce.md) |
 | `magzine` | Magazine | 杂志封面风（目录名 `magzine`） | [magzine.md](./magzine.md) |
-| `claude` | Claude | 文档风 + 贡献热力图首页 | [claude.md](./claude.md) · [CLAUDE.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/CLAUDE.md) |
-| `endspace` | Endspace | 终末工业风加载与侧栏 | [endspace.md](./endspace.md) · [ENDSPACE.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/ENDSPACE.md) |
+| `claude` | Claude | 文档风 + 贡献热力图首页 | [claude.md](./claude.md) · [CLAUDE.md](../../developer/themes/CLAUDE.md) |
+| `endspace` | Endspace | 终末工业风加载与侧栏 | [endspace.md](./endspace.md) · [ENDSPACE.md](../../developer/themes/ENDSPACE.md) |
 | `example` | Example | 主题开发骨架 | [example.md](./example.md) |
-| `thoughtlite` | ThoughtLite | 时间线首页 + Latest 卡片 | [thoughtlite.md](./thoughtlite.md) · [THOUGHTLITE.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/themes/THOUGHTLITE.md) |
+| `thoughtlite` | ThoughtLite | 时间线首页 + Latest 卡片 | [thoughtlite.md](./thoughtlite.md) · [THOUGHTLITE.md](../../developer/themes/THOUGHTLITE.md) |
 
 ## 主题切换挂件
 
 `NEXT_PUBLIC_THEME_SWITCH=true` 时，使用 `THEME_SWITCH_MANIFEST` 中的名称、简介与 `public/images/themes-preview/<id>.png|webp`。
 
-新增主题贡献需提交预览图并更新 manifest，见 [THEME_MIGRATION_GUIDE.zh-CN.md（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/THEME_MIGRATION_GUIDE.zh-CN.md)。
+新增主题贡献需提交预览图并更新 manifest，见 [THEME_MIGRATION_GUIDE.zh-CN.md](../../developer/THEME_MIGRATION_GUIDE.zh-CN.md)。
 
 ## 维护说明
 

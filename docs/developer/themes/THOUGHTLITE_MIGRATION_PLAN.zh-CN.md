@@ -22,7 +22,7 @@
 
 ## 1. 与 Fuwari（Astro → Next）迁移的相同注意点
 
-对照 [`docs/developer/themes/FUWARI.md`](./FUWARI.md) 与 [主题迁移指南（中文）](../developer/THEME_MIGRATION_GUIDE.zh-CN.md)：
+对照 [`docs/developer/themes/FUWARI.md`](./FUWARI.md) 与 [主题迁移指南（中文）](../THEME_MIGRATION_GUIDE.zh-CN.md)：
 
 1. **技术栈**：上游为 **Astro + Svelte**，NotionNext 主题为 **Next.js Pages Router + React**；不能「直接挂载」Astro 工程，只能 **移植视觉与信息架构**。  
 2. **数据契约**：仅使用 NotionNext 传入的 `props`（`siteInfo`、`posts`、`post`、`customNav`、`customMenu`、`notice`、`tagOptions` 等），见迁移指南 §3。  
@@ -62,7 +62,7 @@
 
 - [x] `docs/developer/themes/THOUGHTLITE.md` 与 **`docs/developer/themes/THOUGHTLITE.en.md`**：功能、配置、上游致谢与许可证说明。  
 - [x] `docs/developer/themes/README.md` / `README.en.md` 导航表更新。  
-- [x] 按 [主题迁移指南 §8](../developer/THEME_MIGRATION_GUIDE.zh-CN.md) 提交 `public/images/themes-preview/thoughtlite.png` / `.webp`（当前为占位图，可后续替换为真实截图）与 `conf/themeSwitch.manifest.js` 条目。  
+- [x] 按 [主题迁移指南 §8](../THEME_MIGRATION_GUIDE.zh-CN.md) 提交 `public/images/themes-preview/thoughtlite.png` / `.webp`（当前为占位图，可后续替换为真实截图）与 `conf/themeSwitch.manifest.js` 条目。
 - [ ] 合并 PR 时由维护者决定是否 **`Closes #3987`**（若仍有多阶段需求可保留 Issue 子任务）。
 
 ---

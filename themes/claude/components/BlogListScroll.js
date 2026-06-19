@@ -43,7 +43,7 @@ export default function BlogListScroll(props) {
   )
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollTrigger)
+    window.addEventListener('scroll', scrollTrigger, { passive: true })
 
     return () => {
       window.removeEventListener('scroll', scrollTrigger)
