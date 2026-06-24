@@ -22,6 +22,8 @@ const Hero = props => {
   }
 
   const GREETING_WORDS = siteConfig('GREETING_WORDS').split(',')
+  const GREETING_WORDS_TYPE_SPEED = siteConfig('GREETING_WORDS_TYPE_SPEED')
+  const GREETING_WORDS_BACK_SPEED = siteConfig('GREETING_WORDS_BACK_SPEED')
   useEffect(() => {
     updateHeaderHeight()
 
@@ -31,8 +33,8 @@ const Hero = props => {
           changeType(
             new window.Typed('#typed', {
               strings: GREETING_WORDS,
-              typeSpeed: 200,
-              backSpeed: 100,
+              typeSpeed: GREETING_WORDS_TYPE_SPEED,
+              backSpeed: GREETING_WORDS_BACK_SPEED,
               backDelay: 400,
               showCursor: true,
               smartBackspace: true
