@@ -2275,27 +2275,28 @@
     xdg-app-paths "5"
     zod "4.1.11"
 
-"@vercel/cli-exec@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@vercel/cli-exec/-/cli-exec-0.1.1.tgz#c00d76bdd8222435f943883eca5c2ad667a86ead"
-  integrity sha512-LMRMEai3Z+BODyxGcU9+KiWrS/UElNiOLKiNRfGNt2Vu3NTEmXgFeXG9wBfocAnTe5yJCX/DY6k3k7S/LkPp/g==
+"@vercel/cli-exec@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@vercel/cli-exec/-/cli-exec-1.0.0.tgz#a4d38ea2fae6d850c6b4af3a3e1ad2bda7d52bf9"
+  integrity sha512-kQF8LGie/Hbdq9/psJxLE7owRTcqMQMhgybU04gCeR7cbQAr5t8OrjefDNColJv1QSSucFt4pLwRiARVmlOnug==
   dependencies:
     execa "5.1.1"
 
-"@vercel/functions@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@vercel/functions/-/functions-3.6.2.tgz#5009d877e6a19f7e450940d3e1926418db07f32c"
-  integrity sha512-AeWUppTKlHoeJ4zttStwAJ1PsSqucSK7NPy27wrb5cSBBo4VbRo7j6rFCcJrGg4jcV9Cv5Qmk4Dc2dHe6/1g5A==
+"@vercel/functions@^3.7.4":
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/@vercel/functions/-/functions-3.7.4.tgz#10a61b53be6e8a544246b68a16557e264ffc2680"
+  integrity sha512-BvHqiuWziXaApV/eazLc84cHzEpPyNGG2UUAg82x+VN2VTCtX/DKH7SKOb3PxpRL/27zxPz8ltdO6GoKj66DaA==
   dependencies:
-    "@vercel/oidc" "3.6.0"
+    "@vercel/oidc" "3.7.1"
 
-"@vercel/oidc@3.6.0":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@vercel/oidc/-/oidc-3.6.0.tgz#a830062af9e7ab7c40a784e705c5bfd766c16d97"
-  integrity sha512-a2HjItW75qSZfyyDbZ2XDFTQAfNKM93uloZABPgx6t8IrdbCgf+EQBeSypQVP2jHrZ3LHApDgLFCf1frRgPwLg==
+"@vercel/oidc@3.7.1":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@vercel/oidc/-/oidc-3.7.1.tgz#94ce120f1aa6cb8b614d3eb707df0365a47a3e46"
+  integrity sha512-RrSsVWbq3KLK5lJobyTPp3tSthNfUp+zWkXno5Wkko0oEW05rA4ngOrnVypP4+L8/Av89uPo2rWFmzL8iwnsmA==
   dependencies:
     "@vercel/cli-config" "0.2.0"
-    "@vercel/cli-exec" "0.1.1"
+    "@vercel/cli-exec" "1.0.0"
+    jose "^5.9.6"
 
 "@vitejs/plugin-vue@^5.2.1":
   version "5.2.4"
@@ -6055,6 +6056,11 @@ jiti@^1.21.7:
   version "1.21.7"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.7.tgz#9dd81043424a3d28458b193d965f0d18a2300ba9"
   integrity sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==
+
+jose@^5.9.6:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-5.10.0.tgz#c37346a099d6467c401351a9a0c2161e0f52c4be"
+  integrity sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==
 
 jpeg-js@^0.4.1, jpeg-js@^0.4.4:
   version "0.4.4"
