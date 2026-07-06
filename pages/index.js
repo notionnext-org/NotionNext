@@ -15,6 +15,164 @@ import { checkDataFromAlgolia } from '@/lib/plugins/algolia'
 import pLimit from 'p-limit'
 import { adapterNotionBlockMap } from '@/lib/utils/notion.util'
 
+const normalizeBlockId = value => String(value || '').replace(/-/g, '').toLowerCase()
+
+const escapeHtml = value =>
+  String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
+const renderRichText = richText => {
+  if (!Array.isArray(richText)) return ''
+
+  return richText
+    .map(segment => {
+      if (!Array.isArray(segment)) return escapeHtml(segment)
+
+      let text = escapeHtml(segment[0])
+      const decorations = Array.isArray(segment[1]) ? segment[1] : []
+
+      decorations.forEach(decoration => {
+        if (!Array.isArray(decoration)) return
+        const [type, value] = decoration
+        if (type === 'b') text = `<strong>${text}</strong>`
+        if (type === 'i') text = `<em>${text}</em>`
+        if (type === 's') text = `<del>${text}</del>`
+        if (type === '_') text = `<u>${text}</u>`
+        if (type === 'c') text = `<code>${text}</code>`
+        if (type === 'a' && value) {
+          text = `<a href="${escapeHtml(value)}" target="_blank" rel="noopener noreferrer">${text}</a>`
+        }
+      })
+
+      return text
+    })
+    .join('')
+}
+
+const getBlockValue = entry => entry?.value || entry || null
+
+const findBlockValue = (blocks, id) => {
+  if (!blocks || !id) return null
+  if (blocks[id]) return getBlockValue(blocks[id])
+
+  const targetId = normalizeBlockId(id)
+  const matchedKey = Object.keys(blocks).find(key => normalizeBlockId(key) === targetId)
+  return matchedKey ? getBlockValue(blocks[matchedKey]) : null
+}
+
+const renderNotionBlocksToHtml = (blockMap, rootId) => {
+  const blocks = blockMap?.block
+  if (!blocks) return ''
+
+  const root = findBlockValue(blocks, rootId)
+  const rootContent = Array.isArray(root?.content)
+    ? root.content
+    : Object.values(blocks)
+        .map(getBlockValue)
+        .find(block => block?.type === 'page' && Array.isArray(block.content))
+        ?.content
+
+  if (!Array.isArray(rootContent)) return ''
+
+  const renderChildren = content => {
+    if (!Array.isArray(content)) return ''
+
+    let html = ''
+    let listType = null
+    let listItems = []
+
+    const flushList = () => {
+      if (!listType || listItems.length === 0) return
+      const tag = listType === 'numbered_list' ? 'ol' : 'ul'
+      html += `<${tag}>${listItems.join('')}</${tag}>`
+      listType = null
+      listItems = []
+    }
+
+    content.forEach(blockId => {
+      const block = findBlockValue(blocks, blockId)
+      if (!block) return
+
+      const type = block.type
+      const title = renderRichText(block.properties?.title)
+      const childrenHtml = renderChildren(block.content)
+
+      if (type === 'bulleted_list' || type === 'numbered_list') {
+        if (listType && listType !== type) flushList()
+        listType = type
+        listItems.push(`<li>${title}${childrenHtml}</li>`)
+        return
+      }
+
+      flushList()
+
+      if (type === 'header') html += `<h1>${title}</h1>${childrenHtml}`
+      else if (type === 'sub_header') html += `<h2>${title}</h2>${childrenHtml}`
+      else if (type === 'sub_sub_header') html += `<h3>${title}</h3>${childrenHtml}`
+      else if (type === 'quote') html += `<blockquote>${title}${childrenHtml}</blockquote>`
+      else if (type === 'callout') html += `<blockquote>${title}${childrenHtml}</blockquote>`
+      else if (type === 'divider') html += '<hr />'
+      else if (type === 'code') html += `<pre><code>${escapeHtml(block.properties?.title?.map(item => item?.[0] || '').join('') || '')}</code></pre>`
+      else if (type === 'image') {
+        const source = block.properties?.source?.[0]?.[0]
+        const caption = renderRichText(block.properties?.caption)
+        if (source) {
+          html += `<figure><img src="${escapeHtml(source)}" alt="${caption.replace(/<[^>]*>/g, '')}" />${caption ? `<figcaption>${caption}</figcaption>` : ''}</figure>`
+        }
+        html += childrenHtml
+      } else if (type === 'text' || type === 'toggle') {
+        if (title) html += `<p>${title}</p>`
+        html += childrenHtml
+      } else {
+        if (title) html += `<p>${title}</p>`
+        html += childrenHtml
+      }
+    })
+
+    flushList()
+    return html
+  }
+
+  return renderChildren(rootContent)
+}
+
+async function getClaudeReadmePage(allPages) {
+  const readmePage = allPages?.find(page => {
+    const slug = String(page?.slug || '').replace(/^\/+|\/+$/g, '').toLowerCase()
+    return page?.status === 'Published' && slug === 'readme.md'
+  })
+
+  if (!readmePage) return null
+
+  try {
+    const rawBlockMap = await getPostBlocks(readmePage.id, 'claude-readme', {
+      cacheVersion: readmePage.lastEditedDate
+    })
+    const adaptedBlockMap = adapterNotionBlockMap(rawBlockMap)
+    const blockMap = {
+      ...adaptedBlockMap,
+      block: formatNotionBlock(adaptedBlockMap.block)
+    }
+
+    return {
+      ...readmePage,
+      readmeHtml: renderNotionBlocksToHtml(blockMap, readmePage.id),
+      excerpt: readmePage.summary || readmePage.description || ''
+    }
+  } catch (error) {
+    console.warn('[Claude README] Failed to load README page:', error)
+    return {
+      ...readmePage,
+      readmeHtml: '',
+      excerpt: readmePage.summary || readmePage.description || ''
+    }
+  }
+}
+
 /**
  * 首页布局
  * @param {*} props
@@ -49,6 +207,12 @@ export async function getStaticProps(req) {
       })
     )
   }
+
+  const theme = siteConfig('THEME', BLOG.THEME, props?.NOTION_CONFIG)
+  if (theme === 'claude') {
+    props.readmePage = await getClaudeReadmePage(props.allPages)
+  }
+
   const POST_PREVIEW_LINES = siteConfig(
     'POST_PREVIEW_LINES',
     8,
