@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { siteConfig } from '@/lib/config'
 import {
   IconPlayerPlay,
@@ -10,99 +10,238 @@ import {
   IconVolume,
 } from '@tabler/icons-react'
 
+let sharedAudio = null
+let sharedAudioList = []
+let sharedPlayOrder = 'list'
+let progressTimer = null
+let mediaGuardTimer = null
+let playRequestId = 0
+let hasTriedAutoPlay = false
+let sharedState = {
+  isPlaying: false,
+  currentTrack: 0,
+  progress: 0,
+  duration: 0,
+  currentTime: 0
+}
+const subscribers = new Set()
+
+const emitSharedState = (patch = {}) => {
+  sharedState = {
+    ...sharedState,
+    ...patch
+  }
+  subscribers.forEach(listener => listener(sharedState))
+}
+
+const parseBoolean = value => {
+  if (typeof value === 'boolean') return value
+  if (typeof value === 'string') return value.toLowerCase() === 'true'
+  return Boolean(value)
+}
+
+const getSharedAudio = () => {
+  if (typeof Audio === 'undefined') return null
+  if (sharedAudio) return sharedAudio
+
+  sharedAudio = new Audio()
+  sharedAudio.volume = 0.7
+  sharedAudio.setAttribute('data-endspace-player', 'true')
+  sharedAudio.addEventListener('ended', () => {
+    playSharedTrack(getNextTrackIndex(), true)
+  })
+  sharedAudio.addEventListener('loadedmetadata', () => {
+    emitSharedState({
+      duration: sharedAudio?.duration || 0
+    })
+  })
+  sharedAudio.addEventListener('play', () => {
+    emitSharedState({ isPlaying: true })
+    startProgressTimer()
+    startMediaGuard()
+  })
+  sharedAudio.addEventListener('pause', () => {
+    if (!sharedAudio?.ended) {
+      emitSharedState({ isPlaying: false })
+      stopProgressTimer()
+      stopMediaGuard()
+    }
+  })
+  sharedAudio.addEventListener('error', event => {
+    console.error('Audio load error:', event)
+  })
+  return sharedAudio
+}
+
+const subscribeSharedPlayer = listener => {
+  subscribers.add(listener)
+  listener(sharedState)
+  return () => {
+    subscribers.delete(listener)
+    if (subscribers.size === 0) {
+      pauseSharedPlayer()
+    }
+  }
+}
+
+const configureSharedPlayer = (audioList, playOrder) => {
+  sharedAudioList = Array.isArray(audioList) ? audioList : []
+  sharedPlayOrder = playOrder || 'list'
+  if (sharedState.currentTrack >= sharedAudioList.length) {
+    emitSharedState({ currentTrack: 0, progress: 0, currentTime: 0 })
+  }
+  getSharedAudio()
+}
+
+const getNextTrackIndex = () => {
+  if (sharedAudioList.length === 0) return 0
+  if (sharedPlayOrder === 'random') {
+    return Math.floor(Math.random() * sharedAudioList.length)
+  }
+  return (sharedState.currentTrack + 1) % sharedAudioList.length
+}
+
+const getPrevTrackIndex = () => {
+  if (sharedAudioList.length === 0) return 0
+  return (sharedState.currentTrack - 1 + sharedAudioList.length) % sharedAudioList.length
+}
+
+const updateProgressFromAudio = () => {
+  if (!sharedAudio) return
+  const current = sharedAudio.currentTime || 0
+  const total = sharedAudio.duration || 1
+  emitSharedState({
+    currentTime: current,
+    duration: sharedAudio.duration || 0,
+    progress: (current / total) * 100
+  })
+}
+
+const startProgressTimer = () => {
+  if (typeof window === 'undefined') return
+  stopProgressTimer()
+  updateProgressFromAudio()
+  progressTimer = window.setInterval(updateProgressFromAudio, 200)
+}
+
+const stopProgressTimer = () => {
+  if (!progressTimer) return
+  if (typeof window !== 'undefined') {
+    window.clearInterval(progressTimer)
+  }
+  progressTimer = null
+}
+
+const pauseOtherMedia = () => {
+  if (typeof document === 'undefined') return
+  document.querySelectorAll('audio, video').forEach(media => {
+    if (media !== sharedAudio && !media.paused) {
+      media.pause()
+    }
+  })
+}
+
+const startMediaGuard = () => {
+  if (typeof window === 'undefined') return
+  stopMediaGuard()
+  pauseOtherMedia()
+  mediaGuardTimer = window.setInterval(pauseOtherMedia, 800)
+}
+
+const stopMediaGuard = () => {
+  if (!mediaGuardTimer) return
+  if (typeof window !== 'undefined') {
+    window.clearInterval(mediaGuardTimer)
+  }
+  mediaGuardTimer = null
+}
+
+const playSharedAudio = async () => {
+  const audio = getSharedAudio()
+  if (!audio) return
+  pauseOtherMedia()
+  audio.muted = false
+  try {
+    await audio.play()
+  } catch (error) {
+    console.log('Play prevented:', error)
+    emitSharedState({ isPlaying: false })
+    stopProgressTimer()
+    stopMediaGuard()
+  }
+}
+
+const pauseSharedPlayer = () => {
+  if (sharedAudio) {
+    sharedAudio.pause()
+  }
+  emitSharedState({ isPlaying: false })
+  stopProgressTimer()
+  stopMediaGuard()
+}
+
+const playSharedTrack = (index, shouldPlay = sharedState.isPlaying) => {
+  if (sharedAudioList.length === 0) return
+  const safeIndex = (index + sharedAudioList.length) % sharedAudioList.length
+  const audioConfig = sharedAudioList[safeIndex]
+  const audio = getSharedAudio()
+  if (!audioConfig?.url || !audio) return
+
+  const requestId = ++playRequestId
+  audio.pause()
+  if (audio.src !== audioConfig.url) {
+    audio.src = audioConfig.url
+  }
+  audio.load()
+  emitSharedState({
+    currentTrack: safeIndex,
+    progress: 0,
+    currentTime: 0,
+    duration: 0,
+    isPlaying: shouldPlay
+  })
+
+  if (shouldPlay) {
+    if (typeof window === 'undefined') return
+    window.setTimeout(() => {
+      if (requestId === playRequestId) {
+        playSharedAudio()
+      }
+    }, 0)
+  }
+}
+
 /**
  * EndspacePlayer Component - Compact Sci-Fi Music Player for Endspace Theme
  * Integrates with widget.config.js settings
  * Has two states: expanded (full info) and collapsed (rotating cover when playing)
  * Tabler Icons for Futuristic Feel
  */
-export const EndspacePlayer = ({ isExpanded }) => {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTrack, setCurrentTrack] = useState(0)
-  const [progress, setProgress] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [currentTime, setCurrentTime] = useState(0)
+export const EndspacePlayer = ({ isExpanded, embedded = false }) => {
+  const [playerState, setPlayerState] = useState(sharedState)
   const [showPlaylist, setShowPlaylist] = useState(false)
-  const audioRef = useRef(null)
-  const progressIntervalRef = useRef(null)
 
   // Get configuration from widget.config.js
   const musicPlayerEnabled = siteConfig('MUSIC_PLAYER')
+  const autoPlay = parseBoolean(siteConfig('MUSIC_PLAYER_AUTO_PLAY'))
   const playOrder = siteConfig('MUSIC_PLAYER_ORDER')
   const audioList = siteConfig('MUSIC_PLAYER_AUDIO_LIST') || []
 
-  // Don't render if disabled or no audio
-  if (!musicPlayerEnabled || audioList.length === 0) {
-    return null
-  }
-
+  const { isPlaying, currentTrack, progress, currentTime } = playerState
   const currentAudio = audioList[currentTrack] || {}
 
-  // Initialize audio element
   useEffect(() => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio()
-      audioRef.current.volume = 0.7
-      
-      audioRef.current.addEventListener('ended', handleTrackEnd)
-      audioRef.current.addEventListener('loadedmetadata', () => {
-        setDuration(audioRef.current.duration)
-      })
-      audioRef.current.addEventListener('error', (e) => {
-        console.error('Audio load error:', e)
-      })
+    if (!musicPlayerEnabled || audioList.length === 0) {
+      return undefined
     }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current.removeEventListener('ended', handleTrackEnd)
-      }
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current)
-      }
+    configureSharedPlayer(audioList, playOrder)
+    const unsubscribe = subscribeSharedPlayer(setPlayerState)
+    if (autoPlay && !hasTriedAutoPlay) {
+      hasTriedAutoPlay = true
+      playSharedTrack(sharedState.currentTrack, true)
     }
-  }, [])
-
-  // Load track when currentTrack changes
-  useEffect(() => {
-    if (audioRef.current && currentAudio.url) {
-      audioRef.current.src = currentAudio.url
-      audioRef.current.load()
-      setProgress(0)
-      setCurrentTime(0)
-      
-      // Only auto-play on track switch if currently playing
-      if (isPlaying) {
-        audioRef.current.play().catch(e => console.log('Autoplay prevented:', e))
-      }
-    }
-  }, [currentTrack, currentAudio.url, isPlaying])
-
-
-
-  // Progress update
-  useEffect(() => {
-    if (isPlaying) {
-      progressIntervalRef.current = setInterval(() => {
-        if (audioRef.current) {
-          const current = audioRef.current.currentTime
-          const total = audioRef.current.duration || 1
-          setCurrentTime(current)
-          setProgress((current / total) * 100)
-        }
-      }, 200)
-    } else {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current)
-      }
-    }
-    return () => {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current)
-      }
-    }
-  }, [isPlaying])
+    return unsubscribe
+  }, [audioList, playOrder, musicPlayerEnabled, autoPlay])
 
   // Close playlist when sidebar collapses
   useEffect(() => {
@@ -111,62 +250,49 @@ export const EndspacePlayer = ({ isExpanded }) => {
     }
   }, [isExpanded])
 
-  const handleTrackEnd = () => {
-    if (playOrder === 'random') {
-      const randomIndex = Math.floor(Math.random() * audioList.length)
-      setCurrentTrack(randomIndex)
-    } else {
-      setCurrentTrack((prev) => (prev + 1) % audioList.length)
-    }
+  // Don't render if disabled or no audio
+  if (!musicPlayerEnabled || audioList.length === 0) {
+    return null
   }
 
   const togglePlay = (e) => {
     e.stopPropagation()
-    if (!audioRef.current) return
-    
     if (isPlaying) {
-      audioRef.current.pause()
+      pauseSharedPlayer()
     } else {
-      audioRef.current.muted = false
-      audioRef.current.play().catch(e => console.log('Play prevented:', e))
+      const audio = getSharedAudio()
+      if (audio && !audio.src && currentAudio?.url) {
+        playSharedTrack(currentTrack, true)
+      } else {
+        emitSharedState({ isPlaying: true })
+        playSharedAudio()
+      }
     }
-    setIsPlaying(!isPlaying)
   }
 
   const playNext = (e) => {
     e?.stopPropagation()
-    if (playOrder === 'random') {
-      const randomIndex = Math.floor(Math.random() * audioList.length)
-      setCurrentTrack(randomIndex)
-    } else {
-      setCurrentTrack((prev) => (prev + 1) % audioList.length)
-    }
+    playSharedTrack(getNextTrackIndex(), isPlaying)
   }
 
   const playPrev = (e) => {
     e?.stopPropagation()
-    setCurrentTrack((prev) => (prev - 1 + audioList.length) % audioList.length)
+    playSharedTrack(getPrevTrackIndex(), isPlaying)
   }
 
   const selectTrack = (index) => {
-    setCurrentTrack(index)
     setShowPlaylist(false)
-    if (!isPlaying) {
-      setTimeout(() => {
-        if (audioRef.current) audioRef.current.muted = false
-        audioRef.current?.play().catch(e => console.log('Play prevented:', e))
-        setIsPlaying(true)
-      }, 100)
-    }
+    playSharedTrack(index, true)
   }
 
   const handleProgressClick = (e) => {
-    if (!audioRef.current || !audioRef.current.duration) return
+    const audio = getSharedAudio()
+    if (!audio || !audio.duration) return
     const rect = e.currentTarget.getBoundingClientRect()
     const clickX = e.clientX - rect.left
     const percentage = clickX / rect.width
-    audioRef.current.currentTime = percentage * audioRef.current.duration
-    setProgress(percentage * 100)
+    audio.currentTime = percentage * audio.duration
+    updateProgressFromAudio()
   }
 
   const formatTime = (seconds) => {
@@ -179,7 +305,7 @@ export const EndspacePlayer = ({ isExpanded }) => {
   // Collapsed State: Rotating cover when playing, music icon when not
   if (!isExpanded) {
     return (
-      <div className="endspace-player-mini flex justify-center py-2">
+      <div className={`endspace-player-mini flex justify-center ${embedded ? 'py-0' : 'py-2'}`}>
         <div 
           className={`relative w-10 h-10 cursor-pointer group flex items-center justify-center`}
           onClick={togglePlay}
@@ -201,7 +327,7 @@ export const EndspacePlayer = ({ isExpanded }) => {
             </>
           ) : (
             // Not playing: Show music icon
-            <div className="w-full h-full rounded-lg flex items-center justify-center bg-[var(--endspace-bg-secondary)] text-[var(--endspace-text-muted)] hover:text-gray-600 hover:bg-gray-200 transition-all">
+            <div className={`w-full h-full flex items-center justify-center text-[var(--endspace-text-muted)] hover:text-gray-600 hover:bg-gray-200 transition-all ${embedded ? 'rounded-full bg-transparent' : 'rounded-lg bg-[var(--endspace-bg-secondary)]'}`}>
               <IconMusic size={18} stroke={1.5} />
             </div>
           )}
@@ -211,6 +337,107 @@ export const EndspacePlayer = ({ isExpanded }) => {
   }
 
   // Expanded State: Compact player with album cover as play button
+  if (embedded) {
+    return (
+      <div className="endspace-player-full relative flex h-full w-full items-center px-0.5">
+        {showPlaylist && (
+          <div className="absolute bottom-full left-0 right-0 mb-2 max-h-32 overflow-y-auto rounded-xl border border-gray-200 bg-gray-100/95 p-1 shadow-lg">
+            {audioList.map((audio, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => selectTrack(index)}
+                className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left transition-colors ${
+                  index === currentTrack
+                    ? 'bg-black text-white'
+                    : 'text-[var(--endspace-text-secondary)] hover:bg-gray-200 hover:text-black'
+                }`}
+              >
+                <span className="w-3 flex-shrink-0 text-center font-mono text-[9px] leading-none">
+                  {index + 1}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[10px] font-semibold leading-tight">
+                    {audio.name}
+                  </span>
+                  <span className={`block truncate text-[9px] leading-tight ${
+                    index === currentTrack ? 'text-white/70' : 'text-[var(--endspace-text-muted)]'
+                  }`}>
+                    {audio.artist || 'Unknown Artist'}
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setShowPlaylist(!showPlaylist) }}
+            className="group/cover relative flex h-10 w-10 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white/70 text-[var(--endspace-text-muted)] transition-colors hover:text-black"
+            title="Playlist"
+          >
+            <img
+              src={currentAudio.cover || '/default-cover.jpg'}
+              alt="Cover"
+              className={`h-full w-full rounded-full object-cover transition-opacity ${showPlaylist ? 'opacity-20' : 'opacity-100 group-hover/cover:opacity-20'}`}
+            />
+            <span className={`absolute inset-0 flex items-center justify-center transition-opacity ${showPlaylist ? 'opacity-100' : 'opacity-0 group-hover/cover:opacity-100'}`}>
+              <IconList size={14} stroke={1.5} />
+            </span>
+          </button>
+
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-xs font-bold leading-tight text-[var(--endspace-text-primary)]">
+              {currentAudio.name || 'Unknown Track'}
+            </div>
+            <div className="mt-0.5 truncate text-[10px] leading-tight text-[var(--endspace-text-muted)]">
+              {currentAudio.artist || formatTime(currentTime)}
+            </div>
+            <div className="mt-1 h-1 overflow-hidden rounded-full bg-gray-200" onClick={handleProgressClick}>
+              <div
+                className="h-full bg-[var(--endspace-accent-yellow)] transition-all duration-200"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="flex h-10 w-5 flex-shrink-0 flex-col items-center justify-between rounded-lg bg-gray-200/70 p-0.5 text-[var(--endspace-text-muted)]">
+            <button
+              onClick={playPrev}
+              className="flex h-3 w-4 items-center justify-center rounded transition-colors hover:bg-[var(--endspace-accent-yellow)] hover:text-black"
+              title="Previous"
+            >
+              <IconPlayerTrackPrev size={10} stroke={2} className="rotate-90" />
+            </button>
+            <button
+              type="button"
+              className={`flex h-3.5 w-4 items-center justify-center rounded transition-colors hover:bg-[var(--endspace-accent-yellow)] hover:text-black ${
+                isPlaying ? 'bg-[var(--endspace-accent-yellow)] text-black' : ''
+              }`}
+              onClick={togglePlay}
+              title={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? (
+                <IconPlayerPause size={14} stroke={2.5} />
+              ) : (
+                <IconPlayerPlay size={12} stroke={2.5} className="ml-0.5" />
+              )}
+            </button>
+            <button
+              onClick={playNext}
+              className="flex h-3 w-4 items-center justify-center rounded transition-colors hover:bg-[var(--endspace-accent-yellow)] hover:text-black"
+              title="Next"
+            >
+              <IconPlayerTrackNext size={10} stroke={2} className="rotate-90" />
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="endspace-player-full px-3 py-3 relative">
       {/* Main Content Row */}

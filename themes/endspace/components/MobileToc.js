@@ -1,5 +1,6 @@
 'use client'
 
+import throttle from 'lodash.throttle'
 import { uuidToId } from 'notion-utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import ListCheck2Icon from 'remixicon-react/ListCheck2Icon'
@@ -14,66 +15,54 @@ const MobileToc = ({ toc }) => {
   const [activeSection, setActiveSection] = useState(null)
   const [progress, setProgress] = useState(0)
   const tRef = useRef(null)
-  const rafRef = useRef(null)
-  const progressRef = useRef(0)
-  const activeSectionRef = useRef(null)
-
-  // Update reading progress and active section.
-  const updateScrollState = useCallback(() => {
-    const scrollTop = window.scrollY
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight
-    const nextProgress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
-    if (nextProgress !== progressRef.current) {
-      progressRef.current = nextProgress
-      setProgress(nextProgress)
-    }
-
-    const sections = document.getElementsByClassName('notion-h')
-    let prevBBox = null
-    let currentSectionId = activeSectionRef.current
-    for (let i = 0; i < sections.length; ++i) {
-      const section = sections[i]
-      if (!section || !(section instanceof Element)) continue
-      if (!currentSectionId) {
-        currentSectionId = section.getAttribute('data-id')
-      }
-      const bbox = section.getBoundingClientRect()
-      const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
-      const offset = Math.max(150, prevHeight / 4)
-      if (bbox.top - offset < 0) {
-        currentSectionId = section.getAttribute('data-id')
-        prevBBox = bbox
-        continue
-      }
-      break
-    }
-    if (currentSectionId !== activeSectionRef.current) {
-      activeSectionRef.current = currentSectionId
-      setActiveSection(currentSectionId)
-    }
-  }, [])
-
-  const onScroll = useCallback(() => {
-    if (rafRef.current) {
-      return
-    }
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef.current = null
-      updateScrollState()
-    })
-  }, [updateScrollState])
+  const tocIds = []
 
   // Listen to scroll events
   useEffect(() => {
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
+    window.addEventListener('scroll', actionSectionScrollSpy)
+    window.addEventListener('scroll', updateProgress)
+    actionSectionScrollSpy()
+    updateProgress()
     return () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current)
-      }
-      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('scroll', actionSectionScrollSpy)
+      window.removeEventListener('scroll', updateProgress)
     }
-  }, [onScroll])
+  }, [])
+
+  // Update reading progress
+  const updateProgress = () => {
+    const scrollTop = window.scrollY
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight
+    const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
+    setProgress(progress)
+  }
+
+  // Sync selected TOC item
+  const throttleMs = 200
+  const actionSectionScrollSpy = useCallback(
+    throttle(() => {
+      const sections = document.getElementsByClassName('notion-h')
+      let prevBBox = null
+      let currentSectionId = activeSection
+      for (let i = 0; i < sections.length; ++i) {
+        const section = sections[i]
+        if (!section || !(section instanceof Element)) continue
+        if (!currentSectionId) {
+          currentSectionId = section.getAttribute('data-id')
+        }
+        const bbox = section.getBoundingClientRect()
+        const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
+        const offset = Math.max(150, prevHeight / 4)
+        if (bbox.top - offset < 0) {
+          currentSectionId = section.getAttribute('data-id')
+          prevBBox = bbox
+          continue
+        }
+        break
+      }
+      setActiveSection(currentSectionId)
+    }, throttleMs)
+  )
 
   // Prevent scroll through
   useEffect(() => {
@@ -167,8 +156,9 @@ const MobileToc = ({ toc }) => {
           style={{ maxHeight: 'calc(70vh - 80px)', scrollbarWidth: 'thin' }}
         >
           <nav className="px-4 space-y-1">
-            {toc.map((tocItem) => {
+            {toc.map((tocItem, index) => {
               const id = uuidToId(tocItem.id)
+              tocIds.push(id)
               const isActive = activeSection === id
               
               return (

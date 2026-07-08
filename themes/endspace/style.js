@@ -44,37 +44,6 @@ export const Style = () => {
           0 0 0 1px var(--endspace-accent-yellow);
       }
 
-      /* Dark Mode Variables */
-      .dark {
-        --endspace-bg-base: #09090b;
-        --endspace-bg-primary: #18181b;
-        --endspace-bg-secondary: #27272a;
-        --endspace-bg-tertiary: #3f3f46;
-        
-        --endspace-text-primary: #fafafa;
-        --endspace-text-secondary: #a1a1aa;
-        --endspace-text-muted: #71717a;
-        
-        --endspace-accent-yellow: #FBFB45;
-        --endspace-accent-yellow-dim: rgba(251, 251, 69, 0.15);
-        --endspace-accent-cyan: #FBFB45; /* Dark Mode: Yellow 600 */
-        --endspace-accent-cyan-dim: rgba(251, 251, 69, 0.1);
-        
-        --endspace-border-base: #27272a;
-        --endspace-border-active: #FBFB45;
-        --endspace-grid-color: rgba(255,255,255,0.02);
-        
-        --endspace-shadow-base: 
-          0 1px 2px rgba(0, 0, 0, 0.2),
-          0 2px 4px rgba(0, 0, 0, 0.15),
-          0 4px 8px rgba(0, 0, 0, 0.1);
-        --endspace-shadow-hover: 
-          0 4px 8px rgba(0, 0, 0, 0.3),
-          0 8px 16px rgba(0, 0, 0, 0.25),
-          0 16px 32px rgba(0, 0, 0, 0.2),
-          0 0 0 1px var(--endspace-accent-yellow);
-      }
-
       /* ============================================
          Viewport Scaling (Responsive Font Size)
          ============================================ */
@@ -100,12 +69,12 @@ export const Style = () => {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         overflow-x: hidden;
         /* Custom Tech Cursor - Sharp Spearhead with Heavy Shadow */
-        cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M6 6 L16 32 L20 22 L30 18 L6 6 Z' fill='%23000000' opacity='0.3'/%3E%3Cpath d='M2 2 L12 28 L16 18 L26 14 L2 2 Z' fill='%2318181b' stroke='%23ffffff' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, auto;
+        cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M2 2 L12 28 L16 18 L26 14 L2 2 Z' fill='%2318181b' stroke='%23ffffff' stroke-width='1.5' style='filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.3));'/%3E%3C/svg%3E") 2 2, auto;
       }
       
       #theme-endspace a, #theme-endspace button, #theme-endspace [role="button"], #theme-endspace .cursor-pointer {
         /* Pointer Cursor - Target Reticle Style */
-        cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M6 6 L16 32 L20 22 L30 18 L6 6 Z' fill='%23000000' opacity='0.3'/%3E%3Cpath d='M2 2 L12 28 L16 18 L26 14 L2 2 Z' fill='%2362F0F5' stroke='%23000000' stroke-width='1.5'/%3E%3Ccircle cx='24' cy='24' r='4' fill='none' stroke='%2362F0F5' stroke-width='2'/%3E%3C/svg%3E") 2 2, pointer;
+        cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M2 2 L12 28 L16 18 L26 14 L2 2 Z' fill='%2362F0F5' stroke='%23000000' stroke-width='1.5' style='filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.3));'/%3E%3Ccircle cx='24' cy='24' r='4' fill='none' stroke='%2362F0F5' stroke-width='2'/%3E%3C/svg%3E") 2 2, pointer;
       }
 
       /* Technical Grid Background */
@@ -136,6 +105,77 @@ export const Style = () => {
         letter-spacing: 1px;
       }
 
+      .endspace-search-highlight {
+        color: #a16207;
+        background: linear-gradient(90deg, rgba(251, 251, 69, 0.2), rgba(251, 191, 36, 0.35));
+        padding: 0 0.25rem;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+
+      .archive-section {
+        position: relative;
+      }
+
+      .endspace-section-title {
+        color: #E8E8EA !important;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--endspace-border-base) !important;
+        justify-content: flex-start;
+      }
+
+      #theme-endspace .endspace-section-title,
+      #theme-endspace .endspace-section-title * {
+        color: #E8E8EA !important;
+      }
+
+      .endspace-section-meta {
+        color: var(--endspace-text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        padding-top: 1.35rem;
+        white-space: nowrap;
+      }
+
+      .endspace-archive-heading {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        gap: 0.75rem;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--endspace-border-base) !important;
+      }
+
+      .endspace-archive-heading-title {
+        color: #E8E8EA !important;
+        position: relative;
+        z-index: 10;
+      }
+
+      @media (max-width: 767px) {
+        .endspace-section-title {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .endspace-section-meta {
+          padding-top: 0;
+        }
+
+        .endspace-archive-heading {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+      }
+
       /* ============================================
          "Float" Container Styles (Glassmorphism -> Solid Block)
          ============================================ */
@@ -148,11 +188,6 @@ export const Style = () => {
            0 10px 30px -10px rgba(0,0,0,0.1),
            0 4px 6px -2px rgba(0,0,0,0.05); /* Enhanced shadow for lift */
         z-index: 10;
-      }
-
-      .dark .endspace-frame {
-        background: #18181b; /* Solid dark background */
-        border-color: #3f3f46;
       }
 
       /* Corner Markers (Minimalist L-shape) */
@@ -211,10 +246,6 @@ export const Style = () => {
         z-index: 20;
       }
       
-      .dark .endspace-card {
-         background: #18181b;
-      }
-
       /* ============================================
          Notion Content Overrides (Light Mode)
          ============================================ */
@@ -222,6 +253,63 @@ export const Style = () => {
         color: var(--endspace-text-primary);
         font-size: 1.05rem;
         line-height: 1.75;
+      }
+
+      #theme-endspace #article-wrapper,
+      #theme-endspace #notion-article,
+      #theme-endspace #notion-article .notion,
+      #theme-endspace #notion-article .notion-text,
+      #theme-endspace #notion-article .notion-blank,
+      #theme-endspace #notion-article .notion-h,
+      #theme-endspace #notion-article .notion-header,
+      #theme-endspace #notion-article .notion-sub_header,
+      #theme-endspace #notion-article .notion-sub_sub_header,
+      #theme-endspace #notion-article .notion-page,
+      #theme-endspace #notion-article .notion-list,
+      #theme-endspace #notion-article .notion-list-disc,
+      #theme-endspace #notion-article .notion-list-numbered,
+      #theme-endspace #notion-article .notion-toggle,
+      #theme-endspace #notion-article .notion-quote,
+      #theme-endspace #notion-article .notion-callout,
+      #theme-endspace #notion-article .notion-bookmark,
+      #theme-endspace #notion-article .notion-bookmark-title,
+      #theme-endspace #notion-article .notion-collection,
+      #theme-endspace #notion-article .notion-collection-row,
+      #theme-endspace #notion-article .notion-property,
+      #theme-endspace #notion-article .notion-property-text,
+      #theme-endspace #notion-article .notion-property-title,
+      #theme-endspace #notion-article .notion-simple-table,
+      #theme-endspace #notion-article .notion-table,
+      #theme-endspace #notion-article .notion-code,
+      #theme-endspace #notion-article .notion-equation {
+        color: var(--endspace-text-primary) !important;
+      }
+
+      #theme-endspace #notion-article p,
+      #theme-endspace #notion-article li,
+      #theme-endspace #notion-article span,
+      #theme-endspace #notion-article figcaption,
+      #theme-endspace #notion-article .notion-text,
+      #theme-endspace #notion-article .notion-list,
+      #theme-endspace #notion-article .notion-list-disc,
+      #theme-endspace #notion-article .notion-list-numbered,
+      #theme-endspace #notion-article .notion-toggle,
+      #theme-endspace #notion-article .notion-bookmark-description,
+      #theme-endspace #notion-article .notion-bookmark-link,
+      #theme-endspace #notion-article .notion-collection-row-body,
+      #theme-endspace #notion-article .notion-simple-table-cell {
+        color: var(--endspace-text-secondary) !important;
+      }
+
+      #theme-endspace #notion-article h1,
+      #theme-endspace #notion-article h2,
+      #theme-endspace #notion-article h3,
+      #theme-endspace #notion-article h4,
+      #theme-endspace #notion-article h5,
+      #theme-endspace #notion-article h6,
+      #theme-endspace #notion-article strong,
+      #theme-endspace #notion-article .notion-bookmark-title {
+        color: var(--endspace-text-primary) !important;
       }
 
       /* Headers - NieR: Automata Style Dynamic Shadow */
@@ -255,17 +343,6 @@ export const Style = () => {
           0 0 0 rgba(255, 50, 50, 0);
         opacity: 1;
         transform: translateX(2px); /* Slight physical shift on 'lock-on' */
-      }
-      
-      .dark #notion-article h1, .dark #notion-article h2, .dark #notion-article h3 {
-        /* Dark mode: Stronger, glow-like ghosts */
-        text-shadow: 
-          -4px -2px 0 rgba(98, 240, 245, 0.5),
-          4px 2px 0 rgba(255, 50, 50, 0.4);
-      }
-      
-      .dark #notion-article h1:hover, .dark #notion-article h2:hover, .dark #notion-article h3:hover {
-         text-shadow: none;
       }
       
       #notion-article h1::before, 
@@ -694,13 +771,6 @@ export const Style = () => {
           6px 6px 10px rgba(0, 0, 0, 0.15);
       }
       
-      .dark .nier-title {
-        text-shadow: 
-          2px 2px 0 rgba(98, 240, 245, 0.45),
-          4px 4px 0 rgba(98, 240, 245, 0.25),
-          6px 6px 15px rgba(0, 0, 0, 0.6);
-      }
-
       /* ============================================
          3D Button Effects
          ============================================ */
@@ -742,11 +812,6 @@ export const Style = () => {
           8px 0 16px rgba(0, 0, 0, 0.03);
       }
       
-      .dark .endspace-sidebar-3d {
-        box-shadow: 
-          4px 0 8px rgba(0, 0, 0, 0.3),
-          8px 0 16px rgba(0, 0, 0, 0.2);
-      }
       /* ============================================
          NieR: Automata Style Navigation Transition
          ============================================ */
@@ -781,6 +846,101 @@ export const Style = () => {
       .nier-nav-item:hover, .nier-nav-item.active {
         color: var(--endspace-text-primary) !important;
       }
+
+      .endspace-notion-menu-image {
+        display: inline-block;
+        width: 1.25rem;
+        height: 1.25rem;
+        object-fit: contain;
+        opacity: 0.68;
+        filter: grayscale(1) brightness(0.45);
+        transition: filter 0.2s ease, opacity 0.2s ease;
+      }
+
+      .endspace-notion-menu-image-monochrome {
+        filter: grayscale(1) brightness(0.45);
+      }
+
+      .endspace-notion-menu-image.is-active,
+      .nier-nav-item:hover .endspace-notion-menu-image {
+        filter: brightness(0) saturate(100%) !important;
+        opacity: 1 !important;
+      }
+
+      .endspace-notion-menu-class-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #666;
+        font-size: 1rem;
+        line-height: 1;
+        flex: 0 0 auto;
+        transition: color 0.2s ease, opacity 0.2s ease;
+      }
+
+      .endspace-notion-menu-class-icon.is-active,
+      .nier-nav-item:hover .endspace-notion-menu-class-icon {
+        color: #000;
+        opacity: 1;
+      }
+
+      .endspace-notion-menu-svg-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #666;
+        fill: none;
+        stroke: currentColor;
+        flex: 0 0 auto;
+        transition: color 0.2s ease, opacity 0.2s ease;
+      }
+
+      .endspace-notion-menu-svg-icon.is-active,
+      .nier-nav-item:hover .endspace-notion-menu-svg-icon {
+        color: #000;
+        opacity: 1;
+      }
+
+      .endspace-menu-icon-wrap svg.icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #666;
+        fill: currentColor;
+      }
+
+      .endspace-notion-menu-dot {
+        display: inline-flex;
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 9999px;
+        background: #666;
+        flex: 0 0 auto;
+        transition: background-color 0.2s ease;
+      }
+
+      .endspace-notion-menu-dot.is-active,
+      .nier-nav-item:hover .endspace-notion-menu-dot {
+        background: #000;
+      }
+
+      .endspace-notion-menu-emoji {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        font-size: 1.15rem;
+        line-height: 1;
+        filter: grayscale(1);
+        opacity: 0.68;
+        transition: filter 0.2s ease, opacity 0.2s ease;
+      }
+
+      .endspace-notion-menu-emoji.is-active,
+      .nier-nav-item:hover .endspace-notion-menu-emoji {
+        filter: none;
+        opacity: 1;
+      }
       
       /* Hover State: Slide to full width */
       .nier-nav-item:hover::before {
@@ -798,18 +958,29 @@ export const Style = () => {
         transition: color 0.3s ease;
         z-index: 2;
       }
-      
+
+      #theme-endspace .endspace-menu-icon-wrap,
+      #theme-endspace .endspace-menu-icon-wrap i,
+      #theme-endspace .endspace-menu-icon-wrap svg {
+        color: #666;
+        fill: currentColor;
+        stroke: currentColor;
+        transition: color 0.2s ease;
+      }
+
+      #theme-endspace .nier-nav-item.active .endspace-menu-icon-wrap,
+      #theme-endspace .nier-nav-item:hover .endspace-menu-icon-wrap,
+      #theme-endspace .nier-nav-item.active .endspace-menu-icon-wrap i,
+      #theme-endspace .nier-nav-item:hover .endspace-menu-icon-wrap i,
+      #theme-endspace .nier-nav-item.active .endspace-menu-icon-wrap svg,
+      #theme-endspace .nier-nav-item:hover .endspace-menu-icon-wrap svg {
+        color: #000 !important;
+      }
+
       /* Removed specific active override to keep consistent grey background */
       
       /* Also update the base hover/active shared rule to use this darker grey */
       
-      .dark .nier-nav-item::before {
-        background: #f4f4f5; /* Light bg in dark mode */
-      }
-      .dark .nier-nav-item:hover, .dark .nier-nav-item.active {
-        color: #fafafa !important; /* Dark text in dark mode */
-      }
-
       /* ============================================
          Endfield Category Button Styles
          ============================================ */
@@ -872,6 +1043,20 @@ export const Style = () => {
       
       .ef-btn:hover .ef-btn-text {
         color: #ffffff !important;
+      }
+
+      .archive-filter-btn:hover {
+        background-color: #FBFB46 !important;
+        border-color: #FBFB46;
+        box-shadow: var(--endspace-shadow-hover);
+      }
+
+      .archive-filter-btn:hover .ef-btn-indicator {
+        background-color: #000;
+      }
+
+      .archive-filter-btn:hover .ef-btn-text {
+        color: #000 !important;
       }
     `}</style>
   )

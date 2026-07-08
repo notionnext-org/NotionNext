@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import throttle from 'lodash.throttle'
 import { uuidToId } from 'notion-utils'
-import { IconClock, IconListTree, IconArrowUp, IconX, IconMessage, IconMoon, IconSun } from '@tabler/icons-react'
-import { siteConfig } from '@/lib/config'
-import { useGlobal } from '@/lib/global'
-import CONFIG from '../config'
+import { IconClock, IconListTree, IconArrowUp, IconX, IconMessage } from '@tabler/icons-react'
 import { SideBar } from './SideBar'
 
 /**
@@ -11,76 +9,53 @@ import { SideBar } from './SideBar'
  * Consolidates Recent Logs, TOC, and ScrollToTop into a single capsule widget.
  */
 const FloatingControls = ({ toc, ...props }) => {
-  const { isDarkMode, toggleDarkMode } = useGlobal()
-  const showDarkToggle = siteConfig('ENDSPACE_WIDGET_DARK_MODE', true, CONFIG)
   const [isOpen, setIsOpen] = useState(false)
   const [activeTab, setActiveTab] = useState(null) // 'logs' | 'toc'
   const [percent, setPercent] = useState(0)
   const [activeSection, setActiveSection] = useState(null)
-  const rafRef = useRef(null)
-  const percentRef = useRef(0)
-  const activeSectionRef = useRef(null)
-  const hasToc = toc && toc.length > 0
   
   // -- TOC Logic --
-  const updateScrollState = useCallback(() => {
-    if (!hasToc) return
+  useEffect(() => {
+    window.addEventListener('scroll', updateProgress)
+    window.addEventListener('scroll', actionSectionScrollSpy)
+    return () => {
+        window.removeEventListener('scroll', updateProgress)
+      window.removeEventListener('scroll', actionSectionScrollSpy)
+    }
+  }, [])
 
+  const updateProgress = () => {
     const scrollTop = window.scrollY
     const docHeight = document.documentElement.scrollHeight - window.innerHeight
-    const nextPercent = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
-    if (nextPercent !== percentRef.current) {
-      percentRef.current = nextPercent
-      setPercent(nextPercent)
-    }
+    const p = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0
+    setPercent(p)
+  }
 
-    const sections = document.getElementsByClassName('notion-h')
-    let prevBBox = null
-    let currentSectionId = activeSectionRef.current
-    for (let i = 0; i < sections.length; ++i) {
-      const section = sections[i]
-      if (!section || !(section instanceof Element)) continue
-      if (!currentSectionId) {
-        currentSectionId = section.getAttribute('data-id')
+  const actionSectionScrollSpy = useCallback(
+    throttle(() => {
+      const sections = document.getElementsByClassName('notion-h')
+      let prevBBox = null
+      let currentSectionId = activeSection
+      for (let i = 0; i < sections.length; ++i) {
+        const section = sections[i]
+        if (!section || !(section instanceof Element)) continue
+        if (!currentSectionId) {
+          currentSectionId = section.getAttribute('data-id')
+        }
+        const bbox = section.getBoundingClientRect()
+        const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
+        const offset = Math.max(150, prevHeight / 4)
+        if (bbox.top - offset < 0) {
+          currentSectionId = section.getAttribute('data-id')
+          prevBBox = bbox
+          continue
+        }
+        break
       }
-      const bbox = section.getBoundingClientRect()
-      const prevHeight = prevBBox ? bbox.top - prevBBox.bottom : 0
-      const offset = Math.max(150, prevHeight / 4)
-      if (bbox.top - offset < 0) {
-        currentSectionId = section.getAttribute('data-id')
-        prevBBox = bbox
-        continue
-      }
-      break
-    }
-    if (currentSectionId !== activeSectionRef.current) {
-      activeSectionRef.current = currentSectionId
       setActiveSection(currentSectionId)
-    }
-  }, [hasToc])
-
-  const onScroll = useCallback(() => {
-    if (rafRef.current) {
-      return
-    }
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef.current = null
-      updateScrollState()
-    })
-  }, [updateScrollState])
-
-  useEffect(() => {
-    if (!hasToc) return
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current)
-      }
-      window.removeEventListener('scroll', onScroll)
-    }
-  }, [hasToc, onScroll])
+    }, 200),
+    []
+  )
 
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -206,15 +181,6 @@ const FloatingControls = ({ toc, ...props }) => {
       <div className="fixed right-4 bottom-8 z-50 flex flex-col items-end gap-2 pointer-events-none">
         {/* Capsule */}
         <div className="bg-gray-400/80 backdrop-blur-sm p-1.5 rounded-full shadow-lg flex flex-row lg:flex-col gap-3 pointer-events-auto">
-             {showDarkToggle && (
-               <ControlBtn
-                 icon={isDarkMode ? IconSun : IconMoon}
-                 label={isDarkMode ? 'Light mode' : 'Dark mode'}
-                 onClick={toggleDarkMode}
-                 iconClassName="text-black"
-                 iconSize={22}
-               />
-             )}
              {/* LOGS */}
              <ControlBtn 
                 icon={IconClock} 
@@ -226,7 +192,7 @@ const FloatingControls = ({ toc, ...props }) => {
              />
 
              {/* TOC - Only on Article Pages */}
-             {hasToc && (
+             {toc && toc.length > 0 && (
                  <ControlBtn 
                     icon={IconListTree} 
                     label="Table of Contents" 
@@ -239,7 +205,7 @@ const FloatingControls = ({ toc, ...props }) => {
              )}
 
              {/* Comments - Only on Article Pages (approximated by TOC presence) */}
-             {hasToc && (
+             {toc && toc.length > 0 && (
                  <ControlBtn 
                     icon={IconMessage} 
                     label="Jump to Comments" 

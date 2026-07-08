@@ -5,33 +5,15 @@ import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
 import { useGlobal } from '@/lib/global'
 import SmartLink from '@/components/SmartLink'
 import { EndspacePlayer } from './EndspacePlayer'
-import { buildMenuItems, isMenuItemActive } from './menu'
+import NotionMenuIcon from './NotionMenuIcon'
 import {
   IconMenu2,
   IconX,
-  IconBrandX,
-  IconBrandGithub,
-  IconBrandTwitter,
-  IconBrandWeibo,
-  IconBrandBilibili,
-  IconBrandTelegram,
-  IconBrandInstagram,
-  IconBrandYoutube,
-  IconBrandLinkedin,
-  IconBrandWechat,
-  IconPlanet
+  IconBrandX
 } from '@tabler/icons-react'
-// Conceptual Navigation Icons (Solid, Angular)
-import AppsFillIcon from 'remixicon-react/AppsFillIcon'
-import BookMarkFillIcon from 'remixicon-react/BookMarkFillIcon'
-import BarcodeFillIcon from 'remixicon-react/BarcodeFillIcon'
-import StackFillIcon from 'remixicon-react/StackFillIcon'
-import Compass3FillIcon from 'remixicon-react/Compass3FillIcon'
-import EarthFillIcon from 'remixicon-react/EarthFillIcon'
-import ProfileFillIcon from 'remixicon-react/ProfileFillIcon'
+import { getEndspaceActiveMenuName, getEndspaceMenuItems } from './menu'
 // Social Icons (Solid)
 import GithubFillIcon from 'remixicon-react/GithubFillIcon'
-import TwitterFillIcon from 'remixicon-react/TwitterFillIcon'
 import WeiboFillIcon from 'remixicon-react/WeiboFillIcon'
 import BilibiliFillIcon from 'remixicon-react/BilibiliFillIcon'
 import TelegramFillIcon from 'remixicon-react/TelegramFillIcon'
@@ -41,17 +23,6 @@ import LinkedinBoxFillIcon from 'remixicon-react/LinkedinBoxFillIcon'
 import WechatFillIcon from 'remixicon-react/WechatFillIcon'
 import GlobeFillIcon from 'remixicon-react/GlobeFillIcon'
 import MailFillIcon from 'remixicon-react/MailFillIcon'
-
-// Icon mapping (Conceptual Remix Icons)
-const IconComponents = {
-  'Home': AppsFillIcon,
-  'Category': BookMarkFillIcon,
-  'Tag': BarcodeFillIcon,
-  'Archive': StackFillIcon,
-  'Search': Compass3FillIcon,
-  'Friends': EarthFillIcon,
-  'Portfolio': ProfileFillIcon
-}
 
 // Social icon mapping
 const SocialIconComponents = {
@@ -73,15 +44,14 @@ export const MobileNav = (props) => {
   const { customNav, customMenu } = props
   const [activeTab, setActiveTab] = useState('Home')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [openSubMenu, setOpenSubMenu] = useState(null)
   const emailIcon = useRef(null)
   
   // Get avatar from props or global context
   const avatarUrl = props?.siteInfo?.icon || siteInfo?.icon || siteConfig('AVATAR')
 
   const menuItems = useMemo(
-    () => buildMenuItems({ customNav, customMenu }),
-    [customNav, customMenu]
+    () => getEndspaceMenuItems({ customNav, customMenu }),
+    [customMenu, customNav]
   )
 
   // Social icon config - using contact.config.js settings
@@ -102,15 +72,12 @@ export const MobileNav = (props) => {
   const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
 
   useEffect(() => {
-    const path = router.asPath
-    const activeItem = menuItems.find(item => isMenuItemActive(item, path))
-    setActiveTab(activeItem?.name || 'Home')
+    setActiveTab(getEndspaceActiveMenuName(menuItems, router.asPath))
   }, [router.asPath, menuItems])
 
   // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false)
-    setOpenSubMenu(null)
   }, [router.asPath])
 
   // Prevent body scroll when menu is open
@@ -126,9 +93,13 @@ export const MobileNav = (props) => {
   }, [isMenuOpen])
 
   // Render icon component
-  const renderIcon = (name) => {
-    const IconComponent = IconComponents[name] || BookMarkFillIcon
-    return <IconComponent size={20} className="w-6 text-center" />
+  const renderIcon = (item) => {
+    const icon = item.pageIcon || item.customIcon || ''
+    return (
+      <span className="inline-flex h-6 w-6 items-center justify-center">
+        <NotionMenuIcon icon={icon} />
+      </span>
+    )
   }
 
   // Render social icon
@@ -190,69 +161,22 @@ export const MobileNav = (props) => {
       >
         {/* Navigation Items */}
         <div className="flex flex-col items-start p-6 space-y-2">
-          {menuItems.map(item => {
-            const hasSubMenu = item.subMenus?.length > 0
-            const itemKey = `${item.name}-${item.path}`
-            const isOpen = openSubMenu === itemKey
-            const itemClassName = `flex items-center gap-4 py-3 w-full transition-all group ${
-              activeTab === item.name
-                ? 'text-black font-bold'
-                : 'text-[var(--endspace-text-secondary)] hover:text-black'
-            }`
-            const itemContent = (
-              <>
-                <div className={`transition-colors ${activeTab === item.name ? 'text-black' : 'text-gray-400 group-hover:text-black'}`}>
-                  {item.icon ? <i className={item.icon} /> : renderIcon(item.name)}
-                </div>
-                <span className="text-xl font-medium">{item.name}</span>
-                {hasSubMenu && (
-                  <span className={`ml-auto text-xl transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}>
-                    &rsaquo;
-                  </span>
-                )}
-              </>
-            )
-
-            return (
-              <div key={itemKey} className='w-full'>
-                {hasSubMenu ? (
-                  <button
-                    type='button'
-                    onClick={() => setOpenSubMenu(isOpen ? null : itemKey)}
-                    className={itemClassName}
-                  >
-                    {itemContent}
-                  </button>
-                ) : (
-                  <SmartLink
-                    href={item.path}
-                    target={item.target}
-                    className={itemClassName}
-                  >
-                    {itemContent}
-                  </SmartLink>
-                )}
-
-                {hasSubMenu && isOpen && (
-                  <div className='mb-2 ml-10 flex flex-col border-l border-[var(--endspace-border-base)] pl-4'>
-                    {item.subMenus.map(subMenu => (
-                      <SmartLink
-                        key={`${subMenu.name}-${subMenu.path}`}
-                        href={subMenu.path}
-                        target={subMenu.target || item.target}
-                        className='flex items-center gap-3 py-2 text-base text-[var(--endspace-text-secondary)] transition-colors hover:text-black'
-                      >
-                        <span className='w-4 text-center text-gray-400'>
-                          {subMenu.icon ? <i className={subMenu.icon} /> : renderIcon(subMenu.name)}
-                        </span>
-                        <span>{subMenu.name}</span>
-                      </SmartLink>
-                    ))}
-                  </div>
-                )}
+          {menuItems.map(item => (
+            <SmartLink
+              key={item.id || item.name}
+              href={item.path}
+              className={`flex items-center gap-4 py-3 w-full transition-all group ${
+                activeTab === item.name
+                  ? 'text-black font-bold'
+                  : 'text-[var(--endspace-text-secondary)] hover:text-black'
+              }`}
+            >
+              <div className="endspace-menu-icon-wrap transition-colors">
+                 {renderIcon(item)}
               </div>
-            )
-          })}
+              <span className="text-xl font-medium">{item.name}</span>
+            </SmartLink>
+          ))}
         </div>
 
         {/* Music Player (No Label, No Divider) */}

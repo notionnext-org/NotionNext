@@ -22,10 +22,6 @@ export const BlogPostCard = ({ post, showSummary = true }) => {
             <img
               src={post.pageCoverThumbnail}
               alt={post.title}
-              width={1200}
-              height={675}
-              loading="lazy"
-              decoding="async"
               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
             />
             {/* Minimalist marker overlay */}

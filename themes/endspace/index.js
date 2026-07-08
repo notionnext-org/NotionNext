@@ -1,7 +1,6 @@
 'use client'
 
 import Comment from '@/components/Comment'
-import replaceSearchResult from '@/components/Mark'
 import NotionPage from '@/components/NotionPage'
 import ShareBar from '@/components/ShareBar'
 import SmartLink from '@/components/SmartLink'
@@ -27,6 +26,7 @@ import MobileNav from './components/MobileNav'
 import ArticleAdjacent from './components/ArticleAdjacent'
 import FloatingControls from './components/FloatingControls'
 import useViewportScale from './components/useViewportScale'
+import replaceEndspaceSearchResult from './components/searchHighlight'
 import CONFIG from './config'
 import { Style } from './style'
 import { IconLoader2 } from '@tabler/icons-react'
@@ -121,11 +121,11 @@ const LayoutBase = (props) => {
                 show={!onLoading}
                 appear={true}
                 enter="transition ease-in-out duration-700 transform order-first"
-                enterFrom="opacity-0"
+                enterFrom="opacity-0 translate-y-16"
                 enterTo="opacity-100"
                 leave="transition ease-in-out duration-300 transform"
                 leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0"
+                leaveTo="opacity-0 -translate-y-16"
                 unmount={false}
               >
                 {props.slotTop}
@@ -317,24 +317,23 @@ const Layout404 = (props) => {
  */
 const LayoutSearch = (props) => {
   const { keyword, posts = [] } = props
-  const router = useRouter()
 
   useEffect(() => {
     if (isBrowser) {
       // Highlight search results
       const container = document.getElementById('posts-wrapper')
-      if (keyword && container) {
-        replaceSearchResult({
+      if (container) {
+        replaceEndspaceSearchResult({
           doms: container,
           search: keyword,
           target: {
             element: 'span',
-            className: 'text-yellow-400 bg-yellow-400/20 px-1'
+            className: 'endspace-search-highlight'
           }
         })
       }
     }
-  }, [router])
+  }, [keyword, posts])
 
   return (
     <>
@@ -359,17 +358,91 @@ const LayoutSearch = (props) => {
  * @returns Articles grouped by date
  */
 const LayoutArchive = (props) => {
-  const { archivePosts } = props
+  const { archivePosts = {}, categoryOptions = [], tagOptions = [], postCount } = props
+  const archiveTitles = Object.keys(archivePosts)
+  const archivePostCount = archiveTitles.reduce(
+    (count, archiveTitle) => count + (archivePosts[archiveTitle]?.length || 0),
+    0
+  )
+  const totalPostCount = postCount || archivePostCount
   return (
     <>
-      <div className="mb-10 pb-20 min-h-screen w-full">
-        {Object.keys(archivePosts).map((archiveTitle) => (
-          <BlogListArchive
-            key={archiveTitle}
-            archiveTitle={archiveTitle}
-            archivePosts={archivePosts}
+      <div className="mb-10 pb-20 min-h-screen w-full space-y-12">
+        <section className="archive-section">
+          <SearchInput
+            {...props}
+            compact
+            titleMeta={`${totalPostCount}_ARTICLES_INDEXED`}
           />
-        ))}
+        </section>
+
+        <section className="archive-section">
+          <div className="flex items-end gap-3 mb-8 pb-2 border-b border-[var(--endspace-border-base)] relative tech-text tracking-wider">
+            <span className="endspace-archive-heading-title text-5xl font-black z-10 relative">CATEGORIES</span>
+            <span className="endspace-section-meta">
+              {'// '}{categoryOptions.length}_CATEGORY_NODES
+            </span>
+            <div className="flex-1" />
+          </div>
+          <div id="archive-category-list" className="flex flex-wrap gap-3">
+            {categoryOptions?.map((category) => (
+              <SmartLink
+                key={category.name}
+                href={`/category/${category.name}`}
+                passHref
+                legacyBehavior
+              >
+                <a className="ef-btn archive-filter-btn group">
+                  <span className="ef-btn-indicator"></span>
+                  <span className="ef-btn-text">
+                    {category.name}
+                    {typeof category.count === 'number' ? `(${category.count})` : ''}
+                  </span>
+                </a>
+              </SmartLink>
+            ))}
+          </div>
+        </section>
+
+        <section className="archive-section">
+          <div className="flex items-end gap-3 mb-8 pb-2 border-b border-[var(--endspace-border-base)] relative tech-text tracking-wider">
+            <span className="endspace-archive-heading-title text-5xl font-black z-10 relative">TAGS</span>
+            <span className="endspace-section-meta">
+              {'// '}{tagOptions.length}_TAG_MARKERS
+            </span>
+            <div className="flex-1" />
+          </div>
+          <div id="archive-tags-list" className="flex flex-wrap gap-3">
+            {tagOptions.map((tag) => (
+              <SmartLink
+                key={tag.name}
+                href={`/tag/${encodeURIComponent(tag.name)}`}
+                passHref
+                legacyBehavior
+              >
+                <a className="ef-btn archive-filter-btn group">
+                  <span className="ef-btn-indicator"></span>
+                  <span className="ef-btn-text">
+                    #{tag.name}
+                    {typeof tag.count === 'number' ? `(${tag.count})` : ''}
+                  </span>
+                </a>
+              </SmartLink>
+            ))}
+          </div>
+        </section>
+
+        <section className="archive-section">
+          <div>
+            {archiveTitles.map((archiveTitle) => (
+              <BlogListArchive
+                key={archiveTitle}
+                archiveTitle={archiveTitle}
+                archivePosts={archivePosts}
+              />
+            ))}
+          </div>
+        </section>
       </div>
     </>
   )
