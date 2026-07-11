@@ -96,7 +96,7 @@ const maxOutputTokens = (value: string | undefined) => {
 }
 
 const textFromMessage = (message?: UIMessage) =>
-  message.parts
+  message?.parts // <-- Add the question mark here
     ?.map(part => (part.type === 'text' ? part.text : ''))
     .join('') || ''
 
