@@ -267,7 +267,7 @@ const LayoutSlug = props => {
               )}
 
               <div className='lg:px-10 subpixel-antialiased'>
-                <article id='article-wrapper' itemScope>
+                <article id='article-wrapper'>
                   {/* Notion文章主体 */}
                   <section
                     data-wow-delay='.1s'

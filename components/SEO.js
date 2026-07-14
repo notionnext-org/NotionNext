@@ -259,7 +259,7 @@ const SEO = props => {
  * @param {*} author
  * @returns
  */
-const generateStructuredData = (
+export const generateStructuredData = (
   meta,
   siteInfo,
   url,
