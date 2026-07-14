@@ -102,7 +102,7 @@ export const Features = () => {
                 <SmartLink
                   href={starterConfig('STARTER_FEATURE_4_BUTTON_URL', '')}
                   className='text-base font-medium text-dark hover:text-primary dark:text-white dark:hover:text-primary'>
-                  {starterConfig('STARTER_FEATURE_3_BUTTON_TEXT')}
+                  {starterConfig('STARTER_FEATURE_4_BUTTON_TEXT')}
                 </SmartLink>
               </div>
             </div>
