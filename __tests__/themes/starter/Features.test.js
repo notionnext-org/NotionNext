@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from 'react-dom/server'
+import { renderToStaticMarkup } from 'react-dom/server.node'
 import { Features } from '@/themes/starter/components/Features'
 import { starterConfig } from '@/themes/starter/config'
 
