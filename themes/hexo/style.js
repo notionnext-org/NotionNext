@@ -203,6 +203,12 @@ const Style = () => {
         );
       }
 
+      // 首页导航大按钮组件，背景变白时，削弱阴影
+      // 于 Globals.css 中 .shadow-text 定义统一
+      .shadow-text-hover:hover {
+        text-shadow: 0.1em 0.1em 0.2em grey;
+      }
+
       /* Custem */
       .tk-footer {
         opacity: 0;
