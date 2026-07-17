@@ -18,7 +18,8 @@ const Hero = props => {
   const { siteInfo } = props
   const { locale } = useGlobal()
   const scrollToWrapper = () => {
-    window.scrollTo({ top: wrapperTop, behavior: 'smooth' })
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize)
+    window.scrollTo({ top: wrapperTop - 2 * rem, behavior: 'smooth' })
   }
 
   const GREETING_WORDS = siteConfig('GREETING_WORDS').split(',')
