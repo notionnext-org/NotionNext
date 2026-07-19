@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 这里的css样式只对当前主题生效
  * 主题客制化css
@@ -18,7 +20,7 @@ const Style = () => {
     #brand-introduction .notion {
         font-size: 1.5rem !important;
     }
-  
+
     /*  菜单下划线动画 */
     #theme-commerce .menu-link {
         text-decoration: none;
@@ -28,7 +30,7 @@ const Style = () => {
         background-size: 0 2px;
         transition: background-size 100ms ease-in-out;
     }
-    
+
     #theme-commerce .menu-link:hover {
         background-size: 100% 2px;
         color: #D2232A;
@@ -73,8 +75,10 @@ const Style = () => {
         scrollbar-width:thin;
         scrollbar-color: #D2232A transparent
     }
-    
 
+
+
+      ${themeConsoleStyle('commerce', CONFIG)}
   `}</style>)
 }
 

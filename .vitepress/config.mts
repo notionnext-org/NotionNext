@@ -15,7 +15,12 @@ const giscusCategoryId = process.env.VITE_GISCUS_CATEGORY_ID || ''
  * 在线站发布用户教程、开发文档与社区文档。
  * 根目录 README 仍作为 GitHub 目录说明，不进入 VitePress。
  */
-const srcExclude = ['**/README.md', '**/README.en.md']
+const hiddenPublicDocPaths = ['user-guide/deploy/cloudflare-pages-docs.md']
+const srcExclude = [
+  '**/README.md',
+  '**/README.en.md',
+  ...hiddenPublicDocPaths.map((path) => `**/${path}`)
+]
 
 function getMarkdownTitle(filePath: string) {
   const content = readFileSync(filePath, 'utf8')
@@ -62,7 +67,8 @@ function getUpdatedDocs() {
         repoPath.endsWith('.md') &&
         !repoPath.endsWith('/README.md') &&
         !repoPath.endsWith('/README.en.md') &&
-        !repoPath.includes('/public/')
+        !repoPath.includes('/public/') &&
+        !hiddenPublicDocPaths.includes(repoPath.replace(/^docs\//, ''))
       )
     })
 
@@ -176,7 +182,6 @@ export default defineConfig({
             { text: 'Vercel 多站点', link: '/user-guide/deploy/vercel-multi-sites' },
             { text: 'Vercel 重新部署', link: '/user-guide/deploy/vercel-redeploy' },
             { text: 'Vercel 静态导出', link: '/user-guide/deploy/vercel-static' },
-            { text: 'Cloudflare 文档站', link: '/user-guide/deploy/cloudflare-pages-docs' },
             { text: 'Cloudflare 博客静态', link: '/user-guide/deploy/cloudflare-pages' },
             { text: 'EdgeOne Pages', link: '/user-guide/deploy/edgeone-pages' },
             { text: '构建性能调优', link: '/user-guide/deploy/build-tuning' },
@@ -199,6 +204,7 @@ export default defineConfig({
             { text: '快捷键', link: '/user-guide/notion/short-keys' },
             { text: '提升访问速度', link: '/user-guide/notion/faster' },
             { text: '文字添加链接', link: '/user-guide/notion/how-to-add-link-for-text-in-notion' },
+            { text: '文章状态', link: '/user-guide/notion/post-status' },
             { text: '隐藏页面', link: '/user-guide/notion/notionnext-hidden-page' },
             { text: '定时发布', link: '/user-guide/notion/notionnext-scheduled-article-release' },
             { text: '视频嵌入', link: '/user-guide/notion/notionnext-video' },
@@ -222,6 +228,8 @@ export default defineConfig({
             { text: 'Iconfont', link: '/user-guide/config/notion-next-iconfont' },
             { text: '代码样式', link: '/user-guide/config/notion-next-code-style' },
             { text: '自定义属性', link: '/user-guide/config/notion-next-custom-properties' },
+            { text: '文章复制权限', link: '/user-guide/config/copy-permission' },
+            { text: '文章版权声明', link: '/user-guide/config/article-copyright' },
             { text: '多语言站点', link: '/user-guide/config/notion-next-mulity-languages' },
             { text: '多站点聚合', link: '/user-guide/config/notion-next-site-combine' },
             { text: 'API Base URL', link: '/user-guide/config/notion-next-api_base_url' },
@@ -236,6 +244,7 @@ export default defineConfig({
             { text: '主题目录', link: '/user-guide/themes/' },
             { text: '全览表', link: '/user-guide/themes/THEMES_CATALOG' },
             { text: '主题总览', link: '/user-guide/themes/overview' },
+            { text: '主题控制台', link: '/user-guide/themes/theme-console' },
             ...themeDocLinks
           ]
         },
@@ -255,6 +264,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { text: '评论总览', link: '/user-guide/comments/overview' },
+            { text: '会员与评论可选集成', link: '/developer/MEMBERSHIP_COMMENTS_ROADMAP' },
             { text: 'Cusdis', link: '/user-guide/comments/cusdis' },
             { text: 'Utterances', link: '/user-guide/comments/utterances' },
             { text: 'Giscus', link: '/user-guide/comments/giscus' },
@@ -262,6 +272,7 @@ export default defineConfig({
             { text: 'Artalk', link: '/user-guide/comments/artalk' },
             { text: 'Gitalk', link: '/user-guide/comments/gitalk' },
             { text: 'Valine', link: '/user-guide/comments/valine' },
+            { text: 'NotionComments', link: '/user-guide/comments/notion-comments' },
             { text: 'Waline', link: '/user-guide/comments/waline' }
           ]
         },
@@ -334,6 +345,8 @@ export default defineConfig({
             { text: '开发文档首页', link: '/developer/' },
             { text: '快速上手', link: '/developer/GETTING_STARTED' },
             { text: '愿景与路线图', link: '/developer/VISION_ROADMAP' },
+            { text: '开放生态长期计划', link: '/developer/LONG_TERM_PLAN' },
+            { text: '会员、权限与评论可选集成', link: '/developer/MEMBERSHIP_COMMENTS_ROADMAP' },
             { text: '架构总览', link: '/developer/ARCHITECTURE' },
             { text: '目录与模块', link: '/developer/PROJECT_STRUCTURE' },
             { text: '配置体系', link: '/developer/CONFIGURATION' },
@@ -358,6 +371,8 @@ export default defineConfig({
           items: [
             { text: '主题开发文档首页', link: '/developer/themes/' },
             { text: '主题迁移指南', link: '/developer/THEME_MIGRATION_GUIDE.zh-CN' },
+            { text: '主题控制台设计', link: '/developer/THEME_CONSOLE_DESIGN.zh-CN' },
+            { text: '主题色变量计划', link: '/developer/THEME_COLOR_TOKEN_ROADMAP.zh-CN' },
             { text: 'Claude', link: '/developer/themes/CLAUDE' },
             { text: 'Endspace', link: '/developer/themes/ENDSPACE' },
             { text: 'Fuwari', link: '/developer/themes/FUWARI' },

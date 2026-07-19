@@ -24,7 +24,9 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
       id='post-bg'
       className='md:mb-0 -mb-5 w-full h-[30rem] relative md:flex-shrink-0 overflow-hidden bg-cover bg-center bg-no-repeat z-10'
       style={{
-        '--heo-post-bg-accent': isDarkMode ? '#CA8A04' : '#0060e0'
+        '--heo-post-bg-accent': isDarkMode
+          ? 'var(--heo-color-accent)'
+          : 'var(--heo-color-primary)'
       }}>
       <style jsx>{`
         .coverdiv:after {
@@ -69,7 +71,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
                   className='mr-4'
                   passHref
                   legacyBehavior>
-                  <div className='cursor-pointer font-sm font-bold px-3 py-1 rounded-lg  hover:bg-white text-white bg-blue-500 dark:bg-yellow-500 hover:text-blue-500 duration-200 '>
+                  <div className='cursor-pointer font-sm font-bold px-3 py-1 rounded-lg hover:bg-white text-[var(--heo-color-primary-text)] bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] hover:text-[var(--heo-color-primary)] duration-200 '>
                     {post.category}
                   </div>
                 </SmartLink>

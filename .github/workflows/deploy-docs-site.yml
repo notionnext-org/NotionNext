@@ -11,6 +11,7 @@ on:
       - 'docs/**'
       - '.vitepress/**'
       - 'README.md'
+      - 'functions/**'
       - 'scripts/generate-theme-user-docs.mjs'
       - 'package.json'
       - 'yarn.lock'
@@ -29,12 +30,12 @@ jobs:
       deployments: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version: 22
           cache: 'yarn'
 
       - name: Install dependencies
@@ -45,7 +46,11 @@ jobs:
           VITE_GISCUS_REPO_ID: ${{ secrets.VITE_GISCUS_REPO_ID }}
           VITE_GISCUS_CATEGORY_ID: ${{ secrets.VITE_GISCUS_CATEGORY_ID }}
           VITE_GISCUS_ENABLED: ${{ vars.VITE_GISCUS_ENABLED }}
+          VITE_DOCS_CHAT_API: /api/docs-chat
         run: yarn docs:site:build
+
+      - name: Build Pages Functions
+        run: npx wrangler pages functions build functions --outfile .vitepress/dist/_worker.js --output-routes-path .vitepress/dist/_routes.json --project-directory .
 
       - name: Set Pages project name
         run: echo "CF_PAGES_PROJECT=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME || 'notionnext-docs' }}" >> "$GITHUB_ENV"
@@ -55,4 +60,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
           command: pages deploy .vitepress/dist --project-name=${{ env.CF_PAGES_PROJECT }}

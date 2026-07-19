@@ -150,7 +150,7 @@ export default function CustomContextMenu(props) {
   const CUSTOM_RIGHT_CLICK_CONTEXT_MENU_TAG = siteConfig(
     'CUSTOM_RIGHT_CLICK_CONTEXT_MENU_TAG'
   )
-  const CAN_COPY = siteConfig('CAN_COPY')
+  const CAN_COPY = props.canCopy ?? siteConfig('CAN_COPY')
   const CUSTOM_RIGHT_CLICK_CONTEXT_MENU_SHARE_LINK = siteConfig(
     'CUSTOM_RIGHT_CLICK_CONTEXT_MENU_SHARE_LINK'
   )

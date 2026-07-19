@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持 tailwindCSS 的 @apply 语法
@@ -86,7 +88,9 @@ const Style = () => {
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
       }
-    `}</style>
+
+      ${themeConsoleStyle('typography', CONFIG)}
+  `}</style>
   )
 }
 

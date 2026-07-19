@@ -188,6 +188,10 @@ html.dark {
   font-size: 12px;
 }
 
+.notion-aside-table-of-contents .notion-table-of-contents-item-indent-level-3 {
+  font-size: 12px;
+}
+
 .notion-aside-table-of-contents .notion-table-of-contents-item-body {
   border: 0 none;
 }
@@ -456,6 +460,9 @@ summary > .notion-h {
 .notion-h3 {
   @apply w-full;
 }
+.notion-h4 {
+  @apply w-full;
+}
 
 .notion-header-anchor {
   position: absolute;
@@ -465,7 +472,8 @@ summary > .notion-h {
 
 .notion-title + .notion-h1,
 .notion-title + .notion-h2,
-.notion-title + .notion-h3 {
+.notion-title + .notion-h3,
+.notion-title + .notion-h4 {
   margin-top: 0;
 }
 
@@ -482,6 +490,10 @@ summary > .notion-h {
 .notion-h3 {
   font-size: 1.25em;
   margin-top: 1em;
+}
+.notion-h4 {
+  font-size: 1.1em;
+  margin-top: 0.9em;
 }
 
 .notion-h:hover .notion-hash-link {
@@ -1206,6 +1218,10 @@ code[class*='language-'] {
 
 .notion-table-of-contents-item-body {
   border-bottom: 1px solid var(--fg-color-1);
+}
+
+.notion-table-of-contents-item-indent-level-3 {
+  font-size: 14px;
 }
 
 .notion-to-do {

@@ -31,6 +31,7 @@ NotionNext 文档不再把“站长教程”和“开发者文档”做成两个
 | --- | --- |
 | 版本更新说明 | [UPDATE.md](./UPDATE.md) |
 | 社区路线图 | [COMMUNITY_SITE_ROADMAP.md](./COMMUNITY_SITE_ROADMAP.md) |
+| 会员、权限与评论可选集成 | [MEMBERSHIP_COMMENTS_ROADMAP.md](./MEMBERSHIP_COMMENTS_ROADMAP.md) |
 | 5.0 愿景与参与方向 | [VISION_ROADMAP.md](./VISION_ROADMAP.md) |
 | 项目治理 | [GOVERNANCE.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md) · [GOVERNANCE.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.md) |
 | 仓库贡献总则 | [CONTRIBUTING.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.zh-CN.md) |

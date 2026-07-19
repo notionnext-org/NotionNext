@@ -4,7 +4,7 @@
 
 ### 环境要求
 
-- Node.js 20 LTS（具体补丁版本以仓库根目录 `.nvmrc` 为准，与各托管平台预装 Node 对齐）
+- Node.js 22 LTS（具体版本以仓库根目录 `.nvmrc` 为准，与各托管平台预装 Node 对齐）
 - Yarn = 1.22.22（使用 `package.json#packageManager` 保持一致）
 - Git
 

@@ -11,6 +11,9 @@
 | --- | --- | --- |
 | 快速上手 | [GETTING_STARTED.md](./GETTING_STARTED.md) | [GETTING_STARTED.en.md](./GETTING_STARTED.en.md) |
 | 愿景与路线图 | [VISION_ROADMAP.md](./VISION_ROADMAP.md) | — |
+| 开放生态长期计划 | [LONG_TERM_PLAN.md](./LONG_TERM_PLAN.md) | — |
+| 主题色变量计划 | [THEME_COLOR_TOKEN_ROADMAP.zh-CN.md](./THEME_COLOR_TOKEN_ROADMAP.zh-CN.md) | — |
+| 主题控制台设计 | [THEME_CONSOLE_DESIGN.zh-CN.md](./THEME_CONSOLE_DESIGN.zh-CN.md) | — |
 | 架构总览 | [ARCHITECTURE.md](./ARCHITECTURE.md) | [ARCHITECTURE.en.md](./ARCHITECTURE.en.md) |
 | 目录与模块 | [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) | [PROJECT_STRUCTURE.en.md](./PROJECT_STRUCTURE.en.md) |
 | 配置体系 | [CONFIGURATION.md](./CONFIGURATION.md) | [CONFIGURATION.en.md](./CONFIGURATION.en.md) |

@@ -6,6 +6,10 @@ module.exports = {
   COMMENT_HIDE_SINGLE_TAB:
     process.env.NEXT_PUBLIC_COMMENT_HIDE_SINGLE_TAB || false, // Whether hide the tab when there's no tabs. 只有一个评论组件时是否隐藏切换组件的标签页
 
+  // NotionComments: use a Notion database as comment storage
+  COMMENT_NOTION_ENABLE:
+    process.env.NEXT_PUBLIC_COMMENT_NOTION_ENABLE === 'true' || false,
+
   // artalk 评论插件
   COMMENT_ARTALK_SERVER: process.env.NEXT_PUBLIC_COMMENT_ARTALK_SERVER || '', // ArtalkServert后端地址 https://artalk.js.org/guide/deploy.html
   COMMENT_ARTALK_JS:
@@ -36,8 +40,7 @@ module.exports = {
     process.env.NEXT_PUBLIC_COMMENT_GISCUS_CATEGORY_ID || '', // 你的Github Discussions 內的 Category ID ( 設定完 giscus 即可看到 )
   COMMENT_GISCUS_MAPPING:
     process.env.NEXT_PUBLIC_COMMENT_GISCUS_MAPPING || 'pathname', // 你的Github Discussions 使用哪種方式來標定文章, 預設 'pathname'
-  COMMENT_GISCUS_STRICT:
-    process.env.NEXT_PUBLIC_COMMENT_GISCUS_STRICT || '0', // 是否使用严格标题匹配 '1' 开启 '0' 关闭, 预设 '0'
+  COMMENT_GISCUS_STRICT: process.env.NEXT_PUBLIC_COMMENT_GISCUS_STRICT || '0', // 是否使用严格标题匹配 '1' 开启 '0' 关闭, 预设 '0'
   COMMENT_GISCUS_REACTIONS_ENABLED:
     process.env.NEXT_PUBLIC_COMMENT_GISCUS_REACTIONS_ENABLED || '1', // 你的 Giscus 是否開啟文章表情符號 '1' 開啟 "0" 關閉 預設開啟
   COMMENT_GISCUS_EMIT_METADATA:

@@ -88,11 +88,11 @@ Coze is a next-generation AI application and chatbot developing platform for eve
 
 ![image.png](/legacy/297e7c463669eeff.png)
 
-> **💡**
->
+::: tip 提示
 若插件太多，Bot可能会忙不过来，这里有一些比较进阶的知识，即AI工作流；
-> 它支持用图形拖拽、低代码编程的方式，让AI根据用户意图，自动选择合适的插件和流程进行工作；关于工作流，此文不做赘述。感兴趣可以参考这篇《[FastGPT工作流](https://blog.tangly1024.com/article/build-an-enterprise-AI-knowledge-base-using-FastGPT)》进行配置，FastGPT与Coze基本操作大同小异。
-> ![image.png](/legacy/350c05113d2bf451.png)
+它支持用图形拖拽、低代码编程的方式，让AI根据用户意图，自动选择合适的插件和流程进行工作；关于工作流，此文不做赘述。感兴趣可以参考这篇《[FastGPT工作流](https://blog.tangly1024.com/article/build-an-enterprise-AI-knowledge-base-using-FastGPT)》进行配置，FastGPT与Coze基本操作大同小异。
+![image.png](/legacy/350c05113d2bf451.png)
+:::
 
 
 ### 知识库
@@ -134,10 +134,10 @@ Coze is a next-generation AI application and chatbot developing platform for eve
 
 ![image.png](/legacy/41ca4a7b1e1f7a31.png)
 
-> **💡**
->
+::: tip 提示
 这里我们还可以选择微信公众号的接入方式，这个也不复杂，不过可以等我们下次修改配置时，再回来改这里即可。
-> ![0253152c921eca5e3d3b2ad024fac6e.jpg](/legacy/6b06ede34cb353ef.jpg)
+![0253152c921eca5e3d3b2ad024fac6e.jpg](/legacy/6b06ede34cb353ef.jpg)
+:::
 
 
 ### 获取Bot_Id

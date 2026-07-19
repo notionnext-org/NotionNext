@@ -5,11 +5,11 @@
 > 原栏目：🚀 安装部署
 > 标签：部署方案、NotionNext、Netlify
 
-> **💡**
->
+::: tip 提示
 从NotionNext 4.0.9 开始 支持 Netlify部署，Netlify相比Vercel有更充足的免费额度，而且中国大陆访问的速度很不错。
->
-> 构建环境请使用 Node 20（与官方仓库 README 一致），本地开发与构建命令以 Yarn 为准，例如 &lt;code&gt;yarn&lt;/code&gt;、&lt;code&gt;yarn build&lt;/code&gt;。
+
+构建环境请使用 Node 22（与官方仓库 README 一致），本地开发与构建命令以 Yarn 为准，例如 &lt;code&gt;yarn&lt;/code&gt;、&lt;code&gt;yarn build&lt;/code&gt;。
+:::
 
 
 ## 序

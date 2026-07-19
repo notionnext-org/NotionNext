@@ -25,13 +25,8 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
       className={`${siteConfig('HEXO_POST_LIST_COVER_HOVER_ENLARGE', null, CONFIG) ? ' hover:scale-110 transition-all duration-150' : ''}`}>
       <div
         key={post.id}
-        data-aos='fade-up'
-        data-aos-easing='ease-in-out'
-        data-aos-duration='500'
-        data-aos-once='false'
-        data-aos-anchor-placement='top-bottom'
         id='blog-post-card'
-        className={`group md:h-56 w-full flex justify-between md:flex-row flex-col-reverse ${siteConfig('HEXO_POST_LIST_IMG_CROSSOVER', null, CONFIG) && index % 2 === 1 ? 'md:flex-row-reverse' : ''}
+        className={`group md:h-56 w-full flex justify-between md:flex-row flex-col-reverse shadow-sm ${siteConfig('HEXO_POST_LIST_IMG_CROSSOVER', null, CONFIG) && index % 2 === 1 ? 'md:flex-row-reverse' : ''}
                     overflow-hidden border dark:border-black rounded-xl bg-white dark:bg-hexo-black-gray`}>
         {/* 文字内容 */}
         <BlogPostCardInfo

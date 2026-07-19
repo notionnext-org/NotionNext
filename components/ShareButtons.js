@@ -173,7 +173,8 @@ const ShareButtons = ({ post }) => {
         aria-label={service}
         key={service}
         onClick={() => openShareWindow(shareLink)}
-        className={`${BASE_BUTTON_CLASS} ${bgClass}`}>
+        className={`${BASE_BUTTON_CLASS} ${bgClass}`}
+        title={service}>
         <i className={`${iconClass} text-sm`} />
       </button>
     )
@@ -213,7 +214,8 @@ const ShareButtons = ({ post }) => {
             return (
               <button
                 key={singleService}
-                className='cursor-pointer bg-blue-600 text-white rounded-full mx-1'>
+                className='cursor-pointer bg-blue-600 text-white rounded-full mx-1'
+                title={singleService}>
                 <a
                   target='_blank'
                   rel='noreferrer'
@@ -230,7 +232,8 @@ const ShareButtons = ({ post }) => {
                 onMouseLeave={closePopover}
                 aria-label={singleService}
                 key={singleService}
-                className='cursor-pointer bg-green-600 text-white rounded-full mx-1'>
+                className='cursor-pointer bg-green-600 text-white rounded-full mx-1'
+                title={singleService}>
                 <div id='wechat-button'>
                   <i className='fab fa-weixin w-8' />
                 </div>
@@ -256,7 +259,8 @@ const ShareButtons = ({ post }) => {
               <button
                 aria-label={singleService}
                 key={singleService}
-                className='cursor-pointer bg-yellow-500 text-white rounded-full mx-1'>
+                className='cursor-pointer bg-yellow-500 text-white rounded-full mx-1'
+                title={singleService}>
                 <div alt={locale.COMMON.URL_COPIED} onClick={copyUrl}>
                   <i className='fas fa-link w-8' />
                 </div>
@@ -268,7 +272,8 @@ const ShareButtons = ({ post }) => {
                 aria-label={singleService}
                 key={singleService}
                 onClick={() => openRedirectShare('https://link.csdn.net/?target=')}
-                className='cursor-pointer rounded-full mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500'>
+                className='cursor-pointer rounded-full mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500'
+                title={singleService}>
                 <div className='w-8 h-8 rounded-full items-center justify-center'
                   style={{backgroundColor: '#ff6a00'}}>
                   <Image
@@ -289,7 +294,8 @@ const ShareButtons = ({ post }) => {
                 aria-label={singleService}
                 key={singleService}
                 onClick={() => openRedirectShare('https://link.juejin.cn/?target=')}
-                className='cursor-pointer rounded-full mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'>
+                className='cursor-pointer rounded-full mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
+                title={singleService}>  
                 <div className='w-8 h-8 rounded-full flex items-center justify-center'
                      style={{ backgroundColor: '#5dade2' }}>
                   <Image

@@ -14,7 +14,7 @@
 
 - **定位**：卡片式列表与 Material 质感组件。
 - **适用场景**：Material 卡片封面列表
-- **配置前缀**：`MATERY_*`（共 **22** 项，见下方配置表）
+- **配置前缀**：`MATERY_*`（共 **25** 项，见下方配置表）
 - **在线预览**：[preview.tangly1024.com/?theme=matery](https://preview.tangly1024.com/?theme=matery)
 
 ## 适用场景
@@ -31,6 +31,18 @@ Material 卡片封面列表
 
 配置文件：[`themes/matery/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/matery/config.js)  
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
+
+### Matery 主题调色
+
+Matery 支持通过语义色变量调整主色、浅主色和页面背景：
+
+```js
+MATERY_COLOR_PRIMARY: '#4338ca',
+MATERY_COLOR_PRIMARY_LIGHT: '#818cf8',
+MATERY_COLOR_BG: '#f5f5f5'
+```
+
+主题工具中的调色板会展示当前值，并可直接复制配置项到 Notion Config。
 
 <!-- theme-config-table -->
 
@@ -51,7 +63,7 @@ Material 卡片封面列表
 | `MATERY_POST_LIST_SUMMARY` | 见 config.js |
 | `MATERY_POST_LIST_PREVIEW` | 见 config.js |
 | `MATERY_ARTICLE_ADJACENT` | 见 config.js |
-| `MATERY_ARTICLE_COPYRIGHT` | 见 config.js |
+| `MATERY_ARTICLE_COPYRIGHT` | 支持 `true` 全部显示、`false` 全部关闭、`custom` 仅填写 `copyright` 时显示。 |
 | `MATERY_ARTICLE_NOT_BY_AI` | 见 config.js |
 | `MATERY_ARTICLE_RECOMMEND` | 见 config.js |
 | `MATERY_WIDGET_LATEST_POSTS` | 见 config.js |
@@ -60,6 +72,9 @@ Material 卡片封面列表
 | `MATERY_WIDGET_TO_COMMENT` | 见 config.js |
 | `WIDGET_DARK_MODE` | 见 config.js |
 | `MATERY_WIDGET_TOC` | 见 config.js |
+| `MATERY_COLOR_PRIMARY` | 主题主色 |
+| `MATERY_COLOR_PRIMARY_LIGHT` | 浅主色，用于弱强调状态 |
+| `MATERY_COLOR_BG` | 页面背景色 |
 
 <!-- /theme-config-table -->
 

@@ -49,6 +49,17 @@ const CONFIG = {
   ENDSPACE_LOADING_IMAGE: '/favicon.svg', // 加载动画中显示的图片（默认使用站点 favicon SVG）
 
   // ============================================
+  // 主题调色 (Theme Colors)
+  // ============================================
+  ENDSPACE_COLOR_BG_BASE: '#fafafa',
+  ENDSPACE_COLOR_SURFACE: '#ffffff',
+  ENDSPACE_COLOR_TEXT: '#18181b',
+  ENDSPACE_COLOR_TEXT_SECONDARY: '#52525b',
+  ENDSPACE_COLOR_ACCENT: '#FBFB45',
+  ENDSPACE_COLOR_ACCENT_DIM: 'rgba(251, 251, 69, 0.15)',
+  ENDSPACE_COLOR_BORDER: '#e4e4e7',
+
+  // ============================================
   // 水印文字配置 (Watermark Text)
   // ============================================
   // 首页标题栏背景滚动水印文字（大字循环动画）
@@ -59,10 +70,10 @@ const CONFIG = {
   // ============================================
   // 菜单配置 (Menu)
   // ============================================
-  ENDSPACE_MENU_CATEGORY: true, // 显示分类菜单
-  ENDSPACE_MENU_TAG: true, // 显示标签菜单
+  ENDSPACE_MENU_CATEGORY: false, // 显示分类菜单（默认合并到 Archive）
+  ENDSPACE_MENU_TAG: false, // 显示标签菜单（默认合并到 Archive）
   ENDSPACE_MENU_ARCHIVE: true, // 显示归档菜单
-  ENDSPACE_MENU_SEARCH: true, // 显示搜索菜单
+  ENDSPACE_MENU_SEARCH: false, // 显示搜索菜单（默认合并到 Archive）
 
   // ============================================
   // 文章列表 (Post List)
@@ -79,7 +90,7 @@ const CONFIG = {
   // ============================================
   // 浮动控件 (Floating controls)
   // ============================================
-  /** 右下角胶囊是否显示浅色/深色切换（与全局 dark 类联动） */
-  ENDSPACE_WIDGET_DARK_MODE: true
+  /** 右下角胶囊是否显示浅色/深色切换（夜间模式已禁用） */
+  ENDSPACE_WIDGET_DARK_MODE: false
 }
 export default CONFIG

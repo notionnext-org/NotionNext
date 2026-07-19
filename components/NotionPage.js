@@ -6,7 +6,7 @@ import mediumZoom from '@fisch0920/medium-zoom'
 import 'katex/dist/katex.min.css'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
-import { NotionRenderer } from 'react-notion-x'
+import { NotionRenderer, useNotionContext } from 'react-notion-x'
 
 /**
  * 整个站点的核心组件
@@ -120,6 +120,7 @@ const NotionPage = ({ post, className }) => {
         components={{
           Code,
           Collection,
+          Embed: NotionEmbed,
           Equation,
           Link: NotionLink,
           Modal,
@@ -140,6 +141,48 @@ const hasCodeBlock = blockMap => {
   if (!blocks) return false
   return Object.values(blocks).some(
     item => item?.value?.type === 'code'
+  )
+}
+
+const NotionEmbed = ({ block }) => {
+  const { recordMap } = useNotionContext()
+  const source =
+    recordMap?.signed_urls?.[block?.id] ||
+    block?.format?.display_source ||
+    block?.properties?.source?.[0]?.[0]
+  const isHtmlArtifact =
+    block?.type === 'embed' && block?.format?.embed_variant === 'html_artifact'
+  const srcDoc = isHtmlArtifact
+    ? block?.format?.html_artifact_content
+    : undefined
+
+  if (!srcDoc && (!source || source.startsWith('attachment:'))) return null
+
+  const height = block?.format?.block_height || (isHtmlArtifact ? 640 : 480)
+  const title =
+    block?.properties?.title?.[0]?.[0] ||
+    (isHtmlArtifact ? 'Notion HTML block' : 'iframe embed')
+
+  return (
+    <figure
+      className='notion-asset-wrapper notion-asset-wrapper-embed'
+      >
+      <div style={{ height, position: 'relative' }}>
+        <iframe
+          className='notion-asset-object-fit'
+          src={srcDoc ? undefined : source}
+          srcDoc={srcDoc}
+          title={title}
+          frameBorder='0'
+          loading='lazy'
+          scrolling='auto'
+          allowFullScreen={!isHtmlArtifact}
+          sandbox={
+            isHtmlArtifact ? 'allow-scripts allow-forms allow-popups' : undefined
+          }
+        />
+      </div>
+    </figure>
   )
 }
 

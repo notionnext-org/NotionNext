@@ -589,7 +589,8 @@ curl "http://localhost:3000/api/claude/contribution-refresh?token=<token>&revali
 
 #### 第一层：`pages/_app.js` — 从根源消除 Layout 组件 remount
 
-> **⚠️ 合并注意：此修改位于全局 `pages/_app.js`，非 claude 主题目录内。合并时请特别关注此文件。**
+::: warning 合并注意：此修改位于全局 `pages/_app.js`，非 claude 主题目录内。合并时请特别关注此文件。
+:::
 
 原始代码存在两个问题：
 

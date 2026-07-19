@@ -48,11 +48,13 @@ You can't perform that action at this time. You signed in with another tab or wi
 
 后台`settings`→ `environment variables `→ 添加 → `save` 即可。如下图：
 ![Untitled](/legacy/e25ae8c5ed7dc9da.png)
-> **💡** 注意，`仓库名`的格式是** [您的用户名/您的仓库名] **如下示例
->
+::: tip 提示
+注意，`仓库名`的格式是** [您的用户名/您的仓库名] **如下示例
+
 ![Untitled](/legacy/4f253f5c9f1290d2.png)
 添加后的效果
 ![Untitled](/legacy/fc68e9498a6e705f.png)
+:::
 
 </details>
 

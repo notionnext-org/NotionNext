@@ -1,5 +1,5 @@
 import BLOG from '@/blog.config'
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import { useGlobal } from '@/lib/global'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -20,25 +20,25 @@ export const MenuList = props => {
       icon: 'fas fa-archive',
       name: locale.NAV.ARCHIVE,
       href: '/archive',
-      show: siteConfig('HEO_MENU_ARCHIVE')
+      show: starterConfig('HEO_MENU_ARCHIVE')
     },
     {
       icon: 'fas fa-search',
       name: locale.NAV.SEARCH,
       href: '/search',
-      show: siteConfig('HEO_MENU_SEARCH')
+      show: starterConfig('HEO_MENU_SEARCH')
     },
     {
       icon: 'fas fa-folder',
       name: locale.COMMON.CATEGORY,
       href: '/category',
-      show: siteConfig('HEO_MENU_CATEGORY')
+      show: starterConfig('HEO_MENU_CATEGORY')
     },
     {
       icon: 'fas fa-tag',
       name: locale.COMMON.TAGS,
       href: '/tag',
-      show: siteConfig('HEO_MENU_TAG')
+      show: starterConfig('HEO_MENU_TAG')
     }
   ]
 
@@ -47,7 +47,7 @@ export const MenuList = props => {
   }
 
   // 如果 开启自定义菜单，则覆盖Page生成的菜单
-  if (siteConfig('CUSTOM_MENU', BLOG.CUSTOM_MENU)) {
+  if (starterConfig('CUSTOM_MENU', BLOG.CUSTOM_MENU)) {
     links = customMenu
   }
 

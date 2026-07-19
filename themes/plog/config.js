@@ -1,4 +1,5 @@
 const CONFIG = {
+  PLOG_COLOR_PRIMARY: '#1d4ed8',
 
   // 菜单配置
   NOBELIUM_MENU_CATEGORY: false, // 显示分类

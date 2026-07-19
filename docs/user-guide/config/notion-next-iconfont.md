@@ -5,9 +5,9 @@
 > 原栏目：🛠 站点配置
 > 摘要：如何在notionnext中配置iconfont
 
-> **💡**
->
+::: tip 提示
 如需使用IconFont图标，请先将NotionNext 升级至 ≥4.8.4
+:::
 
 
 ## IconFont

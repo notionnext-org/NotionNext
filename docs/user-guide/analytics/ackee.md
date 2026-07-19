@@ -4,7 +4,9 @@
 > 最后编辑：2024-1-31
 > 原栏目：📊 网站统计
 
-> **💡** 通常我们会选择 uptime kuma , umami 等站点监控程序，来对我们的站点访问信息进行监控，但是其大多数都依赖docker等后端承载。而ackee 是一款可以直接使用vercel加MongoDB免费搭建的站点统计工具。
+::: tip 提示
+通常我们会选择 uptime kuma , umami 等站点监控程序，来对我们的站点访问信息进行监控，但是其大多数都依赖docker等后端承载。而ackee 是一款可以直接使用vercel加MongoDB免费搭建的站点统计工具。
+:::
 
 
 ## 效果
@@ -32,7 +34,9 @@ Products Solutions Developer Data Platform Innovate fast at scale with a unified
 ![选择最右边的免费方案即可](/legacy/0272802666cbc202.png)
 ![选择一个地区，点击Create Cluster](/legacy/b5e912de572e32c9.png)
 ![创建用户名密码](/legacy/54dba97b2a71e70b.png)
-> **💡** 这里下方要设置一个允许访问该数据库的IP地址，推荐设置0.0.0.0，即所有地址都允许访问，毕竟我也不知道自己会用什么ip访问这个数据库。
+::: tip 提示
+这里下方要设置一个允许访问该数据库的IP地址，推荐设置0.0.0.0，即所有地址都允许访问，毕竟我也不知道自己会用什么ip访问这个数据库。
+:::
 
 </details>
 
@@ -42,7 +46,9 @@ Products Solutions Developer Data Platform Innovate fast at scale with a unified
 ![面板首页点击Connect](/legacy/4540298a350f8f1f.png)
 ![点击 MongoDB Drivers](/legacy/559423cb7af3f107.png)
 ![点击复制您的数据库连接地址](/legacy/b0c876e08611dfa3.png)
-> **💡** 注意，&lt;password&gt;要手动替换成您设置的密码
+::: tip 提示
+注意，&lt;password&gt;要手动替换成您设置的密码
+:::
 
 </details>
 

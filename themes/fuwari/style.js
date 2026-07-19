@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 
 const Style = () => {
   return <style jsx global>{`
@@ -11,7 +13,7 @@ const Style = () => {
       --fuwari-primary: #b8a320;
       --fuwari-primary-soft: rgba(184, 163, 32, 0.14);
       --fuwari-border: #e9e8df;
-      --fuwari-gradient: linear-gradient(135deg, #b8a320 0%, #e0ce63 100%);
+      --fuwari-gradient: linear-gradient(135deg, var(--fuwari-primary) 0%, color-mix(in oklab, var(--fuwari-primary) 70%, #ffffff) 100%);
     }
 
     .dark #theme-fuwari {
@@ -23,7 +25,7 @@ const Style = () => {
       --fuwari-primary: #d3bf53;
       --fuwari-primary-soft: rgba(211, 191, 83, 0.2);
       --fuwari-border: #283446;
-      --fuwari-gradient: linear-gradient(135deg, #8576ff 0%, #4ba9ff 100%);
+      --fuwari-gradient: linear-gradient(135deg, var(--fuwari-primary) 0%, color-mix(in oklab, var(--fuwari-primary) 70%, #ffffff) 100%);
     }
 
     #theme-fuwari.fuwari-bg {
@@ -603,6 +605,8 @@ const Style = () => {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
+
+      ${themeConsoleStyle('fuwari', CONFIG)}
   `}</style>
 }
 

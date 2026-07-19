@@ -16,12 +16,14 @@ import SocialButton from './SocialButton'
  */
 const Footer = ({ title }) => {
   const { siteInfo } = useGlobal()
-  const MAGZINE_FOOTER_LINKS = siteConfig('MAGZINE_FOOTER_LINKS', [], CONFIG)
+  const footerLinks = siteConfig('MAGZINE_FOOTER_LINKS', [], CONFIG)
+  const MAGZINE_FOOTER_LINKS = Array.isArray(footerLinks) ? footerLinks : []
 
   return (
     <footer
       id='footer-bottom'
-      className='z-10 bg-black text-white justify-center m-auto w-full p-6 relative'>
+      className='z-10 bg-black text-white justify-center m-auto w-full p-6 relative'
+    >
       <div className='max-w-screen-3xl w-full mx-auto '>
         {/* 信息与链接区块 */}
         <div className='w-full flex lg:flex-row flex-col justify-between py-16'>
@@ -39,7 +41,8 @@ const Footer = ({ title }) => {
               <i className='fas fa-copyright' />
               <a
                 href={siteConfig('LINK')}
-                className='underline font-bold justify-start  '>
+                className='underline font-bold justify-start  '
+              >
                 {siteConfig('AUTHOR')}
               </a>
             </div>
@@ -54,15 +57,20 @@ const Footer = ({ title }) => {
                     {group.name}
                   </div>
                   <div className='flex flex-col gap-y-2'>
-                    {group?.menus?.map((menu, index) => {
-                      return (
-                        <div key={index}>
-                          <SmartLink href={menu.href} className='hover:underline'>
-                            {menu.title}
-                          </SmartLink>
-                        </div>
-                      )
-                    })}
+                    {(Array.isArray(group?.menus) ? group.menus : []).map(
+                      (menu, index) => {
+                        return (
+                          <div key={index}>
+                            <SmartLink
+                              href={menu.href}
+                              className='hover:underline'
+                            >
+                              {menu.title}
+                            </SmartLink>
+                          </div>
+                        )
+                      }
+                    )}
                   </div>
                 </div>
               )

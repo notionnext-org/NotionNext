@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import { SVGAvatarBG } from './svg/SVGAvatarBG'
 
 export const Team = () => {
-  const STARTER_TEAM_ITEMS = siteConfig('STARTER_TEAM_ITEMS', [])
+  const STARTER_TEAM_ITEMS = starterConfig('STARTER_TEAM_ITEMS', [])
   return (
     <>
       {/* <!-- ====== Team Section Start --> */}
@@ -15,14 +15,14 @@ export const Team = () => {
             <div className='w-full px-4'>
               <div className='mx-auto mb-[60px] max-w-[485px] text-center'>
                 <span className='mb-2 block text-lg font-semibold text-primary'>
-                  {siteConfig('STARTER_TEAM_TITLE')}
+                  {starterConfig('STARTER_TEAM_TITLE')}
                 </span>
                 <h2 className='mb-3 text-3xl font-bold leading-[1.2] text-dark dark:text-white sm:text-4xl md:text-[40px]'>
-                  {siteConfig('STARTER_TEAM_TEXT_1')}
+                  {starterConfig('STARTER_TEAM_TEXT_1')}
                 </h2>
                 <p
                   dangerouslySetInnerHTML={{
-                    __html: siteConfig('STARTER_TEAM_TEXT_2')
+                    __html: starterConfig('STARTER_TEAM_TEXT_2')
                   }}
                   className='text-base text-body-color dark:text-dark-6'></p>
               </div>

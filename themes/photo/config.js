@@ -2,6 +2,9 @@
  * 主题配置文件
  */
 const CONFIG = {
+  PHOTO_COLOR_PRIMARY: '#2563eb',
+  PHOTO_COLOR_PRIMARY_DARK: '#ca8a04',
+
   // 菜单配置
   PHOTO_MENU_CATEGORY: true, // 显示分类
   PHOTO_MENU_TAG: true, // 显示标签

@@ -14,7 +14,7 @@
 
 - **定位**：深川式多栏与侧边信息密度较高。
 - **适用场景**：多栏高密度信息
-- **配置前缀**：`FUKASAWA_*`（共 **11** 项，见下方配置表）
+- **配置前缀**：`FUKASAWA_*`（共 **12** 项，见下方配置表）
 - **在线预览**：[preview.tangly1024.com/?theme=fukasawa](https://preview.tangly1024.com/?theme=fukasawa)
 
 ## 适用场景
@@ -32,12 +32,23 @@
 配置文件：[`themes/fukasawa/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/fukasawa/config.js)  
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
 
+### Fukasawa 主题调色
+
+Fukasawa 支持通过语义色变量调整页面背景：
+
+```js
+FUKASAWA_COLOR_BG: '#eeedee'
+```
+
+主题工具中的调色板会展示当前值，并可直接复制配置项到 Notion Config。
+
 <!-- theme-config-table -->
 
 ### 主要配置项
 
 | 配置键 | 说明 |
 | --- | --- |
+| `FUKASAWA_COLOR_BG` | 页面背景色 |
 | `FUKASAWA_MAILCHIMP_FORM` | 见 config.js |
 | `FUKASAWA_POST_LIST_COVER` | 见 config.js |
 | `FUKASAWA_POST_LIST_COVER_FORCE` | 见 config.js |

@@ -15,13 +15,13 @@ export default function ArticleInfo(props) {
   return (
     <>
       <div className='flex flex-col gap-y-4 py-4 px-2 lg:px-0'>
-        <div className='flex justify-center items-center space-x-1'>
+        <div className='flex w-full justify-center items-center gap-x-1 min-w-0'>
           {siteConfig('MAGZINE_POST_LIST_CATEGORY') && (
             <CategoryItem category={post?.category} />
           )}
           <div
             className={
-              'flex items-center justify-start flex-wrap text-gray-400'
+              'flex min-w-0 flex-1 items-center justify-start flex-nowrap overflow-x-auto scroll-hidden gap-x-3 text-gray-400'
             }>
             {siteConfig('MAGZINE_POST_LIST_TAG') &&
               post?.tagItems?.map(tag => (
@@ -41,14 +41,15 @@ export default function ArticleInfo(props) {
         <div className='text-xl text-center'>{post?.summary}</div>
       </div>
 
-      {post?.type && !post?.type !== 'Page' && post?.pageCover && (
-        <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
+      {post?.type && post?.type !== 'Page' && post?.pageCover && (
+        <div className='w-full aspect-video relative md:flex-shrink-0 overflow-hidden'>
           <LazyImage
+            priority
             alt={post?.title}
             src={post?.pageCover}
             width={1200}
             height={675}
-            className='object-cover max-h-[60vh] w-full'
+            className='object-cover max-h-[60vh] w-full h-full'
           />
         </div>
       )}

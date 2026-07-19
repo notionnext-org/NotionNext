@@ -86,9 +86,19 @@ class MyDocument extends Document {
               />
               <link
                 id='font-awesome-css'
-                rel='stylesheet'
+                rel='preload'
+                as='style'
                 href={BLOG.FONT_AWESOME}
               />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html:
+                    "requestAnimationFrame(function(){var l=document.getElementById('font-awesome-css');if(l)l.rel='stylesheet'})"
+                }}
+              />
+              <noscript>
+                <link rel='stylesheet' href={BLOG.FONT_AWESOME} />
+              </noscript>
             </>
           )}
 

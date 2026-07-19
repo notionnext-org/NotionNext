@@ -28,6 +28,7 @@ const SideBar = props => {
               src={siteInfo?.icon}
               className='rounded-full'
               width={80}
+              height={80}
               alt={siteConfig('AUTHOR')}
             />
           </div>

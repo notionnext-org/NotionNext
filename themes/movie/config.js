@@ -2,6 +2,9 @@
  * 主题配置文件
  */
 const CONFIG = {
+  MOVIE_COLOR_PRIMARY: '#2563eb',
+  MOVIE_COLOR_PRIMARY_DARK: '#ca8a04',
+
   // 菜单配置
   MOVIE_MENU_CATEGORY: true, // 显示分类
   MOVIE_MENU_TAG: true, // 显示标签

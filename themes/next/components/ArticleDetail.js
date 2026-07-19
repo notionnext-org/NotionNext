@@ -36,10 +36,7 @@ export default function ArticleDetail(props) {
 
   return (
     <div className='shadow md:hover:shadow-2xl overflow-x-auto flex-grow mx-auto w-screen md:w-full '>
-      <div
-        itemScope
-        itemType='https://schema.org/Movie'
-        className='overflow-y-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+      <div className='overflow-y-hidden py-10 px-4 lg:pt-24 md:px-24  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
         {showArticleInfo && (
           <header {...aosProps}>
             {/* 头图 */}

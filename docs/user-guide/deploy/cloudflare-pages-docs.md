@@ -119,7 +119,7 @@ npx wrangler pages deploy .vitepress/dist --project-name=notionnext-docs
 | --- | --- |
 | 构建命令 | `yarn install && yarn docs:site:build` |
 | 输出目录 | `.vitepress/dist` |
-| Node | `20` |
+| Node | `22` |
 
 组织仓库更建议用上文 **Actions** 流程。
 

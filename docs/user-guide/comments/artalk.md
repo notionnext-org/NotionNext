@@ -92,10 +92,12 @@ docker exec -it artalk artalk admin
 
 ### 添加你的信任域名
 
-> **💡** **TIP**
->
+::: tip 提示
+**TIP**
+
 你需要将「使用该后端的前端」URL 地址加入可信域名列表中，
-> 若非默认 80/443 端口需额外附带端口号，例如：`**https://example.com:8080**`
+若非默认 80/443 端口需额外附带端口号，例如：`**https://example.com:8080**`
+:::
 
 在管理后台中找到Settings → Trusted domains。
 

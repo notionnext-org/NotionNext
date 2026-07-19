@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import SmartLink from '@/components/SmartLink'
 
 /**
@@ -18,14 +18,14 @@ export const Blog = ({ posts }) => {
             <div className='w-full px-4'>
               <div className='mx-auto mb-[60px] max-w-[485px] text-center'>
                 <span className='mb-2 block text-lg font-semibold text-primary'>
-                  {siteConfig('STARTER_BLOG_TITLE')}
+                  {starterConfig('STARTER_BLOG_TITLE')}
                 </span>
                 <h2 className='mb-4 text-3xl font-bold text-dark dark:text-white sm:text-4xl md:text-[40px] md:leading-[1.2]'>
-                  {siteConfig('STARTER_BLOG_TEXT_1')}
+                  {starterConfig('STARTER_BLOG_TEXT_1')}
                 </h2>
                 <p
                   dangerouslySetInnerHTML={{
-                    __html: siteConfig('STARTER_BLOG_TEXT_2')
+                    __html: starterConfig('STARTER_BLOG_TEXT_2')
                   }}
                   className='text-base text-body-color dark:text-dark-6'></p>
               </div>

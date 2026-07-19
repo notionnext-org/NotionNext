@@ -1,5 +1,8 @@
 jest.mock('@/lib/db/notion/getNotionAPI', () => ({}))
 jest.mock('p-limit', () => () => fn => fn())
+jest.mock('notion-utils', () => ({
+  getBlockValue: jest.fn(entry => entry?.value?.value || entry?.value || entry)
+}))
 
 import { formatNotionBlock } from '@/lib/db/notion/getPostBlocks'
 import {
@@ -66,6 +69,78 @@ describe('formatNotionBlock', () => {
     })
 
     expect(formatted['apple-music-song'].value.type).toBe('embed')
+  })
+
+  it('relinks synced block content children to the original parent', () => {
+    const formatted = formatNotionBlock({
+      page: {
+        value: {
+          id: 'page',
+          type: 'page',
+          content: ['sync']
+        }
+      },
+      sync: {
+        value: {
+          id: 'sync',
+          type: 'sync_block',
+          parent_id: 'page',
+          content: ['notice-line']
+        }
+      },
+      'notice-line': {
+        value: {
+          id: 'notice-line',
+          type: 'text',
+          parent_id: 'sync',
+          properties: {
+            title: [['Notice']]
+          }
+        }
+      }
+    })
+
+    expect(formatted.page.value.content).toEqual(['sync_child_0'])
+    expect(formatted.sync).toBeUndefined()
+    expect(formatted['notice-line']).toBeUndefined()
+    expect(formatted.sync_child_0.value.id).toBe('sync_child_0')
+    expect(formatted.sync_child_0.value.parent_id).toBe('page')
+  })
+
+  it('relinks synced block inline children to the original parent', () => {
+    const formatted = formatNotionBlock({
+      page: {
+        value: {
+          id: 'page',
+          type: 'page',
+          content: ['sync']
+        }
+      },
+      sync: {
+        value: {
+          id: 'sync',
+          type: 'sync_block',
+          parent_id: 'page',
+          children: [
+            {
+              value: {
+                id: 'inline-child',
+                type: 'text',
+                parent_id: 'sync',
+                properties: {
+                  title: [['Inline notice']]
+                }
+              }
+            }
+          ]
+        }
+      }
+    })
+
+    expect(formatted.page.value.content).toEqual(['sync_child_0'])
+    expect(formatted.sync).toBeUndefined()
+    expect(formatted.sync_child_0.value.id).toBe('sync_child_0')
+    expect(formatted.sync_child_0.value.parent_id).toBe('page')
   })
 
   it('keeps regular hosted videos as video blocks', () => {

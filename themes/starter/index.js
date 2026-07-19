@@ -4,7 +4,6 @@
 'use client'
 import Loading from '@/components/Loading'
 import NotionPage from '@/components/NotionPage'
-import { siteConfig } from '@/lib/config'
 import { isBrowser } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -21,7 +20,7 @@ import { Hero } from './components/Hero'
 import { Pricing } from './components/Pricing'
 import { Team } from './components/Team'
 import { Testimonials } from './components/Testimonials'
-import CONFIG from './config'
+import CONFIG, { starterConfig } from './config'
 import { Style } from './style'
 // import { MadeWithButton } from './components/MadeWithButton'
 import Comment from '@/components/Comment'
@@ -73,7 +72,7 @@ const LayoutBase = props => {
     return (
         <div
             id='theme-starter'
-            className={`${siteConfig('FONT_STYLE')} min-h-screen flex flex-col dark:bg-[#212b36] scroll-smooth`}>
+            className={`${starterConfig('FONT_STYLE')} min-h-screen flex flex-col dark:bg-[#212b36] scroll-smooth`}>
             <Style />
 
             {/* 页头 */}
@@ -101,31 +100,31 @@ const LayoutBase = props => {
  * @returns
  */
 const LayoutIndex = props => {
-  const count = siteConfig('STARTER_BLOG_COUNT', 3, CONFIG)
+  const count = starterConfig('STARTER_BLOG_COUNT', 3, CONFIG)
   const { locale } = useGlobal()
   const posts = props?.allNavPages ? props.allNavPages.slice(0, count) : []
   return (
     <>
       {/* 英雄区 */}
-      {siteConfig('STARTER_HERO_ENABLE', true, CONFIG) && <Hero {...props} />}
+      {starterConfig('STARTER_HERO_ENABLE', true, CONFIG) && <Hero {...props} />}
       {/* 合作伙伴 */}
-      {siteConfig('STARTER_BRANDS_ENABLE', true, CONFIG) && <Brand />}
+      {starterConfig('STARTER_BRANDS_ENABLE', true, CONFIG) && <Brand />}
       {/* 产品特性 */}
-      {siteConfig('STARTER_FEATURE_ENABLE', true, CONFIG) && <Features />}
+      {starterConfig('STARTER_FEATURE_ENABLE', true, CONFIG) && <Features />}
       {/* 关于 */}
-      {siteConfig('STARTER_ABOUT_ENABLE', true, CONFIG) && <About />}
+      {starterConfig('STARTER_ABOUT_ENABLE', true, CONFIG) && <About />}
       {/* 价格 */}
-      {siteConfig('STARTER_PRICING_ENABLE', true, CONFIG) && <Pricing />}
+      {starterConfig('STARTER_PRICING_ENABLE', true, CONFIG) && <Pricing />}
       {/* 评价展示 */}
-      {siteConfig('STARTER_TESTIMONIALS_ENABLE', true, CONFIG) && (
+      {starterConfig('STARTER_TESTIMONIALS_ENABLE', true, CONFIG) && (
         <Testimonials />
       )}
       {/* 常见问题 */}
-      {siteConfig('STARTER_FAQ_ENABLE', true, CONFIG) && <FAQ />}
+      {starterConfig('STARTER_FAQ_ENABLE', true, CONFIG) && <FAQ />}
       {/* 团队介绍 */}
-      {siteConfig('STARTER_TEAM_ENABLE', true, CONFIG) && <Team />}
+      {starterConfig('STARTER_TEAM_ENABLE', true, CONFIG) && <Team />}
       {/* 博文列表 */}
-      {siteConfig('STARTER_BLOG_ENABLE', true, CONFIG) && (
+      {starterConfig('STARTER_BLOG_ENABLE', true, CONFIG) && (
         <>
           <Blog posts={posts} />
           <div className='container mx-auto flex justify-end mb-4'>
@@ -137,10 +136,10 @@ const LayoutIndex = props => {
         </>
       )}
       {/* 联系方式 */}
-      {siteConfig('STARTER_CONTACT_ENABLE', true, CONFIG) && <Contact />}
+      {starterConfig('STARTER_CONTACT_ENABLE', true, CONFIG) && <Contact />}
 
       {/* 行动呼吁 */}
-      {siteConfig('STARTER_CTA_ENABLE', true, CONFIG) && <CTA />}
+      {starterConfig('STARTER_CTA_ENABLE', true, CONFIG) && <CTA />}
     </>
   )
 }
@@ -157,12 +156,12 @@ const LayoutSlug = props => {
   const router = useRouter()
   if (
     !post &&
-    siteConfig('STARTER_POST_REDIRECT_ENABLE') &&
+    starterConfig('STARTER_POST_REDIRECT_ENABLE') &&
     isBrowser &&
     router.route === '/[prefix]/[slug]'
   ) {
     const redirectUrl =
-      siteConfig('STARTER_POST_REDIRECT_URL') +
+      starterConfig('STARTER_POST_REDIRECT_URL') +
       router.asPath.replace('?theme=landing', '')
     router.push(redirectUrl)
     return (
@@ -293,15 +292,15 @@ const Layout404 = props => {
                   <SVG404 />
                 </div>
                 <h3 className='mb-5 text-2xl font-semibold text-dark dark:text-white'>
-                  {siteConfig('STARTER_404_TITLE')}
+                  {starterConfig('STARTER_404_TITLE')}
                 </h3>
                 <p className='mb-8 text-base text-body-color dark:text-dark-6'>
-                  {siteConfig('STARTER_404_TEXT')}
+                  {starterConfig('STARTER_404_TEXT')}
                 </p>
                 <SmartLink
                   href='/'
                   className='py-3 text-base font-medium text-white transition rounded-md bg-dark px-7 hover:bg-primary'>
-                  {siteConfig('STARTER_404_BACK')}
+                  {starterConfig('STARTER_404_BACK')}
                 </SmartLink>
               </div>
             </div>
@@ -338,14 +337,14 @@ const LayoutPostList = props => {
                 {!slotTitle && (
                   <>
                     <span className='mb-2 block text-lg font-semibold text-primary'>
-                      {siteConfig('STARTER_BLOG_TITLE')}
+                      {starterConfig('STARTER_BLOG_TITLE')}
                     </span>
                     <h2 className='mb-4 text-3xl font-bold text-dark dark:text-white sm:text-4xl md:text-[40px] md:leading-[1.2]'>
-                      {siteConfig('STARTER_BLOG_TEXT_1')}
+                      {starterConfig('STARTER_BLOG_TEXT_1')}
                     </h2>
                     <p
                       dangerouslySetInnerHTML={{
-                        __html: siteConfig('STARTER_BLOG_TEXT_2')
+                        __html: starterConfig('STARTER_BLOG_TEXT_2')
                       }}
                       className='text-base text-body-color dark:text-dark-6'></p>
                   </>
@@ -481,8 +480,8 @@ const LayoutTagIndex = props => {
  */
 const LayoutSignIn = props => {
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  const title = siteConfig('STARTER_SIGNIN', '登录')
-  const description = siteConfig(
+  const title = starterConfig('STARTER_SIGNIN', '登录')
+  const description = starterConfig(
     'STARTER_SIGNIN_DESCRITION',
     '这里是演示页面，NotionNext目前不提供会员登录功能'
   )
@@ -512,8 +511,8 @@ const LayoutSignIn = props => {
 const LayoutSignUp = props => {
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-  const title = siteConfig('STARTER_SIGNIN', '注册')
-  const description = siteConfig(
+  const title = starterConfig('STARTER_SIGNIN', '注册')
+  const description = starterConfig(
     'STARTER_SIGNIN_DESCRITION',
     '这里是演示页面，NotionNext目前不提供会员注册功能'
   )

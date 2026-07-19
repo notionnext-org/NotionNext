@@ -10,40 +10,65 @@ const baseLayoutCache = new Map()
 const layoutByThemeCache = new Map()
 let domFixTimer = null
 
-const MagzineLayoutLoading = () => (
-  <div className='w-full bg-[#f6f6f1] dark:bg-black'>
+const LayoutLoading = () => (
+  <div className='min-h-screen w-full bg-[#f6f6f1] dark:bg-black' />
+)
+
+const EmptyBaseLayout = ({ children }) => <>{children}</>
+const EmptyPageLayout = () => null
+
+const IndexLayoutLoading = () => (
+  <div className='pt-10 md:pt-18 w-full bg-[#f6f6f1] dark:bg-black'>
     <div className='mx-auto w-full max-w-screen-3xl px-4 py-10 lg:px-0'>
       <div className='grid gap-10 xl:grid-cols-2'>
-        <div className='space-y-5'>
+        <section className='space-y-5'>
           <div className='h-80 w-full animate-pulse bg-gray-200 dark:bg-gray-800' />
-          <div className='h-4 w-28 animate-pulse bg-gray-200 dark:bg-gray-800' />
           <div className='h-10 w-4/5 animate-pulse bg-gray-200 dark:bg-gray-800' />
           <div className='h-4 w-2/3 animate-pulse bg-gray-200 dark:bg-gray-800' />
-        </div>
-        <div className='space-y-6'>
+          <div className='h-4 w-24 animate-pulse bg-gray-200 dark:bg-gray-800' />
+        </section>
+        <section className='space-y-6'>
           <div className='h-48 w-full animate-pulse bg-gray-200 dark:bg-gray-800' />
           {[0, 1].map(item => (
             <div
               key={item}
               className='flex gap-6 border-t border-gray-300 pt-6 dark:border-gray-800'>
               <div className='min-w-0 flex-1 space-y-3'>
-                <div className='h-4 w-24 animate-pulse bg-gray-200 dark:bg-gray-800' />
                 <div className='h-6 w-4/5 animate-pulse bg-gray-200 dark:bg-gray-800' />
                 <div className='h-4 w-2/3 animate-pulse bg-gray-200 dark:bg-gray-800' />
+                <div className='h-4 w-20 animate-pulse bg-gray-200 dark:bg-gray-800' />
               </div>
               <div className='h-32 w-32 shrink-0 animate-pulse bg-gray-200 dark:bg-gray-800' />
             </div>
           ))}
-        </div>
+        </section>
       </div>
+
+      <section className='mt-12'>
+        <div className='flex items-center justify-between'>
+          <div className='h-7 w-28 animate-pulse bg-gray-200 dark:bg-gray-800' />
+          <div className='h-5 w-24 animate-pulse bg-gray-200 dark:bg-gray-800' />
+        </div>
+        <div className='mt-6 grid gap-8 md:grid-cols-2 xl:grid-cols-4'>
+          {[0, 1, 2, 3].map(item => (
+            <div
+              key={item}
+              className='space-y-4 border-t border-gray-300 pt-5 dark:border-gray-800'>
+              <div className='h-5 w-3/4 animate-pulse bg-gray-200 dark:bg-gray-800' />
+              <div className='h-4 w-24 animate-pulse bg-gray-200 dark:bg-gray-800' />
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   </div>
 )
 
-const getLayoutLoading = (themeName, layoutName) => {
-  if (themeName === 'magzine' && layoutName === 'LayoutIndex') {
-    return MagzineLayoutLoading
+const getLayoutLoading = layoutName => {
+  if (layoutName === 'LayoutIndex') {
+    return IndexLayoutLoading
   }
+  return LayoutLoading
 }
 
 const normalizeThemeName = themeValue => {
@@ -51,6 +76,22 @@ const normalizeThemeName = themeValue => {
   const firstTheme = themeValue.split(',')[0].trim()
   if (!firstTheme) return BLOG.THEME
   return THEMES.includes(firstTheme) ? firstTheme : BLOG.THEME
+}
+
+const getFallbackThemeName = themeName => {
+  const preferred = normalizeThemeName(BLOG.THEME)
+  if (preferred && preferred !== themeName) return preferred
+  if (THEMES.includes('example') && themeName !== 'example') return 'example'
+  return THEMES.find(item => item !== themeName) || null
+}
+
+const getThemeExport = (mod, exportName) => {
+  if (mod?.[exportName]) return mod[exportName]
+  if (mod?.default?.[exportName]) return mod.default[exportName]
+  if (exportName === 'LayoutBase' && typeof mod?.default === 'function') {
+    return mod.default
+  }
+  return null
 }
 
 const scheduleFixThemeDOM = (delay = 120) => {
@@ -67,11 +108,44 @@ const scheduleFixThemeDOM = (delay = 120) => {
 async function importThemeConfig(themeFolderName) {
   try {
     const mod = await import(`@/themes/${themeFolderName}`)
-    return mod?.THEME_CONFIG ?? null
+    return getThemeExport(mod, 'THEME_CONFIG')
   } catch (err) {
     console.error(`Failed to load theme config "${themeFolderName}":`, err)
     return null
   }
+}
+
+async function importThemeLayout(themeFolderName, layoutName) {
+  try {
+    const mod = await import(`@/themes/${themeFolderName}`)
+    return (
+      getThemeExport(mod, layoutName) ||
+      getThemeExport(mod, 'LayoutSlug') ||
+      null
+    )
+  } catch (err) {
+    console.error(`Failed to load theme "${themeFolderName}":`, err)
+    return null
+  }
+}
+
+async function resolveThemeLayout(themeName, layoutName, emptyLayout) {
+  let Layout = await importThemeLayout(themeName, layoutName)
+  if (Layout) return Layout
+
+  const fallback = getFallbackThemeName(themeName)
+  if (fallback) {
+    Layout = await importThemeLayout(fallback, layoutName)
+    if (Layout) {
+      console.warn(
+        `[theme] "${themeName}" missing "${layoutName}", using fallback "${fallback}".`
+      )
+      return Layout
+    }
+  }
+
+  console.warn(`[theme] "${themeName}" missing "${layoutName}", using empty layout.`)
+  return emptyLayout
 }
 
 /**
@@ -95,8 +169,8 @@ export const getThemeConfig = async themeQuery => {
       return cfg
     }
   }
-  console.error('[theme] No theme configuration could be loaded.')
-  return null
+  console.warn('[theme] No theme configuration could be loaded, using empty config.')
+  return {}
 }
 
 /**
@@ -122,15 +196,7 @@ export const getBaseLayoutByTheme = theme => {
   }
   const DynamicBaseLayout = dynamic(
     () =>
-      import(`@/themes/${normalizedTheme}`).then(m => {
-        const Base = m['LayoutBase']
-        if (!Base) {
-          throw new Error(
-            `[theme] LayoutBase missing in themes/${normalizedTheme}`
-          )
-        }
-        return Base
-      }),
+      resolveThemeLayout(normalizedTheme, 'LayoutBase', EmptyBaseLayout),
     { ssr: true }
   )
   baseLayoutCache.set(normalizedTheme, DynamicBaseLayout)
@@ -164,20 +230,11 @@ export const useLayoutByTheme = ({ layoutName, theme }) => {
   }
 
   const loadLayout = () =>
-    import(`@/themes/${themeQuery}`).then(componentsSource => {
-      const Selected =
-        componentsSource[layoutName] || componentsSource.LayoutSlug
-      if (!Selected) {
-        throw new Error(
-          `[theme] Layout "${layoutName}" missing in themes/${themeQuery}`
-        )
-      }
-      return Selected
-    })
-  const layoutLoading = getLayoutLoading(themeQuery, layoutName)
-  const DynamicLayoutComponent = layoutLoading
-    ? dynamic(loadLayout, { ssr: true, loading: layoutLoading })
-    : dynamic(loadLayout, { ssr: true })
+    resolveThemeLayout(themeQuery, layoutName, EmptyPageLayout)
+  const DynamicLayoutComponent = dynamic(loadLayout, {
+    ssr: true,
+    loading: getLayoutLoading(layoutName)
+  })
   layoutByThemeCache.set(cacheKey, DynamicLayoutComponent)
   scheduleFixThemeDOM(themeQuery === BLOG.THEME ? 80 : 240)
   return DynamicLayoutComponent

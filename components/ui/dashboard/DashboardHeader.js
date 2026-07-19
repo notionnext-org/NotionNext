@@ -20,6 +20,8 @@ export default function DashboardHeader() {
             className='w-10 h-10 rounded-full'
             src={user?.imageUrl}
             alt={user?.fullName}
+            width={40}
+            height={40}
           />
 
           <div class='font-medium dark:text-white'>

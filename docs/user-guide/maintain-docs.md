@@ -37,8 +37,6 @@ push main（docs/user-guide/ 等变更）
     → .vitepress/dist → Cloudflare Pages
 ```
 
-详见 [cloudflare-pages-docs.md](./deploy/cloudflare-pages-docs.md)。
-
 ## 与旧版在线手册
 
 [docs.tangly1024.com](/user-guide/intro) 为历史 Notion 托管；**以 `docs/user-guide/` 与 notionnext.tangly1024.com 为准**。

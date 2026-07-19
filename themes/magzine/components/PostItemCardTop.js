@@ -47,13 +47,13 @@ const PostItemCardTop = ({ post, showSummary }) => {
             </SmartLink>
           )}
 
-        <div className='flex py-2 space-x-1 items-center'>
+        <div className='flex py-2 gap-x-1 items-center min-w-0'>
           {siteConfig('MAGZINE_POST_LIST_CATEGORY') && (
             <CategoryItem category={post?.category} />
           )}
           <div
             className={
-              'flex items-center justify-start flex-wrap space-x-3 text-gray-400'
+              'flex min-w-0 flex-1 items-center justify-start flex-nowrap overflow-x-auto scroll-hidden gap-x-3 text-gray-400'
             }>
             {siteConfig('MAGZINE_POST_LIST_TAG') &&
               post?.tagItems?.map(tag => (

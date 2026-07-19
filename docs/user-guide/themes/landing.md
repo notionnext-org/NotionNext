@@ -14,7 +14,7 @@
 
 - **定位**：单页着陆与分区滚动叙述。
 - **适用场景**：单页着陆分区
-- **配置前缀**：`LANDING_*`（共 **65** 项，见下方配置表）
+- **配置前缀**：`LANDING_*`（共 **66** 项，见下方配置表）
 - **在线预览**：[preview.tangly1024.com/?theme=landing](https://preview.tangly1024.com/?theme=landing)
 
 ## 适用场景
@@ -32,12 +32,23 @@
 配置文件：[`themes/landing/config.js`](https://github.com/notionnext-org/NotionNext/blob/main/themes/landing/config.js)  
 也可在 **Notion Config** 表中填写同名键（对象/数组用 JSON）。
 
+### Landing 主题调色
+
+Landing 主题可通过 `LANDING_COLOR_PRIMARY` 调整强调色：
+
+```js
+LANDING_COLOR_PRIMARY: '#ef4444'
+```
+
+切换到 Landing 后，也可以在全局主题工具中查看当前调色板，并复制对应配置项。
+
 <!-- theme-config-table -->
 
 ### 主要配置项
 
 | 配置键 | 说明 |
 | --- | --- |
+| `LANDING_COLOR_PRIMARY` | 主题强调色 |
 | `LANDING_HEADER_BUTTON_1_TITLE` | 见 config.js |
 | `LANDING_HEADER_BUTTON_1_URL` | 见 config.js |
 | `LANDING_HEADER_BUTTON_2_TITLE` | 见 config.js |

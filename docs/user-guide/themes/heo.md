@@ -9,7 +9,9 @@
 
 ![Heo 主题预览](/images/themes-preview/heo.webp)
 
-> **💡** 感谢张洪大佬的设计 [https://blog.zhheo.com/](https://blog.zhheo.com/)
+::: tip 提示
+感谢张洪大佬的设计 [https://blog.zhheo.com/](https://blog.zhheo.com/)
+:::
 
 
 ## 主题说明
@@ -26,6 +28,38 @@
 将您的默认主题设置为HEO，相关的所有配置都可以在[ /themes/heo/config.js ](https://github.com/tangly1024/NotionNext/blob/main/themes/heo/config.js)文件中找到。接下来我会介绍这个主题的功能区。
 
 ![Untitled](/legacy/c18a66ba4b1525db.png)
+
+## HEO 主题调色
+
+HEO 主题开始支持语义化颜色配置。早期主题中大量使用 Tailwind CSS 固定色名，是为了快速开发；现在可以优先通过 `HEO_COLOR_*` 配置项调整主题色，避免直接修改组件里的 className。
+
+这些配置可以写在 Notion Config、环境变量或 `themes/heo/config.js` 中。Notion Config 优先级更高，适合站长在线调整。
+
+| 配置项 | 默认值 | 影响范围 |
+| --- | --- | --- |
+| `HEO_COLOR_PRIMARY` | `#4f65f0` | 主按钮、选中态、信息卡主背景、重点链接 |
+| `HEO_COLOR_PRIMARY_HOVER` | `#4f46e5` | 主色 hover、信息卡内按钮 |
+| `HEO_COLOR_PRIMARY_TEXT` | `#ffffff` | 主色背景上的文字 |
+| `HEO_COLOR_ACCENT` | `#dca846` | 深色模式强调色、徽标和辅助高亮 |
+| `HEO_COLOR_BG` | `#f7f9fe` | 浅色模式页面背景 |
+| `HEO_COLOR_BG_DARK` | `#18171d` | 深色模式页面背景 |
+| `HEO_COLOR_CARD` | `#ffffff` | 浅色模式卡片背景 |
+| `HEO_COLOR_CARD_DARK` | `#1e1e1e` | 深色模式卡片背景 |
+| `HEO_COLOR_CARD_MUTED` | `#f1f3f8` | 浅色弱背景、计数徽标背景 |
+| `HEO_COLOR_BORDER` | `#4f46e5` | 浅色模式 hover 边框 |
+| `HEO_COLOR_BORDER_DARK` | `#dca846` | 深色模式 hover 边框 |
+| `HEO_COLOR_TEXT` | `#111827` | 主文字色 |
+| `HEO_COLOR_TEXT_SECONDARY` | `#4b5563` | 次级文字色 |
+
+示例：
+
+```js
+HEO_COLOR_PRIMARY: '#7c3aed',
+HEO_COLOR_PRIMARY_HOVER: '#6d28d9',
+HEO_COLOR_ACCENT: '#f59e0b'
+```
+
+后续主题切换工具会逐步加入调色板入口，直接显示当前主题支持的颜色配置键和色值，方便复制到 Notion Config。
 
 图中从上往下分别标注了6个区域，他们分别的功能和配置内容如下：
 

@@ -9,7 +9,9 @@
 
 ![Game 主题预览](/images/themes-preview/game.webp)
 
-> **💡** 年龄大了，只能玩得动一点小游戏。
+::: tip 提示
+年龄大了，只能玩得动一点小游戏。
+:::
 
 可以搭建网页小游戏网站的主题。在线预览：[https://games.tangly1024.com/](https://games.tangly1024.com/)。
 
@@ -23,6 +25,18 @@ Play Fee Online Game on Game1024
 ## 开启方式
 
 更新代码至最新的4.4.1；并配置主题为game即可。
+
+### Game 主题调色
+
+Game 支持通过语义色变量调整页面背景、滚动条和主色：
+
+```js
+GAME_COLOR_BG: '#ffffff',
+GAME_COLOR_SCROLLBAR: '#4e4e4e',
+GAME_COLOR_PRIMARY: '#22c55e'
+```
+
+主题工具中的调色板会展示当前值，并可直接复制配置项到 Notion Config。
 
 
 ## Game 主题概要
