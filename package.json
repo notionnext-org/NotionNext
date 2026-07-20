@@ -67,7 +67,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@clerk/localizations": "^3.37.6",
+    "@clerk/localizations": "^3.37.8",
     "@clerk/nextjs": "^5.7.6",
     "@headlessui/react": "^1.7.19",
     "@next/bundle-analyzer": "^12.3.7",
