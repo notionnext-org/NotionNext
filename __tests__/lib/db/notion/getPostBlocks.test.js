@@ -6,6 +6,7 @@ jest.mock('notion-utils', () => ({
 
 import { formatNotionBlock } from '@/lib/db/notion/getPostBlocks'
 import {
+  isExternalVideoEmbedUrl,
   isAppleMusicEmbedUrl,
   normalizeExternalMediaBlock
 } from '@/lib/db/notion/normalizeExternalMediaBlock'
@@ -40,6 +41,22 @@ describe('formatNotionBlock', () => {
     expect(blockValue.type).toBe('embed')
   })
 
+  it('rewrites external video player pages to embeds directly', () => {
+    const url =
+      'https://www.happinessrailway.com/dplayer.htm?n=https%3A%2F%2Fvip.lz-cdn16.com%2F20230312%2F12364_a86fbcc4%2Findex.m3u8'
+    const blockValue = {
+      type: 'video',
+      properties: {
+        source: [[url]]
+      }
+    }
+
+    expect(isExternalVideoEmbedUrl(url)).toBe(true)
+    normalizeExternalMediaBlock(blockValue)
+
+    expect(blockValue.type).toBe('embed')
+  })
+
   it('leaves non-matching video blocks unchanged during direct normalization', () => {
     const blockValue = {
       type: 'video',
@@ -69,6 +86,24 @@ describe('formatNotionBlock', () => {
     })
 
     expect(formatted['apple-music-song'].value.type).toBe('embed')
+  })
+
+  it('normalizes external video player pages from video blocks to embed blocks', () => {
+    const formatted = formatNotionBlock({
+      'external-player': {
+        value: {
+          id: 'external-player',
+          type: 'video',
+          properties: {
+            source: [[
+              'https://www.happinessrailway.com/dplayer.htm?n=https%3A%2F%2Fvip.lz-cdn16.com%2F20230312%2F12364_a86fbcc4%2Findex.m3u8'
+            ]]
+          }
+        }
+      }
+    })
+
+    expect(formatted['external-player'].value.type).toBe('embed')
   })
 
   it('relinks synced block content children to the original parent', () => {
