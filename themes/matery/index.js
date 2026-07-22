@@ -29,6 +29,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import JumpToCommentButton from './components/JumpToCommentButton'
 import PostHero from './components/PostHero'
+import ReadingHome from './components/ReadingHome'
 import RightFloatButtons from './components/RightFloatButtons'
 import SearchNave from './components/SearchNav'
 import TagItemMiddle from './components/TagItemMiddle'
@@ -133,6 +134,9 @@ const LayoutBase = props => {
  * @returns
  */
 const LayoutIndex = props => {
+  if (siteConfig('MATERY_HOME_READING_LAYOUT', null, CONFIG)) {
+    return <ReadingHome {...props} />
+  }
   return <LayoutPostList {...props} />
 }
 

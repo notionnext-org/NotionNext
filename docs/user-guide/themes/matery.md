@@ -14,7 +14,7 @@
 
 - **定位**：卡片式列表与 Material 质感组件。
 - **适用场景**：Material 卡片封面列表
-- **配置前缀**：`MATERY_*`（共 **25** 项，见下方配置表）
+- **配置前缀**：`MATERY_*`（共 **26** 项，见下方配置表）
 - **在线预览**：[preview.tangly1024.com/?theme=matery](https://preview.tangly1024.com/?theme=matery)
 
 ## 适用场景
@@ -44,6 +44,10 @@ MATERY_COLOR_BG: '#f5f5f5'
 
 主题工具中的调色板会展示当前值，并可直接复制配置项到 Notion Config。
 
+### 阅读导向首页
+
+在 Notion Config 中将 `MATERY_HOME_READING_LAYOUT` 设为 `true`，或配置环境变量 `NEXT_PUBLIC_MATERY_HOME_READING_LAYOUT=true`，首页会从单一文章时间流切换为四个阅读入口：推荐文章、分类主题、最新文章与 RSS。推荐文章优先识别 `Featured`、`Recommend`、`Recommended` 或 `推荐` 标签；没有匹配标签时使用前 3 篇文章。默认值为 `false`，原有分页或滚动文章列表保持不变。
+
 <!-- theme-config-table -->
 
 ### 主要配置项
@@ -55,6 +59,7 @@ MATERY_COLOR_BG: '#f5f5f5'
 | `MATERY_HOME_NAV_BUTTONS` | 见 config.js |
 | `MATERY_HOME_NAV_BACKGROUND_IMG_FIXED` | 见 config.js |
 | `MATERY_SHOW_START_READING` | 见 config.js |
+| `MATERY_HOME_READING_LAYOUT` | 使用阅读导向首页：推荐文章、分类入口、最新文章与 RSS |
 | `MATERY_MENU_CATEGORY` | 见 config.js |
 | `MATERY_MENU_TAG` | 见 config.js |
 | `MATERY_MENU_ARCHIVE` | 见 config.js |
