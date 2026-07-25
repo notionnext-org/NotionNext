@@ -13,7 +13,7 @@
 | --- | --- | --- | --- |
 | 个人博客 / 日常写作 | [simple](./simple.md)、[hexo](./hexo.md) | [nobelium](./nobelium.md)、[typography](./typography.md) | 结构清楚、文章优先、配置负担低 |
 | 文档 / 知识库 / 教程站 | [gitbook](./gitbook.md)、[claude](./claude.md) | [thoughtlite](./thoughtlite.md) | 侧边栏、目录和阅读连续性更强 |
-| 作品集 / 个人品牌 | [opc](./opc.md)、[proxio](./proxio.md) | [starter](./starter.md)、[landing](./landing.md) | 首屏表达强，适合展示身份、作品和服务 |
+| 作品集 / 个人品牌 | [opc](./opc.md)、[proxio](./proxio.md) | [starter](./starter.md)、[landing](./landing.md) | 首屏表达强，适合展示身份、作品、服务和 AI 任务流水线 |
 | 产品官网 / SaaS 落地页 | [starter](./starter.md)、[landing](./landing.md) | [commerce](./commerce.md) | 有产品介绍、功能区块、价格和 CTA 结构 |
 | 图片 / 摄影 / 视觉内容 | [photo](./photo.md)、[plog](./plog.md) | [magzine](./magzine.md) | 图片展示密度更高，适合视觉浏览 |
 | 导航站 / 资源聚合 | [nav](./nav.md) | [gitbook](./gitbook.md) | 更适合分类入口、链接集合和资源导航 |
@@ -66,7 +66,7 @@
 | `landing` | Landing | 单页着陆 | [landing.md](./landing.md) |
 | `starter` | Starter | 营销落地页区块 | [starter.md](./starter.md) |
 | `proxio` | Proxio | 作品集/品牌站 | [proxio.md](./proxio.md) |
-| `opc` | Opc | 一人公司/个人主页入口 | [opc.md](./opc.md) |
+| `opc` | Opc | 一人公司/AI 任务流水线入口 | [opc.md](./opc.md) |
 | `commerce` | Commerce | 商品展示 | [commerce.md](./commerce.md) |
 | `magzine` | Magazine | 杂志封面风（目录名 `magzine`） | [magzine.md](./magzine.md) |
 | `claude` | Claude | 文档风 + 贡献热力图首页 | [claude.md](./claude.md) · [CLAUDE.md](../../developer/themes/CLAUDE.md) |

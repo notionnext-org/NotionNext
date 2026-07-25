@@ -4,8 +4,10 @@ import NotionPage from '@/components/NotionPage'
 import ShareBar from '@/components/ShareBar'
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
+import { useGlobal } from '@/lib/global'
 import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 import { useRouter } from 'next/router'
+import { Moon, Sun } from '@/components/HeroIcons'
 import CONFIG from './config'
 
 const c = key => siteConfig(key, CONFIG[key], CONFIG)
@@ -192,6 +194,21 @@ const NowPanel = () => (
   </section>
 )
 
+const OpcDarkModeButton = () => {
+  const { isDarkMode, toggleDarkMode } = useGlobal()
+
+  return (
+    <button
+      type='button'
+      onClick={toggleDarkMode}
+      aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDarkMode ? 'Light mode' : 'Dark mode'}
+      className='opc-dark-mode-button fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-md border transition focus:outline-none focus:ring-2 focus:ring-offset-2 md:bottom-8 md:right-8'>
+      <span className='h-5 w-5'>{isDarkMode ? <Sun /> : <Moon />}</span>
+    </button>
+  )
+}
+
 const Style = () => (
   <style jsx global>{`
     ${themeConsoleStyle('opc', CONFIG)}
@@ -272,6 +289,19 @@ const Style = () => (
       color: var(--opc-console-primary);
     }
 
+    #theme-opc .opc-dark-mode-button {
+      border-color: color-mix(in srgb, var(--opc-console-border) 88%, transparent);
+      background-color: color-mix(in srgb, var(--opc-console-card) 92%, transparent);
+      color: var(--opc-console-text);
+      box-shadow: 0 14px 40px color-mix(in srgb, var(--opc-console-text) 12%, transparent);
+    }
+
+    #theme-opc .opc-dark-mode-button:hover {
+      border-color: var(--opc-console-primary);
+      color: var(--opc-console-primary);
+      transform: translateY(-1px);
+    }
+
     #theme-opc .notion {
       color: #111827;
     }
@@ -310,6 +340,7 @@ const Style = () => (
 const LayoutBase = ({ children }) => (
   <div id='theme-opc' className={`${siteConfig('FONT_STYLE')} min-h-screen`}>
     <Style />
+    <OpcDarkModeButton />
     {children}
     <OpcFooter />
   </div>
