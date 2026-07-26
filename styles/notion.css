@@ -2198,6 +2198,11 @@ figure.notion-asset-wrapper.notion-asset-wrapper-video > div {
   padding: 0 16px;
 }
 
+/* Respect Notion Gallery's "Show page icon" view setting. */
+.notion-gallery-hide-page-icons .notion-page-title-icon {
+  display: none;
+}
+
 /* Dark mode: database property tags (select / multi_select) text readability */
 html.dark .notion-property-select-item,
 html.dark .notion-property-status-item,

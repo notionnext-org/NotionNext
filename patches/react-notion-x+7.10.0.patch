@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-notion-x/build/third-party/collection.js b/node_modules/react-notion-x/build/third-party/collection.js
+index 97e229d..64344de 100644
+--- a/node_modules/react-notion-x/build/third-party/collection.js
++++ b/node_modules/react-notion-x/build/third-party/collection.js
+@@ -5877,7 +5877,10 @@ function Gallery({
+   const shouldLimit = typeof loadLimit === "number";
+   const showLoadMore = shouldLimit && !isExpanded && ((blockIds == null ? void 0 : blockIds.length) || 0) > loadLimit;
+   const visibleBlockIds = showLoadMore ? blockIds == null ? void 0 : blockIds.slice(0, loadLimit) : blockIds;
+-  return /* @__PURE__ */ jsxs17("div", { className: "notion-gallery", children: [
++  return /* @__PURE__ */ jsxs17("div", { className: cs(
++    "notion-gallery",
++    collectionView.format && collectionView.format.show_page_icon === false && "notion-gallery-hide-page-icons"
++  ), children: [
+     /* @__PURE__ */ jsx54("div", { className: "notion-gallery-view", children: /* @__PURE__ */ jsx54(
+       "div",
+       {
