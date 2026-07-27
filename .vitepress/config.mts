@@ -149,6 +149,7 @@ export default defineConfig({
             { text: '从这里开始', link: '/user-guide/start-here' },
             { text: '介绍', link: '/user-guide/intro' },
             { text: '用户作品', link: '/user-guide/showcase' },
+            { text: '场景模板', link: '/user-guide/templates' },
             { text: 'Vercel 部署', link: '/user-guide/deploy-vercel' },
             { text: 'Notion 数据库', link: '/user-guide/notion-database' },
             { text: '配置站点', link: '/user-guide/config-site' },

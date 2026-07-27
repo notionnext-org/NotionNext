@@ -121,6 +121,7 @@ Common commands:
 | --- | --- |
 | Docs site | [notionnext.tangly1024.com](https://notionnext.tangly1024.com) |
 | New user guide | [Get started](https://notionnext.tangly1024.com/user-guide/start-here) |
+| Use-case templates | [Choose by goal](https://notionnext.tangly1024.com/user-guide/templates) |
 | Configuration index | [Features and configuration](https://notionnext.tangly1024.com/user-guide/reference/features) |
 | Theme docs | [26 built-in themes](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) |
 | Showcase | [User websites](https://notionnext.tangly1024.com/user-guide/showcase): submit your site after launch |
