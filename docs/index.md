@@ -16,6 +16,9 @@ hero:
       text: 浏览主题
       link: /user-guide/themes/THEMES_CATALOG
     - theme: alt
+      text: 用户作品
+      link: /user-guide/showcase
+    - theme: alt
       text: 部署到 Vercel
       link: /user-guide/deploy-vercel
 
@@ -168,6 +171,17 @@ features:
       <span>Notion 是内容源，未来仍可迁移到 Markdown 或其他系统。</span>
     </div>
   </div>
+</section>
+
+<section class="nn-home-section">
+  <p class="nn-home-kicker">用户作品</p>
+  <h2>已经上线？欢迎把你的站点提交到作品墙</h2>
+  <p>
+    Showcase 收集真实的 NotionNext 站点，帮助新用户按场景选择主题，也让社区成员的博客、作品集、知识库和产品官网被更多人看到。
+  </p>
+  <p>
+    <a href="/user-guide/showcase">提交或查看用户作品</a>
+  </p>
 </section>
 
 <section class="nn-home-section">
