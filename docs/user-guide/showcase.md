@@ -16,7 +16,7 @@
 
 ## 如何提交
 
-在 [GitHub Discussions](https://github.com/notionnext-org/NotionNext/discussions) 发帖，或直接提交文档 PR 修改本页，提供以下信息即可：
+在 [用户作品征集帖](https://github.com/notionnext-org/NotionNext/discussions/4319) 回复，或直接提交文档 PR 修改本页，提供以下信息即可：
 
 | 字段 | 说明 |
 | --- | --- |
