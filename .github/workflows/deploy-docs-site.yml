@@ -49,9 +49,6 @@ jobs:
           VITE_DOCS_CHAT_API: /api/docs-chat
         run: yarn docs:site:build
 
-      - name: Build Pages Functions
-        run: npx wrangler pages functions build functions --outfile .vitepress/dist/_worker.js --output-routes-path .vitepress/dist/_routes.json --project-directory .
-
       - name: Set Pages project name
         run: echo "CF_PAGES_PROJECT=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME || 'notionnext-docs' }}" >> "$GITHUB_ENV"
 
