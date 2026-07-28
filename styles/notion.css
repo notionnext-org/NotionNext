@@ -2203,6 +2203,13 @@ figure.notion-asset-wrapper.notion-asset-wrapper-video > div {
   display: none;
 }
 
+/* Respect the Gallery title property's visibility setting. */
+.notion-gallery-hide-titles
+  .notion-collection-card-body
+  > .notion-collection-card-property:first-child {
+  display: none;
+}
+
 /* Dark mode: database property tags (select / multi_select) text readability */
 html.dark .notion-property-select-item,
 html.dark .notion-property-status-item,
