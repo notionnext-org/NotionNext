@@ -251,6 +251,19 @@ NotionComments 需要 `/api/notion-comments` 服务端接口来读取和写入 N
 - 数据库字段名称和类型是否与文档表格一致。
 - 如果开启了审核，`Status` 是否已经改成 `Approved`。
 
+### Netlify 部署后接口 404
+
+先直接访问：
+
+```text
+https://你的域名/api/notion-comments?postId=test
+```
+
+- 返回 `[]` 或 `500`：说明 API Route 已部署成功，再检查 Notion Token、数据库 ID、共享权限和字段。
+- 返回 `404`：说明请求还没有进入 NotionComments 接口，优先检查 Netlify 是否启用了 Next.js API Routes，不要使用 `yarn export`，也不要把发布目录设成 `out`。
+
+Netlify 项目应使用 Next.js 动态部署能力；构建日志里需要能看到 Next.js 插件和 Functions / API Routes 相关输出。
+
 ### 评论能写入，但页面不显示
 
 检查 `PostId` 是否等于当前文章页面 ID。手动改数据库内容时，不要修改 `PostId`、`ParentId` 和 `Level`。
