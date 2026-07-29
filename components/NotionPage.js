@@ -282,10 +282,7 @@ const AdEmbed = dynamic(
 )
 
 const Collection = dynamic(
-  () =>
-    import('react-notion-x/build/third-party/collection').then(
-      m => m.Collection
-    ),
+  () => import('@/components/NotionCollection'),
   {
     ssr: true
   }

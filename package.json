@@ -63,8 +63,7 @@
     "translate:all": "node scripts/translate/index.js --batch",
     "translate:check": "node scripts/translate/index.js --check-drift",
     "translate:backfill": "node scripts/translate/index.js --backfill",
-    "translate:diagnose": "node scripts/translate/index.js --diagnose",
-    "postinstall": "patch-package"
+    "translate:diagnose": "node scripts/translate/index.js --diagnose"
   },
   "dependencies": {
     "@clerk/localizations": "^3.37.8",
@@ -128,7 +127,6 @@
     "marked": "^18.0.6",
     "marked-highlight": "^2.2.4",
     "next-sitemap": "^1.9.12",
-    "patch-package": "^8.0.1",
     "postcss": "^8.5.15",
     "prettier": "^3.8.3",
     "sharp": "^0.35.0",
