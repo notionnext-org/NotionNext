@@ -134,9 +134,6 @@ NotionNext教程
 操作方式，联系小助理告知”代码付费升级“，定价是￥**9.9/**次。
 :::
 
-- 更多手动方案，感谢网友们的分享！
-[NotionNext更新冲突手动解决方案 | 凌云·LinYun](https://www.linyunlink.top/article/post-240629)
-
 NotionNext更新冲突？网上教程还要VS code和git?通通不需要，马上解决冲突！
 [047 一种更新NotionNext版本的简单方法 | Dongdong’s Blog](https://ddw2019.com/047)
 
