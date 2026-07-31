@@ -269,4 +269,41 @@ describe('formatNotionBlock', () => {
       'https://notion.so/signed/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Ffile.pdf?table=block&id=pdf'
     )
   })
+
+  it.each(['tab', 'tabs'])(
+    'maps Notion %s containers to internal tabs embeds',
+    originalType => {
+      const formatted = formatNotionBlock({
+        tabs: {
+          value: {
+            id: 'tabs',
+            type: originalType,
+            format: {
+              block_color: 'gray_background'
+            },
+            content: ['tab-a', 'tab-b']
+          }
+        },
+        'tab-a': {
+          value: {
+            id: 'tab-a',
+            type: 'text',
+            parent_id: 'tabs',
+            properties: {
+              title: [['First']]
+            }
+          }
+        }
+      })
+
+      expect(formatted.tabs.value.type).toBe('embed')
+      expect(formatted.tabs.value.content).toEqual(['tab-a', 'tab-b'])
+      expect(formatted.tabs.value.format).toMatchObject({
+        block_color: 'gray_background',
+        embed_variant: 'notion_tabs',
+        notion_next_original_type: originalType
+      })
+      expect(formatted['tab-a'].value.type).toBe('text')
+    }
+  )
 })
