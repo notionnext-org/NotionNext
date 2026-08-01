@@ -54,6 +54,7 @@
 | 🛠 站点配置 | `notion-next-custom-properties` | [config/notion-next-custom-properties.md](./config/notion-next-custom-properties.md) |
 | 🛠 站点配置 | `notion-next-copy-permission` | [config/copy-permission.md](./config/copy-permission.md) |
 | 🛠 站点配置 | `notion-next-article-copyright` | [config/article-copyright.md](./config/article-copyright.md) |
+| 🛠 站点配置 | `notion-next-originality-proof` | [config/originality-proof.md](./config/originality-proof.md) |
 | 🛠 站点配置 | `notion-next-mulity-languages` | [config/notion-next-mulity-languages.md](./config/notion-next-mulity-languages.md) |
 | 🛠 站点配置 | `notion-next-site-combine` | [config/notion-next-site-combine.md](./config/notion-next-site-combine.md) |
 | 🛠 站点配置 | `notion-next-api_base_url` | [config/notion-next-api_base_url.md](./config/notion-next-api_base_url.md) |

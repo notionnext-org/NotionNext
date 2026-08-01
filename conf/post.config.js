@@ -39,6 +39,9 @@ module.exports = {
   ARTICLE_EXPIRATION_ENABLED:
     process.env.NEXT_PUBLIC_ARTICLE_EXPIRATION_ENABLED || 'false', // 是否启用文章过期提醒
 
+  ORIGINALITY_PROOF_ENABLE:
+    process.env.NEXT_PUBLIC_ORIGINALITY_PROOF_ENABLE || 'false', // 原创存证：生成并展示文章内容哈希，默认关闭
+
   POST_WAITING_TIME_FOR_404:
     process.env.NEXT_PUBLIC_POST_WAITING_TIME_FOR_404 || '8', // 文章加载超时时间，单位秒；超时后跳转到404页面
 

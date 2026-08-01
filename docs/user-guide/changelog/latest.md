@@ -18,6 +18,7 @@
 - 新增 Notion 图片反代教程，覆盖 Worker 部署、API Token 权限、Custom Domain 限制、本地预览、`yarn start` / `yarn export` 兼容性和缓存验证方式。
 - 记录常见坑：`Write all resources` 仍缺 `User -> Memberships -> Read`、Custom Domain 不能带路径、浏览器内存缓存会显示旧的 `CF-Cache-Status: MISS`、`prod-files-secure` 不能直接请求 S3 原始地址。
 - VitePress 部署目录新增「Notion 图片反代」入口。
+- 新增原创存证教程，说明 `NEXT_PUBLIC_ORIGINALITY_PROOF_ENABLE`、Notion `proof` / `proofTime` / `proofHash` / `proofUrl` 字段，以及本地内容哈希的证明边界。
 
 ### 升级说明
 
