@@ -13,10 +13,20 @@ const post = {
 }
 
 describe('originalityProof', () => {
-  it('requires an explicit global or per-post opt-in', () => {
+  it('supports global opt-in, per-post opt-in, and metadata auto opt-in', () => {
     expect(isOriginalityProofEnabled(false, {})).toBe(false)
     expect(isOriginalityProofEnabled('true', {})).toBe(true)
     expect(isOriginalityProofEnabled(false, { proof: 'yes' })).toBe(true)
+    expect(
+      isOriginalityProofEnabled(false, { proofUrl: 'https://proof.example' })
+    ).toBe(true)
+    expect(isOriginalityProofEnabled(false, { ext: { proofHash: 'hash' } })).toBe(true)
+    expect(
+      isOriginalityProofEnabled(true, {
+        proof: 'false',
+        proofUrl: 'https://proof.example'
+      })
+    ).toBe(false)
   })
 
   it('generates a deterministic content hash', () => {
