@@ -21,9 +21,15 @@ PRISM_THEME_DARK_PATH: 'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism
 CODE_MAC_BAR: process.env.NEXT_PUBLIC_CODE_MAC_BAR || true, // 代码左上角显示mac的红黄绿图标
 CODE_LINE_NUMBERS: process.env.NEXT_PUBLIC_CODE_LINE_NUMBERS || false, // 是否显示行号
 CODE_COLLAPSE: process.env.NEXT_PUBLIC_CODE_COLLAPSE || true, // 是否折叠代码框
+CODE_COLLAPSE_EXPAND_DEFAULT: process.env.NEXT_PUBLIC_CODE_COLLAPSE_EXPAND_DEFAULT || true, // 折叠代码默认是展开状态
+CODE_COLLAPSE_MIN_LINES: process.env.NEXT_PUBLIC_CODE_COLLAPSE_MIN_LINES || 20, // 只有超过该行数的代码块才显示折叠条
 // END********代码相关********
 ```
 
+
+### 代码折叠与侧栏预览
+
+开启 `CODE_COLLAPSE` 后，超过 `CODE_COLLAPSE_MIN_LINES` 的长代码块会显示折叠条。桌面端会额外显示“在侧栏查看”按钮，点击后可在右侧固定侧栏中阅读完整代码，并支持复制、关闭按钮、Esc 或点击遮罩退出；移动端保持原有折叠/展开行为。
 
 ### 代码风格配置说明
 

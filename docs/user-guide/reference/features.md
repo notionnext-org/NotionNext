@@ -123,7 +123,7 @@
 | `PRISM_THEME_*` | 高亮主题、深浅切换 |
 | `CODE_MAC_BAR` | Mac 窗口三色点 |
 | `CODE_LINE_NUMBERS` | 行号 |
-| `CODE_COLLAPSE` | 折叠长代码 |
+| `CODE_COLLAPSE` | 折叠长代码，桌面端支持侧栏预览 |
 | `MERMAID_CDN` | Mermaid 图表 |
 
 ## 广告（conf/ad.config.js）
