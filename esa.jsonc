@@ -1,0 +1,10 @@
+{
+  "name": "NotionNext", // 你的项目名称，可以自定义[reference:4]
+  "installCommand": "npm install", // 依赖安装命令[reference:5]
+  "buildCommand": "npm run export", // 构建命令，生成静态文件[reference:6]
+  "assets": {
+    "directory": "./out", // 关键：指定静态文件的输出目录[reference:7][reference:8]
+    "notFoundStrategy": "404Page" // 处理404页面
+  }
+  // "entry": "./src/index.js" // 如果使用了边缘函数，在此指定入口文件[reference:9]
+}
