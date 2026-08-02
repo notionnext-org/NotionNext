@@ -52,12 +52,18 @@ const MyApp = ({ Component, pageProps }) => {
   )
 
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+  const page = <Component {...pageProps} />
+  const wrappedPage = Component.getLayout
+    ? Component.getLayout(page, pageProps)
+    : (
+        <GLayout {...pageProps}>
+          {page}
+        </GLayout>
+      )
   const content = (
     <GlobalContextProvider {...pageProps}>
-      <GLayout {...pageProps}>
-        <SEO {...pageProps} />
-        <Component {...pageProps} />
-      </GLayout>
+      <SEO {...pageProps} />
+      {wrappedPage}
       <ExternalPlugins {...pageProps} />
     </GlobalContextProvider>
   )

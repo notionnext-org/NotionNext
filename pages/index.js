@@ -1,12 +1,12 @@
+import LandingPage from '@/components/landing/LandingPage'
+import { fetchGlobalAllData, getPostBlocks } from '@/lib/db/SiteDataApi'
+import { checkDataFromAlgolia } from '@/lib/plugins/algolia'
 import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
-import { fetchGlobalAllData, getPostBlocks } from '@/lib/db/SiteDataApi'
+import { generateRedirectJson } from '@/lib/utils/redirect'
 import { generateRobotsTxt } from '@/lib/utils/robots.txt'
 import { generateRss } from '@/lib/utils/rss'
 import { generateSitemapXml } from '@/lib/utils/sitemap.xml'
-import { DynamicLayout } from '@/themes/theme'
-import { generateRedirectJson } from '@/lib/utils/redirect'
-import { checkDataFromAlgolia } from '@/lib/plugins/algolia'
 
 /**
  * 首页布局
@@ -14,9 +14,10 @@ import { checkDataFromAlgolia } from '@/lib/plugins/algolia'
  * @returns
  */
 const Index = props => {
-  const theme = siteConfig('THEME', BLOG.THEME, props.NOTION_CONFIG)
-  return <DynamicLayout theme={theme} layoutName='LayoutIndex' {...props} />
+  return <LandingPage {...props} />
 }
+
+Index.getLayout = page => page
 
 /**
  * SSG 获取数据
