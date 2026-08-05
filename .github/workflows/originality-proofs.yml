@@ -1,0 +1,35 @@
+name: Originality proofs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 2 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: vars.ORIGINALITY_PROOF_AUTO_MANIFEST == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+        env:
+          ORIGINALITY_PROOF_AUTO_MANIFEST: 'true'
+      - name: Commit proof manifest
+        run: |
+          if git diff --quiet -- public/proofs/originality.json; then
+            echo "No originality proof changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/proofs/originality.json
+          git commit -m "chore: update originality proofs"
+          git push

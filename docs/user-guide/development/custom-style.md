@@ -31,17 +31,21 @@ NotionNext在[4.2版本](/user-guide/changelog/v4-history)后支持直接在Noti
 
 1.在你的网站上定位出需要改动的元素源码，并获得此元素的`selector`
 
-> **💡** selector指的是选择器，它是一段类似地理坐标的脚本，告诉CSS要将样式运用在哪个元素。
+::: tip 提示
+selector指的是选择器，它是一段类似地理坐标的脚本，告诉CSS要将样式运用在哪个元素。
 例如：亚洲→中国→广东→深圳→福田区 这是一个地理选择器。在网页中根据页面的标签元素： #header &gt; .clazzname &gt; div  这是一个CSS selector。
 关于css选择器感兴趣的话可以通过以下文章了解：
->
+
 [CSS 选择器 | 菜鸟教程](https://www.runoob.com/cssref/css-selectors.html)
->
-> CSS 选择器  CSS（层叠样式表）提供了多种选择器，用于选择要应用样式的 HTML 元素。 CSS 选择器用于选择你想要的元素的样式的模式。 下列表格中的 “CSS” 列表示在 CSS 版本的属性定义，CSS1、CSS2 和 CSS3 是层叠样式表（Cascading Style Sheets）的不同版本，每个版本引入了新的特性和功能，以改进网页样式的控制和设计。  常见的 CSS 选择器   下是一些常见的 CSS 选择器：  元..
+
+CSS 选择器  CSS（层叠样式表）提供了多种选择器，用于选择要应用样式的 HTML 元素。 CSS 选择器用于选择你想要的元素的样式的模式。 下列表格中的 “CSS” 列表示在 CSS 版本的属性定义，CSS1、CSS2 和 CSS3 是层叠样式表（Cascading Style Sheets）的不同版本，每个版本引入了新的特性和功能，以改进网页样式的控制和设计。  常见的 CSS 选择器   下是一些常见的 CSS 选择器：  元..
+:::
 
 2.在您笔记的NotionConfig中编写CSS样式
 
-> **💡** NotionConfig指的是您的Notion笔记数据库中，一个类型为CONFIG、名为配置中心的页面，这个页面中的表格可以用来配置站点信息。
+::: tip 提示
+NotionConfig指的是您的Notion笔记数据库中，一个类型为CONFIG、名为配置中心的页面，这个页面中的表格可以用来配置站点信息。
+:::
 
 
 ## 操作演示
@@ -56,7 +60,9 @@ NotionNext在[4.2版本](/user-guide/changelog/v4-history)后支持直接在Noti
 
 1. 按下键盘上的`F12`打开控制台
 ![Untitled](/legacy/0ef850da506cd80f.png)
-> **💡** 控制台右上角的三个点可以设置控制台停靠的位置，您可以设置靠在不同的位置，防止遮挡元素。
+::: tip 提示
+控制台右上角的三个点可以设置控制台停靠的位置，您可以设置靠在不同的位置，防止遮挡元素。
+:::
 
 1. 点击控制台`左上角的选择器`，进入`选择模式`
 ![Untitled](/legacy/6ac012d54e9f8eeb.png)
@@ -66,15 +72,19 @@ NotionNext在[4.2版本](/user-guide/changelog/v4-history)后支持直接在Noti
 1. 在源代码中定位此元素
 **单击**目标对象后，控制台中该对象的**源代码自动被蓝色选**中，这就是我们要定位的代码元素
 ![Untitled](/legacy/26a046b0be12a4df.png)
-> **💡** 单击后您将退出选择器模式
+::: tip 提示
+单击后您将退出选择器模式
+:::
 
 1. 如何获得selector？
 右键点击被蓝色选中的源代码，并依次点击 `复制`→` 复制selector `即可。
 ![Untitled](/legacy/929e38640c0cf6f7.png)
-> **💡** 此时你的系统剪贴板内容如下：
->
+::: tip 提示
+此时你的系统剪贴板内容如下：
+
 `#header &gt; div &gt; ``[div.font-black.text-4xl.md](http://div.font-black.text-4xl.md/)``\:text-5xl.shadow-text`
-> 课外阅读：这行命令相当于一个地理位置坐标，它定位的是` id为header的元素 `下的`标签为div元素`下的class为`[.font-black.text-4xl.md](http://div.font-black.text-4xl.md/)``\:text-5xl.shadow-text` 的div元素。
+课外阅读：这行命令相当于一个地理位置坐标，它定位的是` id为header的元素 `下的`标签为div元素`下的class为`[.font-black.text-4xl.md](http://div.font-black.text-4xl.md/)``\:text-5xl.shadow-text` 的div元素。
+:::
 
 
 ### 二、编写css样式
@@ -88,19 +98,23 @@ NotionNext在[4.2版本](/user-guide/changelog/v4-history)后支持直接在Noti
     color: red; /* 设置字体颜色为红色 */
 }
 ```
-> **⚠️** 输入css代码时，请提前将输入法切换成英文。防止中文输入法全角标点和空格导致的代码编译异常。
+::: warning 注意
+输入css代码时，请提前将输入法切换成英文。防止中文输入法全角标点和空格导致的代码编译异常。
+:::
 
 1. 在Notion中编辑
 打开CONFIG配置中心，添加一个配置GLOBAL_CSS，内容就是上面的CSS样式。
 ![Untitled](/legacy/e959b5afac3b9c8d.png)
-> **⚠️** 注意：
+::: warning 注意
+注意：
 配置的启用要打上钩，否则不生效。
 如果要配置多个不同的样式，可以换行后继续粘贴内容
->
+
 ![Untitled](/legacy/9968e6ad4bf77cce.png)
   1. 刷新网页预览效果
 然后根据您的需求，再一点点调试即可
 ![Untitled](/legacy/ef9337e391b6a0a8.png)
+:::
 
 
 ## 最后

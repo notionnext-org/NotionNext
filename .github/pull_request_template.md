@@ -35,9 +35,11 @@
 - [ ] （如适用）版本号正确显示
 - [ ] （如适用）环境变量配置正常工作
 
-## 用户文档（`docs/user-guide/`）
+## 用户文档（`docs/user-guide/` / `docs/developer/`）
 
-若本 PR **未** 修改 `docs/user-guide/`、`docs/developer/` 中与站长相关的说明，可勾选「不适用」并跳过本节。
+如果本 PR 新增或修改了站长会使用的功能、主题配置、环境变量、Notion Config 键、插件开关、部署步骤、默认行为或可见 UI 交互，请同步更新 `docs/user-guide/` 或 `docs/developer/` 中对应说明，并在下方勾选已完成项。
+
+只有纯内部重构、测试、CI、依赖维护、拼写修正等不改变站长使用方式的改动，才可以勾选「不适用」。
 
 - [ ] 不适用（无文档改动）
 - [ ] 已按 [维护工作流](https://github.com/notionnext-org/NotionNext/blob/main/docs/user-guide/MAINTENANCE_WORKFLOW.md) 自检

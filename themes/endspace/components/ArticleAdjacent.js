@@ -58,7 +58,7 @@ export default function ArticleAdjacent({ prev, next }) {
         ) : (
           <div className="endspace-frame p-5 flex items-center justify-center min-h-[100px] opacity-40">
             <span className="tech-text text-xs text-[var(--endspace-text-muted)]">
-              // NO_PREV_ARTICLE
+              {'// NO_PREV_ARTICLE'}
             </span>
           </div>
         )}
@@ -88,7 +88,7 @@ export default function ArticleAdjacent({ prev, next }) {
         ) : (
           <div className="endspace-frame p-5 flex items-center justify-center min-h-[100px] opacity-40">
             <span className="tech-text text-xs text-[var(--endspace-text-muted)]">
-              // NO_NEXT_ARTICLE
+              {'// NO_NEXT_ARTICLE'}
             </span>
           </div>
         )}

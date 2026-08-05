@@ -6,20 +6,24 @@
 
 ## 通知
 
-> **💡**
->
+::: tip 提示
 Facebook 官方宣布：从 2024 年 5 月 9 日起，聊天插件将不再可用。
->
-> 可以选择使用[SaleSmartly 插件](/user-guide/plugins/notion-next-salesmatly-pulgin)作为页面聊天客服。
+
+可以选择使用[SaleSmartly 插件](/user-guide/plugins/notion-next-salesmatly-pulgin)作为页面聊天客服。
+:::
 
 
 ## 文档
 
 以下是旧文档
 
-> **💡** 最后更新域于0230906， 修改了原文档中第四点，获取PAGE_ID的方式；用原先方法获取的PAGE_ID，将导致聊天插件加载失败。
+::: tip 提示
+最后更新域于0230906， 修改了原文档中第四点，获取PAGE_ID的方式；用原先方法获取的PAGE_ID，将导致聊天插件加载失败。
+:::
 
-> **💡** FaceBook 官方提供的聊天插件，可以方便您与访客实时聊天。
+::: tip 提示
+FaceBook 官方提供的聊天插件，可以方便您与访客实时聊天。
+:::
 
 > 全程大约10分钟，即可获得你的facebook插件。
 

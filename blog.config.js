@@ -82,6 +82,15 @@ const BLOG = {
 <a href="/terms">利用規約</a> |
 <a href="/privacy">プライバシーポリシー</a>
 `,
+  // 欢迎语打字效果类型速度
+  GREETING_WORDS_TYPE_SPEED:
+    process.env.NEXT_PUBLIC_GREETING_WORDS_TYPE_SPEED || 200,
+
+  // 欢迎语打字效果回退速度
+  GREETING_WORDS_BACK_SPEED:
+    process.env.NEXT_PUBLIC_GREETING_WORDS_BACK_SPEED || 100,
+
+  // uuid重定向至 slug
   UUID_REDIRECT: process.env.UUID_REDIRECT || false
 }
 

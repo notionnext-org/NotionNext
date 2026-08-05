@@ -3,7 +3,7 @@
 中文 | [English](./README.en.md)
 
 本目录用于**开发者向**主题说明（架构、全局改动、迁移计划）及英文文档。  
-**站长向统一入口**：[user-guide/themes/README.md](../../user-guide/themes/README.md)（25 个主题各一篇 `<id>.md`）。
+**站长向统一入口**：[user-guide/themes/README.md](../../user-guide/themes/README.md)（26 个主题各一篇 `<id>.md`）。
 
 ## 文档分工
 

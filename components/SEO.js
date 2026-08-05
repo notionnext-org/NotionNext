@@ -1,6 +1,7 @@
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
-import { loadExternalResource } from '@/lib/utils'
+import { createSiteUrl, normalizeSiteUrl } from '@/lib/sitemap-utils'
+import { isHttpLink, loadExternalResource } from '@/lib/utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -13,32 +14,43 @@ import { useEffect } from 'react'
 const SEO = props => {
   const { children, siteInfo, post, NOTION_CONFIG } = props
   const PATH = siteConfig('PATH')
-  const LINK = siteConfig('LINK')
+  const LINK = normalizeSiteUrl(
+    siteConfig('LINK', siteInfo?.link, NOTION_CONFIG)
+  )
   const SUB_PATH = siteConfig('SUB_PATH', '')
-  let url = PATH?.length ? `${LINK}/${SUB_PATH}` : LINK
+  let url = PATH?.length ? createSiteUrl(LINK, SUB_PATH) || LINK : LINK
   let image
   const router = useRouter()
   const meta = getSEOMeta(props, router, useGlobal()?.locale)
   const webFontUrl = siteConfig('FONT_URL')
+  const hasWebFontUrl = Array.isArray(webFontUrl)
+    ? webFontUrl.filter(Boolean).length > 0
+    : Boolean(webFontUrl)
 
   useEffect(() => {
-    // 使用WebFontLoader字体加载
-    loadExternalResource(
-      'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js',
-      'js'
-    ).then(url => {
-      const WebFont = window?.WebFont
-      if (WebFont) {
-        // console.log('LoadWebFont', webFontUrl)
-        WebFont.load({
-          custom: {
-            // families: ['"LXGW WenKai"'],
-            urls: webFontUrl
-          }
-        })
-      }
-    })
-  }, [])
+    if (!hasWebFontUrl) return
+
+    const timeoutId = window.setTimeout(() => {
+      // 使用WebFontLoader字体加载
+      loadExternalResource(
+        'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js',
+        'js'
+      ).then(url => {
+        const WebFont = window?.WebFont
+        if (WebFont) {
+          // console.log('LoadWebFont', webFontUrl)
+          WebFont.load({
+            custom: {
+              // families: ['"LXGW WenKai"'],
+              urls: webFontUrl
+            }
+          })
+        }
+      })
+    }, 1500)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [hasWebFontUrl, webFontUrl])
 
   // SEO关键词
   const KEYWORDS = siteConfig('KEYWORDS')
@@ -47,15 +59,19 @@ const SEO = props => {
     keywords = post?.tags?.join(',')
   }
   if (meta) {
-    url = `${url}/${meta.slug}`
-    image = meta.image || '/bg_image.jpg'
+    url = createSiteUrl(url, meta.slug) || url
+    image = getAbsoluteImageUrl(meta.image || '/bg_image.jpg', LINK)
   }
   const TITLE = siteConfig('TITLE')
   const title = meta?.title || TITLE
   const description = meta?.description || `${siteInfo?.description}`
-  const type = meta?.type || 'website'
-  const lang = siteConfig('LANG').replace('-', '_') // Facebook OpenGraph 要 zh_CN 這樣的格式才抓得到語言
-  const category = meta?.category || KEYWORDS // section 主要是像是 category 這樣的分類，Facebook 用這個來抓連結的分類
+  const type = meta?.type === 'Post' ? 'article' : meta?.type || 'website'
+  const language =
+    router?.locale || siteConfig('LANG', 'zh-CN', NOTION_CONFIG)
+  const lang = String(language).replace('-', '_') // Facebook OpenGraph 要 zh_CN 這樣的格式才抓得到語言
+  const category = Array.isArray(meta?.category)
+    ? meta?.category?.[0]
+    : meta?.category || KEYWORDS // section 主要是像是 category 這樣的分類，Facebook 用這個來抓連結的分類
   const favicon = siteConfig('BLOG_FAVICON')
   const BACKGROUND_DARK = siteConfig('BACKGROUND_DARK', '', NOTION_CONFIG)
 
@@ -96,6 +112,8 @@ const SEO = props => {
   )
 
   const FACEBOOK_PAGE = siteConfig('FACEBOOK_PAGE', null, NOTION_CONFIG)
+  const TWITTER_SITE = siteConfig('TWITTER_SITE', '', NOTION_CONFIG)
+  const TWITTER_CREATOR = siteConfig('TWITTER_CREATOR', '', NOTION_CONFIG)
 
   const AUTHOR = siteConfig('AUTHOR')
   return (
@@ -130,13 +148,14 @@ const SEO = props => {
       )}
 
       {/* 基础SEO元数据 */}
+      <link rel='canonical' href={url} />
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
       <meta name='generator' content='NotionNext' />
 
       {/* 语言和地区 */}
-      <meta httpEquiv='content-language' content={siteConfig('LANG')} />
+      <meta httpEquiv='content-language' content={language} />
       <meta name='geo.region' content={siteConfig('GEO_REGION', 'CN')} />
       <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'CN')} />
       {/* Open Graph 元数据 */}
@@ -153,8 +172,10 @@ const SEO = props => {
 
       {/* Twitter Card 元数据 */}
       <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:site' content={siteConfig('TWITTER_SITE', '@NotionNext')} />
-      <meta name='twitter:creator' content={siteConfig('TWITTER_CREATOR', '@NotionNext')} />
+      {TWITTER_SITE && <meta name='twitter:site' content={TWITTER_SITE} />}
+      {TWITTER_CREATOR && (
+        <meta name='twitter:creator' content={TWITTER_CREATOR} />
+      )}
       <meta name='twitter:title' content={title} />
       <meta name='twitter:description' content={description} />
       <meta name='twitter:image' content={image} />
@@ -184,12 +205,21 @@ const SEO = props => {
       {/* 文章特定元数据 */}
       {meta?.type === 'Post' && (
         <>
-          <meta property='article:published_time' content={meta.publishDay} />
-          <meta property='article:modified_time' content={meta.lastEditedDay} />
+          {meta.publishTime && (
+            <meta property='article:published_time' content={meta.publishTime} />
+          )}
+          {meta.modifiedTime && (
+            <meta
+              property='article:modified_time'
+              content={meta.modifiedTime}
+            />
+          )}
           <meta property='article:author' content={AUTHOR} />
           <meta property='article:section' content={category} />
           <meta property='article:tag' content={keywords} />
-          <meta property='article:publisher' content={FACEBOOK_PAGE} />
+          {FACEBOOK_PAGE && (
+            <meta property='article:publisher' content={FACEBOOK_PAGE} />
+          )}
         </>
       )}
 
@@ -197,15 +227,23 @@ const SEO = props => {
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(generateStructuredData(meta, siteInfo, url, image, AUTHOR))
+          __html: JSON.stringify(
+            generateStructuredData(meta, siteInfo, url, image, AUTHOR, LINK)
+          )
         }}
       />
 
       {/* DNS预取和预连接 */}
-      <link rel='dns-prefetch' href='//fonts.googleapis.com' />
+      {hasWebFontUrl && <link rel='dns-prefetch' href='//fonts.googleapis.com' />}
       <link rel='dns-prefetch' href='//www.google-analytics.com' />
       <link rel='dns-prefetch' href='//www.googletagmanager.com' />
-      <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
+      {hasWebFontUrl && (
+        <link
+          rel='preconnect'
+          href='https://fonts.gstatic.com'
+          crossOrigin='anonymous'
+        />
+      )}
 
       {children}
     </Head>
@@ -221,13 +259,20 @@ const SEO = props => {
  * @param {*} author
  * @returns
  */
-const generateStructuredData = (meta, siteInfo, url, image, author) => {
+export const generateStructuredData = (
+  meta,
+  siteInfo,
+  url,
+  image,
+  author,
+  siteUrl
+) => {
   const baseData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: siteInfo?.title,
     description: siteInfo?.description,
-    url: siteConfig('LINK'),
+    url: siteUrl,
     author: {
       '@type': 'Person',
       name: author
@@ -237,7 +282,7 @@ const generateStructuredData = (meta, siteInfo, url, image, author) => {
       name: siteInfo?.title,
       logo: {
         '@type': 'ImageObject',
-        url: siteInfo?.icon
+        url: getAbsoluteImageUrl(siteInfo?.icon, siteUrl)
       }
     }
   }
@@ -251,8 +296,8 @@ const generateStructuredData = (meta, siteInfo, url, image, author) => {
       description: meta.description,
       image: image,
       url: url,
-      datePublished: meta.publishDay,
-      dateModified: meta.lastEditedDay || meta.publishDay,
+      datePublished: meta.publishTime,
+      dateModified: meta.modifiedTime || meta.publishTime,
       author: {
         '@type': 'Person',
         name: author
@@ -262,7 +307,7 @@ const generateStructuredData = (meta, siteInfo, url, image, author) => {
         name: siteInfo?.title,
         logo: {
           '@type': 'ImageObject',
-          url: siteInfo?.icon
+          url: getAbsoluteImageUrl(siteInfo?.icon, siteUrl)
         }
       },
       mainEntityOfPage: {
@@ -275,6 +320,27 @@ const generateStructuredData = (meta, siteInfo, url, image, author) => {
   }
 
   return baseData
+}
+
+const getAbsoluteImageUrl = (image, siteUrl) => {
+  if (typeof image !== 'string') return ''
+
+  const rawImage = image.trim()
+  if (!rawImage) return ''
+  if (isHttpLink(rawImage) || rawImage.startsWith('data:')) {
+    return rawImage
+  }
+
+  return createSiteUrl(siteUrl, rawImage) || rawImage
+}
+
+const getIsoTime = value => {
+  if (!value) return undefined
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return undefined
+
+  return date.toISOString()
 }
 
 /**
@@ -376,6 +442,9 @@ const getSEOMeta = (props, router, locale) => {
         type: 'website'
       }
     default:
+      const category = Array.isArray(post?.category)
+        ? post?.category?.[0]
+        : post?.category
       return {
         title: post
           ? `${post?.title} | ${siteInfo?.title}`
@@ -384,8 +453,14 @@ const getSEOMeta = (props, router, locale) => {
         type: post?.type,
         slug: post?.slug,
         image: post?.pageCoverThumbnail || `${siteInfo?.pageCover}`,
-        category: post?.category?.[0],
-        tags: post?.tags
+        category,
+        tags: post?.tags,
+        publishDay: post?.publishDay,
+        lastEditedDay: post?.lastEditedDay,
+        publishTime:
+          getIsoTime(post?.publishDate) ||
+          getIsoTime(post?.date?.start_date),
+        modifiedTime: getIsoTime(post?.lastEditedTime || post?.lastEditedDate)
       }
   }
 }

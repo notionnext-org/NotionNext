@@ -7,8 +7,10 @@
 
 ## 网站图片如何修改
 
-> **⚠️** 注意！网站图片的大小直接影响整点的性能。
+::: warning 注意
+注意！网站图片的大小直接影响整点的性能。
 建议在保证图片清晰可见的前提下，尽可能压缩文件大小。建议调整图片尺寸并进行压缩，有条件的推荐转换成webp格式后上传。
+:::
 
 
 ### 上传网站头像
@@ -68,7 +70,9 @@ Notion笔记中上方封面图的右侧，点击`Change cover`
 
 我将每个封面图设置为： [https://source.unsplash.com/random](https://source.unsplash.com/random) ； 这是**unsplash**提供的随机图片链接，每次打开都会跳到不同的图片。（您可以点击访问尝试一下）
 
-> **💡** **unsplash** 可以任意指定图片的风格类型、作者等，更多帮助可以参考此文：[https://zhuanlan.zhihu.com/p/139132649](https://zhuanlan.zhihu.com/p/139132649)
+::: tip 提示
+**unsplash** 可以任意指定图片的风格类型、作者等，更多帮助可以参考此文：[https://zhuanlan.zhihu.com/p/139132649](https://zhuanlan.zhihu.com/p/139132649)
+:::
 
 ![image](/legacy/dea5b128580f4605.png)
 
@@ -94,6 +98,23 @@ Notion笔记中上方封面图的右侧，点击`Change cover`
 ![image](/legacy/aca57b7a530ccc7a.png)
 
 ![image.png](/legacy/cc35b0283ed2f202.png)
+
+## 常见问题
+
+### 随机封面图不生效
+
+先确认配置位置。`RANDOM_IMAGE_URL` 目前只支持文件配置或部署环境变量，例如：
+
+```text
+NEXT_PUBLIC_RANDOM_IMAGE_URL=https://example.com/random-image
+NEXT_PUBLIC_RANDOM_IMAGE_NOT_REPLACE_TEXT=images.unsplash.com
+```
+
+它不会从 Notion Config 中读取。
+
+再检查文章自己的封面。如果文章已经设置了普通自定义封面，NotionNext 会优先使用这张图，不会强制替换成随机图。想让随机图生效，可以移除文章封面，或把封面设置成会被 `RANDOM_IMAGE_NOT_REPLACE_TEXT` 命中的图片地址。
+
+如果所有文章都显示同一张随机图，通常是随机图片 API 被缓存。NotionNext 会自动给图片 URL 追加文章 ID 参数，但部分图片服务会忽略这个参数；这种情况需要换一个支持按 query 返回不同图片的 API。
 
 ## 原文链接
 

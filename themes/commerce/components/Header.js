@@ -17,6 +17,7 @@ export default function Header(props) {
   const { customNav, customMenu } = props
   const [isOpen, changeShow] = useState(false)
   const collapseRef = useRef(null)
+  const navNarrowRef = useRef(false)
 
   const { locale } = useGlobal()
 
@@ -55,26 +56,29 @@ export default function Header(props) {
 
   // 向下滚动时，调整导航条高度
   useEffect(() => {
+    const scrollTrigger = throttle(() => {
+      const scrollS = window.scrollY
+      const nav = document.querySelector('#top-navbar')
+      const nextNarrow = navNarrowRef.current ? scrollS > 20 : scrollS > 90
+
+      if (nextNarrow === navNarrowRef.current) {
+        return
+      }
+
+      navNarrowRef.current = nextNarrow
+      if (nextNarrow) {
+        nav && nav.classList.replace('h-24', 'h-14')
+      } else {
+        nav && nav.classList.replace('h-14', 'h-24')
+      }
+    }, 150)
+
     scrollTrigger()
     window.addEventListener('scroll', scrollTrigger, { passive: true })
     return () => {
       window.removeEventListener('scroll', scrollTrigger)
     }
   }, [])
-
-  const throttleMs = 150
-
-  const scrollTrigger = throttle(() => {
-    const scrollS = window.scrollY
-    const nav = document.querySelector('#top-navbar')
-
-    const narrowNav = scrollS > 50
-    if (narrowNav) {
-      nav && nav.classList.replace('h-24', 'h-14')
-    } else {
-      nav && nav.classList.replace('h-14', 'h-24')
-    }
-  }, throttleMs)
 
   // 如果 开启自定义菜单，则覆盖Page生成的菜单
   if (siteConfig('CUSTOM_MENU')) {

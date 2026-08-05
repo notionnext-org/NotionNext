@@ -27,6 +27,12 @@
 3. 本地预览：`yarn docs:site:dev`。  
 4. 提交 PR，合并 **`main`** 后由 GitHub Actions 部署。  
 
+## 代码 PR 也要检查文档
+
+代码改动只要影响站长使用方式，就应该同步更新文档。常见场景包括新增或修改主题配置、环境变量、Notion Config 键、插件开关、部署步骤、默认行为和可见 UI 交互。
+
+PR 模板中的“用户文档不适用”只适合内部重构、测试、CI、依赖维护、拼写修正等不改变使用方式的改动。新增用户可配置项时，请至少补充对应主题或配置文档，并在 PR 描述里说明文档位置。
+
 详细检查清单：[MAINTENANCE_WORKFLOW.md](./MAINTENANCE_WORKFLOW.md) · 策略：[DOCUMENTATION_POLICY.md](../DOCUMENTATION_POLICY.md)
 
 ## 部署原理（简述）
@@ -36,8 +42,6 @@ push main（docs/user-guide/ 等变更）
     → GitHub Actions: yarn docs:site:build
     → .vitepress/dist → Cloudflare Pages
 ```
-
-详见 [cloudflare-pages-docs.md](./deploy/cloudflare-pages-docs.md)。
 
 ## 与旧版在线手册
 

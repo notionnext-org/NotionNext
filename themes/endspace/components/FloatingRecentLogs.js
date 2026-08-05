@@ -32,7 +32,7 @@ const FloatingRecentLogs = (props) => {
           className={`flex items-center justify-center transition-all duration-300 shadow-md cursor-pointer border hover:-translate-y-1 hover:shadow-lg z-20 relative rounded-full ${
             isExpanded 
               ? 'w-10 h-10 bg-[#FBFB46] text-black border-[#FBFB46]' 
-              : 'w-10 h-10 bg-white dark:bg-[var(--endspace-bg-primary)] text-gray-400 dark:text-[var(--endspace-text-muted)] border-gray-200 dark:border-[var(--endspace-border-base)] hover:bg-[#FBFB46] hover:text-black hover:border-[#FBFB46]'
+              : 'w-10 h-10 bg-white text-gray-400 border-gray-200 hover:bg-[#FBFB46] hover:text-black hover:border-[#FBFB46]'
           }`}
           title={isExpanded ? 'Collapse Sidebar' : 'Show Recent Logs'}
         >
@@ -45,7 +45,7 @@ const FloatingRecentLogs = (props) => {
 
         {/* Expanded Content Drawer */}
         <div 
-            className={`transition-opacity duration-300 bg-[#f7f9fe] dark:bg-[var(--endspace-bg-secondary)] border border-[var(--endspace-border-base)] shadow-2xl overflow-hidden ${
+            className={`transition-opacity duration-300 bg-[#f7f9fe] border border-[var(--endspace-border-base)] shadow-2xl overflow-hidden ${
                 isExpanded ? 'opacity-100 visible w-full' : 'opacity-0 invisible w-0 border-0'
             }`}
              style={{

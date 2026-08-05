@@ -327,6 +327,15 @@ const nextConfig = {
     : () => {
       return [
         {
+          source: '/vendor/fontawesome/:path*',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'public, max-age=31536000, immutable'
+            }
+          ]
+        },
+        {
           source: '/:path*{/}?',
           headers: [
             // 为了博客兼容性，不做过多安全限制

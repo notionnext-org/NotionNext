@@ -24,7 +24,6 @@ export const MenuItemDrop = ({ link }) => {
             </span>
           )}
           {link?.name}
-          {hasSubMenu && <i className='px-2 fa fa-angle-down'></i>}
         </SmartLink>
       )}
 
@@ -38,7 +37,7 @@ export const MenuItemDrop = ({ link }) => {
             )}{' '}
             {link?.name}
             <i
-              className={`px-2 fas fa-chevron-down duration-500 transition-all ${show ? ' rotate-180' : ''}`}></i>
+              className={`ml-2 fas fa-chevron-down duration-500 transition-all ${show ? ' rotate-180' : ''}`}></i>
           </div>
         </>
       )}

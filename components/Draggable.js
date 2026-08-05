@@ -6,15 +6,14 @@ import { useEffect, useRef, useState } from 'react'
  * @param {stick} 是否要吸附
  * @returns
  */
-export const Draggable = ({ children, stick }) => {
+export const Draggable = ({ children, stick, handleClassName }) => {
   const draggableRef = useRef(null)
   const rafRef = useRef(null)
+  const currentObjRef = useRef(null)
+  const offsetRef = useRef({ x: 0, y: 0 })
   const [moving, setMoving] = useState(false)
-  let currentObj, offsetX, offsetY
 
   useEffect(() => {
-    const draggableElements = document.getElementsByClassName('draggable')
-
     function e(event) {
       if (!event) {
         event = window.event
@@ -31,32 +30,40 @@ export const Draggable = ({ children, stick }) => {
       return event
     }
 
-    document.onmousedown = start
-    document.ontouchstart = start
+    document.addEventListener('mousedown', start)
+    document.addEventListener('touchstart', start, { passive: false })
 
     function start(event) {
-      if (!draggableElements) return
+      const drag = draggableRef.current
+      if (!drag) return
       event = e(event)
+      if (event.target?.closest?.('button, a, input, select, textarea')) return
 
-      for (const drag of draggableElements) {
-        if (inDragBox(event, drag)) {
-          currentObj = drag.firstElementChild
+      if (inDragBox(event, drag)) {
+        if (
+          handleClassName &&
+          !event.target?.closest?.(`.${handleClassName}`)
+        ) {
+          return
         }
+        currentObjRef.current = drag.firstElementChild
       }
-      if (currentObj) {
+      if (currentObjRef.current) {
         if (event.type === 'touchstart') {
           event.preventDefault()
           document.documentElement.style.overflow = 'hidden'
         }
 
         setMoving(true)
-        offsetX = event.mx - currentObj.offsetLeft
-        offsetY = event.my - currentObj.offsetTop
+        offsetRef.current = {
+          x: event.mx - currentObjRef.current.offsetLeft,
+          y: event.my - currentObjRef.current.offsetTop
+        }
 
-        document.onmousemove = move
-        document.ontouchmove = move
-        document.onmouseup = stop
-        document.ontouchend = stop
+        document.addEventListener('mousemove', move)
+        document.addEventListener('touchmove', move, { passive: false })
+        document.addEventListener('mouseup', stop)
+        document.addEventListener('touchend', stop)
       }
     }
 
@@ -73,20 +80,19 @@ export const Draggable = ({ children, stick }) => {
       if (stick) {
         checkInWindow() // 吸附逻辑
       }
-      currentObj =
-        document.ontouchmove =
-        document.ontouchend =
-        document.onmousemove =
-        document.onmouseup =
-          null
+      currentObjRef.current = null
+      document.removeEventListener('mousemove', move)
+      document.removeEventListener('touchmove', move)
+      document.removeEventListener('mouseup', stop)
+      document.removeEventListener('touchend', stop)
     }
 
     const updatePosition = event => {
-      if (currentObj) {
-        const left = event.mx - offsetX
-        const top = event.my - offsetY
-        currentObj.style.left = left + 'px'
-        currentObj.style.top = top + 'px'
+      if (currentObjRef.current) {
+        const left = event.mx - offsetRef.current.x
+        const top = event.my - offsetRef.current.y
+        currentObjRef.current.style.left = left + 'px'
+        currentObjRef.current.style.top = top + 'px'
       }
     }
 
@@ -102,27 +108,27 @@ export const Draggable = ({ children, stick }) => {
     }
 
     function checkInWindow() {
-      for (const drag of draggableElements) {
-        const { offsetHeight, offsetWidth, offsetTop, offsetLeft } =
-          drag.firstElementChild
-        const { clientHeight, clientWidth } = document.documentElement
-        if (offsetTop < 0) {
-          drag.firstElementChild.style.top = '0px'
-        }
-        if (offsetTop > clientHeight - offsetHeight) {
-          drag.firstElementChild.style.top = clientHeight - offsetHeight + 'px'
-        }
-        if (offsetLeft < 0) {
-          drag.firstElementChild.style.left = '0px'
-        }
-        if (offsetLeft > clientWidth - offsetWidth) {
-          drag.firstElementChild.style.left = clientWidth - offsetWidth + 'px'
-        }
-        if (stick === 'left') {
-          drag.firstElementChild.style.left = '0px'
-        } else if (stick === 'right') {
-          drag.firstElementChild.style.left = clientWidth - offsetWidth + 'px'
-        }
+      const drag = draggableRef.current
+      if (!drag?.firstElementChild) return
+      const { offsetHeight, offsetWidth, offsetTop, offsetLeft } =
+        drag.firstElementChild
+      const { clientHeight, clientWidth } = document.documentElement
+      if (offsetTop < 0) {
+        drag.firstElementChild.style.top = '0px'
+      }
+      if (offsetTop > clientHeight - offsetHeight) {
+        drag.firstElementChild.style.top = clientHeight - offsetHeight + 'px'
+      }
+      if (offsetLeft < 0) {
+        drag.firstElementChild.style.left = '0px'
+      }
+      if (offsetLeft > clientWidth - offsetWidth) {
+        drag.firstElementChild.style.left = clientWidth - offsetWidth + 'px'
+      }
+      if (stick === 'left') {
+        drag.firstElementChild.style.left = '0px'
+      } else if (stick === 'right') {
+        drag.firstElementChild.style.left = clientWidth - offsetWidth + 'px'
       }
     }
 
@@ -130,9 +136,15 @@ export const Draggable = ({ children, stick }) => {
 
     return () => {
       window.removeEventListener('resize', checkInWindow)
+      document.removeEventListener('mousedown', start)
+      document.removeEventListener('touchstart', start)
+      document.removeEventListener('mousemove', move)
+      document.removeEventListener('touchmove', move)
+      document.removeEventListener('mouseup', stop)
+      document.removeEventListener('touchend', stop)
       cancelAnimationFrame(rafRef.current)
     }
-  }, [stick])
+  }, [stick, handleClassName])
 
   return (
     <div

@@ -28,7 +28,9 @@ Notion默认没有优化B站的视频；但您可以这样操作：
   - 直接输入链接，并点击 Embed link 即可：
 ![Untitled](/legacy/d102cb669a0c9d88.png)
 
-> **📖** 如果无法播放，可以在链接前面加上 https: 例如：
+::: info 说明
+如果无法播放，可以在链接前面加上 https: 例如：
+:::
 
 `**https:**`//player.bilibili.com/player.html?aid=1700928875&bvid=BV1aK42187hF&cid=1446312848&p=1
 

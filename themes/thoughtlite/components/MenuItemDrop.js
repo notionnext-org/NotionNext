@@ -127,7 +127,7 @@ export const MenuItemDrop = ({ link, variant = 'default' }) => {
         <div className={linkBox}>
           {link?.icon && <i className={link?.icon} />} {link?.name}
           <i
-            className={`px-2 fas fa-chevron-down duration-500 transition-all ${show ? ' rotate-180' : ''}`}></i>
+            className={`ml-2 fas fa-chevron-down duration-500 transition-all ${show ? ' rotate-180' : ''}`}></i>
         </div>
       )}
 

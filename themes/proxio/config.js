@@ -2,6 +2,12 @@
  * 另一个落地页主题
  */
 const CONFIG = {
+  PROXIO_COLOR_PRIMARY: '#3758f9',
+  PROXIO_COLOR_PRIMARY_HOVER: '#1b44c8',
+  PROXIO_COLOR_BG: '#ffffff',
+  PROXIO_COLOR_DARK: '#121212',
+  PROXIO_COLOR_TEXT_MUTED: '#637381',
+
   PROXIO_WELCOME_COVER_ENABLE: true, //是否显示页面进入的欢迎文字
   PROXIO_WELCOME_TEXT: '欢迎来到此网站，点击任意位置进入', // 欢迎文字，留空则不启用
 

@@ -22,6 +22,17 @@ NotionNext搭建的影视分享网站
 
 更新代码至最新的4.4.0；并配置主题为movie即可。
 
+### Movie 主题调色
+
+Movie 支持通过语义色变量调整主色和深色主色：
+
+```js
+MOVIE_COLOR_PRIMARY: '#2563eb',
+MOVIE_COLOR_PRIMARY_DARK: '#ca8a04'
+```
+
+主题工具中的调色板会展示当前值，并可直接复制配置项到 Notion Config。
+
 
 ## Movie 主题
 
@@ -30,16 +41,20 @@ NotionNext搭建的影视分享网站
 
 ### 视频聚合功能
 
-> **💡** movie主题，默认开启了视频聚合功能，如需关闭，请在/themes/movie/config.js中操作。
+::: tip 提示
+movie主题，默认开启了视频聚合功能，如需关闭，请在/themes/movie/config.js中操作。
+:::
 
 什么是视频聚合功能？
 
 如果一篇文章中有多个视频，且每个视频标注了caption，它们会被从文章的所有位置摘出来，移动至网站的顶部显示。
 
-> **💡** 什么是caption？指视频的标题、说明、题注等。
+::: tip 提示
+什么是caption？指视频的标题、说明、题注等。
 如何配置caption？在嵌入元素的右上角点击Caption按钮，即可添加，caption默认显示在左下角。
->
+
 ![Untitled](/legacy/5d5cbc7715b2065f.png)
+:::
 
 以下图一是我给每个视频添加的caption，图二是在网页中聚合在顶部显示：
 
@@ -75,10 +90,12 @@ NotionNext项目内置了一个视频播放器，代码在/public/dplayer.htm中
 
 ![Untitled](/legacy/1981d04882f53412.png)
 
-> **💡** 注意：
->
+::: tip 提示
+注意：
+
   1. 要先部署上线一次您的站点，才可以用`http://[你的域名]/dplayer.htm?n=[视频地址]`
->   1. 请用您自己的域名，我的这个网站不一定常开。
+  1. 请用您自己的域名，我的这个网站不一定常开。
+:::
 
 ## 原文链接
 

@@ -9,6 +9,7 @@ NotionNext 文档不再把“站长教程”和“开发者文档”做成两个
 | 主题 | 中文 | English |
 | --- | --- | --- |
 | 快速上手 | [GETTING_STARTED.md](./GETTING_STARTED.md) | [GETTING_STARTED.en.md](./GETTING_STARTED.en.md) |
+| 愿景与路线图 | [VISION_ROADMAP.md](./VISION_ROADMAP.md) | — |
 | 架构总览 | [ARCHITECTURE.md](./ARCHITECTURE.md) | [ARCHITECTURE.en.md](./ARCHITECTURE.en.md) |
 | 目录与模块 | [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) | [PROJECT_STRUCTURE.en.md](./PROJECT_STRUCTURE.en.md) |
 | 配置体系 | [CONFIGURATION.md](./CONFIGURATION.md) | [CONFIGURATION.en.md](./CONFIGURATION.en.md) |
@@ -30,5 +31,7 @@ NotionNext 文档不再把“站长教程”和“开发者文档”做成两个
 | --- | --- |
 | 版本更新说明 | [UPDATE.md](./UPDATE.md) |
 | 社区路线图 | [COMMUNITY_SITE_ROADMAP.md](./COMMUNITY_SITE_ROADMAP.md) |
+| 会员、权限与评论可选集成 | [MEMBERSHIP_COMMENTS_ROADMAP.md](./MEMBERSHIP_COMMENTS_ROADMAP.md) |
+| 5.0 愿景与参与方向 | [VISION_ROADMAP.md](./VISION_ROADMAP.md) |
 | 项目治理 | [GOVERNANCE.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md) · [GOVERNANCE.md](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.md) |
 | 仓库贡献总则 | [CONTRIBUTING.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.zh-CN.md) |

@@ -1,0 +1,8 @@
+name = "notion-image-proxy"
+main = "worker.mjs"
+compatibility_date = "2026-07-22"
+
+# Replace cdn.example.com with your Notion asset CDN domain.
+routes = [
+  { pattern = "cdn.example.com", custom_domain = true }
+]

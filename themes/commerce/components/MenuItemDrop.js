@@ -27,7 +27,6 @@ export const MenuItemDrop = ({ link }) => {
           target={link?.target}
           className={`${selected && 'border-b-2 border-[#D2232A]'} h-full flex space-x-1 whitespace-nowrap items-center font-sans menu-link pl-2 pr-4  dark:text-gray-200 no-underline tracking-widest pb-1`}>
           {link?.icon && <i className={link?.icon} />} <div>{link?.name}</div>
-          {/* {hasSubMenu && <i className='px-2 fa fa-angle-down'></i>} */}
         </SmartLink>
       )}
 

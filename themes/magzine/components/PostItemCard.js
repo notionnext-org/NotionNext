@@ -27,6 +27,8 @@ const PostItemCard = ({ post }) => {
               <LazyImage
                 alt={post?.title}
                 src={cover}
+                width={320}
+                height={160}
                 style={cover ? {} : { height: '0px' }}
                 className='w-full h-40 aspect-video object-cover'
               />

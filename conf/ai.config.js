@@ -28,6 +28,13 @@ module.exports = {
   // Chatbase 机器人 @see https://www.chatbase.co/
   CHATBASE_ID: process.env.NEXT_PUBLIC_CHATBASE_ID || null,
 
+  // 自建 AI 助手服务端代理；为空时不显示
+  DOCS_CHAT_API: process.env.NEXT_PUBLIC_DOCS_CHAT_API || '',
+  DOCS_CHAT_TITLE: process.env.NEXT_PUBLIC_DOCS_CHAT_TITLE || 'AI 助手',
+  DOCS_CHAT_WELCOME:
+    process.env.NEXT_PUBLIC_DOCS_CHAT_WELCOME ||
+    '你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。',
+
   // Dify 聊天机器人 @see https://dify.ai/
   DIFY_CHATBOT_ENABLED: process.env.NEXT_PUBLIC_DIFY_CHATBOT_ENABLED || false,
   DIFY_CHATBOT_BASE_URL: process.env.NEXT_PUBLIC_DIFY_CHATBOT_BASE_URL || '',

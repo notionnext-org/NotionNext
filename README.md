@@ -15,6 +15,8 @@
   ·
   <a href="https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG">主题全览</a>
   ·
+  <a href="https://notionnext.tangly1024.com/user-guide/showcase">用户作品</a>
+  ·
   <a href="https://notionnext.tangly1024.com/">文档站</a>
   ·
   <a href="https://github.com/notionnext-org/NotionNext/discussions">讨论区</a>
@@ -61,7 +63,7 @@ NotionNext 是一个基于 **Next.js + Notion API** 的开源站点系统。你�
 
 - **不换写作工具**：文章、分类、标签、封面、菜单仍在 Notion 中维护。
 - **上线路径短**：复制 Notion 模板、Fork 仓库、连接 Vercel，即可部署。
-- **主题选择多**：内置 25 个主题，覆盖博客、文档、作品集、官网、相册、导航站等场景。
+- **主题选择多**：内置 26 个主题，覆盖博客、文档、作品集、官网、相册、导航站等场景。
 - **适合长期运营**：支持独立域名、SEO、Sitemap、RSS、评论、统计、搜索、广告和邮件订阅。
 - **开源可控**：源码、配置和主题都在自己的仓库里，后续可以继续二次开发。
 - **数据链路清晰**：Notion 负责内容沉淀，站点负责展示和分发，后续可迁移到 Markdown 或其他系统。
@@ -80,24 +82,24 @@ NotionNext 是一个基于 **Next.js + Notion API** 的开源站点系统。你�
 ## 主题与预览
 
 - 在线切换主题：[preview.tangly1024.com](https://preview.tangly1024.com/)
-- 25 个内置主题：[主题全览](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG)
+- 26 个内置主题：[主题全览](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG)
 - 仓库内主题文档：[docs/user-guide/themes/](./docs/user-guide/themes/)
 
 | 场景 | 优先看 |
 | --- | --- |
 | 个人博客 | `simple`、`hexo`、`nobelium`、`typography` |
 | 文档 / 知识库 | `gitbook`、`claude`、`thoughtlite` |
-| 作品集 / 个人品牌 | `proxio`、`starter`、`landing` |
+| 作品集 / 个人品牌 | `opc`、`proxio`、`starter`、`landing` |
 | 产品官网 | `starter`、`landing`、`commerce` |
 | 图片 / 摄影 | `photo`、`plog`、`magzine` |
 | 导航站 | `nav` |
 
 ## 本地开发
 
-推荐使用 Node 20 和 Yarn 1。
+推荐使用 Node 22 和 Yarn 1。Node 20 已无法安装当前依赖（`@ai-sdk/google` 要求 Node >=22），部署平台也需要同步设置为 Node 22。
 
 ```bash
-# 1. 使用 Node 20
+# 1. 使用 Node 22
 nvm use || nvm install
 
 # 2. 安装 Yarn
@@ -128,8 +130,10 @@ yarn dev
 | --- | --- |
 | 在线文档站 | [notionnext.tangly1024.com](https://notionnext.tangly1024.com) |
 | 新手入口 | [从这里开始](https://notionnext.tangly1024.com/user-guide/start-here) |
+| 场景模板 | [按目标选择模板](https://notionnext.tangly1024.com/user-guide/templates) |
 | 配置索引 | [全站功能与配置索引](https://notionnext.tangly1024.com/user-guide/reference/features) |
-| 主题说明 | [25 个主题说明](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) |
+| 主题说明 | [26 个主题说明](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) |
+| 用户作品 | [Showcase](https://notionnext.tangly1024.com/user-guide/showcase)：已上线站点欢迎提交作品 |
 | 文档源码 | [docs/](./docs/) |
 | 旧版手册 | [docs.tangly1024.com](https://docs.tangly1024.com/) |
 
@@ -140,6 +144,7 @@ NotionNext 主仓库由 GitHub 组织 [notionnext-org](https://github.com/notion
 | 内容 | 链接 |
 | --- | --- |
 | 参与社区 | [community-participate.md](./docs/user-guide/community-participate.md) |
+| 5.0 愿景与路线图 | [VISION_ROADMAP.md](./docs/developer/VISION_ROADMAP.md) |
 | 贡献指南 | [CONTRIBUTING.zh-CN.md](./CONTRIBUTING.zh-CN.md) |
 | 项目治理 | [GOVERNANCE.zh-CN.md](./GOVERNANCE.zh-CN.md) |
 | 维护者 | [MAINTAINERS.md](./MAINTAINERS.md) |
@@ -185,6 +190,9 @@ git remote -v
 
 The MIT License.
 
-## Star History
+## Project Stars
 
-[![Star History Chart](https://api.star-history.com/svg?repos=notionnext-org/NotionNext&type=Date)](https://star-history.com/#notionnext-org/NotionNext&Date)
+[![GitHub stars](https://img.shields.io/github/stars/notionnext-org/NotionNext?style=social)](https://github.com/notionnext-org/NotionNext/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/notionnext-org/NotionNext?style=social)](https://github.com/notionnext-org/NotionNext/forks)
+
+Live star-history charts are temporarily unavailable because GitHub now restricts historical stargazer data to repository owners and collaborators.

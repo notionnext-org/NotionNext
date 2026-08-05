@@ -39,6 +39,19 @@
 
 1. 从fork中的分支[创建](https://github.com/tangly1024/NotionNext/compare)到NotionNext的`main`分支的[PR](https://github.com/tangly1024/NotionNext/compare)。
 
+### 4. 提交 PR 前检查用户文档
+
+如果 PR 新增或修改了站长能使用的功能、主题配置、环境变量、Notion Config 配置项、部署步骤或插件开关，请同步更新 `docs/user-guide/` 或 `docs/developer/` 中对应说明。
+
+不要在这类 PR 中勾选“用户文档不适用”。只有纯内部重构、测试修正、依赖维护、拼写修正，且不会改变站长使用方式时，才可以标记为不适用。
+
+常见位置：
+
+- 主题配置：`docs/user-guide/themes/<theme>.md`
+- 全站配置：`docs/user-guide/config-site.md` 或 `docs/user-guide/reference/features.md`
+- 开发者约定：`docs/developer/`
+- 文档维护流程：`docs/user-guide/maintain-docs.md`
+
 ## 原文链接
 
 https://docs.tangly1024.com/article/notionnext-how-to-pr

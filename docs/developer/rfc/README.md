@@ -20,4 +20,5 @@
 
 | RFC | 状态 | 说明 |
 | --- | --- | --- |
-| *（暂无）* | — | 欢迎提交第一个 RFC |
+| [2026-originality-proof-auto-manifest.md](./2026-originality-proof-auto-manifest.md) | 已实现，本地验收通过 | 原创存证自动生成 GitHub 公开清单 |
+| [2026-originality-proof-ux.md](./2026-originality-proof-ux.md) | 已落地，本地验收通过 | 原创存证从大块信息卡优化为徽章、展开详情和复制证据 |

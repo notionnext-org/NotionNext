@@ -88,14 +88,47 @@ NotionNext 已由个人仓库移交至组织 **[notionnext-org](https://github.c
 
 ---
 
+## 帖三：用户作品墙征集（建议置顶或定期顶帖）
+
+**标题：** `【征集】提交你的 NotionNext 站点到用户作品墙`
+
+**正文：**
+
+---
+
+如果你已经用 NotionNext 搭好了公开站点，欢迎把它提交到用户作品墙。
+
+提交内容只需要一行：
+
+```md
+| [站点名](https://example.com) | 用途 | 主题 | @yourname |
+```
+
+建议字段：
+
+| 字段 | 示例 |
+| --- | --- |
+| 站点名 | Tangly Blog |
+| 站点链接 | https://blog.tangly1024.com |
+| 用途 | 个人博客、知识库、作品集、产品官网、导航站 |
+| 主题 | `simple`、`heo`、`starter`、`gitbook` |
+| 提交人 | @yourname |
+
+收录到 Showcase 后，可以帮助新用户参考真实案例，也让维护者知道哪些主题和场景需要优先补文档、截图和模板。
+
+作品墙页面： https://notionnext.tangly1024.com/user-guide/showcase
+
+---
+
 ## 已发布（2026-05-17）
 
 | 帖 | 链接 |
 | --- | --- |
 | 欢迎参与社区 | https://github.com/notionnext-org/NotionNext/discussions/4069 |
 | 维护者分工与合并约定 | https://github.com/notionnext-org/NotionNext/discussions/4070 |
+| 用户作品墙征集 | https://github.com/notionnext-org/NotionNext/discussions/4319 |
 
-分类：**Announcements**。请在 Discussions 列表对以上两帖各点一次 **Pin discussion** 置顶（API 暂不支持自动 Pin）。
+分类：**Announcements**。请在 Discussions 列表对以上三帖各点一次 **Pin discussion** 置顶（API 暂不支持自动 Pin）。
 
 ## 发帖步骤（若需重发）
 

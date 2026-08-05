@@ -41,3 +41,5 @@ At minimum update:
 - comment in config file
 - docs or PR description usage notes
 
+Theme-level configs follow the same rule. When adding a `themes/<theme>/config.js` key, update `docs/user-guide/themes/<theme>.md` with the default value, enabled/disabled behavior, and whether Notion Config or environment variables can override it. Do not mark user-visible config changes as "docs not applicable".
+

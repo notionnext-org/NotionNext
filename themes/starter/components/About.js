@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import SmartLink from '@/components/SmartLink'
 
 /**
@@ -20,18 +20,18 @@ export const About = () => {
               <div className='w-full px-4 lg:w-1/2'>
                 <div className='mb-12 max-w-[540px] lg:mb-0'>
                   <h2 className='mb-5 text-3xl font-bold leading-tight text-dark dark:text-white sm:text-[40px] sm:leading-[1.2]'>
-                    {siteConfig('STARTER_ABOUT_TITLE')}
+                    {starterConfig('STARTER_ABOUT_TITLE')}
                   </h2>
                   <p
                     className='mb-10 text-base leading-relaxed text-body-color dark:text-dark-6'
                     dangerouslySetInnerHTML={{
-                      __html: siteConfig('STARTER_ABOUT_TEXT')
+                      __html: starterConfig('STARTER_ABOUT_TEXT')
                     }}></p>
 
                   <SmartLink
-                    href={siteConfig('STARTER_ABOUT_BUTTON_URL', '')}
+                    href={starterConfig('STARTER_ABOUT_BUTTON_URL', '')}
                     className='inline-flex items-center justify-center rounded-md border border-primary bg-primary px-7 py-3 text-center text-base font-medium text-white hover:border-blue-dark hover:bg-blue-dark'>
-                    {siteConfig('STARTER_ABOUT_BUTTON_TEXT')}
+                    {starterConfig('STARTER_ABOUT_BUTTON_TEXT')}
                   </SmartLink>
                 </div>
               </div>
@@ -42,7 +42,7 @@ export const About = () => {
                   <div className='w-full px-2 sm:w-1/2 sm:px-4 lg:px-2 xl:px-4'>
                     <div className='mb-4 sm:mb-8 sm:h-[400px] md:h-[540px] lg:h-[400px] xl:h-[500px]'>
                       <img
-                        src={siteConfig('STARTER_ABOUT_IMAGE_1')}
+                        src={starterConfig('STARTER_ABOUT_IMAGE_1')}
                         alt='about image'
                         className='h-full w-full object-cover object-center'
                       />
@@ -52,7 +52,7 @@ export const About = () => {
                   <div className='w-full px-2 sm:w-1/2 sm:px-4 lg:px-2 xl:px-4'>
                     <div className='mb-4 sm:mb-8 sm:h-[220px] md:h-[346px] lg:mb-4 lg:h-[225px] xl:mb-8 xl:h-[310px]'>
                       <img
-                        src={siteConfig('STARTER_ABOUT_IMAGE_2')}
+                        src={starterConfig('STARTER_ABOUT_IMAGE_2')}
                         alt='about image'
                         className='h-full w-full object-cover object-center'
                       />
@@ -61,13 +61,13 @@ export const About = () => {
                     <div className='relative z-10 mb-4 flex items-center justify-center overflow-hidden bg-primary px-6 py-12 sm:mb-8 sm:h-[160px] sm:p-5 lg:mb-4 xl:mb-8'>
                       <div>
                         <span className='block text-5xl font-extrabold text-white'>
-                          {siteConfig('STARTER_ABOUT_TIPS_1')}
+                          {starterConfig('STARTER_ABOUT_TIPS_1')}
                         </span>
                         <span className='block text-base font-semibold text-white'>
-                          {siteConfig('STARTER_ABOUT_TIPS_2')}
+                          {starterConfig('STARTER_ABOUT_TIPS_2')}
                         </span>
                         <span className='block text-base font-medium text-white text-opacity-70'>
-                          {siteConfig('STARTER_ABOUT_TIPS_3')}
+                          {starterConfig('STARTER_ABOUT_TIPS_3')}
                         </span>
                       </div>
                       <div>

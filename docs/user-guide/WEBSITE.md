@@ -10,10 +10,6 @@
 | `yarn docs:site:build` | 构建 → `.vitepress/dist` |
 | `yarn docs:site:preview` | 预览构建结果 |
 
-## Cloudflare Pages
-
-详见 **[cloudflare-pages-docs.md](./deploy/cloudflare-pages-docs.md)**（组织仓库推荐 GitHub Actions，无需 CF 连 Git）。
-
 ## 在线站包含的目录
 
 ```text

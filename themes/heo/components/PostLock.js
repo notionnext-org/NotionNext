@@ -52,7 +52,7 @@ export const PostLock = props => {
             className='outline-none w-full text-sm pl-5 rounded-l transition focus:shadow-lg  font-light leading-10 bg-gray-100 dark:bg-gray-500'></input>
           <div
             onClick={submitPassword}
-            className='px-3 whitespace-nowrap cursor-pointer items-center justify-center py-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded-r duration-300'>
+            className='px-3 whitespace-nowrap cursor-pointer items-center justify-center py-2 bg-[var(--heo-color-primary)] hover:bg-[var(--heo-color-primary-hover)] text-[var(--heo-color-primary-text)] rounded-r duration-300'>
             <i className={'duration-200 cursor-pointer fas fa-key'}>
               &nbsp;{locale.COMMON.SUBMIT}
             </i>

@@ -19,7 +19,7 @@ export const BlogPostCardInfo = ({
 }) => {
   return (
     <article
-      className={`flex flex-col justify-between lg:p-6 p-4  ${showPageCover && !showPreview ? 'md:w-7/12 w-full md:max-h-60' : 'w-full'}`}>
+      className={`flex flex-col justify-between lg:p-6 p-4 lg:px-8 px-6 ${showPageCover && !showPreview ? 'md:w-7/12 w-full md:max-h-60' : 'w-full'}`}>
       <div>
         <header>
           <h2>
@@ -29,7 +29,7 @@ export const BlogPostCardInfo = ({
               passHref
               className={`line-clamp-2 replace cursor-pointer text-2xl ${
                 showPreview ? 'text-center' : ''
-              } leading-tight font-normal text-gray-600 dark:text-gray-100 hover:text-indigo-700 dark:hover:text-indigo-400`}>
+              } leading-tight font-bold text-gray-600 dark:text-gray-100 hover:text-indigo-700 dark:hover:text-indigo-400`}>
               {siteConfig('POST_TITLE_ICON') && (
                 <NotionIcon icon={post.pageIcon} />
               )}
@@ -61,14 +61,14 @@ export const BlogPostCardInfo = ({
 
         {/* 摘要 */}
         {(!showPreview || showSummary) && !post.results && (
-          <main className='line-clamp-2 replace my-3 text-gray-700  dark:text-gray-300 text-sm font-light leading-7'>
+          <main className='line-clamp-2 replace my-3 text-gray-700  dark:text-gray-300 text-md font-normal'>
             {post.summary}
           </main>
         )}
 
         {/* 搜索结果 */}
         {post.results && (
-          <p className='line-clamp-2 mt-4 text-gray-700 dark:text-gray-300 text-sm font-light leading-7'>
+          <p className='line-clamp-2 mt-4 text-gray-700 dark:text-gray-300 text-sm font-light'>
             {post.results.map((r, index) => (
               <span key={index}>{r}</span>
             ))}

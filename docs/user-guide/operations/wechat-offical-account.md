@@ -4,14 +4,14 @@
 > 最后编辑：2026-4-30
 > 原栏目：🔊 运营教程
 
-> **⚠️**
->
+::: warning 注意
 ~~OpenWrite停止此项服务，公众号引流的方案失效了，因此以下文章内容已过期。~~
-> 新版本引入 TechGrow方案进行验证码解锁：
-> 感謝[大佬](https://github.com/yunhe-dev)的[https://yunhe.dev/](https://yunhe.dev/)提交：[https://github.com/tangly1024/NotionNext/pull/3826](https://github.com/tangly1024/NotionNext/pull/3826)
-> 使用体验和OpenWrite一致，页面显示查看更多按钮，用户点击后需要关注公众号查看内容：
-> ![05059467ede12063fcbfb0d7bb619f58.png](/legacy/1babe0067f81a105.png)
-> ![image.png](/legacy/17f98076ad7a917b.png)
+新版本引入 TechGrow方案进行验证码解锁：
+感謝[大佬](https://github.com/yunhe-dev)的[https://yunhe.dev/](https://yunhe.dev/)提交：[https://github.com/tangly1024/NotionNext/pull/3826](https://github.com/tangly1024/NotionNext/pull/3826)
+使用体验和OpenWrite一致，页面显示查看更多按钮，用户点击后需要关注公众号查看内容：
+![05059467ede12063fcbfb0d7bb619f58.png](/legacy/1babe0067f81a105.png)
+![image.png](/legacy/17f98076ad7a917b.png)
+:::
 
 
 ## 参考官方文档
@@ -82,23 +82,23 @@
 1. 回到网页中输入验证码，并点击提交即可
 ![image.png](/legacy/6c96f5ab1509bf8b.png)
 
-> **💡**
->
+::: tip 提示
   - 目前已支持所有主题，验证码只需要输入一次，即可解锁全站访问。
->   - 需要更新到4.7.0的版本之后才支持本功能。
+  - 需要更新到4.7.0的版本之后才支持本功能。
+:::
 
-> **💡**
->
+::: tip 提示
 本功能由[自动驾驶小白说](https://www.helloxiaobai.cn/about)倾情赞助。
-> ![9a9d5135-ccdb-4c3e-aa57-4912b75d87a6.png](/legacy/c532f06c53ec0bc6.png)
-> [自动驾驶小白说](https://www.helloxiaobai.cn/about), 输出专业自动驾驶算法教程的开发者社区. 🦈
+![9a9d5135-ccdb-4c3e-aa57-4912b75d87a6.png](/legacy/c532f06c53ec0bc6.png)
+[自动驾驶小白说](https://www.helloxiaobai.cn/about), 输出专业自动驾驶算法教程的开发者社区. 🦈
+:::
 
 
 ## NotionNext配置说明
 
-> **💡**
->
+::: tip 提示
 在2025-01-19的版本后加入了黄名单配置，设置后只锁定部分文章
+:::
 
 在您的Notion配置中心添加以下配置，即可在网页上激活文章验证码解锁功能
 
@@ -144,13 +144,13 @@
 
 ![image.png](/legacy/bba7c284aabc4503.png)
 
-> **💡**
->
+::: tip 提示
 自动回复的内容中，最重要的就是要带上Openwrite后台提供的验证码链接，用户点击此链接后可以获得验证码，示例：
->
-> **&lt;a href="https://readmore.openwrite.cn/code/generate?****blogId****=****xxxxx****"&gt;点此链接，获取博客解锁验证码&lt;/a&gt;
-> **
-> 注意，这里每个人的链接是不同的，特别是blogId这个参数。
+
+**&lt;a href="https://readmore.openwrite.cn/code/generate?****blogId****=****xxxxx****"&gt;点此链接，获取博客解锁验证码&lt;/a&gt;
+**
+注意，这里每个人的链接是不同的，特别是blogId这个参数。
+:::
 
 
 ## 参考

@@ -41,3 +41,5 @@
 - `conf/*.config.js` 注释
 - 本目录文档或 PR 描述中的使用说明
 
+主题级配置也遵守同一原则。新增 `themes/<theme>/config.js` 配置项时，请同步更新 `docs/user-guide/themes/<theme>.md`，说明默认值、开启/关闭效果，以及是否支持 Notion Config 或环境变量覆盖。不要把用户可见配置标记为“文档不适用”。
+

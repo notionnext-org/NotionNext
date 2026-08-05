@@ -48,6 +48,7 @@ const scenes = {
   game: '游戏像素风装饰',
   landing: '单页着陆分区',
   starter: '营销落地页区块',
+  opc: '个人主页、一人公司入口、AI 工作流展示',
   proxio: '作品集、SaaS 品牌站',
   commerce: '商品展示页',
   magzine: '杂志封面大图列表',

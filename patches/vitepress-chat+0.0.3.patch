@@ -1,0 +1,57 @@
+diff --git a/node_modules/vitepress-chat/dist/ChatBox-BNi8Re36.js b/node_modules/vitepress-chat/dist/ChatBox-BNi8Re36.js
+index 7143c04..f141ef3 100644
+--- a/node_modules/vitepress-chat/dist/ChatBox-BNi8Re36.js
++++ b/node_modules/vitepress-chat/dist/ChatBox-BNi8Re36.js
+@@ -78,7 +78,7 @@ VitePress Documentation Files:
+ 				return E.highlight(e, { language: n }).value;
+ 			}
+ 		}));
+-		let { messages: U, status: W, error: G, sendMessage: ce, clearError: le } = C({
++		let he = "", { messages: U, status: W, error: G, sendMessage: ce, clearError: le } = C({
+ 			transport: new S({
+ 				api: s.api,
+ 				...s.headers ? { headers: s.headers } : {},
+@@ -88,9 +88,33 @@ VitePress Documentation Files:
+ 				Q(), Z();
+ 			},
+ 			onError: (e) => {
+-				console.error(e);
++				console.error(e), me(e);
+ 			}
+ 		}), K = r(() => W.value !== "ready" && W.value !== "error"), q = r(() => W.value === "submitted"), ue = r(() => W.value === "streaming" && U.value.at(-1)?.role === "assistant" ? U.value.at(-1).id : null), J = !0, Y = null;
++		function ge(e) {
++			let t = e instanceof Error ? e.message : String(e ?? "");
++			return /413|large|long/i.test(t) ? "问题太长，请缩短后重试。" : /401|403|auth|api key|credential/i.test(t) ? "AI 服务鉴权失败，请联系站点维护者检查密钥配置。" : /429|quota|rate limit/i.test(t) ? "AI 服务额度或频率受限，请稍后重试。" : /500|502|503|504|model/i.test(t) ? "AI 服务暂时不可用，请稍后重试。" : /fetch|network|abort|load failed|failed to fetch/i.test(t) ? "网络连接中断，请换 Chrome/Safari 或稍后重试。" : t && t !== "An error occurred." ? t : "请求失败，请稍后重试。";
++		}
++		async function me(e) {
++			if (!he) return G.value = new Error(ge(e)), void (W.value = "error");
++			try {
++				let t = U.value.at(-1)?.role === "assistant" ? U.value.slice(0, -1) : U.value;
++				t.some((e) => e.role === "user") || (t = [...t, { id: `fallback-user-${Date.now()}`, role: "user", parts: [{ type: "text", text: he }] }]);
++				let n = `${s.api}${s.api.includes("?") ? "&" : "?"}stream=false`, r = await fetch(n, {
++					method: "POST",
++					headers: { "content-type": "application/json", ...(s.headers || {}) },
++					body: JSON.stringify({ messages: t })
++				});
++				if (!r.ok) {
++					let e = await r.json().catch(() => ({}));
++					throw new Error(e.error || `HTTP ${r.status}`);
++				}
++				let i = await r.json(), a = i.text || "AI 返回了空内容，请稍后重试。";
++				U.value = [...t, { id: `fallback-ai-${Date.now()}`, role: "assistant", parts: [{ type: "text", text: a }] }], G.value = void 0, W.value = "ready", Q(), Z();
++			} catch (t) {
++				console.error(t), G.value = new Error(ge(t)), W.value = "error";
++			}
++		}
+ 		y(z, (e) => {
+ 			Y?.disconnect(), e && (Y = new MutationObserver(() => {
+ 				J && B.value?.scrollIntoView({ block: "end" });
+@@ -126,7 +150,7 @@ VitePress Documentation Files:
+ 		function $(e) {
+ 			e.preventDefault();
+ 			let t = R.value.trim();
+-			t && (Q(), le(), ce({ text: t }), R.value = "", Z());
++			t && (he = t, Q(), le(), ce({ text: t }), R.value = "", Z());
+ 		}
+ 		return (e, t) => (f(), a(n, null, [
+ 			o("div", {

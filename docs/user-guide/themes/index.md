@@ -1,4 +1,4 @@
-﻿# 内置主题说明文档（25 个）
+﻿# 内置主题说明文档（26 个）
 
 每个主题一篇独立说明：**主题特性**、**启用方式**与 **`themes/<id>/config.js` 配置表** 与代码同步。维护者可运行：
 
@@ -10,7 +10,7 @@ node scripts/generate-theme-user-docs.mjs
 
 <!-- theme-index-table -->
 
-## 全部主题（25 个）
+## 全部主题（26 个）
 
 | ID | 名称 | 特性摘要 | 说明 |
 | --- | --- | --- | --- |
@@ -32,6 +32,7 @@ node scripts/generate-theme-user-docs.mjs
 | `nav` | Nav | 顶部导航主导航的现代布局。 | [nav.md](./nav.md) |
 | `next` | Next | 经典双栏布局，右侧栏与移动端悬浮目录。 | [next.md](./next.md) |
 | `nobelium` | Nobelium | 致敬Nobelium,极简排版风格。 | [nobelium.md](./nobelium.md) |
+| `opc` | Opc | 个人主页与一人公司入口，聚焦 AI 工作流。 | [opc.md](./opc.md) |
 | `photo` | Photo | 摄影作品与相册网格。 | [photo.md](./photo.md) |
 | `plog` | Plog | 偏图片与轻量图文化展示。 | [plog.md](./plog.md) |
 | `proxio` | Proxio | 作品集与个人品牌展示增强。 | [proxio.md](./proxio.md) |

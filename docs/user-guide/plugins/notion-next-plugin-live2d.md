@@ -35,11 +35,13 @@
 
 `WIDGET_PET_LINK` 这个参数制定的是动画模型的加载地址，目前默认使用的是茶杯狗。
 
-> **💡** 由于每个动画模型的高度不同，可能需要您在[代码中](https://github.com/tangly1024/NotionNext/blob/8103e23aac7219789c77e412a1bc24dd2a2683b5/components/Live2D.js#L38)修改模型的高度height，否则会很怪异。
->
+::: tip 提示
+由于每个动画模型的高度不同，可能需要您在[代码中](https://github.com/tangly1024/NotionNext/blob/8103e23aac7219789c77e412a1bc24dd2a2683b5/components/Live2D.js#L38)修改模型的高度height，否则会很怪异。
+
 ```HTML
-> &lt;canvas id="live2d" className='cursor-pointer' width="280" **height="250"** onClick={handleClick} alt='切换主题' title='切换主题' /&gt;
-> ```
+&lt;canvas id="live2d" className='cursor-pointer' width="280" **height="250"** onClick={handleClick} alt='切换主题' title='切换主题' /&gt;
+```
+:::
 
 
 ## 模型预览

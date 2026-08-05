@@ -3,10 +3,17 @@ import SmartLink from '@/components/SmartLink'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
 import NotByAI from '@/components/NotByAI'
+import { resolveArticleCopyrightText } from '@/lib/utils/articleCopyright'
 
 export default function ArticleCopyright({ author, url, post }) {
   const { locale } = useGlobal()
-  if (!siteConfig('NEXT_ARTICLE_COPYRIGHT', null, CONFIG)) {
+  const copyrightText = resolveArticleCopyrightText({
+    post,
+    locale,
+    mode: siteConfig('NEXT_ARTICLE_COPYRIGHT', null, CONFIG)
+  })
+
+  if (!copyrightText) {
     return <></>
   }
   return (
@@ -26,7 +33,7 @@ export default function ArticleCopyright({ author, url, post }) {
         </li>
         <li>
           <strong className='mr-2'>{locale.COMMON.COPYRIGHT}:</strong>
-          {post.copyright || locale.COMMON.COPYRIGHT_NOTICE}
+          {copyrightText}
         </li>
         {siteConfig('NEXT_ARTICLE_NOT_BY_AI', false, CONFIG) && (
           <li>

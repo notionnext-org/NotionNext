@@ -119,11 +119,13 @@
       1. 为减小打包体积，将页面Layout改为异步加载异步加载
       1. 重构部分组件加载，从第三方CDN外部加载
   - 待处理：此版本缺陷
-> **💡** - 用户首次打开博客访问的第一个页面会闪一下
+::: tip 提示
+- 用户首次打开博客访问的第一个页面会闪一下
 - 本地开发时首屏打开会弹一个红窗报错，问题不大、有空处理。
   - New Contributors
     - @kitety made their first contribution in [https://github.com/tangly1024/NotionNext/pull/1076](https://github.com/tangly1024/NotionNext/pull/1076)
 **Full Changelog**: [https://github.com/tangly1024/NotionNext/compare/v3.14.0...v3.15.0](https://github.com/tangly1024/NotionNext/compare/v3.14.0...v3.15.0)
+:::
 
 </details>
 
@@ -286,11 +288,13 @@ IMG_URL_TYPE: process.env.NEXT_PUBLIC_IMG_TYPE || 'Amazon',
   - 新增主题 simple
   - 修复next主题右侧丢失的分类和标签页面
   - 支持配置多级菜单（暂时仅支持simple主题）
-> **👏** simple主题多级菜单的配置说明：
+::: tip 提示
+simple主题多级菜单的配置说明：
 1.  blog.config.js 中开启 CUSTOM_MENU
 2.  在notion中添加 Menu类型的文章 如图：
->
+
 ![Untitled](/legacy/bb91197d312ebba0.png)
+:::
 
 </details>
 

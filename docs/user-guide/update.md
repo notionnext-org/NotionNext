@@ -6,10 +6,10 @@
 > 标签：NotionNext、升级教程
 > 摘要：当NotionNext发布新版后，如何更新你的项目？
 
-> **💡**
->
+::: tip 提示
 4.8版本加入一些新的功能和配置，同时大量调整了配置文件，**更新时blog.config.js文件会发生大量冲突**，请小心驾驶。
-> 推荐做法是：备份所有原先的文件（下载保留或拉另一个分支备份），或者迁移到NOTION_CONFIG等方式，会后在更新时选择放弃你的原有代码，从而确保代码一致性。版本同步一致后，再参考您的备份文件进行重新配置。
+推荐做法是：备份所有原先的文件（下载保留或拉另一个分支备份），或者迁移到NOTION_CONFIG等方式，会后在更新时选择放弃你的原有代码，从而确保代码一致性。版本同步一致后，再参考您的备份文件进行重新配置。
+:::
 
 
 ## 前言
@@ -119,8 +119,7 @@ NotionNext教程
 所有文章数据都存在你的notion笔记中，此处重新部署的速度其实很快，无需太多配置。
 
 - 找我帮忙
-> **⚠️**
->
+::: warning 注意
 这个不是免费的，不然我根本忙不过来😭
 由我帮你合并最新的代码，并将更新后的版本用推送的方式发到您的仓库中，收到推送后您只需要按以下步骤，点击3个按钮即可完成升级：
   1. 点击推送给你的页面链接，然后找到底部的 Merge pull request按钮；
@@ -130,12 +129,10 @@ NotionNext教程
   1. 然后再次点击Confirm Merge 确认接口
 ![image.png](/legacy/ed51f4c121db4c87.png)
 此时站点已经开始自动升级，您只需要稍等片刻，或者到vercel后台督促一下部署记录。
-> **⚠️**
->
-操作方式，联系小助理告知”代码付费升级“，定价是￥**9.9/**次。
+**⚠️**
 
-- 更多手动方案，感谢网友们的分享！
-[NotionNext更新冲突手动解决方案 | 凌云·LinYun](https://www.linyunlink.top/article/post-240629)
+操作方式，联系小助理告知”代码付费升级“，定价是￥**9.9/**次。
+:::
 
 NotionNext更新冲突？网上教程还要VS code和git?通通不需要，马上解决冲突！
 [047 一种更新NotionNext版本的简单方法 | Dongdong’s Blog](https://ddw2019.com/047)
@@ -144,6 +141,51 @@ NotionNext更新冲突？网上教程还要VS code和git?通通不需要，马�
 [手动 NotionNext 版本更新教程 | D_SUPER BLOG](https://www.dsuper.xyz/article/notionnext_update_221228)
 
 勤劳的 tangly1024 [ Github][ Blog] 大大又更新了 NotionNext 内容。之前的更新内容不涉及 blog.config.js 文件（配置博客唯一要更改的文件），可以直接 Fetch upstream → Fetch and merge 跟进版本。但是这次涉及到 blog.config.js 文件的修改，新旧内容冲突导致 Github 懵了，需要手动更新。数日前就看到需要更新，今天才得以抽空完成这一"大工程"（实在是懒）。 (1) 浏览器 [Github 已经 Fork 过 NotionNext 项目]; (2) Github desktop 客户端 [ 安装地址]; (3) Visual Studio Code - VS Code [ 安装地址].
+
+
+## Github 自动化（高阶方法，需要一定知识）
+
+除了手动点击 `Fetch upstream` / `Sync fork` 按钮，仓库内置了一个 GitHub Actions workflow（[`.github/workflows/sync.yaml`](https://github.com/tangly1024/NotionNext/blob/main/.github/workflows/sync.yaml)），可以自动帮你完成每日同步上游最新代码的工作。
+
+### 功能说明
+
+该 workflow 每天 UTC 0点（对应北京时间早上8点）自动运行一次，将上游仓库 `tangly1024/NotionNext` 的 `main` 分支同步合并到你 fork 仓库的 `main` 分支，不需要每天手动点击更新按钮。
+
+关键配置如下：
+
+```yaml
+on:
+  schedule:
+    - cron: "0 0 * * *" # every day
+  workflow_dispatch:
+
+jobs:
+  sync_latest_from_upstream:
+    if: ${{ github.event.repository.fork }}
+    steps:
+      - uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+          upstream_sync_repo: tangly1024/NotionNext
+          upstream_sync_branch: main
+          target_sync_branch: main
+```
+
+### 启用自动化（重点）
+
+::: warning 注意
+GitHub 出于安全考虑，**新 fork 的仓库默认关闭了 Actions（自动化）功能**，需要手动启用一次才能生效：
+:::
+
+1. 打开自己 fork 的仓库，点击顶部的 `Actions` 标签；
+2. 如果看到提示条 "Workflows aren't being run on this forked repository"，点击 `I understand my workflows, go ahead and enable them` 按钮启用 Actions；
+3. 启用后，左侧列表中会出现 `Upstream Sync` workflow，代表自动化已生效，之后会按计划每天自动运行一次；
+4. 你也可以随时打开该 workflow 页面，点击右上角的 `Run workflow` 按钮手动立即触发一次同步。
+
+### 注意事项
+
+- GitHub 会在 fork 仓库连续60天没有任何活动时自动禁用其 Actions，届时需要重新按上述步骤启用一次。
+- 若上游仓库修改了 workflow 文件本身，GitHub 会自动暂停本仓库该 workflow 的运行，导致自动同步失败，此时需要按前文"简单更新方法"章节中手动 `Sync fork` 的方式操作一次，才能恢复自动化。
+- 该自动化只负责同步代码，仍可能产生代码冲突（例如你修改过 `blog.config.js`），冲突的处理方式与手动更新一致，参考上文"带有冲突的更新"章节。
 
 
 ## 优化建议
@@ -166,7 +208,9 @@ NotionNext更新冲突？网上教程还要VS code和git?通通不需要，马�
 
 ## 部署更新失败如何解决
 
-> **❓** 更新后打开网页，版本号还是旧的？
+::: info 问题
+更新后打开网页，版本号还是旧的？
+:::
 
 请检查Vercel部署日志，查看日志方法。
 

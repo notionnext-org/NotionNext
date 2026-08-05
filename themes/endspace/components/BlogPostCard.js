@@ -33,7 +33,7 @@ export const BlogPostCard = ({ post, showSummary = true }) => {
         <div className={`flex-1 flex flex-col justify-center relative z-10 p-5 md:p-6 overflow-hidden`}>
           
           {/* Hover Effect: Yellow Swoosh Background (Now confined to text area) */}
-          <div className="absolute inset-0 bg-[#FBFB45] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out z-0" />
+          <div className="absolute inset-0 bg-[var(--endspace-accent-yellow)] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out z-0" />
           
           {/* Hover Effect: Horizontal Black Bar (Top of text area) */}
           <div className="absolute top-0 left-0 right-0 h-1.5 bg-black opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />

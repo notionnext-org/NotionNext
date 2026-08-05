@@ -24,7 +24,7 @@
 | 站点配置、URL、搜索 | `docs/user-guide/config/` | 功能名，如 `url-customize.md` |
 | Notion 使用技巧 | `docs/user-guide/notion/` | |
 | 版本与更新说明 | `docs/user-guide/changelog/` | |
-| 主题（站长向） | `docs/user-guide/themes/<id>.md` | 25 篇；`generate-theme-user-docs.mjs` 刷新配置表；Proxio/Heo 含合并专题 |
+| 主题（站长向） | `docs/user-guide/themes/<id>.md` | 26 篇；`generate-theme-user-docs.mjs` 刷新配置表；Proxio/Heo 含合并专题 |
 | 主题（开发向） | `docs/developer/themes/` | 仅 Claude、Endspace 等全局改动长篇；勿与站长文重复 |
 | 4.9.x 配置 / Notion 能力 | `docs/user-guide/reference/` | `features.md`、`notion-4x.md`（改 `conf/` 后必同步） |
 | 统计 / 评论 / 挂件 | `analytics/`、`comments/`、`plugins/` | 一篇一插件或一总览 |

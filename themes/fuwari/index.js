@@ -21,6 +21,7 @@ import ArticleHeroCover from './components/ArticleHeroCover'
 import HeroBanner from './components/HeroBanner'
 import Pagination from './components/Pagination'
 import PostList from './components/PostList'
+import PostListScroll from './components/PostListScroll'
 import RightFloatArea from './components/RightFloatArea'
 import SidePanel from './components/SidePanel'
 import CONFIG from './config'
@@ -103,8 +104,14 @@ const LayoutPostList = props => {
           </div>
         </div>
       )}
-      <PostList posts={props.posts} />
-      <Pagination page={props.page} postCount={props.postCount} />
+      {siteConfig('POST_LIST_STYLE', 'page', props.NOTION_CONFIG) === 'page' ? (
+        <>
+          <PostList posts={props.posts} />
+          <Pagination page={props.page} postCount={props.postCount} />
+        </>
+      ) : (
+        <PostListScroll posts={props.posts} />
+      )}
     </>
   )
 }

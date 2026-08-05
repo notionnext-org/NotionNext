@@ -8,6 +8,7 @@ const SocialButton = () => {
   const links = [
     { key: 'CONTACT_TWITTER', icon: 'fab fa-twitter', label: 'Twitter' },
     { key: 'CONTACT_GITHUB', icon: 'fab fa-github', label: 'GitHub' },
+    { key: 'CONTACT_ORCID', icon: 'fab fa-orcid', label: 'ORCID' },
     { key: 'CONTACT_TELEGRAM', icon: 'fab fa-telegram', label: 'Telegram' },
     { key: 'CONTACT_LINKEDIN', icon: 'fab fa-linkedin', label: 'LinkedIn' },
     { key: 'CONTACT_WEIBO', icon: 'fab fa-weibo', label: 'Weibo' },

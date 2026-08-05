@@ -86,6 +86,17 @@
    - 跳到评论区
    - 深色模式快捷切换
 
+### 首屏稳定与 CLS 约束
+
+每个主题在设计阶段就要明确“首屏能看到什么”，并为首屏内容预留稳定高度。目标不是删除真实功能来换 Lighthouse 分数，而是在 Next.js 脚本加载、主题动态加载、图片/字体/广告/插件补齐前后，首屏视觉结构不发生大范围位移。
+
+- 首页、列表页、落地页必须先规划桌面端和移动端的首屏高度。首个主要视觉区（Hero、封面文章、首组文章流等）应使用 `min-h-screen`、`min-h-[calc(100vh-var(--header-height))]`、固定 `aspect-ratio` 或主题等价方案，避免加载后把页脚、第二屏模块或动态分类从首屏挤走。
+- 主题动态加载 fallback、文章详情 `!post` fallback、骨架屏必须和最终布局的主轴高度接近。无法精确复刻主题时，至少保留一屏高度的空白壳，避免加载前露出页脚或大块下方内容。
+- 封面图、文章卡图、侧栏图、头像、广告位、统计卡、评论入口和插件插槽必须提前确定宽高、`aspect-ratio` 或 `min-height`。可以延迟加载内容，但不能在首屏内无占位地插入。
+- 动态分类、推荐文章、标签云、广告、AI 小组件、评论等高度不稳定模块，优先放到首屏之后；如果必须出现在首屏内，需要给容器设置与最终状态接近的稳定高度。
+- AOS、主题字体、统计脚本、广告脚本等真实功能默认不应为了跑分被移除。性能优化优先使用尺寸预留、首屏优先级、懒加载边界和 below-the-fold 延迟。
+- 合并前用慢速网络或 DevTools throttling 观察“初始 HTML/fallback 状态”和“Next.js 脚本接管后状态”：首屏内容、页脚位置和主要卡片高度不应明显跳变；Lighthouse / Performance 面板中的 CLS 应接近 0。
+
 ## 5）配置设计建议
 
 统一使用 `siteConfig('<KEY>', <default>, CONFIG)`。
@@ -99,6 +110,34 @@
 - `THEME_ARTICLE_*`
 
 避免在组件内部散落“魔法常量”。
+
+### 5.1 主题颜色变量
+
+早期主题大量使用 Tailwind CSS 工具类，是为了降低开发成本、快速验证布局与交互。现在主题框架已经更成熟，新的主题和后续重构应把颜色从 Tailwind 固定色名中抽离出来，改用主题自己的语义色变量，避免 `blue`、`indigo`、`yellow` 这类类名在代码里同时承担“主色”“强调色”“深色模式高亮”等不同含义。
+
+推荐规则：
+
+- 颜色配置放在 `themes/<theme>/config.js`，使用主题前缀，例如 `HEO_COLOR_PRIMARY`、`HEO_COLOR_ACCENT`、`HEO_COLOR_BG`。
+- `themes/<theme>/style.js` 读取配置后，在当前主题根节点下定义 CSS 变量，例如 `#theme-heo { --heo-color-primary: ... }`，不要直接写到全局 `:root`。
+- 组件 className 使用语义变量，例如 `bg-[var(--heo-color-primary)]`、`text-[var(--heo-color-text)]`，不要再新增无语义的固定色 class。
+- Notion Config 与环境变量可以覆盖这些键；主题 `config.js` 只保留默认值。
+- 所有内置主题至少暴露主色、页面背景、卡片背景、主文字和边框，并分别提供浅色与深色两套配置；主题实际使用了次级文字、强调色或 hover 色时，也要纳入调色板。
+- 深色配置键在浅色键后追加 `_DARK`，例如 `HEO_COLOR_TEXT_DARK`。两套配置必须映射到独立基础变量，再由当前模式选择活动变量，避免切换模式后串色。
+- manifest 只负责声明，不能代替实现；CSS 变量必须被组件真实消费，控制台修改后应立即可见。
+- 迁移时沿用原主题色值作为默认值，不能因为接入调色板改变原版视觉。
+
+建议的最小色板：
+
+| 语义 | 示例配置键 | 用途 |
+| --- | --- | --- |
+| 主色 | `HEO_COLOR_PRIMARY` | 主按钮、选中态、重点链接 |
+| 主色悬停 | `HEO_COLOR_PRIMARY_HOVER` | 主按钮和重点元素 hover |
+| 强调色 | `HEO_COLOR_ACCENT` | 辅助高亮、徽标、特殊装饰 |
+| 页面背景 | `HEO_COLOR_BG` | 页面底色 |
+| 卡片背景 | `HEO_COLOR_CARD` | 卡片、面板、浮层 |
+| 边框 | `HEO_COLOR_BORDER` | 卡片边框、分割线 |
+| 主文字 | `HEO_COLOR_TEXT` | 标题和正文 |
+| 次级文字 | `HEO_COLOR_TEXT_SECONDARY` | 摘要、元信息、辅助说明 |
 
 ## 6）推荐迁移流程
 
@@ -178,6 +217,8 @@ const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
 
 读取逻辑由 **`getThemeSwitchMeta()`**（与文件同目录导出）统一合并默认值；**`components/ThemeSwitch.js`** 只依赖该函数，主题目录内无需重复维护简介。
 
+主题控制台承载调色板入口。主题在 manifest 中声明颜色配置项，面板读取后展示“配置键 + 当前色值 + 色块 + 复制值”。所有内置主题都必须提供浅色、深色两套基础色；复杂主题继续暴露次级文字、强调色、hover、状态色等实际使用的颜色，帮助站长直接把调整结果写回 Notion Config 或 `themes/<theme>/config.js`。
+
 ### 8.3 文档与其他约定
 
 - 主题详细说明仍建议写在 **`docs/developer/themes/`**（见下文「高还原度检查清单」中的文档放置约定）。
@@ -225,7 +266,8 @@ const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
   - 从顶部右上角调色按钮触发
   - 使用悬浮面板，不放在侧栏
   - 实时预览 + 本地记忆
-  - 显示可复制的 hue/hex，便于站长回填 `config.js`
+  - 显示每个色号的配置键、语义名称和当前色值，便于站长回填 Notion Config 或 `config.js`
+  - 单主色主题只展示主色；多色主题展示完整色板，不强行套用同一数量的色项
 - **主题文档放置位置**：
   - 避免把 Markdown 文档直接放在 `themes/<theme>/` 下（部分构建链路会把主题目录当运行时模块处理）
   - 主题说明建议统一放在 `docs/developer/themes/`

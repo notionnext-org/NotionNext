@@ -1,4 +1,4 @@
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import { useEffect } from 'react'
 import { SVGCircleBG } from './svg/SVGCircleBG'
 import { SVGQuestion } from './svg/SVGQuestion'
@@ -23,13 +23,13 @@ export const FAQ = () => {
             <div className='w-full px-4'>
               <div className='mx-auto mb-[60px] max-w-[520px] text-center'>
                 <span className='mb-2 block text-lg font-semibold text-primary'>
-                  {siteConfig('STARTER_FAQ_TITLE')}
+                  {starterConfig('STARTER_FAQ_TITLE')}
                 </span>
                 <h2 className='mb-3 text-3xl font-bold leading-[1.2] text-dark dark:text-white sm:text-4xl md:text-[40px]'>
-                  {siteConfig('STARTER_FAQ_TEXT_1')}
+                  {starterConfig('STARTER_FAQ_TEXT_1')}
                 </h2>
                 <p className='mx-auto max-w-[485px] text-base text-body-color dark:text-dark-6'>
-                  {siteConfig('STARTER_FAQ_TEXT_2')}
+                  {starterConfig('STARTER_FAQ_TEXT_2')}
                 </p>
               </div>
             </div>
@@ -43,11 +43,11 @@ export const FAQ = () => {
                 </div>
                 <div className='w-full'>
                   <h3 className='mb-6 text-xl font-semibold text-dark dark:text-white sm:text-2xl lg:text-xl xl:text-2xl'>
-                    {siteConfig('STARTER_FAQ_1_QUESTION')}
+                    {starterConfig('STARTER_FAQ_1_QUESTION')}
                   </h3>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: siteConfig('STARTER_FAQ_1_ANSWER')
+                      __html: starterConfig('STARTER_FAQ_1_ANSWER')
                     }}
                     className='text-base text-body-color dark:text-dark-6'></p>
                 </div>
@@ -58,11 +58,11 @@ export const FAQ = () => {
                 </div>
                 <div className='w-full'>
                   <h3 className='mb-6 text-xl font-semibold text-dark dark:text-white sm:text-2xl lg:text-xl xl:text-2xl'>
-                    {siteConfig('STARTER_FAQ_2_QUESTION')}
+                    {starterConfig('STARTER_FAQ_2_QUESTION')}
                   </h3>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: siteConfig('STARTER_FAQ_2_ANSWER')
+                      __html: starterConfig('STARTER_FAQ_2_ANSWER')
                     }}
                     className='text-base text-body-color dark:text-dark-6'></p>
                 </div>
@@ -76,11 +76,11 @@ export const FAQ = () => {
                 </div>
                 <div className='w-full'>
                   <h3 className='mb-6 text-xl font-semibold text-dark dark:text-white sm:text-2xl lg:text-xl xl:text-2xl'>
-                    {siteConfig('STARTER_FAQ_3_QUESTION')}
+                    {starterConfig('STARTER_FAQ_3_QUESTION')}
                   </h3>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: siteConfig('STARTER_FAQ_3_ANSWER')
+                      __html: starterConfig('STARTER_FAQ_3_ANSWER')
                     }}
                     className='text-base text-body-color dark:text-dark-6'></p>
                 </div>
@@ -91,11 +91,11 @@ export const FAQ = () => {
                 </div>
                 <div className='w-full'>
                   <h3 className='mb-6 text-xl font-semibold text-dark dark:text-white sm:text-2xl lg:text-xl xl:text-2xl'>
-                    {siteConfig('STARTER_FAQ_4_QUESTION')}
+                    {starterConfig('STARTER_FAQ_4_QUESTION')}
                   </h3>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: siteConfig('STARTER_FAQ_4_ANSWER')
+                      __html: starterConfig('STARTER_FAQ_4_ANSWER')
                     }}
                     className='text-base text-body-color dark:text-dark-6'></p>
                 </div>

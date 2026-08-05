@@ -4,7 +4,7 @@
 
 ### 环境要求
 
-- Node.js 20 LTS（具体补丁版本以仓库根目录 `.nvmrc` 为准，与各托管平台预装 Node 对齐）
+- Node.js 22 LTS（具体版本以仓库根目录 `.nvmrc` 为准，与各托管平台预装 Node 对齐）
 - Yarn = 1.22.22（使用 `package.json#packageManager` 保持一致）
 - Git
 
@@ -94,8 +94,6 @@ yarn
 - `yarn perf:lighthouse`：运行 Lighthouse CI 审计。
 - `yarn perf:audit:themes`：全主题性能审计（输出到 `docs/performance`）。
 - `yarn perf:compress-theme-previews`：批量生成主题预览 WebP 资源。
-
-- `yarn postinstall`：依赖安装后自动执行 `patch-package`。
 
 ### 代码质量工具
 

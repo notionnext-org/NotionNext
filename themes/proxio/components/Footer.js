@@ -33,6 +33,7 @@ export const Footer = ({ title }) => {
                 src={siteInfo?.icon}
                 className='rounded-full'
                 width={24}
+                height={24}
                 alt={siteConfig('AUTHOR')}
               />
               <h1 className='text-lg'>{title}</h1>

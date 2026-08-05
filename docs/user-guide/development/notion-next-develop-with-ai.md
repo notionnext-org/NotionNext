@@ -153,6 +153,21 @@ firebase会自动分配一个临时网址用于访问调试页面。
 
 ## 保存代码
 
+### 让 AI 同步更新文档
+
+AI 修改代码时，不要只让它改组件或配置文件。凡是新增或修改了站长会使用的功能，都要让 AI 一起检查并更新文档，尤其是：
+
+- 新增 `themes/<theme>/config.js` 配置项；
+- 新增环境变量、Notion Config 配置项或插件开关；
+- 改变部署、构建、缓存、评论、统计、广告等使用方式；
+- 修改主题的外观、交互或默认行为，并且站长需要知道如何开启、关闭或迁移。
+
+可以直接把下面这段话发给 AI：
+
+> 请先判断这次改动是否影响站长使用方式。如果新增或修改了用户可见配置、环境变量、Notion Config 键、主题行为或部署步骤，请同步更新 `docs/user-guide/` 或 `docs/developer/` 中对应文档；不要在 PR 描述中勾选“用户文档不适用”，除非本次改动确实只是内部重构或测试。
+
+例如修改 HEO 主题配置时，优先检查 `docs/user-guide/themes/heo.md`；修改全站配置时，优先检查 `docs/user-guide/config-site.md`、`docs/user-guide/reference/features.md` 和 `docs/developer/CONFIGURATION.md`。
+
 所有的代码需要提交到git仓库才能被保存，这里涉及到git的使用操作，git本身是为大型多人团队协作设计、其功能强大，需要一定的学习。我这里做一个最简单的提交代码的演示。
 
 点击左侧的Source Control图标

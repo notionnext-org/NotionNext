@@ -30,7 +30,7 @@
 | --- | --- |
 | [reference/features.md](./reference/features.md) | 与 `conf/*.config.js` 对齐的全站配置 |
 | [reference/notion-4x.md](./reference/notion-4x.md) | 近年 Notion / 站点能力 |
-| [themes/THEMES_CATALOG.md](./themes/THEMES_CATALOG.md) | 25 主题说明与配置前缀 |
+| [themes/THEMES_CATALOG.md](./themes/THEMES_CATALOG.md) | 26 主题说明与配置前缀 |
 | [changelog/latest.md](./changelog/latest.md) | 4.9.5.x 要点（非复制 v4.0 全文） |
 
 维护时：改功能 → 先改 `conf/` → 再改 `reference/features.md` 与相关 user-guide 篇目。

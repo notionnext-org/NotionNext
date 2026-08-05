@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * ThoughtLite 风格：仅作用于 #theme-thoughtlite
  * 设计为 CSS 变量 + 少量全局子选择器，便于与 Notion 正文协同。
@@ -253,7 +255,9 @@ const Style = () => {
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-    `}</style>
+
+      ${themeConsoleStyle('thoughtlite', CONFIG)}
+  `}</style>
   )
 }
 

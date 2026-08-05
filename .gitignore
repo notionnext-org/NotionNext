@@ -43,6 +43,12 @@ yarn-error.log*
 # dev
 /data.json
 /pnpm-lock.yaml
+.codex-temp/
+.codex-remote-attachments/
+.codex-*.md
+tmp-followup-*.md
+notionnext-*-comment.txt
+output/
 .idea
 .vscode
 
