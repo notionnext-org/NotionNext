@@ -7,12 +7,12 @@ const CONFIG = {
   CLAUDE_COLOR_BORDER: '#E5E5E0',
 
   // 博客標題 雙語言
-  CLAUDE_BLOG_NAME: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || '活字印刷',
-  CLAUDE_BLOG_NAME_EN: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME_EN || process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || 'Typography',
+  CLAUDE_BLOG_NAME: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || '你当刚强壮胆',
+  CLAUDE_BLOG_NAME_EN: process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME_EN || process.env.NEXT_PUBLIC_CLAUDE_BLOG_NAME || 'Beyond Spiritual Knowledge',
 
   CLAUDE_POST_AD_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_AD_ENABLE || false, // 文章列表是否插入广告
 
-  CLAUDE_POST_COVER_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_COVER_ENABLE || false, // 是否展示博客封面
+  CLAUDE_POST_COVER_ENABLE: process.env.NEXT_PUBLIC_CLAUDE_POST_COVER_ENABLE || true, // 是否展示博客封面
 
   CLAUDE_ARTICLE_RECOMMEND_POSTS: process.env.NEXT_PUBLIC_CLAUDE_ARTICLE_RECOMMEND_POSTS || true, // 文章详情底部显示推荐
 
