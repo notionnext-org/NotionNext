@@ -30,7 +30,7 @@ describe('parseConfigFromPage', () => {
               id: 'row',
               properties: {
                 key: [['AUTHOR']],
-                value: [['科技小王哥']],
+                value: [['Example Author']],
                 enable: [['Yes']]
               }
             }
@@ -58,7 +58,7 @@ describe('parseConfigFromPage', () => {
       }
 
       expect(parseConfigFromPage(recordMap, ['table'])).toEqual({
-        AUTHOR: '科技小王哥'
+        AUTHOR: 'Example Author'
       })
     }
   )
