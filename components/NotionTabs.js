@@ -29,23 +29,17 @@ const getDomId = (...parts) => {
     .replace(/[^a-zA-Z0-9_-]/g, '')
 }
 
-const getRendererProps = ctx => ({
-  components: ctx.components,
-  mapPageUrl: ctx.mapPageUrl,
-  mapImageUrl: ctx.mapImageUrl,
-  searchNotion: ctx.searchNotion,
-  rootPageId: ctx.rootPageId,
-  rootDomain: ctx.rootDomain,
-  darkMode: ctx.darkMode,
-  previewImages: ctx.previewImages,
-  forceCustomImages: ctx.forceCustomImages,
-  showCollectionViewDropdown: ctx.showCollectionViewDropdown,
-  linkTableTitleProperties: ctx.linkTableTitleProperties,
-  isLinkCollectionToUrlProperty: ctx.isLinkCollectionToUrlProperty,
-  defaultPageIcon: ctx.defaultPageIcon ?? undefined,
-  defaultPageCover: ctx.defaultPageCover ?? undefined,
-  defaultPageCoverPosition: ctx.defaultPageCoverPosition
-})
+const getRendererProps = ctx => {
+  const rendererProps = { ...ctx }
+
+  // These values belong to the parent renderer and must not leak into a
+  // nested block render. All other context options can follow library updates.
+  delete rendererProps.recordMap
+  delete rendererProps.fullPage
+  delete rendererProps.zoom
+
+  return rendererProps
+}
 
 const NotionTabs = ({ block }) => {
   const ctx = useNotionContext()
@@ -65,30 +59,44 @@ const NotionTabs = ({ block }) => {
       .filter(Boolean)
   }, [block?.content, recordMap])
   const [activeTabId, setActiveTabId] = useState(() => tabs[0]?.id)
+  const [renderedTabIds, setRenderedTabIds] = useState(
+    () => new Set(tabs[0]?.id ? [tabs[0].id] : [])
+  )
 
   useEffect(() => {
     if (!tabs.length) return
     if (!tabs.some(tab => tab.id === activeTabId)) {
-      setActiveTabId(tabs[0].id)
+      const firstTabId = tabs[0].id
+      setActiveTabId(firstTabId)
+      setRenderedTabIds(current => new Set(current).add(firstTabId))
     }
   }, [activeTabId, tabs])
 
   if (!tabs.length) return null
 
   const activeTab = tabs.find(tab => tab.id === activeTabId) || tabs[0]
-  const activeContentIds = activeTab.block?.content || []
   const rootId = getDomId('notion-tabs', block?.id)
   const rendererProps = getRendererProps(ctx)
+
+  const activateTab = tabId => {
+    setActiveTabId(tabId)
+    setRenderedTabIds(current => new Set(current).add(tabId))
+  }
 
   const focusTab = index => {
     const nextTab = tabs[index]
     if (!nextTab) return
 
-    setActiveTabId(nextTab.id)
+    activateTab(nextTab.id)
     if (typeof window !== 'undefined') {
-      window.requestAnimationFrame(() => {
+      const focus = () => {
         document.getElementById(getDomId(rootId, nextTab.id, 'tab'))?.focus()
-      })
+      }
+      if (typeof window.requestAnimationFrame === 'function') {
+        window.requestAnimationFrame(focus)
+      } else {
+        window.setTimeout(() => focus(), 0)
+      }
     }
   }
 
@@ -128,7 +136,7 @@ const NotionTabs = ({ block }) => {
               aria-selected={isActive}
               aria-controls={panelId}
               tabIndex={isActive ? 0 : -1}
-              onClick={() => setActiveTabId(tab.id)}
+              onClick={() => activateTab(tab.id)}
               onKeyDown={event => handleKeyDown(event, index)}
             >
               {tab.title}
@@ -137,26 +145,37 @@ const NotionTabs = ({ block }) => {
         })}
       </div>
 
-      <div
-        id={getDomId(rootId, activeTab.id, 'panel')}
-        className='notion-tabs-panel'
-        role='tabpanel'
-        aria-labelledby={getDomId(rootId, activeTab.id, 'tab')}
-      >
-        {activeContentIds.map(childId => {
-          if (!getBlockValue(recordMap, childId)) return null
+      {tabs.map(tab => {
+        const isActive = tab.id === activeTab.id
+        const hasBeenRendered = renderedTabIds.has(tab.id)
+        const contentIds = tab.block?.content || []
 
-          return (
-            <NotionRenderer
-              key={childId}
-              recordMap={recordMap}
-              blockId={childId}
-              fullPage={false}
-              {...rendererProps}
-            />
-          )
-        })}
-      </div>
+        return (
+          <div
+            key={tab.id}
+            id={getDomId(rootId, tab.id, 'panel')}
+            className='notion-tabs-panel'
+            role='tabpanel'
+            aria-labelledby={getDomId(rootId, tab.id, 'tab')}
+            hidden={!isActive}
+          >
+            {hasBeenRendered &&
+              contentIds.map(childId => {
+                if (!getBlockValue(recordMap, childId)) return null
+
+                return (
+                  <NotionRenderer
+                    key={childId}
+                    {...rendererProps}
+                    recordMap={recordMap}
+                    blockId={childId}
+                    fullPage={false}
+                  />
+                )
+              })}
+          </div>
+        )
+      })}
     </div>
   )
 }
