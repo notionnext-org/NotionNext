@@ -185,7 +185,7 @@ const loadPrismMacStyleCSS = () => {
 
 const CODE_SIDE_PANEL_ID = 'notion-code-side-panel'
 const CODE_SIDE_PANEL_DESKTOP_QUERY = '(min-width: 1024px)'
-const CODE_SIDE_PANEL_KEYDOWN = '__notionNextCodeSidePanelKeydown'
+const CODE_SIDE_PANEL_STATE = '__notionNextCodeSidePanelState'
 
 export const isCodeSidePanelSupported = () => {
   if (typeof window === 'undefined') return false
@@ -201,10 +201,27 @@ export const closeCodeSidePanel = () => {
   if (existing) existing.remove()
 
   if (typeof window !== 'undefined') {
-    const keydownHandler = window[CODE_SIDE_PANEL_KEYDOWN]
-    if (keydownHandler) {
-      document.removeEventListener('keydown', keydownHandler)
-      delete window[CODE_SIDE_PANEL_KEYDOWN]
+    const state = window[CODE_SIDE_PANEL_STATE]
+    if (state?.keydownHandler) {
+      document.removeEventListener('keydown', state.keydownHandler)
+    }
+    if (state?.desktopQuery && state.viewportHandler) {
+      if (typeof state.desktopQuery.removeEventListener === 'function') {
+        state.desktopQuery.removeEventListener('change', state.viewportHandler)
+      } else {
+        state.desktopQuery.removeListener?.(state.viewportHandler)
+      }
+    }
+    if (state && document.body) {
+      document.body.style.overflow = state.bodyOverflow
+    }
+    if (state && document.documentElement) {
+      document.documentElement.style.overflow = state.documentOverflow
+    }
+    delete window[CODE_SIDE_PANEL_STATE]
+
+    if (state?.returnFocus?.isConnected) {
+      state.returnFocus.focus()
     }
   }
 
@@ -229,6 +246,10 @@ export const openCodeSidePanel = ({
     return false
   }
 
+  const returnFocus =
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null
   closeCodeSidePanel()
 
   const root = document.createElement('div')
@@ -245,7 +266,7 @@ export const openCodeSidePanel = ({
   drawer.className = 'code-side-panel-drawer'
   drawer.setAttribute('role', 'dialog')
   drawer.setAttribute('aria-label', '代码预览侧栏')
-  drawer.setAttribute('aria-modal', 'false')
+  drawer.setAttribute('aria-modal', 'true')
 
   const header = document.createElement('div')
   header.className = 'code-side-panel-header'
@@ -317,13 +338,59 @@ export const openCodeSidePanel = ({
   root.appendChild(drawer)
 
   const keydownHandler = event => {
-    if (event.key === 'Escape') closeCodeSidePanel()
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      closeCodeSidePanel()
+      return
+    }
+    if (event.key !== 'Tab') return
+
+    const activeElement = document.activeElement
+    if (
+      event.shiftKey &&
+      (activeElement === copyButton || !drawer.contains(activeElement))
+    ) {
+      event.preventDefault()
+      closeButton.focus()
+    } else if (
+      !event.shiftKey &&
+      (activeElement === closeButton || !drawer.contains(activeElement))
+    ) {
+      event.preventDefault()
+      copyButton.focus()
+    }
   }
-  window[CODE_SIDE_PANEL_KEYDOWN] = keydownHandler
+  const desktopQuery =
+    typeof window.matchMedia === 'function'
+      ? window.matchMedia(CODE_SIDE_PANEL_DESKTOP_QUERY)
+      : null
+  const viewportHandler = event => {
+    if (!event.matches) closeCodeSidePanel()
+  }
+  if (typeof desktopQuery?.addEventListener === 'function') {
+    desktopQuery.addEventListener('change', viewportHandler)
+  } else {
+    desktopQuery?.addListener?.(viewportHandler)
+  }
+  window[CODE_SIDE_PANEL_STATE] = {
+    bodyOverflow: document.body?.style.overflow || '',
+    documentOverflow: document.documentElement?.style.overflow || '',
+    desktopQuery,
+    viewportHandler,
+    keydownHandler,
+    returnFocus
+  }
   document.addEventListener('keydown', keydownHandler)
+  if (document.body) document.body.style.overflow = 'hidden'
+  if (document.documentElement) {
+    document.documentElement.style.overflow = 'hidden'
+  }
 
   document.body.appendChild(root)
-  requestFrame(() => root.classList.add('is-open'))
+  closeButton.focus()
+  requestFrame(() => {
+    if (root.isConnected) root.classList.add('is-open')
+  })
 
   return true
 }
