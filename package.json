@@ -72,7 +72,7 @@
     "@next/bundle-analyzer": "^12.3.7",
     "@notionhq/client": "^2.2.15",
     "@supabase/supabase-js": "^2.111.0",
-    "@tabler/icons-react": "^3.36.1",
+    "@tabler/icons-react": "^3.46.0",
     "@vercel/analytics": "^1.6.1",
     "@vercel/functions": "^3.7.6",
     "algoliasearch": "^4.25.2",
