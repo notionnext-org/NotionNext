@@ -6,6 +6,8 @@
 
 本版本集中合入 `v4.10.8` 之后的社区修复、Notion 渲染兼容、主题移动端体验、依赖安全更新和 Docker 发布增强。多数站点只需要同步最新 `main` 并重新部署，不需要新增环境变量。
 
+- 新增 OpenAI 兼容 AI 助手代理，可通过 `AI_CHAT_*` 配置接入 DeepSeek 等兼容 `chat/completions` 的模型服务。
+
 ### Notion 数据与内容渲染
 
 - Notion Config 读取兼容新版 Notion 数据库块：配置库既可以来自 `collection_view`，也可以来自 `collection_view_page`。
