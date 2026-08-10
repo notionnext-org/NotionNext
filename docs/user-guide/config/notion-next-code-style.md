@@ -31,6 +31,8 @@ CODE_COLLAPSE_MIN_LINES: process.env.NEXT_PUBLIC_CODE_COLLAPSE_MIN_LINES || 20, 
 
 开启 `CODE_COLLAPSE` 后，超过 `CODE_COLLAPSE_MIN_LINES` 的长代码块会显示折叠条。桌面端会额外显示“在侧栏查看”按钮，点击后可在右侧固定侧栏中阅读完整代码，并支持复制、关闭按钮、Esc 或点击遮罩退出；移动端保持原有折叠/展开行为。
 
+这个能力适合展示较长的配置文件、部署日志、代码示例和 AI 生成脚本。升级到 `4.10.9` 后无需新增配置；只要原本开启了 `CODE_COLLAPSE`，桌面端会自动出现侧栏预览入口。
+
 ### 代码风格配置说明
 
 浅色模式（日间模式）和深色模式（夜间模式）支持各配置一种代码风格；

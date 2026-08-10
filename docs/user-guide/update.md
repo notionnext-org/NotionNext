@@ -42,6 +42,19 @@
 
 NotionNext教程
 
+## 4.10.9 升级提示
+
+`4.10.9` 是一次小版本维护发布。普通站点同步最新 `main` 后重新部署即可，不需要新增必填环境变量。
+
+建议升级后重点检查：
+
+- 首页和菜单是否仍能正确读取 Notion Config；新版已兼容 Notion 的 `collection_view_page` 配置库块。
+- 含有数据库视图、HTML 块、Tabs 块或同步块的文章是否可以正常构建和打开。
+- 自定义菜单如果指向隐藏页面，目标页面可以设为 `Invisible`，菜单会跳转到该页面真实生成的地址。
+- 使用 Matery、Claude、Typography、Game、Nobelium、Plog 等主题时，检查移动端标签、分享栏、菜单图标和加密文章提交按钮。
+
+如果你的 fork 很久没有同步，仍然推荐先备份 `blog.config.js`、主题配置和自定义代码，再执行 `Sync fork`。
+
 
 ## 关于代码备份
 

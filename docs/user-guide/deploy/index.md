@@ -33,6 +33,12 @@
 - **Yarn**：`yarn` → `yarn build` / `yarn export`
 - 必配：`NOTION_PAGE_ID`
 
+## Docker 镜像发布说明
+
+`4.10.9` 起，主仓库的 GHCR Docker 镜像发布流程会随镜像生成 provenance 与 SBOM attestation。自托管用户如果从 `ghcr.io/notionnext-org/notionnext` 拉取镜像，可以在 GitHub Packages / Actions 记录中查看镜像来源和依赖清单。
+
+这不会改变本地 `Dockerfile` 构建方式；如果你仍按 [VPS / Docker](./vps.md) 教程在服务器上自行 `docker build`，原流程保持不变。
+
 ## EdgeOne
 
 Node 版本、磁盘 `ENOSPC`、框架预设 **Next SSG** 等见 **[edgeone-pages.md](./edgeone-pages.md)**。构建时若 `.next/cache` 不可写，项目会回退系统临时目录，见 `lib/cache/build_session.js`。

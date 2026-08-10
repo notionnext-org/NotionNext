@@ -1,6 +1,59 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.8**（见根目录 `package.json`）
+> 当前主线：**4.10.9**（见根目录 `package.json`）
+
+## 4.10.9 发布要点
+
+本版本集中合入 `v4.10.8` 之后的社区修复、Notion 渲染兼容、主题移动端体验、依赖安全更新和 Docker 发布增强。多数站点只需要同步最新 `main` 并重新部署，不需要新增环境变量。
+
+### Notion 数据与内容渲染
+
+- Notion Config 读取兼容新版 Notion 数据库块：配置库既可以来自 `collection_view`，也可以来自 `collection_view_page`。
+- 修复页面中包含数据库视图、HTML 块、空 `content` 字段或异常 transclusion 引用时，构建阶段出现 `content is not iterable` 的问题。
+- 文章目录生成会跳过非数组内容，避免数据库视图或特殊块影响整页渲染。
+- 支持 Notion Tabs 块渲染，适合在文章中整理多组并列内容。
+- 自定义菜单可以指向 `Invisible` 页面，并优先使用该隐藏页最终生成的访问地址；`Draft` 等未发布页面不会因此被菜单暴露。
+
+### 阅读与写作体验
+
+- 长代码块在桌面端支持“侧栏查看”，便于阅读超长配置、脚本和日志。
+- 分享按钮在移动端改为横向滚动，不再挤压变形。
+- 加密文章提交按钮在多个主题中统一修复，窄屏下不会只显示半个“提交”。
+- 原创存证、公开清单和一键复制证据能力已进入文档化使用路径，适合原创长文站点逐步启用。
+
+### 主题修复
+
+- Matery 主题优化移动端文章标题、标签换行和正文页间距。
+- Claude / Typography / Game / Nobelium / Plog 等主题补齐菜单和子菜单图标显示。
+- Claude / Typography 子菜单图标条件修正，避免生成空图标占位。
+- Matery 右下角悬浮按钮、分享按钮和标签布局相关修复已合入主线。
+
+### 部署、依赖与安全
+
+- Docker GHCR 镜像发布增加 provenance 与 SBOM attestation，便于自托管用户检查镜像来源和依赖清单。
+- 依赖更新：`next`、`axios`、`@supabase/supabase-js`、`ip-address`、`nanoid` 等。
+- GitHub Actions 更新：`actions/setup-node`、`actions/setup-python`、`actions/stale`、`actions/labeler`、`github/codeql-action`。
+
+### 对应文档
+
+- 升级方式：见 [版本升级指引](../update.md)。
+- Notion 数据库与块兼容：见 [Notion 数据库](../notion-database.md)。
+- 菜单与隐藏页：见 [菜单 Menu / SubMenu](../menu-secondary.md) 与 [隐藏页面](../notion/notionnext-hidden-page.md)。
+- 代码侧栏预览：见 [代码块风格](../config/notion-next-code-style.md)。
+- 主题变化：见 [主题全览](../themes/THEMES_CATALOG.md)、[Matery](../themes/matery.md)、[Claude](../themes/claude.md)、[Typography](../themes/typography.md)。
+- Docker / VPS：见 [部署指南索引](../deploy/)。
+
+### 升级说明
+
+- 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点同步最新代码并重新部署即可。
+- 如果你使用 Notion Config 数据库作为配置来源，建议升级后打开首页确认站点名、主题、菜单等配置是否按预期读取。
+- 如果菜单跳转到隐藏页面，升级后可将目标页面设为 `Invisible`，菜单会指向该页面的真实生成路径。
+- 如果使用自定义主题或深度改过主题菜单组件，建议重点检查菜单图标、子菜单、加密文章提交按钮和移动端分享栏。
+
+### GitHub Release
+
+- Release：[v4.10.9](https://github.com/notionnext-org/NotionNext/releases/tag/v4.10.9)
+- 完整变更：[v4.10.8...v4.10.9](https://github.com/notionnext-org/NotionNext/compare/v4.10.8...v4.10.9)
 
 ## 4.10.8 发布要点
 
