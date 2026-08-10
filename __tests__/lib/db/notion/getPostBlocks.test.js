@@ -198,6 +198,57 @@ describe('formatNotionBlock', () => {
     expect(formatted['hosted-video'].value.type).toBe('video')
   })
 
+  it('marks newer Notion callouts with removed icons', () => {
+    const formatted = formatNotionBlock({
+      callout: {
+        value: {
+          id: 'callout',
+          type: 'callout',
+          format: {
+            page_icon: '💡'
+          },
+          callout: {
+            icon: null,
+            color: 'gray_background',
+            rich_text: [
+              {
+                plain_text: 'No icon',
+                annotations: { bold: true }
+              }
+            ]
+          }
+        }
+      }
+    })
+
+    expect(formatted.callout.value.format.page_icon).toBeUndefined()
+    expect(formatted.callout.value.format.callout_no_icon).toBe(true)
+    expect(formatted.callout.value.format.block_color).toBe('gray_background')
+    expect(formatted.callout.value.properties.title).toEqual([
+      ['No icon', [['b']]]
+    ])
+  })
+
+  it('maps newer Notion callout emoji icons to legacy renderer fields', () => {
+    const formatted = formatNotionBlock({
+      callout: {
+        value: {
+          id: 'callout',
+          type: 'callout',
+          callout: {
+            icon: {
+              type: 'emoji',
+              emoji: '✅'
+            }
+          }
+        }
+      }
+    })
+
+    expect(formatted.callout.value.format.page_icon).toBe('✅')
+    expect(formatted.callout.value.format.callout_no_icon).toBeUndefined()
+  })
+
   it('rewrites newer Notion pdf file URLs to signed URLs', () => {
     const formatted = formatNotionBlock({
       pdf: {
