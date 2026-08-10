@@ -87,7 +87,20 @@ const THEME_COLOR_DEFAULTS = {
   },
   photo: { PRIMARY: '#2563eb', PRIMARY_DARK: '#ca8a04' },
   plog: { PRIMARY: '#1d4ed8' },
-  proxio: { PRIMARY: '#3758f9', BG: '#ffffff', BG_DARK: '#121212' },
+  proxio: {
+    PRIMARY: '#3758f9',
+    PRIMARY_DARK: '#3758f9',
+    BG: '#ffffff',
+    CARD: '#ffffff',
+    TEXT: '#111827',
+    TEXT_SECONDARY: '#637381',
+    BORDER: '#e5e7eb',
+    BG_DARK: '#121212',
+    CARD_DARK: '#181818',
+    TEXT_DARK: '#f3f4f6',
+    TEXT_SECONDARY_DARK: '#9ca3af',
+    BORDER_DARK: '#333333'
+  },
   simple: { PRIMARY: '#dd3333', TEXT: '#111827' },
   starter: { PRIMARY: '#3758f9', PRIMARY_DARK: '#3758f9', BG_DARK: '#111928' },
   thoughtlite: {

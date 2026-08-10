@@ -13,17 +13,17 @@ export const Career = () => {
       {/* <!-- ====== About Section Start --> */}
       <section
         id='about'
-        className='bg-gray-1 pb-8 pt-20 dark:bg-black lg:pb-[70px] lg:pt-[120px]'>
+        className='proxio-section-muted pb-8 pt-20 lg:pb-[70px] lg:pt-[120px]'>
         <div className='container'>
           <div className='wow fadeInUp' data-wow-delay='.2s'>
             {/* 左侧的文字说明板块 */}
             <div className='w-full px-4 lg:w-1/2'>
               <div className='mb-12 max-w-[540px] lg:mb-0'>
-                <span className='px-3 py-0.5 rounded-2xl dark:bg-dark-1 border border-gray-200 dark:border-[#333333] dark:text-white'>
+                <span className='proxio-pill px-3 py-0.5 rounded-2xl border'>
                   {siteConfig('PROXIO_CAREER_TITLE')}
                 </span>
                 <h2
-                  className='mb-10 text-3xl font-semibold leading-relaxed dark:text-dark-6'
+                  className='mb-10 text-3xl font-semibold leading-relaxed text-dark dark:text-white'
                 >{siteConfig('PROXIO_CAREER_TEXT')}</h2>
               </div>
             </div>

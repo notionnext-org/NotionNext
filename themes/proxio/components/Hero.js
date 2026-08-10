@@ -31,7 +31,7 @@ export const Hero = props => {
   return (
     <>
       {/* <!-- ====== Hero Section Start --> */}
-      <div id='home' className='h-screen relative overflow-hidden bg-primary '>
+      <div id='home' className='proxio-hero h-screen relative overflow-hidden'>
         {/* 横幅图片 */}
         {!bannerIframe && bannerImage && (
           <LazyImage
