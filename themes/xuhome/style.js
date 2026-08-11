@@ -1,22 +1,64 @@
 /* eslint-disable react/no-unknown-property */
 import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 import { siteConfig } from '@/lib/config'
+import { getReadableForeground } from '@/lib/themeColorUtils'
 import CONFIG from './config'
 
 const Style = () => {
+  const primary = siteConfig(
+    'XUHOME_COLOR_PRIMARY',
+    CONFIG.XUHOME_COLOR_PRIMARY,
+    CONFIG
+  )
+  const primaryHover = siteConfig(
+    'XUHOME_COLOR_PRIMARY_HOVER',
+    CONFIG.XUHOME_COLOR_PRIMARY_HOVER,
+    CONFIG
+  )
+  const accent = siteConfig(
+    'XUHOME_COLOR_ACCENT',
+    CONFIG.XUHOME_COLOR_ACCENT,
+    CONFIG
+  )
+  const primaryDark = siteConfig(
+    'XUHOME_COLOR_PRIMARY_DARK',
+    CONFIG.XUHOME_COLOR_PRIMARY_DARK,
+    CONFIG
+  )
+  const primaryHoverDark = siteConfig(
+    'XUHOME_COLOR_PRIMARY_HOVER_DARK',
+    CONFIG.XUHOME_COLOR_PRIMARY_HOVER_DARK,
+    CONFIG
+  )
+  const accentDark = siteConfig(
+    'XUHOME_COLOR_ACCENT_DARK',
+    CONFIG.XUHOME_COLOR_ACCENT_DARK,
+    CONFIG
+  )
+
   return (
     <style jsx global>{`
       #theme-xuhome {
         --xuhome-color-primary-hover: ${siteConfig('XUHOME_COLOR_PRIMARY_HOVER', CONFIG.XUHOME_COLOR_PRIMARY_HOVER, CONFIG)};
         --xuhome-color-accent: ${siteConfig('XUHOME_COLOR_ACCENT', CONFIG.XUHOME_COLOR_ACCENT, CONFIG)};
+        --xuhome-color-primary-hover-dark: ${primaryHoverDark};
+        --xuhome-color-accent-dark: ${accentDark};
         --xuhome-hero-title-color: ${siteConfig('XUHOME_HERO_TITLE_COLOR', CONFIG.XUHOME_HERO_TITLE_COLOR, CONFIG)};
         --xuhome-hero-bio-color: ${siteConfig('XUHOME_HERO_BIO_COLOR', CONFIG.XUHOME_HERO_BIO_COLOR, CONFIG)};
+        --xuhome-on-primary-light: ${getReadableForeground(primary)};
+        --xuhome-on-primary-hover-light: ${getReadableForeground(primaryHover)};
+        --xuhome-on-accent-light: ${getReadableForeground(accent)};
+        --xuhome-on-primary-dark: ${getReadableForeground(primaryDark)};
+        --xuhome-on-primary-hover-dark: ${getReadableForeground(primaryHoverDark)};
+        --xuhome-on-accent-dark: ${getReadableForeground(accentDark)};
         --xuhome-primary: var(--xuhome-console-primary);
         --xuhome-primary-hover: var(--xuhome-console-primary-hover);
-        --xuhome-accent: var(
-          --xuhome-console-accent,
-          var(--xuhome-color-accent)
-        );
+        --xuhome-accent: var(--xuhome-color-accent);
+        --xuhome-on-primary: var(--xuhome-on-primary-light);
+        --xuhome-on-primary-hover: var(--xuhome-on-primary-hover-light);
+        --xuhome-on-accent: var(--xuhome-on-accent-light);
+        --xuhome-hero-title-active: var(--xuhome-hero-title-color);
+        --xuhome-hero-bio-active: var(--xuhome-hero-bio-color);
         --xuhome-bg-light: var(--xuhome-console-bg);
         --xuhome-surface-light: var(--xuhome-console-card);
         --xuhome-text-light: var(--xuhome-console-text);
@@ -29,8 +71,15 @@ const Style = () => {
         color: var(--xuhome-console-text);
       }
       .dark #theme-xuhome {
+        --xuhome-accent: var(--xuhome-color-accent-dark);
+        --xuhome-on-primary: var(--xuhome-on-primary-dark);
+        --xuhome-on-primary-hover: var(--xuhome-on-primary-hover-dark);
+        --xuhome-on-accent: var(--xuhome-on-accent-dark);
+        --xuhome-hero-title-active: var(--xuhome-console-primary);
+        --xuhome-hero-bio-active: var(--xuhome-console-text-secondary);
         background-color: var(--xuhome-console-bg);
         color: var(--xuhome-console-text);
+        color-scheme: dark;
       }
 
       /* XuHome uses arbitrary Tailwind colors extensively. Map those legacy
@@ -56,6 +105,9 @@ const Style = () => {
       }
       #theme-xuhome [class~='bg-[#fde68a]'] {
         background-color: var(--xuhome-accent) !important;
+      }
+      #theme-xuhome [class~='bg-[#fde68a]'][class~='text-[#0284c7]'] {
+        color: var(--xuhome-on-accent) !important;
       }
       #theme-xuhome [class~='bg-[#ffffff]'],
       #theme-xuhome [class~='bg-white'] {
@@ -102,12 +154,15 @@ const Style = () => {
       }
       #theme-xuhome [class~='hover:bg-[#0284c7]']:hover {
         background-color: var(--xuhome-console-primary) !important;
+        color: var(--xuhome-on-primary) !important;
       }
       #theme-xuhome [class~='hover:bg-[#0ea5e9]']:hover {
         background-color: var(--xuhome-console-primary-hover) !important;
+        color: var(--xuhome-on-primary-hover) !important;
       }
       #theme-xuhome [class~='hover:bg-[#fde68a]']:hover {
         background-color: var(--xuhome-accent) !important;
+        color: var(--xuhome-on-accent) !important;
       }
       #theme-xuhome [class~='hover:text-[#0284c7]']:hover,
       #theme-xuhome .group:hover [class~='group-hover:text-[#0284c7]'] {
@@ -150,7 +205,7 @@ const Style = () => {
 
       #theme-xuhome ::selection {
         background: var(--xuhome-accent);
-        color: var(--xuhome-primary);
+        color: var(--xuhome-on-accent);
       }
 
       #theme-xuhome #article-wrapper,
@@ -193,7 +248,7 @@ const Style = () => {
         border-radius: 0.125rem;
         padding: 0.2em 0.4em;
         background: var(--xuhome-accent);
-        color: var(--xuhome-primary);
+        color: var(--xuhome-on-accent);
         font-weight: 600;
         font-family:
           ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
@@ -246,7 +301,7 @@ const Style = () => {
       #theme-xuhome #notion-article th {
         font-weight: 800;
         background: var(--xuhome-accent);
-        color: var(--xuhome-primary);
+        color: var(--xuhome-on-accent);
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }

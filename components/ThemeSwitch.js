@@ -1,6 +1,7 @@
 import { getThemeSwitchMeta } from '@/conf/themeSwitch.manifest'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
+import { writeThemePreviewColor } from '@/lib/themeColorUtils'
 import { getQueryParam } from '@/lib/utils'
 import { THEMES } from '@/themes/theme'
 import { useRouter } from 'next/router'
@@ -148,18 +149,9 @@ function ThemeConsole ({ meta, onClose }) {
     return value
   }
 
-  const getConsoleAlias = useCallback(item => {
-    const prefix = `${String(meta.id).toUpperCase()}_COLOR_`
-    if (item.key.startsWith(prefix)) {
-      return item.key.slice(prefix.length).toLowerCase().replace(/_/g, '-')
-    }
-    return String(item.cssVar || '').replace(/^--/, '').replace(`${meta.id}-`, '')
-  }, [meta.id])
-
   const writePreviewColor = useCallback((root, item, value) => {
-    root.style.setProperty(item.cssVar, value)
-    root.style.setProperty(`--${meta.id}-console-${getConsoleAlias(item)}`, value)
-  }, [getConsoleAlias, meta.id])
+    writeThemePreviewColor(root, meta.id, item, value)
+  }, [meta.id])
 
   const getExportValue = item => {
     const value = values[item.key] ?? item.defaultValue

@@ -24,7 +24,7 @@ export default function HeroSection(props) {
     <div className='mb-8'>
       <div
         className='text-3xl font-black uppercase tracking-tight mb-2 min-h-[2.5rem]'
-        style={{ color: 'var(--xuhome-hero-title-color)' }}
+        style={{ color: 'var(--xuhome-hero-title-active)' }}
       >
         {texts.length > 1 ? (
           <Typewriter
@@ -42,7 +42,7 @@ export default function HeroSection(props) {
       {heroBio && (
         <p
           className='text-base font-semibold leading-relaxed max-w-2xl'
-          style={{ color: 'var(--xuhome-hero-bio-color)' }}
+          style={{ color: 'var(--xuhome-hero-bio-active)' }}
         >
           {heroBio}
         </p>
@@ -50,7 +50,7 @@ export default function HeroSection(props) {
 
       <div
         className='mt-6 border-b-[3px]'
-        style={{ borderColor: 'var(--xuhome-hero-title-color)' }}
+        style={{ borderColor: 'var(--xuhome-hero-title-active)' }}
       />
     </div>
   )

@@ -344,10 +344,12 @@ export const THEME_SWITCH_MANIFEST = {
       { key: 'XUHOME_HERO_TITLE_COLOR', cssVar: '--xuhome-hero-title-color', label: '首屏标题颜色', defaultValue: '#0284c7' },
       { key: 'XUHOME_HERO_BIO_COLOR', cssVar: '--xuhome-hero-bio-color', label: '首屏 Bio 颜色', defaultValue: '#475569' },
       { key: 'XUHOME_COLOR_PRIMARY_DARK', cssVar: '--xuhome-color-primary-dark', label: '深色模式：主色', defaultValue: '#38bdf8' },
-      { key: 'XUHOME_COLOR_BG_DARK', cssVar: '--xuhome-color-bg-dark', label: '深色模式：页面背景', defaultValue: '#0f172a' },
-      { key: 'XUHOME_COLOR_CARD_DARK', cssVar: '--xuhome-color-card-dark', label: '深色模式：卡片背景', defaultValue: '#1e293b' },
-      { key: 'XUHOME_COLOR_TEXT_DARK', cssVar: '--xuhome-color-text-dark', label: '深色模式：主文字', defaultValue: '#f1f5f9' },
-      { key: 'XUHOME_COLOR_TEXT_SECONDARY_DARK', cssVar: '--xuhome-color-text-secondary-dark', label: '深色模式：次级文字', defaultValue: '#94a3b8' },
+      { key: 'XUHOME_COLOR_PRIMARY_HOVER_DARK', cssVar: '--xuhome-color-primary-hover-dark', label: '深色模式：主色 hover', defaultValue: '#7dd3fc' },
+      { key: 'XUHOME_COLOR_ACCENT_DARK', cssVar: '--xuhome-color-accent-dark', label: '深色模式：强调色', defaultValue: '#facc15' },
+      { key: 'XUHOME_COLOR_BG_DARK', cssVar: '--xuhome-color-bg-dark', label: '深色模式：页面背景', defaultValue: '#0b1120' },
+      { key: 'XUHOME_COLOR_CARD_DARK', cssVar: '--xuhome-color-card-dark', label: '深色模式：卡片背景', defaultValue: '#172033' },
+      { key: 'XUHOME_COLOR_TEXT_DARK', cssVar: '--xuhome-color-text-dark', label: '深色模式：主文字', defaultValue: '#f8fafc' },
+      { key: 'XUHOME_COLOR_TEXT_SECONDARY_DARK', cssVar: '--xuhome-color-text-secondary-dark', label: '深色模式：次级文字', defaultValue: '#cbd5e1' },
       { key: 'XUHOME_COLOR_BORDER_DARK', cssVar: '--xuhome-color-border-dark', label: '深色模式：边框', defaultValue: '#38bdf8' }
     ]
   }

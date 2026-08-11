@@ -95,6 +95,8 @@ Hello|Welcome|Enjoy reading
 | `XUHOME_COLOR_TEXT_SECONDARY` | 次级文字 |
 | `XUHOME_COLOR_BORDER` | 边框与阴影 |
 | `XUHOME_COLOR_PRIMARY_DARK` | 深色模式主色 |
+| `XUHOME_COLOR_PRIMARY_HOVER_DARK` | 深色模式主色 hover |
+| `XUHOME_COLOR_ACCENT_DARK` | 深色模式强调色 |
 | `XUHOME_COLOR_BG_DARK` | 见 config.js |
 | `XUHOME_COLOR_CARD_DARK` | 深色模式卡片背景 |
 | `XUHOME_COLOR_TEXT_DARK` | 见 config.js |
