@@ -1,28 +1,151 @@
 /* eslint-disable react/no-unknown-property */
 import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
+import { siteConfig } from '@/lib/config'
 import CONFIG from './config'
 
 const Style = () => {
   return (
     <style jsx global>{`
       #theme-xuhome {
-        --xuhome-primary: #0284c7;
-        --xuhome-primary-hover: #0ea5e9;
-        --xuhome-accent: #fde68a;
-        --xuhome-bg-light: #faf8f5;
-        --xuhome-surface-light: #ffffff;
-        --xuhome-text-light: #0f172a;
-        --xuhome-muted-light: #475569;
-        --xuhome-bg-dark: #0f172a;
-        --xuhome-surface-dark: #1e293b;
-        --xuhome-text-dark: #f1f5f9;
-        --xuhome-muted-dark: #94a3b8;
-        background-color: var(--xuhome-bg-light);
-        color: var(--xuhome-text-light);
+        --xuhome-color-primary-hover: ${siteConfig('XUHOME_COLOR_PRIMARY_HOVER', CONFIG.XUHOME_COLOR_PRIMARY_HOVER, CONFIG)};
+        --xuhome-color-accent: ${siteConfig('XUHOME_COLOR_ACCENT', CONFIG.XUHOME_COLOR_ACCENT, CONFIG)};
+        --xuhome-hero-title-color: ${siteConfig('XUHOME_HERO_TITLE_COLOR', CONFIG.XUHOME_HERO_TITLE_COLOR, CONFIG)};
+        --xuhome-hero-bio-color: ${siteConfig('XUHOME_HERO_BIO_COLOR', CONFIG.XUHOME_HERO_BIO_COLOR, CONFIG)};
+        --xuhome-primary: var(--xuhome-console-primary);
+        --xuhome-primary-hover: var(--xuhome-console-primary-hover);
+        --xuhome-accent: var(
+          --xuhome-console-accent,
+          var(--xuhome-color-accent)
+        );
+        --xuhome-bg-light: var(--xuhome-console-bg);
+        --xuhome-surface-light: var(--xuhome-console-card);
+        --xuhome-text-light: var(--xuhome-console-text);
+        --xuhome-muted-light: var(--xuhome-console-text-secondary);
+        --xuhome-bg-dark: var(--xuhome-console-bg);
+        --xuhome-surface-dark: var(--xuhome-console-card);
+        --xuhome-text-dark: var(--xuhome-console-text);
+        --xuhome-muted-dark: var(--xuhome-console-text-secondary);
+        background-color: var(--xuhome-console-bg);
+        color: var(--xuhome-console-text);
       }
       .dark #theme-xuhome {
-        background-color: var(--xuhome-bg-dark);
-        color: var(--xuhome-text-dark);
+        background-color: var(--xuhome-console-bg);
+        color: var(--xuhome-console-text);
+      }
+
+      /* XuHome uses arbitrary Tailwind colors extensively. Map those legacy
+         utility tokens to the live theme-console variables. */
+      #theme-xuhome [class~='border-[#0284c7]'] {
+        border-color: var(--xuhome-console-border) !important;
+      }
+      #theme-xuhome [class~='border-[#fde68a]'] {
+        border-color: var(--xuhome-accent) !important;
+      }
+      #theme-xuhome [class~='text-[#0284c7]'] {
+        color: var(--xuhome-console-primary) !important;
+      }
+      #theme-xuhome [class~='text-[#0284c7]/60'] {
+        color: color-mix(
+          in srgb,
+          var(--xuhome-console-primary) 60%,
+          transparent
+        ) !important;
+      }
+      #theme-xuhome [class~='bg-[#0284c7]'] {
+        background-color: var(--xuhome-console-primary) !important;
+      }
+      #theme-xuhome [class~='bg-[#fde68a]'] {
+        background-color: var(--xuhome-accent) !important;
+      }
+      #theme-xuhome [class~='bg-[#ffffff]'],
+      #theme-xuhome [class~='bg-white'] {
+        background-color: var(--xuhome-console-card) !important;
+      }
+      #theme-xuhome [class~='bg-[#faf8f5]'] {
+        background-color: var(--xuhome-console-bg) !important;
+      }
+      #theme-xuhome [class~='text-slate-900'],
+      #theme-xuhome [class~='text-slate-800'],
+      #theme-xuhome [class~='dark:text-slate-100']:is(.dark *),
+      #theme-xuhome [class~='dark:text-slate-200']:is(.dark *) {
+        color: var(--xuhome-console-text) !important;
+      }
+      #theme-xuhome [class~='text-slate-700'],
+      #theme-xuhome [class~='text-slate-600'],
+      #theme-xuhome [class~='text-slate-500'],
+      #theme-xuhome [class~='text-slate-400'],
+      #theme-xuhome [class~='text-slate-300'],
+      #theme-xuhome [class~='dark:text-slate-300']:is(.dark *),
+      #theme-xuhome [class~='dark:text-slate-400']:is(.dark *),
+      #theme-xuhome [class~='dark:text-slate-500']:is(.dark *),
+      #theme-xuhome [class~='dark:text-slate-600']:is(.dark *) {
+        color: var(--xuhome-console-text-secondary) !important;
+      }
+      .dark #theme-xuhome [class~='dark:bg-slate-600'],
+      .dark #theme-xuhome [class~='dark:bg-slate-700'],
+      .dark #theme-xuhome [class~='dark:bg-slate-800'] {
+        background-color: var(--xuhome-console-card) !important;
+      }
+      .dark #theme-xuhome [class~='dark:bg-slate-900/85'] {
+        background-color: color-mix(
+          in srgb,
+          var(--xuhome-console-bg) 85%,
+          transparent
+        ) !important;
+      }
+      #theme-xuhome [class~='bg-[#faf8f5]/55'] {
+        background-color: color-mix(
+          in srgb,
+          var(--xuhome-console-bg) 55%,
+          transparent
+        ) !important;
+      }
+      #theme-xuhome [class~='hover:bg-[#0284c7]']:hover {
+        background-color: var(--xuhome-console-primary) !important;
+      }
+      #theme-xuhome [class~='hover:bg-[#0ea5e9]']:hover {
+        background-color: var(--xuhome-console-primary-hover) !important;
+      }
+      #theme-xuhome [class~='hover:bg-[#fde68a]']:hover {
+        background-color: var(--xuhome-accent) !important;
+      }
+      #theme-xuhome [class~='hover:text-[#0284c7]']:hover,
+      #theme-xuhome .group:hover [class~='group-hover:text-[#0284c7]'] {
+        color: var(--xuhome-console-primary) !important;
+      }
+      #theme-xuhome .group:hover [class~='group-hover:text-[#0ea5e9]'] {
+        color: var(--xuhome-console-primary-hover) !important;
+      }
+      #theme-xuhome [class~='shadow-[1px_1px_0px_0px_#0284c7]'] {
+        --tw-shadow: 1px 1px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='shadow-[2px_2px_0px_0px_#0284c7]'] {
+        --tw-shadow: 2px 2px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='shadow-[3px_3px_0px_0px_#0284c7]'] {
+        --tw-shadow: 3px 3px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='shadow-[4px_4px_0px_0px_#0284c7]'] {
+        --tw-shadow: 4px 4px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='hover:shadow-[4px_4px_0px_0px_#0284c7]']:hover {
+        --tw-shadow: 4px 4px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='hover:shadow-[6px_6px_0px_0px_#0284c7]']:hover {
+        --tw-shadow: 6px 6px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='active:shadow-[1px_1px_0px_0px_#0284c7]']:active {
+        --tw-shadow: 1px 1px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='active:shadow-[2px_2px_0px_0px_#0284c7]']:active {
+        --tw-shadow: 2px 2px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='shadow-[0px_4px_0px_0px_#0284c7]'] {
+        --tw-shadow: 0 4px 0 0 var(--xuhome-console-border);
+      }
+      #theme-xuhome [class~='shadow-[0px_4px_0px_0px_rgba(2,132,199,0.2)]'] {
+        --tw-shadow: 0 4px 0 0
+          color-mix(in srgb, var(--xuhome-console-border) 20%, transparent);
       }
 
       #theme-xuhome ::selection {
@@ -76,7 +199,7 @@ const Style = () => {
           ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
       }
       .dark #theme-xuhome #notion-article code {
-        background: #334155;
+        background: var(--xuhome-console-card);
         color: var(--xuhome-accent);
       }
 
@@ -84,7 +207,7 @@ const Style = () => {
         border-radius: 0.125rem;
         padding: 16px;
         overflow-x: auto;
-        background: #f8fafc;
+        background: var(--xuhome-console-card);
         border: 2px solid var(--xuhome-primary);
         font-size: 0.8125rem;
         line-height: 1.5;
@@ -97,11 +220,11 @@ const Style = () => {
         border-left: 4px solid var(--xuhome-accent);
         padding: 0.5em 1em;
         margin: 1em 0;
-        background: rgba(253, 230, 138, 0.1);
+        background: color-mix(in srgb, var(--xuhome-accent) 10%, transparent);
         font-weight: 500;
       }
       .dark #theme-xuhome #notion-article blockquote {
-        background: rgba(253, 230, 138, 0.05);
+        background: color-mix(in srgb, var(--xuhome-accent) 5%, transparent);
       }
 
       #theme-xuhome #notion-article hr {
@@ -128,7 +251,7 @@ const Style = () => {
         letter-spacing: 0.05em;
       }
       .dark #theme-xuhome #notion-article th {
-        background: #334155;
+        background: var(--xuhome-console-card);
         color: var(--xuhome-accent);
         border-color: var(--xuhome-primary);
       }
@@ -157,7 +280,7 @@ const Style = () => {
         height: 8px;
       }
       #theme-xuhome ::-webkit-scrollbar-track {
-        background: #f1f5f9;
+        background: var(--xuhome-console-card);
       }
       #theme-xuhome ::-webkit-scrollbar-thumb {
         background: var(--xuhome-primary);

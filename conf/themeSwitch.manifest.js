@@ -333,17 +333,22 @@ export const THEME_SWITCH_MANIFEST = {
     summary: '新粗野主义博客主题，粗边框、偏移阴影、Hero 打字机与响应式导航。',
     tier: 'free',
     palette: [
-      { key: 'XUHOME_COLOR_PRIMARY', cssVar: '--xuhome-primary', label: '主色', defaultValue: '#0284c7' },
-      { key: 'XUHOME_COLOR_PRIMARY_HOVER', cssVar: '--xuhome-primary-hover', label: '主色 hover', defaultValue: '#0ea5e9' },
-      { key: 'XUHOME_COLOR_ACCENT', cssVar: '--xuhome-accent', label: '强调色', defaultValue: '#fde68a' },
-      { key: 'XUHOME_COLOR_BG', cssVar: '--xuhome-bg-light', label: '页面背景', defaultValue: '#faf8f5' },
-      { key: 'XUHOME_COLOR_SURFACE', cssVar: '--xuhome-surface-light', label: '卡片背景', defaultValue: '#ffffff' },
-      { key: 'XUHOME_COLOR_TEXT', cssVar: '--xuhome-text-light', label: '主文字', defaultValue: '#0f172a' },
-      { key: 'XUHOME_COLOR_MUTED', cssVar: '--xuhome-muted-light', label: '次级文字', defaultValue: '#475569' },
-      { key: 'XUHOME_COLOR_BG_DARK', cssVar: '--xuhome-bg-dark', label: '深色模式：页面背景', defaultValue: '#0f172a' },
-      { key: 'XUHOME_COLOR_SURFACE_DARK', cssVar: '--xuhome-surface-dark', label: '深色模式：卡片背景', defaultValue: '#1e293b' },
-      { key: 'XUHOME_COLOR_TEXT_DARK', cssVar: '--xuhome-text-dark', label: '深色模式：主文字', defaultValue: '#f1f5f9' },
-      { key: 'XUHOME_COLOR_MUTED_DARK', cssVar: '--xuhome-muted-dark', label: '深色模式：次级文字', defaultValue: '#94a3b8' }
+      { key: 'XUHOME_COLOR_PRIMARY', cssVar: '--xuhome-color-primary', label: '主色', defaultValue: '#0284c7' },
+      { key: 'XUHOME_COLOR_PRIMARY_HOVER', cssVar: '--xuhome-color-primary-hover', label: '主色 hover', defaultValue: '#0ea5e9' },
+      { key: 'XUHOME_COLOR_ACCENT', cssVar: '--xuhome-color-accent', label: '强调色', defaultValue: '#fde68a' },
+      { key: 'XUHOME_COLOR_BG', cssVar: '--xuhome-color-bg', label: '页面背景', defaultValue: '#faf8f5' },
+      { key: 'XUHOME_COLOR_CARD', cssVar: '--xuhome-color-card', label: '卡片背景', defaultValue: '#ffffff' },
+      { key: 'XUHOME_COLOR_TEXT', cssVar: '--xuhome-color-text', label: '主文字', defaultValue: '#0f172a' },
+      { key: 'XUHOME_COLOR_TEXT_SECONDARY', cssVar: '--xuhome-color-text-secondary', label: '次级文字', defaultValue: '#475569' },
+      { key: 'XUHOME_COLOR_BORDER', cssVar: '--xuhome-color-border', label: '边框', defaultValue: '#0284c7' },
+      { key: 'XUHOME_HERO_TITLE_COLOR', cssVar: '--xuhome-hero-title-color', label: '首屏标题颜色', defaultValue: '#0284c7' },
+      { key: 'XUHOME_HERO_BIO_COLOR', cssVar: '--xuhome-hero-bio-color', label: '首屏 Bio 颜色', defaultValue: '#475569' },
+      { key: 'XUHOME_COLOR_PRIMARY_DARK', cssVar: '--xuhome-color-primary-dark', label: '深色模式：主色', defaultValue: '#38bdf8' },
+      { key: 'XUHOME_COLOR_BG_DARK', cssVar: '--xuhome-color-bg-dark', label: '深色模式：页面背景', defaultValue: '#0f172a' },
+      { key: 'XUHOME_COLOR_CARD_DARK', cssVar: '--xuhome-color-card-dark', label: '深色模式：卡片背景', defaultValue: '#1e293b' },
+      { key: 'XUHOME_COLOR_TEXT_DARK', cssVar: '--xuhome-color-text-dark', label: '深色模式：主文字', defaultValue: '#f1f5f9' },
+      { key: 'XUHOME_COLOR_TEXT_SECONDARY_DARK', cssVar: '--xuhome-color-text-secondary-dark', label: '深色模式：次级文字', defaultValue: '#94a3b8' },
+      { key: 'XUHOME_COLOR_BORDER_DARK', cssVar: '--xuhome-color-border-dark', label: '深色模式：边框', defaultValue: '#38bdf8' }
     ]
   }
 }
@@ -384,7 +389,7 @@ function inferThemeSettings(themeId, manualSettings = []) {
   return Object.entries(config)
     .filter(([key, value]) => {
       if (manualKeys.has(key)) return false
-      if (/_COLOR_|_THEME_COLOR/.test(key)) return false
+      if (/_COLOR(?:_|$)|_THEME_COLOR(?:_|$)/.test(key)) return false
       return ['boolean', 'string', 'number'].includes(typeof value)
     })
     .map(([key, value]) => normalizeSetting({

@@ -90,13 +90,16 @@ Hello|Welcome|Enjoy reading
 | `XUHOME_COLOR_PRIMARY_HOVER` | 见 config.js |
 | `XUHOME_COLOR_ACCENT` | 见 config.js |
 | `XUHOME_COLOR_BG` | 见 config.js |
-| `XUHOME_COLOR_SURFACE` | 见 config.js |
+| `XUHOME_COLOR_CARD` | 卡片背景 |
 | `XUHOME_COLOR_TEXT` | 见 config.js |
-| `XUHOME_COLOR_MUTED` | 见 config.js |
+| `XUHOME_COLOR_TEXT_SECONDARY` | 次级文字 |
+| `XUHOME_COLOR_BORDER` | 边框与阴影 |
+| `XUHOME_COLOR_PRIMARY_DARK` | 深色模式主色 |
 | `XUHOME_COLOR_BG_DARK` | 见 config.js |
-| `XUHOME_COLOR_SURFACE_DARK` | 见 config.js |
+| `XUHOME_COLOR_CARD_DARK` | 深色模式卡片背景 |
 | `XUHOME_COLOR_TEXT_DARK` | 见 config.js |
-| `XUHOME_COLOR_MUTED_DARK` | 见 config.js |
+| `XUHOME_COLOR_TEXT_SECONDARY_DARK` | 深色模式次级文字 |
+| `XUHOME_COLOR_BORDER_DARK` | 深色模式边框与阴影 |
 
 <!-- /theme-config-table -->
 

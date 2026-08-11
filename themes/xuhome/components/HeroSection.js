@@ -18,16 +18,13 @@ export default function HeroSection(props) {
   const typeSpeed = siteConfig('XUHOME_HERO_TYPE_SPEED', 80, CONFIG)
   const deleteSpeed = siteConfig('XUHOME_HERO_DELETE_SPEED', 40, CONFIG)
   const typePause = siteConfig('XUHOME_HERO_TYPE_PAUSE', 2000, CONFIG)
-  const titleColor = siteConfig('XUHOME_HERO_TITLE_COLOR', '#0284c7', CONFIG)
-  const bioColor = siteConfig('XUHOME_HERO_BIO_COLOR', '#475569', CONFIG)
-
   const texts = heroTexts.length > 0 ? heroTexts : [heroTitle]
 
   return (
     <div className='mb-8'>
       <div
         className='text-3xl font-black uppercase tracking-tight mb-2 min-h-[2.5rem]'
-        style={{ color: titleColor }}
+        style={{ color: 'var(--xuhome-hero-title-color)' }}
       >
         {texts.length > 1 ? (
           <Typewriter
@@ -45,7 +42,7 @@ export default function HeroSection(props) {
       {heroBio && (
         <p
           className='text-base font-semibold leading-relaxed max-w-2xl'
-          style={{ color: bioColor }}
+          style={{ color: 'var(--xuhome-hero-bio-color)' }}
         >
           {heroBio}
         </p>
@@ -53,7 +50,7 @@ export default function HeroSection(props) {
 
       <div
         className='mt-6 border-b-[3px]'
-        style={{ borderColor: titleColor }}
+        style={{ borderColor: 'var(--xuhome-hero-title-color)' }}
       />
     </div>
   )
