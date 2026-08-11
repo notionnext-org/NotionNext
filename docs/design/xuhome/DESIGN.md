@@ -101,10 +101,13 @@ Cards, buttons and inputs use a restrained 2px radius and visible 2–3px border
 
 Buttons and tags use the same interaction rules: primary backgrounds use `on-primary`, hover backgrounds use `on-primary-hover`, and accent backgrounds use `on-accent`. Text colors must change together with their background state. Hero text uses its custom colors in light mode and the active dark primary/text colors in dark mode.
 
+The theme console behaves like a fast right-side drawer. It enters from just beyond the viewport in 200ms with an ease-out curve and exits before unmounting, so users can visually locate it. Respect `prefers-reduced-motion` by removing the transition.
+
 # Do's and Don'ts
 
 - Do keep body and secondary text light on dark surfaces.
 - Do switch border and hard-shadow colors with the active mode.
 - Do derive button foreground colors whenever a palette background changes.
+- Do animate the theme console from the screen edge instead of making it appear abruptly.
 - Don't hardcode `text-white` for arbitrary user-selected colors.
 - Don't write active light-mode aliases inline; doing so prevents dark-mode CSS from taking effect.
