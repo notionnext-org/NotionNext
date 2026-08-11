@@ -119,7 +119,12 @@ describe('NotionTabs', () => {
     expect(screen.getByTestId('rendered-second-body')).toHaveTextContent(
       'Second body'
     )
-    expect(screen.queryByTestId('rendered-first-body')).not.toBeInTheDocument()
+    expect(screen.getByTestId('rendered-first-body')).toBeInTheDocument()
+    expect(
+      screen
+        .getByTestId('rendered-first-body')
+        .closest('[role="tabpanel"]')
+    ).toHaveAttribute('hidden')
   })
 
   it('flattens rich text labels to plain text', () => {
