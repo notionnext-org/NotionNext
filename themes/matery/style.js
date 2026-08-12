@@ -11,7 +11,7 @@ const Style = () => {
     <style jsx global>{`
       // 底色
       body {
-        background-color: #7FBFBA;
+        background-color: #3B496B;
       }
       .dark body {
         background-color: black;
@@ -46,12 +46,12 @@ const Style = () => {
       }
 
       ::-webkit-scrollbar-thumb {
-        background-color: #7FBFBA;
+        background-color: #3B496B;
       }
 
       * {
         scrollbar-width: thin;
-        scrollbar-color: #7FBFBA transparent;
+        scrollbar-color: #3B496B transparent;
       }
 
       ${themeConsoleStyle('matery', CONFIG)}
