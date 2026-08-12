@@ -19,6 +19,7 @@
 | [vercel-redeploy.md](./vercel-redeploy.md) | 重新部署 |
 | [netlify.md](./netlify.md) | Netlify（4.0.9+） |
 | [cloudflare-pages.md](./cloudflare-pages.md) | Cloudflare 静态 |
+| [notion-image-proxy.md](./notion-image-proxy.md) | Cloudflare Worker 图片反代、浏览器长期缓存与 304 验证 |
 | [edgeone-pages.md](./edgeone-pages.md) | **腾讯云 EdgeOne**（Node 版本、ENOSPC、Next SSG 预设） |
 | [build-tuning.md](./build-tuning.md) | **构建超时 / Notion 预热与限流**（环境变量） |
 | [vps.md](./vps.md) | VPS / Docker（Node 22+） |

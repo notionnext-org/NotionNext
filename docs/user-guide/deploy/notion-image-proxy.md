@@ -26,7 +26,7 @@ https://www.notion.so/image/...
 https://cdn.example.com/image/...
 ```
 
-这样图片会先经过你的 Cloudflare Worker，再由 Worker 去 Notion 拿图，并缓存到 Cloudflare。
+这样图片会先经过你的 Cloudflare Worker，再由 Worker 去 Notion 拿图，并同时缓存到 Cloudflare 边缘和访客浏览器。Notion 附件地址包含图片标识，替换图片后通常会生成新地址，因此可以安全使用长期缓存。
 
 ## 不会代码怎么办
 
@@ -119,12 +119,11 @@ notion-image-proxy
 Edit code
 ```
 
-删除默认代码，把下面代码完整粘贴进去：
+删除默认代码，把下面代码完整粘贴进去。此代码与仓库中的 `cloudflare/notion-image-proxy/worker.mjs` 保持一致：
 
 ```js
 const NOTION_ORIGIN = 'https://www.notion.so'
-const EDGE_TTL_SECONDS = 60 * 60 * 24 * 7
-const BROWSER_TTL_SECONDS = 60 * 60 * 24
+const IMMUTABLE_TTL_SECONDS = 60 * 60 * 24 * 365
 const USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36'
 
@@ -145,7 +144,12 @@ export default {
     const cached = await cache.match(cacheKey)
     if (cached) {
       const hitHeaders = new Headers(cached.headers)
+      setCacheHeaders(hitHeaders)
+      setValidatorHeaders(hitHeaders)
       hitHeaders.set('X-Notion-Image-Proxy-Cache', 'HIT')
+      if (isNotModified(request, hitHeaders)) {
+        return notModifiedResponse(hitHeaders)
+      }
       return new Response(request.method === 'HEAD' ? null : cached.body, {
         status: cached.status,
         statusText: cached.statusText,
@@ -159,20 +163,19 @@ export default {
       redirect: 'follow',
       cf: {
         cacheEverything: true,
-        cacheTtl: EDGE_TTL_SECONDS,
+        cacheTtl: IMMUTABLE_TTL_SECONDS,
         cacheKey: request.url
       },
       headers: {
         'User-Agent': USER_AGENT,
-        Accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+        Accept:
+          'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
       }
     })
 
     const headers = new Headers(response.headers)
-    headers.set(
-      'Cache-Control',
-      `public, max-age=${BROWSER_TTL_SECONDS}, s-maxage=${EDGE_TTL_SECONDS}`
-    )
+    setCacheHeaders(headers)
+    setValidatorHeaders(headers)
     headers.set('X-Notion-Image-Proxy', '1')
     headers.set('X-Notion-Image-Proxy-Cache', 'MISS')
     headers.delete('set-cookie')
@@ -189,14 +192,66 @@ export default {
       await cache.put(cacheKey, proxied.clone())
     }
 
-    return request.method === 'HEAD'
-      ? new Response(null, proxied)
-      : proxied
+    if (isNotModified(request, headers)) {
+      return notModifiedResponse(headers)
+    }
+
+    return request.method === 'HEAD' ? new Response(null, proxied) : proxied
   }
 }
 
 function isAllowedPath(pathname) {
   return pathname.startsWith('/image/') || pathname.startsWith('/images/')
+}
+
+function setCacheHeaders(headers) {
+  headers.set(
+    'Cache-Control',
+    `public, max-age=${IMMUTABLE_TTL_SECONDS}, s-maxage=${IMMUTABLE_TTL_SECONDS}, immutable`
+  )
+}
+
+function setValidatorHeaders(headers) {
+  if (headers.has('etag')) return
+
+  const lastModified = Date.parse(headers.get('last-modified') || '')
+  const contentLength = headers.get('content-length') || 'unknown'
+  if (!Number.isNaN(lastModified)) {
+    headers.set('ETag', `W/"${lastModified.toString(16)}-${contentLength}"`)
+  }
+}
+
+function isNotModified(request, headers) {
+  const etag = headers.get('etag')
+  const ifNoneMatch = request.headers.get('if-none-match')
+  if (etag && ifNoneMatch) {
+    return ifNoneMatch
+      .split(',')
+      .map(value => value.trim())
+      .some(value => value === '*' || weakEtag(value) === weakEtag(etag))
+  }
+
+  const lastModified = Date.parse(headers.get('last-modified') || '')
+  const ifModifiedSince = Date.parse(
+    request.headers.get('if-modified-since') || ''
+  )
+  return (
+    !Number.isNaN(lastModified) &&
+    !Number.isNaN(ifModifiedSince) &&
+    lastModified <= ifModifiedSince
+  )
+}
+
+function weakEtag(value) {
+  return value.replace(/^W\//, '')
+}
+
+function notModifiedResponse(headers) {
+  const notModifiedHeaders = new Headers(headers)
+  notModifiedHeaders.delete('content-length')
+  notModifiedHeaders.delete('content-encoding')
+  notModifiedHeaders.delete('content-range')
+  return new Response(null, { status: 304, headers: notModifiedHeaders })
 }
 ```
 
@@ -260,12 +315,12 @@ NEXT_PUBLIC_NOTION_HOST=https://cdn.example.com
 
 不同平台的位置如下：
 
-| 平台 | 在哪里填 |
-| --- | --- |
-| Vercel | Project Settings -> Environment Variables |
-| Cloudflare Pages | Settings -> Variables and Secrets |
-| Docker / VPS | `.env` 或容器环境变量 |
-| 本地预览 | `.env.local` 或 PowerShell |
+| 平台             | 在哪里填                                  |
+| ---------------- | ----------------------------------------- |
+| Vercel           | Project Settings -> Environment Variables |
+| Cloudflare Pages | Settings -> Variables and Secrets         |
+| Docker / VPS     | `.env` 或容器环境变量                     |
+| 本地预览         | `.env.local` 或 PowerShell                |
 
 填的时候注意：
 
@@ -359,15 +414,20 @@ https://www.notion.so/image/...
 
 如果还是 `www.notion.so`，通常是：
 
-| 现象 | 处理 |
-| --- | --- |
-| 变量名写错 | 必须是 `NEXT_PUBLIC_NOTION_HOST` |
-| 少了 `https://` | 值必须是 `https://cdn.example.com` |
-| 改完没重新部署 | 重新 Deploy 或重启服务 |
-| 静态站没重新导出 | 重新执行 `yarn export` |
-| 本地缓存影响 | 临时设置 `ENABLE_CACHE=false` |
+| 现象             | 处理                               |
+| ---------------- | ---------------------------------- |
+| 变量名写错       | 必须是 `NEXT_PUBLIC_NOTION_HOST`   |
+| 少了 `https://`  | 值必须是 `https://cdn.example.com` |
+| 改完没重新部署   | 重新 Deploy 或重启服务             |
+| 静态站没重新导出 | 重新执行 `yarn export`             |
+| 本地缓存影响     | 临时设置 `ENABLE_CACHE=false`      |
 
 ## 怎么判断缓存命中
+
+这里有两层不同的缓存：
+
+- **浏览器缓存**：由 `Cache-Control` 控制。缓存新鲜时浏览器不会请求 Cloudflare。
+- **Cloudflare 边缘缓存**：由 `CF-Cache-Status` 判断，`HIT` 表示 Worker 不需要重新向 Notion 下载图片。
 
 第一次打开一张新图片，Cloudflare 常见结果是：
 
@@ -388,22 +448,37 @@ CF-Cache-Status: HIT
 ```text
 X-Notion-Image-Proxy: 1
 X-Notion-Image-Proxy-Cache: HIT
+Cache-Control: public, max-age=31536000, s-maxage=31536000, immutable
+ETag: W/"..."
 ```
 
 Chrome DevTools 里如果显示：
 
 ```text
-200 OK（来自内存缓存）
+(memory cache)
+(disk cache)
 ```
 
-说明这次图片没有重新请求 Cloudflare，而是浏览器直接用了本地缓存。此时你看到的 `CF-Cache-Status: MISS` 可能只是第一次请求留下来的旧响应头。
+说明这次图片没有重新请求 Cloudflare，而是浏览器直接用了本地缓存。此时 Network 面板里显示的响应头可能只是第一次请求留下来的内容。
 
 建议这样测：
 
 1. 打开 Chrome DevTools。
 2. 进入 Network。
-3. 勾选 `Disable cache`。
-4. 刷新页面两次。
+3. 确认**没有勾选** `Disable cache`。
+4. 正常进入文章，再离开并返回；图片应显示 `(memory cache)` 或 `(disk cache)`。
+
+::: warning 不要用 Disable cache 测浏览器缓存
+`Disable cache`、硬刷新以及请求头 `Cache-Control: no-cache` 都会主动要求重新验证资源。此时看到网络请求是正常的，不代表缓存失效。
+:::
+
+如果浏览器或扩展要求重新验证，Worker 会根据 `ETag` 或 `Last-Modified` 返回：
+
+```text
+304 Not Modified
+```
+
+`304` 没有图片响应体，不会重新传输整张图片。
 
 如果你会用命令行，也可以连续请求同一个完整图片地址两次：
 
@@ -412,7 +487,15 @@ curl.exe -I "你的完整图片URL"
 curl.exe -I "你的完整图片URL"
 ```
 
-第二次看到 `HIT` 就正常。
+第二次看到 `HIT` 就说明 Cloudflare 边缘缓存正常。`curl` 每次都会发起网络请求，因此它不能证明浏览器本地缓存是否生效。
+
+还可以复制第一次响应中的 `Last-Modified`，验证条件请求：
+
+```powershell
+curl.exe -I -H "If-Modified-Since: Thu, 06 Aug 2026 11:27:52 GMT" "你的完整图片URL"
+```
+
+日期要替换成你实际看到的值，预期状态是 `304 Not Modified`。
 
 ## 常见报错
 
@@ -526,10 +609,10 @@ NEXT_PUBLIC_NOTION_HOST=https://cdn.example.com
 
 区别只有一个：
 
-| 部署方式 | 改完变量后要做什么 |
-| --- | --- |
-| `yarn start` | 重启服务 |
-| `yarn export` | 重新导出并上传 |
+| 部署方式      | 改完变量后要做什么 |
+| ------------- | ------------------ |
+| `yarn start`  | 重启服务           |
+| `yarn export` | 重新导出并上传     |
 
 ## 访问量很大够用吗
 
@@ -556,3 +639,5 @@ NEXT_PUBLIC_NOTION_HOST=https://cdn.example.com
 - 不要把 token 提交到 GitHub。
 - 改 Worker 代码后，重新点一次 `Save and deploy`，或重新执行 `npx wrangler deploy`。
 - 改 CDN 域名后，同步修改 `NEXT_PUBLIC_NOTION_HOST`，并重新部署博客。
+- 命令行部署时只提交 `wrangler.toml.example`；本地复制出的 `wrangler.toml` 已被 Git 忽略，避免把个人域名误提交到仓库。
+- 替换 Notion 图片通常会生成新附件地址；如果你在其他来源上原地覆盖了同一 URL 的内容，需要在 Cloudflare 中只清理对应 URL 的缓存。

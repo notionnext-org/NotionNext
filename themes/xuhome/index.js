@@ -247,7 +247,7 @@ const Layout404 = props => {
       <div className='text-center'>
         <div
           className='text-8xl font-black text-[#0284c7] mb-4'
-          style={{ textShadow: '4px 4px 0 #fde68a' }}
+          style={{ textShadow: '4px 4px 0 var(--xuhome-accent)' }}
         >
           404
         </div>

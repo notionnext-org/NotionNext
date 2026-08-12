@@ -1,6 +1,7 @@
 import { getThemeSwitchMeta } from '@/conf/themeSwitch.manifest'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
+import { writeThemePreviewColor } from '@/lib/themeColorUtils'
 import { getQueryParam } from '@/lib/utils'
 import { THEMES } from '@/themes/theme'
 import { useRouter } from 'next/router'
@@ -85,7 +86,7 @@ function PaletteField ({ item, value, copyValue, isHexColor, updateItem, resetIt
   )
 }
 
-function ThemeConsole ({ meta, onClose }) {
+function ThemeConsole ({ meta, isOpen, onClose }) {
   const { updateRuntimeConfigOverride, THEME_CONFIG } = useGlobal()
   const noticeTimerRef = useRef(null)
   const [values, setValues] = useState({})
@@ -148,18 +149,9 @@ function ThemeConsole ({ meta, onClose }) {
     return value
   }
 
-  const getConsoleAlias = useCallback(item => {
-    const prefix = `${String(meta.id).toUpperCase()}_COLOR_`
-    if (item.key.startsWith(prefix)) {
-      return item.key.slice(prefix.length).toLowerCase().replace(/_/g, '-')
-    }
-    return String(item.cssVar || '').replace(/^--/, '').replace(`${meta.id}-`, '')
-  }, [meta.id])
-
   const writePreviewColor = useCallback((root, item, value) => {
-    root.style.setProperty(item.cssVar, value)
-    root.style.setProperty(`--${meta.id}-console-${getConsoleAlias(item)}`, value)
-  }, [getConsoleAlias, meta.id])
+    writeThemePreviewColor(root, meta.id, item, value)
+  }, [meta.id])
 
   const getExportValue = item => {
     const value = values[item.key] ?? item.defaultValue
@@ -322,7 +314,14 @@ function ThemeConsole ({ meta, onClose }) {
     <Draggable stick={true}>
       <section
         style={{ right: '1rem', top: '10vh' }}
-        className='fixed z-50 w-[min(94vw,40rem)] overflow-hidden rounded-2xl border border-gray-200/80 bg-white/95 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl dark:border-gray-700/70 dark:bg-gray-950/95 dark:ring-white/10 sm:w-[min(92vw,42rem)]'>
+        role='dialog'
+        aria-label={`主题控制台 · ${meta.name}`}
+        aria-hidden={!isOpen}
+        className={`fixed z-50 w-[min(94vw,40rem)] overflow-hidden rounded-2xl border border-gray-200/80 bg-white/95 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl transition-[transform,opacity] duration-200 ease-out will-change-transform motion-reduce:transform-none motion-reduce:transition-none dark:border-gray-700/70 dark:bg-gray-950/95 dark:ring-white/10 sm:w-[min(92vw,42rem)] ${
+          isOpen
+            ? 'translate-x-0 opacity-100'
+            : 'translate-x-[calc(100%+2rem)] opacity-0'
+        }`}>
         <div className='flex items-start justify-between gap-3 border-b border-gray-100 px-4 py-3 dark:border-gray-800'>
           <div className='min-w-0'>
             <p className='text-sm font-semibold text-gray-900 dark:text-white'>
@@ -573,7 +572,24 @@ const ThemeSwitch = () => {
   const router = useRouter()
   const currentTheme = getQueryParam(router.asPath, 'theme') || theme
   const [sideBarVisible, setSideBarVisible] = useState(false)
+  const [consoleMounted, setConsoleMounted] = useState(false)
   const [consoleVisible, setConsoleVisible] = useState(false)
+
+  useEffect(() => {
+    if (!consoleMounted) return
+    const frame = window.requestAnimationFrame(() => {
+      setConsoleVisible(true)
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [consoleMounted])
+
+  useEffect(() => {
+    if (!consoleMounted || consoleVisible) return
+    const timer = window.setTimeout(() => {
+      setConsoleMounted(false)
+    }, 220)
+    return () => window.clearTimeout(timer)
+  }, [consoleMounted, consoleVisible])
 
   const currentMeta = getThemeSwitchMeta(currentTheme)
   const tierLabels = {
@@ -644,7 +660,11 @@ const ThemeSwitch = () => {
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-950'
               }`}
               onClick={() => {
-                setConsoleVisible(visible => !visible)
+                if (consoleMounted) {
+                  setConsoleVisible(visible => !visible)
+                } else {
+                  setConsoleMounted(true)
+                }
               }}
               title='配置主题'
               aria-label='配置主题'
@@ -669,9 +689,10 @@ const ThemeSwitch = () => {
         </div>
       </Draggable>
 
-      {consoleVisible && (
+      {consoleMounted && (
         <ThemeConsole
           meta={currentMeta}
+          isOpen={consoleVisible}
           onClose={() => {
             setConsoleVisible(false)
           }}

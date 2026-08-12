@@ -16,7 +16,7 @@
 在blog.config.js 中可以看到多了一行配置:
 
 ```Plain Text
-API_BASE_URL: process.env.API_BASE_URL || 'https://www.notion.so/api/v3', // API默认请求地址 ,可配置成自己的 https://&lt;xxxx&gt;.notion.site/api/v3
+API_BASE_URL: process.env.API_BASE_URL || 'https://app.notion.com/api/v3', // API默认请求地址 ,可配置成自己的 https://&lt;xxxx&gt;.notion.site/api/v3
 ```
 
 由于Notion官方域名API([https://www.notion.so/api/v3/queryCollection](https://www.notion.so/api/v3/queryCollection)) 无法使用，接口请求均返回530错误，如下图：

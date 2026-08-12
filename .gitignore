@@ -68,3 +68,6 @@ package-lock.json
 .perf/
 tsconfig.tsbuildinfo
 webpack-internal:/
+
+# Local Cloudflare Worker route configuration
+/cloudflare/notion-image-proxy/wrangler.toml
