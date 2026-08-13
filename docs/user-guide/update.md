@@ -42,6 +42,20 @@
 
 NotionNext教程
 
+## 4.10.10 升级提示
+
+`4.10.10` 是一次小版本维护发布。普通站点同步最新 `main` 后重新部署即可，不需要新增必填环境变量。
+
+如果你希望 Notion 文章中的未收录内嵌子页面 URL 跟随父级文章路径，可以在部署平台添加：
+
+```bash
+NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true
+```
+
+开启后，文章 `/article/fpga-studying-notes` 中未收录的子页面链接会显示为 `/article/fpga-studying-notes/{pageId}`。已收录到数据库并配置了 `slug` 的页面仍优先使用自己的正式地址。
+
+使用说明见 [URL 自定义：内嵌子页面跟随父路径](./config/url-customize.md#内嵌子页面跟随父路径)，完整发布说明见 [最新版本更新日志](./changelog/latest.md)。
+
 ## 4.10.9 升级提示
 
 `4.10.9` 是一次小版本维护发布。普通站点同步最新 `main` 后重新部署即可，不需要新增必填环境变量。

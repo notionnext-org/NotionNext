@@ -1,6 +1,54 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.9**（见根目录 `package.json`）
+> 当前主线：**4.10.10**（见根目录 `package.json`）
+
+## 4.10.10 发布要点
+
+`4.10.10` 是一次小版本维护发布，集中收录 `v4.10.9` 之后的近期主线改动。普通站点同步最新 `main` 后重新部署即可；只有需要内嵌子页面层级 URL 的站点，才需要新增可选环境变量。
+
+### Notion 内嵌子页面 URL
+
+- 新增可选配置 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true`，让未收录到数据库的 Notion 内嵌子页面 URL 跟随当前文章路径，例如 `/article/fpga-studying-notes/{pageId}`。
+- 已收录到 NotionNext 数据库、并拥有明确 `slug / href` 的页面仍优先跳转自己的正式地址，避免影响 sitemap、RSS、站内搜索和旧链接兼容。
+- 该能力只优化访问路径和层级表达；未收录子页面不会因此自动进入 sitemap、RSS 或搜索索引。需要 SEO 收录的页面仍建议加入主数据库并配置明确 `slug`。
+
+使用方法见 [URL 自定义：内嵌子页面跟随父路径](../config/url-customize.md#内嵌子页面跟随父路径)。
+
+### 阅读与主题体验
+
+- 修复静态分享 SVG 被 Next/Image 优化导致的显示风险，分享图标继续按静态资源方式加载。
+- Magzine 主题恢复文章页广告与侧栏间距，避免正文和广告区域贴得过近。
+- 主题设置抽屉增加更顺滑的动效反馈。
+- XuHome 主题完成主线集成，并补充深色模式对比度与调色板实时生效修复。
+- NotionTabs 支持 keep-alive 行为，切换标签时可保留已渲染内容状态。
+- Callout 嵌套子块和无图标 Callout 渲染更稳定。
+
+相关文档：
+
+- [主题目录](../themes/THEMES_CATALOG.md)
+- [Magzine 主题](../themes/magzine.md)
+- [代码样式与侧栏预览](../config/notion-next-code-style.md)
+
+### 部署与依赖
+
+- 继续跟进依赖维护和安全更新，包括 Next.js、Supabase、Vercel Functions 及开发依赖组。
+- Notion 图片浏览器缓存和 Cloudflare 文档继续保持在新版手册中，方便站长按需配置。
+
+相关文档：
+
+- [部署指南索引](../deploy/index.md)
+- [Notion 图片反代与缓存](../deploy/notion-image-proxy.md)
+
+### 升级说明
+
+- 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点：同步最新 `main` 后重新部署即可。
+- 如果要启用内嵌子页面父路径 URL，在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true` 后重新部署。
+- 如果你依赖 Docker 镜像，请等待本版本 GitHub Release 对应的 GHCR 镜像发布完成后再拉取。
+
+### GitHub Release
+
+- Release：[v4.10.10](https://github.com/notionnext-org/NotionNext/releases/tag/v4.10.10)
+- 完整变更：[v4.10.9...v4.10.10](https://github.com/notionnext-org/NotionNext/compare/v4.10.9...v4.10.10)
 
 ## 4.10.9 发布要点
 
