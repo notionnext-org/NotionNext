@@ -111,9 +111,10 @@ Notion 页面中可以继续嵌套子页面。默认情况下，NotionNext 会�
 
 如果希望未收录的内嵌子页面 URL 也体现父级文章层级，推荐直接在 Notion Config 配置中心添加一行：
 
-| Key | Value | 说明 |
-| --- | --- | --- |
-| `INNER_PAGE_URL_PARENT_PATH` | `true` | 未收录内嵌子页面 URL 跟随父级文章路径 |
+```txt
+Key:   INNER_PAGE_URL_PARENT_PATH
+Value: true
+```
 
 保存 Notion Config 后重新部署或等待站点重新读取配置即可生效。该配置会优先于部署平台环境变量，适合不想修改代码或部署配置的站点。
 

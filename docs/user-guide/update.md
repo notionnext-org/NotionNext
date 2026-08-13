@@ -48,9 +48,10 @@ NotionNext教程
 
 如果你希望 Notion 文章中的未收录内嵌子页面 URL 跟随父级文章路径，推荐在 Notion Config 配置中心添加：
 
-| Key | Value |
-| --- | --- |
-| `INNER_PAGE_URL_PARENT_PATH` | `true` |
+```txt
+Key:   INNER_PAGE_URL_PARENT_PATH
+Value: true
+```
 
 该方式不需要修改代码。也可以在部署平台添加环境变量：
 

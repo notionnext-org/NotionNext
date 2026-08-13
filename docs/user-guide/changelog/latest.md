@@ -8,7 +8,8 @@
 
 ### Notion 内嵌子页面 URL
 
-- 新增可选配置，推荐在 Notion Config 中添加 `INNER_PAGE_URL_PARENT_PATH=true`；也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true`。开启后，未收录到数据库的 Notion 内嵌子页面 URL 会跟随当前文章路径，例如 `/article/fpga-studying-notes/{pageId}`。
+- 新增可选配置，推荐在 Notion Config 中添加 `INNER_PAGE_URL_PARENT_PATH=true`。
+- 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true`。开启后，未收录到数据库的 Notion 内嵌子页面 URL 会跟随当前文章路径，例如 `/article/fpga-studying-notes/{pageId}`。
 - 已收录到 NotionNext 数据库、并拥有明确 `slug / href` 的页面仍优先跳转自己的正式地址，避免影响 sitemap、RSS、站内搜索和旧链接兼容。
 - 该能力只优化访问路径和层级表达；未收录子页面不会因此自动进入 sitemap、RSS 或搜索索引。需要 SEO 收录的页面仍建议加入主数据库并配置明确 `slug`。
 
@@ -42,7 +43,8 @@
 ### 升级说明
 
 - 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点：同步最新 `main` 后重新部署即可。
-- 如果要启用内嵌子页面父路径 URL，推荐在 Notion Config 添加 `INNER_PAGE_URL_PARENT_PATH=true`；也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true` 后重新部署。
+- 如果要启用内嵌子页面父路径 URL，推荐在 Notion Config 添加 `INNER_PAGE_URL_PARENT_PATH=true`。
+- 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true` 后重新部署。
 - 如果你依赖 Docker 镜像，请等待本版本 GitHub Release 对应的 GHCR 镜像发布完成后再拉取。
 
 ### GitHub Release
