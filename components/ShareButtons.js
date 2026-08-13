@@ -282,6 +282,7 @@ const ShareButtons = ({ post }) => {
                     height={28}
                     className='w-5 h-5'
                     loading='lazy'
+                    unoptimized
                   />
                 </div>
               </button>
@@ -304,6 +305,7 @@ const ShareButtons = ({ post }) => {
                     height={24}
                     className='w-5 h-5'
                     loading='lazy'
+                    unoptimized
                   />
                 </div>
               </button>
