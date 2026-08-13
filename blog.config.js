@@ -81,7 +81,11 @@ const BLOG = {
     process.env.NEXT_PUBLIC_GREETING_WORDS_BACK_SPEED || 100,
 
   // uuid重定向至 slug
-  UUID_REDIRECT: process.env.UUID_REDIRECT || false
+  UUID_REDIRECT: process.env.UUID_REDIRECT || false,
+
+  // 内嵌 Notion 子页面 URL 跟随父级文章路径，例如 /article/post/{pageId}
+  INNER_PAGE_URL_PARENT_PATH:
+    process.env.NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH || false
 }
 
 module.exports = BLOG

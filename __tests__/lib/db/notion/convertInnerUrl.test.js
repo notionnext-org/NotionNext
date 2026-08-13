@@ -67,4 +67,51 @@ describe('convertInnerUrl', () => {
       rawNotionUrl
     )
   })
+
+  it('keeps published Page slugs ahead of parent-path fallback', () => {
+    document.body.innerHTML = `
+      <div id="notion-article">
+        <a class="notion-page-link" href="https://www.notion.so/4aea95fb3fd5fcf81846aaaaaaaaaaaa" target="_blank">Links</a>
+      </div>
+    `
+
+    convertInnerUrl({
+      allPages: [
+        {
+          title: 'Links',
+          type: 'Page',
+          href: '/links',
+          slug: 'links',
+          short_id: 'fcf8-1846-aaaaaaaaaaaa'
+        }
+      ],
+      lang: undefined,
+      innerPageUrlParentPath: true
+    })
+
+    expect(document.querySelector('a.notion-page-link')).toHaveAttribute(
+      'href',
+      '/links'
+    )
+  })
+
+  it('can append unresolved Notion child pages to the current article path', () => {
+    window.history.replaceState({}, '', 'http://localhost/article/parent-post')
+    document.body.innerHTML = `
+      <div id="notion-article">
+        <a class="notion-page-link" href="https://www.notion.so/4aea95fb3fd5fcf81846aaaaaaaaaaaa" target="_blank">Child page</a>
+      </div>
+    `
+
+    convertInnerUrl({
+      allPages: [],
+      lang: undefined,
+      innerPageUrlParentPath: true
+    })
+
+    expect(document.querySelector('a.notion-page-link')).toHaveAttribute(
+      'href',
+      '/article/parent-post/4aea95fb3fd5fcf81846aaaaaaaaaaaa'
+    )
+  })
 })

@@ -101,6 +101,30 @@ POST_URL_PREFIX 配置为： `%category%/%year%/%month%/%day%`
 
 则博客文章的url风格示例如下：`https://[domain]/分类名称/2024/12/31/文章id`
 
+## 内嵌子页面跟随父路径
+
+Notion 页面中可以继续嵌套子页面。默认情况下，NotionNext 会优先把能在站点数据库中找到的内页链接转换为该页面自己的 `slug`；如果子页面没有收录到数据库中，则会保留 Notion 页面 ID 作为兜底地址。
+
+如果希望未收录的内嵌子页面 URL 也体现父级文章层级，可以开启：
+
+```bash
+NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true
+```
+
+开启后，在 `/article/fpga-studying-notes` 文章中点击未收录的内嵌子页面时，链接会从默认的：
+
+```txt
+/aac03c95df87469ca52c471453416f4d
+```
+
+改写为：
+
+```txt
+/article/fpga-studying-notes/aac03c95df87469ca52c471453416f4d
+```
+
+这只是内页访问路径的显示和导航优化。未收录子页面不会因此自动进入 sitemap、RSS 或站内搜索；如果页面需要稳定 SEO 收录，仍建议把它加入 NotionNext 主数据库，并配置明确的 `slug`。
+
 ## 原文链接
 
 https://docs.tangly1024.com/article/notion-next-url-customize
