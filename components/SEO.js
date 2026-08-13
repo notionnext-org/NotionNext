@@ -1,5 +1,6 @@
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
+import { getPwaConfig } from '@/lib/pwa'
 import { createSiteUrl, normalizeSiteUrl } from '@/lib/sitemap-utils'
 import { isHttpLink, loadExternalResource } from '@/lib/utils'
 import Head from 'next/head'
@@ -88,6 +89,8 @@ const SEO = props => {
   )
 
   const BLOG_FAVICON = siteConfig('BLOG_FAVICON', null, NOTION_CONFIG)
+  const pwaEnabled = siteConfig('PWA_ENABLE', false, NOTION_CONFIG)
+  const pwaConfig = getPwaConfig({ siteInfo, notionConfig: NOTION_CONFIG })
 
   const COMMENT_WEBMENTION_ENABLE = siteConfig(
     'COMMENT_WEBMENTION_ENABLE',
@@ -120,7 +123,10 @@ const SEO = props => {
     <Head>
       <link rel='icon' href={favicon} />
       <title>{title}</title>
-      <meta name='theme-color' content={BACKGROUND_DARK} />
+      <meta
+        name='theme-color'
+        content={pwaEnabled ? pwaConfig.themeColor : BACKGROUND_DARK}
+      />
       <meta
         name='viewport'
         content='width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0'
@@ -132,6 +138,13 @@ const SEO = props => {
       <meta name='apple-mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-status-bar-style' content='default' />
       <meta name='apple-mobile-web-app-title' content={title} />
+      {pwaEnabled && (
+        <>
+          <link rel='manifest' href='/manifest.json' />
+          <meta name='application-name' content={pwaConfig.name} />
+          <link rel='apple-touch-icon' href={pwaConfig.icon} />
+        </>
+      )}
 
       {/* 搜索引擎验证 */}
       {SEO_GOOGLE_SITE_VERIFICATION && (

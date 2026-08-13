@@ -19,6 +19,9 @@
 | `CAN_COPY` | 是否允许复制正文；文章可用 `CAN_COPY` 或 `ext.CAN_COPY` 单独覆盖 |
 | `GREETING_WORDS` | 欢迎语打字（部分主题） |
 | `LAYOUT_SIDEBAR_REVERSE` | 侧栏左右反转（hexo/next 等） |
+| `PWA_ENABLE` | 开启 Android Chrome PWA 安装入口 |
+| `PWA_THEME_COLOR` | 配置 PWA 安装入口启用后的主题色 |
+| `PWA_NAME` / `PWA_SHORT_NAME` / `PWA_ICON` | 备用覆盖 PWA 安装名称和图标；默认读取站点信息 |
 | `UUID_REDIRECT` | UUID 重定向到 slug |
 | `CUSTOM_EXTERNAL_JS` / `CSS` | 外链脚本样式 |
 | `BEI_AN` / `BEI_AN_GONGAN` | 备案号 |

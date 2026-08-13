@@ -4,7 +4,17 @@
 
 ## 4.10.10 发布要点
 
-`4.10.10` 是一次小版本维护发布，集中收录 `v4.10.9` 之后的近期主线改动。普通站点同步最新 `main` 后重新部署即可；只有需要内嵌子页面层级 URL 的站点，才需要新增可选配置。
+`4.10.10` 是一次小版本维护发布，集中收录 `v4.10.9` 之后的近期主线改动。普通站点同步最新 `main` 后重新部署即可；只有需要内嵌子页面层级 URL 或 PWA 安装入口的站点，才需要新增可选配置。
+
+### PWA 安装入口
+
+- 新增可选配置 `PWA_ENABLE=true`，开启后 Android Chrome 可将博客安装到桌面。
+- 安装入口由 Notion Config 或环境变量 `PWA_ENABLE` 控制，主题色可通过 `PWA_THEME_COLOR` 配置。
+- manifest 使用固定路径 `/manifest.json`，默认指向首页 `/`，并使用站点标题、描述和站点图标生成安装信息。
+- `PWA_NAME`、`PWA_SHORT_NAME`、`PWA_ICON` 可作为少数站点的备用覆盖项；默认情况下无需单独配置。
+- 功能默认关闭，不影响未开启站点。
+
+使用方法见 [PWA 安装入口](../config/pwa-install.md)。
 
 ### Notion 内嵌子页面 URL
 
@@ -43,6 +53,7 @@
 ### 升级说明
 
 - 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点：同步最新 `main` 后重新部署即可。
+- 如果要启用 Android Chrome PWA 安装入口，推荐在 Notion Config 添加 `PWA_ENABLE=true`。
 - 如果要启用内嵌子页面父路径 URL，推荐在 Notion Config 添加 `INNER_PAGE_URL_PARENT_PATH=true`。
 - 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true` 后重新部署。
 - 如果你依赖 Docker 镜像，请等待本版本 GitHub Release 对应的 GHCR 镜像发布完成后再拉取。
