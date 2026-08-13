@@ -46,7 +46,13 @@ NotionNext教程
 
 `4.10.10` 是一次小版本维护发布。普通站点同步最新 `main` 后重新部署即可，不需要新增必填环境变量。
 
-如果你希望 Notion 文章中的未收录内嵌子页面 URL 跟随父级文章路径，可以在部署平台添加：
+如果你希望 Notion 文章中的未收录内嵌子页面 URL 跟随父级文章路径，推荐在 Notion Config 配置中心添加：
+
+| Key | Value |
+| --- | --- |
+| `INNER_PAGE_URL_PARENT_PATH` | `true` |
+
+该方式不需要修改代码。也可以在部署平台添加环境变量：
 
 ```bash
 NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true

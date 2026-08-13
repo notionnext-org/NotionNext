@@ -109,7 +109,15 @@ POST_URL_PREFIX 配置为： `%category%/%year%/%month%/%day%`
 
 Notion 页面中可以继续嵌套子页面。默认情况下，NotionNext 会优先把能在站点数据库中找到的内页链接转换为该页面自己的 `slug`；如果子页面没有收录到数据库中，则会保留 Notion 页面 ID 作为兜底地址。
 
-如果希望未收录的内嵌子页面 URL 也体现父级文章层级，可以开启：
+如果希望未收录的内嵌子页面 URL 也体现父级文章层级，推荐直接在 Notion Config 配置中心添加一行：
+
+| Key | Value | 说明 |
+| --- | --- | --- |
+| `INNER_PAGE_URL_PARENT_PATH` | `true` | 未收录内嵌子页面 URL 跟随父级文章路径 |
+
+保存 Notion Config 后重新部署或等待站点重新读取配置即可生效。该配置会优先于部署平台环境变量，适合不想修改代码或部署配置的站点。
+
+也可以在部署平台使用环境变量开启：
 
 ```bash
 NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true

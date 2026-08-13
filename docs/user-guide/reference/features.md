@@ -38,6 +38,7 @@
 | `POSTS_SHARE_SERVICES` | 分享渠道列表 |
 | `ARTICLE_EXPIRATION_*` | 文章过期提示（HEO 等主题） |
 | `TAG_SORT_BY_COUNT` | 标签按文章数排序 |
+| `INNER_PAGE_URL_PARENT_PATH` / `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH` | 未收录内嵌子页面 URL 跟随父级文章路径（4.10.10+） |
 
 ## Notion（conf/notion.config.js）
 

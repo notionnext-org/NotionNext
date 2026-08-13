@@ -24,4 +24,12 @@ describe('siteConfig', () => {
       'page'
     )
   })
+
+  it('reads inner page parent path toggle from Notion Config', () => {
+    expect(
+      siteConfig('INNER_PAGE_URL_PARENT_PATH', false, {
+        INNER_PAGE_URL_PARENT_PATH: 'true'
+      })
+    ).toBe(true)
+  })
 })
