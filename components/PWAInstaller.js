@@ -9,21 +9,38 @@ const PWAInstaller = ({ NOTION_CONFIG }) => {
       return
     }
 
+    let cancelled = false
+    let loadHandler
+
     if (!enabled) {
       navigator.serviceWorker
         .getRegistration('/sw.js')
-        .then(registration => registration?.unregister())
+        .then(registration => {
+          if (!cancelled) return registration?.unregister()
+        })
         .catch(() => {})
-      return
+
+      return () => {
+        cancelled = true
+      }
     }
 
-    window.addEventListener(
-      'load',
-      () => {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {})
-      },
-      { once: true }
-    )
+    const register = () => {
+      if (cancelled) return
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {})
+    }
+
+    if (document.readyState === 'complete') {
+      register()
+    } else {
+      loadHandler = register
+      window.addEventListener('load', loadHandler, { once: true })
+    }
+
+    return () => {
+      cancelled = true
+      if (loadHandler) window.removeEventListener('load', loadHandler)
+    }
   }, [enabled])
 
   return null
