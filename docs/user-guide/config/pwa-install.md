@@ -25,7 +25,7 @@ NEXT_PUBLIC_PWA_ENABLE=true
 NEXT_PUBLIC_PWA_THEME_COLOR=#111827
 ```
 
-配置完成后重新部署站点。manifest 固定输出到 `/manifest.json`，默认指向首页 `/`，名称、描述和图标会优先使用站点自身的标题、描述和站点图标。静态导出时，构建过程会把这些站点信息写入固定 manifest 文件。
+配置完成后重新部署站点。manifest 固定输出到 `/manifest.json`，默认指向首页 `/`；名称和描述优先使用站点信息，安装图标默认使用内置尺寸合规的 PNG，可通过 `PWA_ICON_192`、`PWA_ICON_512` 及对应 maskable 配置项覆盖。静态导出时，构建过程会把这些站点信息写入固定 manifest 文件。
 
 ## 图标要求
 
