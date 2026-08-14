@@ -45,7 +45,9 @@ describe('PWA helpers', () => {
     })
   })
 
-  it('builds a fixed-path installable manifest from site defaults', () => {
+  it('builds a manifest with backward-compatible icon fallback', () => {
+    // When only siteInfo.icon is provided (no dedicated PWA_ICON_192/512),
+    // it should be used as the src for all manifest icons (backward compat)
     expect(
       buildPwaManifest({
         siteInfo: {
@@ -62,8 +64,46 @@ describe('PWA helpers', () => {
       scope: '/',
       display: 'standalone',
       icons: [
-        { src: '/avatar.png', sizes: '192x192' },
-        { src: '/avatar.png', sizes: '512x512' }
+        { src: '/avatar.png', sizes: '192x192', purpose: 'any' },
+        { src: '/avatar.png', sizes: '512x512', purpose: 'any' },
+        { src: '/avatar.png', sizes: '192x192', purpose: 'maskable' },
+        { src: '/avatar.png', sizes: '512x512', purpose: 'maskable' }
+      ]
+    })
+  })
+
+  it('uses dedicated PWA_ICON_192/512 when explicitly configured', () => {
+    // When dedicated sized icons are set, they take priority over siteInfo.icon
+    expect(
+      buildPwaManifest({
+        siteInfo: { title: 'Blog', icon: '/avatar.png' },
+        notionConfig: {
+          PWA_ICON_192: '/icon-192.png',
+          PWA_ICON_512: '/icon-512.png'
+        }
+      })
+    ).toMatchObject({
+      icons: [
+        { src: '/icon-192.png', sizes: '192x192', purpose: 'any' },
+        { src: '/icon-512.png', sizes: '512x512', purpose: 'any' },
+        { src: '/icon-192.png', sizes: '192x192', purpose: 'maskable' },
+        { src: '/icon-512.png', sizes: '512x512', purpose: 'maskable' }
+      ]
+    })
+  })
+
+  it('uses built-in default icons when no icon config is provided', () => {
+    expect(
+      buildPwaManifest({
+        siteInfo: { title: 'Blog' },
+        notionConfig: {}
+      })
+    ).toMatchObject({
+      icons: [
+        { src: '/icon-192.png', sizes: '192x192', purpose: 'any' },
+        { src: '/icon-512.png', sizes: '512x512', purpose: 'any' },
+        { src: '/icon-192-maskable.png', sizes: '192x192', purpose: 'maskable' },
+        { src: '/icon-512-maskable.png', sizes: '512x512', purpose: 'maskable' }
       ]
     })
   })
