@@ -90,7 +90,9 @@ const SEO = props => {
 
   const BLOG_FAVICON = siteConfig('BLOG_FAVICON', null, NOTION_CONFIG)
   const pwaEnabled = siteConfig('PWA_ENABLE', false, NOTION_CONFIG)
-  const pwaConfig = getPwaConfig({ siteInfo, notionConfig: NOTION_CONFIG })
+  const pwaConfig = pwaEnabled
+    ? getPwaConfig({ siteInfo, notionConfig: NOTION_CONFIG })
+    : null
 
   const COMMENT_WEBMENTION_ENABLE = siteConfig(
     'COMMENT_WEBMENTION_ENABLE',
