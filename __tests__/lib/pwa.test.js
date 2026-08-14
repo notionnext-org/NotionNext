@@ -45,9 +45,9 @@ describe('PWA helpers', () => {
     })
   })
 
-  it('builds a manifest with backward-compatible icon fallback', () => {
-    // When only siteInfo.icon is provided (no dedicated PWA_ICON_192/512),
-    // it should be used as the src for all manifest icons (backward compat)
+  it('uses built-in properly-sized icons for manifest by default', () => {
+    // siteInfo.icon does NOT affect manifest icons because it typically
+    // lacks guaranteed 192/512 dimensions. Built-in icons are used instead.
     expect(
       buildPwaManifest({
         siteInfo: {
@@ -64,48 +64,50 @@ describe('PWA helpers', () => {
       scope: '/',
       display: 'standalone',
       icons: [
-        { src: '/avatar.png', sizes: '192x192', purpose: 'any' },
-        { src: '/avatar.png', sizes: '512x512', purpose: 'any' },
-        { src: '/avatar.png', sizes: '192x192', purpose: 'maskable' },
-        { src: '/avatar.png', sizes: '512x512', purpose: 'maskable' }
-      ]
-    })
-  })
-
-  it('uses dedicated PWA_ICON_192/512 when explicitly configured', () => {
-    // When dedicated sized icons are set, they take priority over siteInfo.icon
-    expect(
-      buildPwaManifest({
-        siteInfo: { title: 'Blog', icon: '/avatar.png' },
-        notionConfig: {
-          PWA_ICON_192: '/icon-192.png',
-          PWA_ICON_512: '/icon-512.png'
-        }
-      })
-    ).toMatchObject({
-      icons: [
-        { src: '/icon-192.png', sizes: '192x192', purpose: 'any' },
-        { src: '/icon-512.png', sizes: '512x512', purpose: 'any' },
-        { src: '/icon-192.png', sizes: '192x192', purpose: 'maskable' },
-        { src: '/icon-512.png', sizes: '512x512', purpose: 'maskable' }
-      ]
-    })
-  })
-
-  it('uses built-in default icons when no icon config is provided', () => {
-    expect(
-      buildPwaManifest({
-        siteInfo: { title: 'Blog' },
-        notionConfig: {}
-      })
-    ).toMatchObject({
-      icons: [
         { src: '/icon-192.png', sizes: '192x192', purpose: 'any' },
         { src: '/icon-512.png', sizes: '512x512', purpose: 'any' },
         { src: '/icon-192-maskable.png', sizes: '192x192', purpose: 'maskable' },
         { src: '/icon-512-maskable.png', sizes: '512x512', purpose: 'maskable' }
       ]
     })
+  })
+
+  it('uses dedicated PWA_ICON_192/512 when explicitly configured', () => {
+    // Only explicit PWA_ICON_192/512 can override the built-in defaults
+    expect(
+      buildPwaManifest({
+        siteInfo: { title: 'Blog', icon: '/avatar.png' },
+        notionConfig: {
+          PWA_ICON_192: '/custom-192.png',
+          PWA_ICON_512: '/custom-512.png'
+        }
+      })
+    ).toMatchObject({
+      icons: [
+        { src: '/custom-192.png', sizes: '192x192', purpose: 'any' },
+        { src: '/custom-512.png', sizes: '512x512', purpose: 'any' },
+        { src: '/icon-192-maskable.png', sizes: '192x192', purpose: 'maskable' },
+        { src: '/icon-512-maskable.png', sizes: '512x512', purpose: 'maskable' }
+      ]
+    })
+  })
+
+  it('PWA_ICON and siteInfo.icon do not affect manifest icons', () => {
+    // PWA_ICON/siteInfo.icon are for apple-touch-icon etc., not manifest
+    const manifest = buildPwaManifest({
+      siteInfo: { title: 'Blog', icon: '/my-favicon.svg' },
+      notionConfig: { PWA_ICON: '/another-icon.png' }
+    })
+    const srcs = manifest.icons.map(i => i.src)
+    expect(srcs).not.toContain('/my-favicon.svg')
+    expect(srcs).not.toContain('/another-icon.png')
+    // Should use built-in defaults
+    expect(srcs).toEqual([
+      '/icon-192.png',
+      '/icon-512.png',
+      '/icon-192-maskable.png',
+      '/icon-512-maskable.png'
+    ])
   })
 
   // Regression: null inputs should not throw (default params only catch undefined, not null)
