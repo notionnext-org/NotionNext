@@ -21,7 +21,9 @@
 | `LAYOUT_SIDEBAR_REVERSE` | 侧栏左右反转（hexo/next 等） |
 | `PWA_ENABLE` | 开启 Android Chrome PWA 安装入口 |
 | `PWA_THEME_COLOR` | 配置 PWA 安装入口启用后的主题色 |
-| `PWA_NAME` / `PWA_SHORT_NAME` / `PWA_ICON` | 备用覆盖 PWA 安装名称和图标；默认读取站点信息 |
+| `PWA_NAME` / `PWA_SHORT_NAME` / `PWA_ICON` | PWA 名称和页面图标（apple-touch-icon）；`PWA_ICON` 不控制 manifest 安装图标 |
+| `PWA_ICON_192` / `PWA_ICON_512` | 可选覆盖 manifest 192×192 / 512×512 普通图标；须提供真实尺寸资源 |
+| `PWA_ICON_192_MASKABLE` / `PWA_ICON_512_MASKABLE` | 可选覆盖 manifest maskable 图标；资源应留有安全边距 |
 | `UUID_REDIRECT` | UUID 重定向到 slug |
 | `CUSTOM_EXTERNAL_JS` / `CSS` | 外链脚本样式 |
 | `BEI_AN` / `BEI_AN_GONGAN` | 备案号 |

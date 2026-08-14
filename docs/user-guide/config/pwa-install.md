@@ -12,7 +12,11 @@ NotionNext 可以为博客开启 PWA 安装能力。开启后，Android Chrome �
 | `PWA_THEME_COLOR` | `#111827` | Android Chrome 状态栏和安装主题色 |
 | `PWA_NAME` | `Tangly 的学习笔记` | 备用覆盖项；默认读取站点标题，通常不用单独配置 |
 | `PWA_SHORT_NAME` | `Tangly` | 备用覆盖项；默认读取站点标题，通常不用单独配置 |
-| `PWA_ICON` | `/favicon.png` | 备用覆盖项；默认读取站点图标，通常不用单独配置 |
+| `PWA_ICON` | `/favicon.png` | 页面图标（apple-touch-icon / favicon 回退）；**不控制 manifest 安装图标**，manifest 默认使用内置尺寸合规的 PNG |
+| `PWA_ICON_192` | `/my-icon-192.png` | 可选：覆盖 manifest 192×192 普通图标；须提供真实 192×192 尺寸的资源 |
+| `PWA_ICON_512` | `/my-icon-512.png` | 可选：覆盖 manifest 512×512 普通图标；须提供真实 512×512 尺寸的资源 |
+| `PWA_ICON_192_MASKABLE` | `/my-icon-192-maskable.png` | 可选：覆盖 manifest 192×192 maskable 图标；资源应留有足够安全边距 |
+| `PWA_ICON_512_MASKABLE` | `/my-icon-512-maskable.png` | 可选：覆盖 manifest 512×512 maskable 图标；资源应留有足够安全边距 |
 
 也可以在部署平台环境变量中开启：
 
@@ -25,9 +29,28 @@ NEXT_PUBLIC_PWA_THEME_COLOR=#111827
 
 ## 图标要求
 
-- 优先使用正方形 PNG 图标，建议至少 512x512。
+### Manifest 安装图标（默认）
+
+默认情况下，manifest 使用项目内置的四个尺寸合规的 PNG 图标，无需任何配置：
+
+| 内置资源 | 尺寸 | Purpose |
+| --- | --- | --- |
+| `/icon-192.png` | 192×192 | `any` |
+| `/icon-512.png` | 512×512 | `any` |
+| `/icon-192-maskable.png` | 192×192 | `maskable` |
+| `/icon-512-maskable.png` | 512×512 | `maskable` |
+
+如需使用自定义图标覆盖 manifest，请配置 `PWA_ICON_192`、`PWA_ICON_512`、`PWA_ICON_192_MASKABLE`、`PWA_ICON_512_MASKABLE`，并确保提供的资源尺寸与声明一致。
+
+### 页面图标（PWA_ICON）
+
+`PWA_ICON` 仅用于 `<link rel="apple-touch-icon">` 等页面元数据，**不会改变 manifest 中的安装图标**。默认读取站点图标（`siteInfo.icon`），通常无需单独配置。
+
+### 通用要求
+
+- 优先使用正方形 PNG 图标，建议至少 512×512。
 - 如果使用相对路径，请把文件放在 `public` 目录下，例如 `public/favicon.png` 对应 `/favicon.png`。
-- 如果使用备用 `PWA_ICON`，请保持图标地址能被公网访问。
+- 如果使用远程 URL，请保持图标地址能被公网访问。
 
 ## Android Chrome 安装
 
