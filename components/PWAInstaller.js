@@ -11,7 +11,7 @@ const PWAInstaller = ({ NOTION_CONFIG }) => {
 
     if (!enabled) {
       navigator.serviceWorker
-        .getRegistration('/sw.js')
+        .getRegistration('/')
         .then(registration => registration?.unregister())
         .catch(() => {})
       return
