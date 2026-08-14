@@ -67,4 +67,31 @@ describe('PWA helpers', () => {
       ]
     })
   })
+
+  // Regression: null inputs should not throw (default params only catch undefined, not null)
+  it('getPwaConfig handles null siteInfo and notionConfig', () => {
+    expect(() => getPwaConfig({ siteInfo: null, notionConfig: null })).not.toThrow()
+    const result = getPwaConfig({ siteInfo: null, notionConfig: null })
+    expect(result).toMatchObject({
+      name: 'NotionNext',
+      icon: '/favicon.png',
+      themeColor: '#ffffff'
+    })
+  })
+
+  it('buildPwaManifest handles null siteInfo and notionConfig', () => {
+    expect(() => buildPwaManifest({ siteInfo: null, notionConfig: null })).not.toThrow()
+    const result = buildPwaManifest({ siteInfo: null, notionConfig: null })
+    expect(result).toMatchObject({
+      name: 'NotionNext',
+      start_url: '/',
+      scope: '/',
+      display: 'standalone'
+    })
+  })
+
+  it('getPwaConfig handles undefined inputs', () => {
+    expect(() => getPwaConfig()).not.toThrow()
+    expect(getPwaConfig()).toMatchObject({ name: 'NotionNext' })
+  })
 })
