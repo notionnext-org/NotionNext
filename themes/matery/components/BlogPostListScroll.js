@@ -26,7 +26,7 @@ const BlogPostListScroll = ({
   const postsToShow = getListByPage(posts, page, POSTS_PER_PAGE)
   // 监听滚动
   useEffect(() => {
-    window.addEventListener('scroll', scrollTrigger)
+    window.addEventListener('scroll', scrollTrigger, { passive: true })
     return () => {
       window.removeEventListener('scroll', scrollTrigger)
     }

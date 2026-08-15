@@ -14,6 +14,7 @@ const SocialButton = () => {
   const CONTACT_TELEGRAM = siteConfig('CONTACT_TELEGRAM')
 
   const CONTACT_LINKEDIN = siteConfig('CONTACT_LINKEDIN')
+  const CONTACT_ORCID = siteConfig('CONTACT_ORCID')
   const CONTACT_WEIBO = siteConfig('CONTACT_WEIBO')
   const CONTACT_INSTAGRAM = siteConfig('CONTACT_INSTAGRAM')
   const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
@@ -75,6 +76,16 @@ const SocialButton = () => {
             <i className='transform hover:scale-125 duration-150 fab fa-linkedin dark:hover:text-indigo-400 hover:text-indigo-600' />
           </a>
         )}
+        {CONTACT_ORCID && (
+          <a
+            target='_blank'
+            rel='noreferrer'
+            href={CONTACT_ORCID}
+            title={'ORCID'}>
+            <i className='transform hover:scale-125 duration-150 fab fa-orcid dark:hover:text-indigo-400 hover:text-indigo-600' />
+          </a>
+        )}
+
         {CONTACT_WEIBO && (
           <a
             target='_blank'

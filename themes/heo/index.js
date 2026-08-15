@@ -95,7 +95,7 @@ const LayoutBase = props => {
   return (
     <div
       id='theme-heo'
-      className={`${siteConfig('FONT_STYLE')} bg-[#f7f9fe] dark:bg-[#18171d] h-full min-h-screen flex flex-col scroll-smooth`}>
+      className={`${siteConfig('FONT_STYLE')} bg-[var(--heo-color-bg)] dark:bg-[var(--heo-color-bg-dark)] h-full min-h-screen flex flex-col scroll-smooth`}>
       <Style />
 
       {/* 顶部嵌入 导航栏，首页放hero，文章页放文章详情 */}
@@ -183,7 +183,7 @@ const LayoutSearch = props => {
   useEffect(() => {
     // 高亮搜索结果
     if (currentSearch) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         replaceSearchResult({
           doms: document.getElementsByClassName('replace'),
           search: currentSearch,
@@ -193,10 +193,11 @@ const LayoutSearch = props => {
           }
         })
       }, 100)
+      return () => clearTimeout(timer)
     }
-  }, [])
+  }, [currentSearch])
   return (
-    <div currentSearch={currentSearch}>
+    <div data-current-search={currentSearch || ''}>
       <div id='post-outer-wrapper' className='px-5  md:px-0'>
         {!currentSearch ? (
           <SearchNav {...props} />
@@ -225,7 +226,7 @@ const LayoutArchive = props => {
   // 归档页顶部显示条，如果是默认归档则不显示。分类详情页显示分类列表，标签详情页显示当前标签
 
   return (
-    <div className='p-5 rounded-xl border dark:border-gray-600 max-w-6xl w-full bg-white dark:bg-[#1e1e1e]'>
+    <div className='p-5 rounded-xl border dark:border-gray-600 max-w-6xl w-full bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)]'>
       {/* 文章分类条 */}
       <CategoryBar {...props} border={false} />
 
@@ -273,7 +274,7 @@ const LayoutSlug = props => {
   useEffect(() => {
     // 404
     if (!post) {
-      setTimeout(
+      const timer = setTimeout(
         () => {
           if (isBrowser) {
             const article = document.querySelector(
@@ -288,22 +289,20 @@ const LayoutSlug = props => {
         },
         waiting404
       )
+      return () => clearTimeout(timer)
     }
-  }, [post])
+  }, [post, router, waiting404])
   return (
     <>
       <div
-        className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-white dark:bg-[#18171d] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
+        className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
         {/* 文章锁 */}
         {lock && <PostLock validPassword={validPassword} />}
 
         {!lock && post && (
           <div className='mx-auto md:w-full md:px-5'>
             {/* 文章主体 */}
-            <article
-              id='article-wrapper'
-              itemScope
-              itemType='https://schema.org/Movie'>
+            <article id='article-wrapper'>
               {/* Notion文章主体 */}
               <section
                 className='wow fadeInUp p-5 justify-center mx-auto'
@@ -398,7 +397,7 @@ const Layout404 = props => {
                 </h1>
                 <div className='dark:text-white'>请尝试站内搜索寻找文章</div>
                 <SmartLink href='/'>
-                  <button className='bg-blue-500 py-2 px-4 text-white shadow rounded-lg hover:bg-blue-600 hover:shadow-md duration-200 transition-all'>
+                  <button className='bg-[var(--heo-color-primary)] py-2 px-4 text-[var(--heo-color-primary-text)] shadow rounded-lg hover:bg-[var(--heo-color-primary-hover)] hover:shadow-md duration-200 transition-all'>
                     回到主页
                   </button>
                 </SmartLink>
@@ -442,11 +441,11 @@ const LayoutCategoryIndex = props => {
               legacyBehavior>
               <div
                 className={
-                  'group mr-5 mb-5 flex flex-nowrap items-center border bg-white text-2xl rounded-xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-white hover:bg-indigo-600 transition-all hover:scale-110 duration-150'
+                  'group mr-5 mb-5 flex flex-nowrap items-center border bg-[var(--heo-color-card)] text-2xl rounded-xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-[var(--heo-color-primary-text)] hover:bg-[var(--heo-color-primary)] transition-all hover:scale-110 duration-150'
                 }>
                 <HashTag className={'w-5 h-5 stroke-gray-500 stroke-2'} />
                 {category.name}
-                <div className='bg-[#f1f3f8] ml-1 px-2 rounded-lg group-hover:text-indigo-600 '>
+                <div className='bg-[var(--heo-color-card-muted)] ml-1 px-2 rounded-lg group-hover:text-[var(--heo-color-primary)] '>
                   {category.count}
                 </div>
               </div>
@@ -484,11 +483,11 @@ const LayoutTagIndex = props => {
               legacyBehavior>
               <div
                 className={
-                  'group flex flex-nowrap items-center border bg-white text-2xl rounded-xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-white hover:bg-indigo-600 transition-all hover:scale-110 duration-150'
+                  'group flex flex-nowrap items-center border bg-[var(--heo-color-card)] text-2xl rounded-xl dark:hover:text-white px-4 cursor-pointer py-3 hover:text-[var(--heo-color-primary-text)] hover:bg-[var(--heo-color-primary)] transition-all hover:scale-110 duration-150'
                 }>
                 <HashTag className={'w-5 h-5 stroke-gray-500 stroke-2'} />
                 {tag.name}
-                <div className='bg-[#f1f3f8] ml-1 px-2 rounded-lg group-hover:text-indigo-600 '>
+                <div className='bg-[var(--heo-color-card-muted)] ml-1 px-2 rounded-lg group-hover:text-[var(--heo-color-primary)] '>
                   {tag.count}
                 </div>
               </div>

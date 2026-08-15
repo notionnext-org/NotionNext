@@ -17,11 +17,13 @@ export function Swipe({ items }) {
   }
 
   useEffect(() => {
+    if (!items?.length) return
     const interval = setInterval(() => {
-      setActiveIndex((activeIndex + 1) % items.length)
+      // 函数式 setState，避免把 activeIndex 放进依赖数组导致每秒重建 interval
+      setActiveIndex(prev => (prev + 1) % items.length)
     }, 3000)
     return () => clearInterval(interval)
-  }, [activeIndex, items.length])
+  }, [items?.length])
 
   return (
     <div className='h-full relative w-full overflow-hidden'>

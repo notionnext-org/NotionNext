@@ -2,6 +2,11 @@
  * 主题配置文件
  */
 const CONFIG = {
+  EXAMPLE_COLOR_PRIMARY: '#6b7280',
+  EXAMPLE_COLOR_BG: '#ffffff',
+  EXAMPLE_COLOR_CARD: '#f3f4f6',
+  EXAMPLE_COLOR_BORDER: '#e5e7eb',
+
   // 菜单配置
   EXAMPLE_MENU_CATEGORY: true, // 显示分类
   EXAMPLE_MENU_TAG: true, // 显示标签

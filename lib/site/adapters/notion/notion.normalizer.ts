@@ -1,12 +1,17 @@
 import { idToUuid } from 'notion-utils'
-import type { SiteData } from '../../site.types'
+import type { SiteData, SiteInfo } from '../../site.types'
+
+interface NotionRecordMap {
+  block?: unknown
+}
 
 export function normalizeNotionSite(
-  recordMap: any,
+  recordMap: unknown,
   sitePageId: string,
   from?: string
 ): SiteData {
   sitePageId = idToUuid(sitePageId)
+  const normalizedRecordMap = recordMap as NotionRecordMap
 
   // ⬇️ 原 convertNotionToSiteData 内容迁到这里
   // normalize metadata / collection / schema / pages
@@ -14,17 +19,18 @@ export function normalizeNotionSite(
 
   return {
     NOTION_CONFIG: {},
-    siteInfo: {} as any,
+    siteInfo: {} as SiteInfo,
     notice: null,
     allPages: [],
     allNavPages: [],
+    allLinkPages: [],
     latestPosts: [],
     categoryOptions: [],
     tagOptions: [],
     customNav: [],
     customMenu: [],
     postCount: 0,
-    block: recordMap?.block,
+    block: normalizedRecordMap.block,
     schema: {},
     rawMetadata: {}
   }

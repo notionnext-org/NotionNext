@@ -1,0 +1,29 @@
+title: "💡 "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        功能建议请先在此讨论范围与优先级，共识后再开 [Feature Request Issue](https://github.com/notionnext-org/NotionNext/issues/new/choose) 或 PR。
+        较大改动请阅读 [RFC 指南](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/rfc/README.md)。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 要解决的用户问题
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案（可选）
+    validations:
+      required: false
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 影响范围（可多选）
+      options:
+        - label: 仅文档
+        - label: 单个主题
+        - label: 全站 / 公共 API
+        - label: 构建 / 部署

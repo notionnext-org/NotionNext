@@ -1,4 +1,6 @@
 const CONFIG = {
+  LANDING_COLOR_PRIMARY: '#ef4444',
+
 
   LANDING_HEADER_BUTTON_1_TITLE: 'Github开源',
   LANDING_HEADER_BUTTON_1_URL: 'https://github.com/tangly1024/NotionNext',

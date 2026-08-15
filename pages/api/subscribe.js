@@ -10,11 +10,11 @@ export default async function handler(req, res) {
     const { email, firstName, lastName } = req.body
     try {
       const response = await subscribeToMailchimpApi({ email, first_name: firstName, last_name: lastName })
-      const data = await response.json()
-      console.log('data', data)
+      await response.json()
       res.status(200).json({ status: 'success', message: 'Subscription successful!' })
     } catch (error) {
-      res.status(400).json({ status: 'error', message: 'Subscription failed!', error })
+      console.error('Subscription error:', error)
+      res.status(400).json({ status: 'error', message: 'Subscription failed!' })
     }
   } else {
     res.status(405).json({ status: 'error', message: 'Method not allowed' })

@@ -51,6 +51,16 @@ const SocialButton = () => {
             <i className='transform hover:scale-125 duration-150 fab fa-linkedin dark:hover:text-indigo-400 hover:text-indigo-600' />
           </a>
         )}
+        {siteConfig('CONTACT_ORCID') && (
+          <a
+            target='_blank'
+            rel='noreferrer'
+            href={siteConfig('CONTACT_ORCID')}
+            title={'ORCID'}>
+            <i className='fab fa-orcid transform hover:scale-125 duration-150' />
+          </a>
+        )}
+
         {siteConfig('CONTACT_WEIBO') && (
           <a
             target='_blank'

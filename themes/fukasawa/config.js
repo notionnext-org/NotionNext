@@ -1,4 +1,6 @@
 const CONFIG = {
+  FUKASAWA_COLOR_BG: '#eeedee',
+
   FUKASAWA_MAILCHIMP_FORM: false, // 邮件订阅表单
 
   FUKASAWA_POST_LIST_COVER: true, // 文章列表显示图片封面

@@ -75,6 +75,8 @@ const PostItemCardWide = ({ post, showSummary }) => {
         <LazyImage
           alt={post?.title}
           src={post?.pageCoverThumbnail}
+          width={160}
+          height={160}
           style={post?.pageCoverThumbnail ? {} : { height: '0px' }}
           className='w-40 h-40 object-cover hover:scale-125 duration-150'
         />

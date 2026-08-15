@@ -30,7 +30,24 @@
 
 ## 测试确认
 
-- [x] 本地开发环境测试通过
-- [x] 生产环境构建测试通过
-- [x] 版本号正确显示
-- [x] 环境变量配置正常工作
+- [ ] 本地开发环境测试通过
+- [ ] 生产环境构建测试通过
+- [ ] （如适用）版本号正确显示
+- [ ] （如适用）环境变量配置正常工作
+
+## 用户文档（`docs/user-guide/` / `docs/developer/`）
+
+如果本 PR 新增或修改了站长会使用的功能、主题配置、环境变量、Notion Config 键、插件开关、部署步骤、默认行为或可见 UI 交互，请同步更新 `docs/user-guide/` 或 `docs/developer/` 中对应说明，并在下方勾选已完成项。
+
+只有纯内部重构、测试、CI、依赖维护、拼写修正等不改变站长使用方式的改动，才可以勾选「不适用」。
+
+- [ ] 不适用（无文档改动）
+- [ ] 已按 [维护工作流](https://github.com/notionnext-org/NotionNext/blob/main/docs/user-guide/MAINTENANCE_WORKFLOW.md) 自检
+- [ ] 路径符合 `docs/user-guide/` 目录约定
+- [ ] 已更新 [user-guide/README.md](https://github.com/notionnext-org/NotionNext/blob/main/docs/user-guide/README.md)（新增/移动文章时）
+- [ ] 已更新 [ARTICLE_INDEX.md](https://github.com/notionnext-org/NotionNext/blob/main/docs/user-guide/ARTICLE_INDEX.md)（新 slug 或路径变更时）
+- [ ] 环境变量名与 `conf/*.config.js` 一致（若文档涉及配置）
+- [ ] 示例中无真实 Token、`.env`、私有 ID
+- [ ] 保留或更新了「原文链接」（若源自 docs.tangly1024.com）
+
+文档说明（可选）：对应官方 slug / URL、是否与功能 PR 配套

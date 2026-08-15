@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unknown-property */
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 import { siteConfig } from '@/lib/config'
 import CONFIG from './config'
 
@@ -9,20 +10,82 @@ import CONFIG from './config'
  */
 const Style = () => {
   // 从配置中获取主题色，如果没有配置则使用默认值 #928CEE
-  const themeColor = siteConfig('HEXO_THEME_COLOR', '#928CEE', CONFIG)
+  const legacyThemeColor = siteConfig('HEXO_THEME_COLOR', '#928CEE', CONFIG)
+  const primary = siteConfig('HEXO_COLOR_PRIMARY', legacyThemeColor, CONFIG)
+  const primaryDark = siteConfig('HEXO_COLOR_PRIMARY_DARK', primary, CONFIG)
+  const background = siteConfig('HEXO_COLOR_BG', '#f5f5f5', CONFIG)
+  const backgroundDark = siteConfig('HEXO_COLOR_BG_DARK', '#000000', CONFIG)
+  const surface = siteConfig('HEXO_COLOR_CARD', '#ffffff', CONFIG)
+  const surfaceDark = siteConfig('HEXO_COLOR_CARD_DARK', '#101414', CONFIG)
+  const title = siteConfig('HEXO_COLOR_TITLE', '#4b5563', CONFIG)
+  const titleDark = siteConfig('HEXO_COLOR_TITLE_DARK', '#f3f4f6', CONFIG)
+  const text = siteConfig('HEXO_COLOR_TEXT', '#374151', CONFIG)
+  const textDark = siteConfig('HEXO_COLOR_TEXT_DARK', '#d1d5db', CONFIG)
+  const textSecondary = siteConfig('HEXO_COLOR_TEXT_SECONDARY', '#9ca3af', CONFIG)
+  const textSecondaryDark = siteConfig('HEXO_COLOR_TEXT_SECONDARY_DARK', '#6b7280', CONFIG)
+  const border = siteConfig('HEXO_COLOR_BORDER', '#e5e7eb', CONFIG)
+  const borderDark = siteConfig('HEXO_COLOR_BORDER_DARK', '#000000', CONFIG)
 
   return (
     <style jsx global>{`
-      :root {
-        --theme-color: ${themeColor};
+      #theme-hexo {
+        --hexo-color-primary-light: ${primary};
+        --hexo-color-primary-dark: ${primaryDark};
+        --hexo-color-bg-light: ${background};
+        --hexo-color-bg-dark: ${backgroundDark};
+        --hexo-color-card-light: ${surface};
+        --hexo-color-card-dark: ${surfaceDark};
+        --hexo-color-title-light: ${title};
+        --hexo-color-title-dark: ${titleDark};
+        --hexo-color-text-light: ${text};
+        --hexo-color-text-dark: ${textDark};
+        --hexo-color-text-secondary-light: ${textSecondary};
+        --hexo-color-text-secondary-dark: ${textSecondaryDark};
+        --hexo-color-border-light: ${border};
+        --hexo-color-border-dark: ${borderDark};
+        --theme-color: var(--hexo-color-primary-light);
+        --hexo-color-bg: var(--hexo-color-bg-light);
+        --hexo-color-card: var(--hexo-color-card-light);
+        --hexo-color-title: var(--hexo-color-title-light);
+        --hexo-color-text: var(--hexo-color-text-light);
+        --hexo-color-text-secondary: var(--hexo-color-text-secondary-light);
+        --hexo-color-border: var(--hexo-color-border-light);
       }
 
-      // 底色
-      #theme-hexo body {
-        background-color: #f5f5f5;
+      .dark #theme-hexo {
+        --theme-color: var(--hexo-color-primary-dark);
+        --hexo-color-bg: var(--hexo-color-bg-dark);
+        --hexo-color-card: var(--hexo-color-card-dark);
+        --hexo-color-title: var(--hexo-color-title-dark);
+        --hexo-color-text: var(--hexo-color-text-dark);
+        --hexo-color-text-secondary: var(--hexo-color-text-secondary-dark);
+        --hexo-color-border: var(--hexo-color-border-dark);
       }
-      .dark #theme-hexo body {
-        background-color: black;
+
+      #theme-hexo,
+      #theme-hexo .bg-hexo-background-gray {
+        background-color: var(--hexo-color-bg);
+      }
+
+      #theme-hexo #blog-post-card,
+      #theme-hexo .card,
+      #theme-hexo #announcement-wrapper,
+      #theme-hexo .article {
+        background-color: var(--hexo-color-card);
+        border-color: var(--hexo-color-border);
+      }
+
+      #theme-hexo #blog-post-card h2 .menu-link {
+        color: var(--hexo-color-title);
+      }
+
+      #theme-hexo #blog-post-card main,
+      #theme-hexo #blog-post-card p {
+        color: var(--hexo-color-text);
+      }
+
+      #theme-hexo #blog-post-card .text-gray-400 {
+        color: var(--hexo-color-text-secondary);
       }
 
       /*  菜单下划线动画 */
@@ -231,7 +294,17 @@ const Style = () => {
         scrollbar-width: thin;
         scrollbar-color: var(--theme-color) transparent;
       }
-    `}</style>
+
+      ${themeConsoleStyle('hexo', CONFIG)}
+
+      #theme-hexo #home-nav-button a {
+        color: #fff !important;
+      }
+
+      #theme-hexo #home-nav-button a:hover {
+        color: #000 !important;
+      }
+  `}</style>
   )
 }
 

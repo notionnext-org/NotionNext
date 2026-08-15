@@ -1,4 +1,9 @@
 const CONFIG = {
+  MAGZINE_COLOR_PRIMARY: '#7BE986',
+  MAGZINE_COLOR_PRIMARY_DARK: '#62BA6B',
+  MAGZINE_COLOR_BG: '#f6f6f1',
+  MAGZINE_COLOR_SCROLLBAR: '#4e4e4e',
+
   // 首屏信息栏按钮文字
   MAGZINE_HOME_BANNER_ENABLE: true, // 首屏右上角的宣传位
   MAGZINE_HOME_BUTTON: true,
@@ -24,7 +29,7 @@ const CONFIG = {
   MAGZINE_RIGHT_PANEL_DARK: process.env.NEXT_PUBLIC_MAGZINE_RIGHT_DARK || false, // 右侧面板深色模式
 
   MAGZINE_POST_LIST_COVER: true, // 文章列表显示图片封面
-  MAGZINE_POST_LIST_PREVIEW: true, // 列表显示文章预览
+  MAGZINE_POST_LIST_PREVIEW: false, // 列表显示文章预览
   MAGZINE_POST_LIST_CATEGORY: true, // 列表显示文章分类
   MAGZINE_POST_LIST_TAG: true, // 列表显示文章标签
 

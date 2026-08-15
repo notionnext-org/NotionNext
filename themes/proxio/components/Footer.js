@@ -6,6 +6,7 @@ import DarkModeButton from '@/components/DarkModeButton'
 import LazyImage from '@/components/LazyImage'
 import PoweredBy from '@/components/PoweredBy'
 import { siteConfig } from '@/lib/config'
+import { resolveContactEmail } from '@/lib/plugins/mailEncrypt'
 import { useGlobal } from '@/lib/global'
 import SmartLink from '@/components/SmartLink'
 import CONFIG from '../config'
@@ -17,6 +18,7 @@ import SocialButton from './SocialButton'
 export const Footer = ({ title }) => {
   const { siteInfo } = useGlobal()
   const PROXIO_FOOTER_LINKS = siteConfig('PROXIO_FOOTER_LINKS', [], CONFIG)
+  const contactEmailDisplay = resolveContactEmail(siteConfig('CONTACT_EMAIL'))
 
   return (
     <footer
@@ -31,6 +33,7 @@ export const Footer = ({ title }) => {
                 src={siteInfo?.icon}
                 className='rounded-full'
                 width={24}
+                height={24}
                 alt={siteConfig('AUTHOR')}
               />
               <h1 className='text-lg'>{title}</h1>
@@ -40,7 +43,9 @@ export const Footer = ({ title }) => {
               </span>
             </div>
             <div className='px-1'>{siteConfig('DESCRIPTION')}</div>
-            <div className='px-1'>{siteConfig('CONTACT_EMAIL')}</div>
+            {contactEmailDisplay && (
+              <div className='px-1'>{contactEmailDisplay}</div>
+            )}
           </div>
 
           {/* 右侧链接区块 */}

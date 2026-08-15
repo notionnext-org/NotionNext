@@ -2,6 +2,12 @@
  * 另一个落地页主题
  */
 const CONFIG = {
+  PROXIO_COLOR_PRIMARY: '#3758f9',
+  PROXIO_COLOR_PRIMARY_HOVER: '#1b44c8',
+  PROXIO_COLOR_BG: '#ffffff',
+  PROXIO_COLOR_DARK: '#121212',
+  PROXIO_COLOR_TEXT_MUTED: '#637381',
+
   PROXIO_WELCOME_COVER_ENABLE: true, //是否显示页面进入的欢迎文字
   PROXIO_WELCOME_TEXT: '欢迎来到此网站，点击任意位置进入', // 欢迎文字，留空则不启用
 
@@ -26,6 +32,7 @@ const CONFIG = {
   PROXIO_BLOG_TITLE: '作品',
   PROXIO_BLOG_COUNT: 4, // 首页博文区块展示前4篇文章
   PROXIO_BLOG_TEXT_1: '我的最新动态',
+  PROXIO_BLOG_AUTO_SHOW_COVER: false, // 首页博文区块是否默认显示文章主图；false 时保持悬浮显示主图的旧效果
 
   // 区块默认内容显示文章的summary文本，但也支持用自定义图片或logo德国替换掉占位显示内容
   PROXIO_BLOG_PLACEHOLDER_IMG_URL_1: '', // 填写要替换成的图片，支持图床或直接上传到项目中，示例  /images/feature-1.webp

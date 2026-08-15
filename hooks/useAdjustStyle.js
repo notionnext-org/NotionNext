@@ -9,6 +9,7 @@ const useAdjustStyle = () => {
    * 避免 callout 含有图片时溢出撑开父容器
    */
   const adjustCalloutImg = () => {
+    const updates = []
     const callOuts = document.querySelectorAll('.notion-callout-text');
     callOuts.forEach((callout) => {
       const images = callout.querySelectorAll('figure.notion-asset-wrapper.notion-asset-wrapper-image > div');
@@ -16,18 +17,31 @@ const useAdjustStyle = () => {
       images.forEach((container) => {
         const imageWidth = container.offsetWidth;
         if (imageWidth + 50 > calloutWidth) {
-          container.style.setProperty('width', '100%');
+          updates.push(container);
         }
       });
+    });
+    requestAnimationFrame(() => {
+      updates.forEach(container => container.style.setProperty('width', '100%'));
     });
   };
 
   useEffect(() => {
     if (isBrowser) {
-      adjustCalloutImg();
-      window.addEventListener('resize', adjustCalloutImg);
+      let resizeTimer = null;
+      const scheduleAdjust = () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(adjustCalloutImg, 120);
+      };
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(adjustCalloutImg, { timeout: 2000 });
+      } else {
+        window.setTimeout(adjustCalloutImg, 1000);
+      }
+      window.addEventListener('resize', scheduleAdjust);
       return () => {
-        window.removeEventListener('resize', adjustCalloutImg);
+        window.clearTimeout(resizeTimer);
+        window.removeEventListener('resize', scheduleAdjust);
       };
     }
   }, []);

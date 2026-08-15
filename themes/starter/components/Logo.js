@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
 import LazyImage from '@/components/LazyImage'
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import { useGlobal } from '@/lib/global'
 import throttle from 'lodash.throttle'
 import { useRouter } from 'next/router'
@@ -14,8 +14,8 @@ import { useEffect, useState } from 'react'
 export const Logo = props => {
   const { white, NOTION_CONFIG } = props
   const router = useRouter()
-  const logoWhite = siteConfig('STARTER_LOGO_WHITE')
-  const logoNormal = siteConfig('STARTER_LOGO')
+  const logoWhite = starterConfig('STARTER_LOGO_WHITE')
+  const logoNormal = starterConfig('STARTER_LOGO')
   const { isDarkMode } = useGlobal()
   const [logo, setLogo] = useState(logoWhite)
   const [logoTextColor, setLogoTextColor] = useState('text-white')
@@ -38,7 +38,7 @@ export const Logo = props => {
     }, throttleMs)
 
     navBarScrollListener()
-    window.addEventListener('scroll', navBarScrollListener)
+    window.addEventListener('scroll', navBarScrollListener, { passive: true })
     return () => {
       window.removeEventListener('scroll', navBarScrollListener)
     }
@@ -65,7 +65,7 @@ export const Logo = props => {
             router.push('/')
           }}
           className={`${logoTextColor} logo dark:text-white py-1.5 header-logo-text whitespace-nowrap text-2xl font-semibold`}>
-          {siteConfig('TITLE')}
+          {starterConfig('TITLE')}
         </span>
       </div>
     </div>

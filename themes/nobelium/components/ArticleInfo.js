@@ -1,14 +1,16 @@
 
-import Image from 'next/image'
+import LazyImage from '@/components/LazyImage'
 import TagItem from './TagItem'
 import md5 from 'js-md5'
 import { siteConfig } from '@/lib/config'
+import { resolveContactEmail } from '@/lib/plugins/mailEncrypt'
 import NotionIcon from '@/components/NotionIcon'
 
 export const ArticleInfo = (props) => {
   const { post } = props
 
-  const emailHash = md5(siteConfig('CONTACT_EMAIL', '#'))
+  const plainEmail = resolveContactEmail(siteConfig('CONTACT_EMAIL'))
+  const emailHash = md5((plainEmail || '#').toLowerCase())
 
   return <section className="flex-wrap flex mt-2 text-gray--600 dark:text-gray-400 font-light leading-8">
         <div>
@@ -21,7 +23,7 @@ export const ArticleInfo = (props) => {
                 <nav className="flex mt-7 items-start text-gray-500 dark:text-gray-400">
                     <div className="flex mb-4">
                         <a href={siteConfig('CONTACT_GITHUB', '#')} className="flex">
-                            <Image
+                            <LazyImage
                                 alt={siteConfig('AUTHOR')}
                                 width={24}
                                 height={24}

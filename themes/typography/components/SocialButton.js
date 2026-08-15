@@ -1,4 +1,6 @@
 import { siteConfig } from '@/lib/config'
+import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
+import { useRef } from 'react'
 
 /**
  * 社交联系方式按钮组
@@ -6,6 +8,9 @@ import { siteConfig } from '@/lib/config'
  * @constructor
  */
 const SocialButton = () => {
+  const emailIcon = useRef(null)
+  const CONTACT_EMAIL = siteConfig('CONTACT_EMAIL')
+
   return (
     <div className='justify-center w-full md:justify-start md:w-52 flex-wrap flex my-2'>
       <div className='space-x-5  text-xl text-gray-600 dark:text-gray-400 text-center'>
@@ -16,6 +21,15 @@ const SocialButton = () => {
             title={'github'}
             href={siteConfig('CONTACT_GITHUB')}>
             <i className='fab fa-github transform hover:scale-125 duration-150' />
+          </a>
+        )}
+        {siteConfig('CONTACT_ORCID') && (
+          <a
+            target='_blank'
+            rel='noreferrer'
+            title={'ORCID'}
+            href={siteConfig('CONTACT_ORCID')}>
+            <i className='fab fa-orcid transform hover:scale-125 duration-150' />
           </a>
         )}
         {siteConfig('CONTACT_TWITTER') && (
@@ -63,12 +77,12 @@ const SocialButton = () => {
             <i className='fab fa-instagram transform hover:scale-125 duration-150' />
           </a>
         )}
-        {siteConfig('CONTACT_EMAIL') && (
+        {CONTACT_EMAIL && (
           <a
-            target='_blank'
-            rel='noreferrer'
-            title={'email'}
-            href={`mailto:${siteConfig('CONTACT_EMAIL')}`}>
+            onClick={e => handleEmailClick(e, emailIcon, CONTACT_EMAIL)}
+            title='email'
+            className='cursor-pointer'
+            ref={emailIcon}>
             <i className='fas fa-envelope transform hover:scale-125 duration-150' />
           </a>
         )}

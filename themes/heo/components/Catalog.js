@@ -13,7 +13,7 @@ const Catalog = ({ toc }) => {
   const { locale } = useGlobal()
   // 监听滚动事件
   useEffect(() => {
-    window.addEventListener('scroll', actionSectionScrollSpy)
+    window.addEventListener('scroll', actionSectionScrollSpy, { passive: true })
     actionSectionScrollSpy()
     return () => {
       window.removeEventListener('scroll', actionSectionScrollSpy)
@@ -85,7 +85,7 @@ const Catalog = ({ toc }) => {
                     display: 'inline-block',
                     marginLeft: tocItem.indentLevel * 16
                   }}
-                  className={`truncate ${activeSection === id ? 'font-bold text-indigo-600' : ''}`}>
+                  className={`truncate ${activeSection === id ? 'font-bold text-[var(--heo-color-primary)]' : ''}`}>
                   {tocItem.text}
                 </span>
               </a>

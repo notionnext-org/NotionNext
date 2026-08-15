@@ -8,6 +8,40 @@ import CONFIG from '../config'
 import Announcement from './Announcement'
 import Card from './Card'
 
+export function normalizeInfoCardGreetings(value) {
+  if (Array.isArray(value)) {
+    return value.map(item => String(item).trim()).filter(Boolean)
+  }
+
+  if (typeof value !== 'string') {
+    return []
+  }
+
+  const trimmed = value.trim()
+  if (!trimmed) {
+    return []
+  }
+
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    try {
+      const parsed = JSON.parse(trimmed.replace(/'/g, '"'))
+      return normalizeInfoCardGreetings(parsed)
+    } catch {
+      return trimmed
+        .slice(1, -1)
+        .split(',')
+        .map(item => item.trim().replace(/^['"]|['"]$/g, ''))
+        .filter(Boolean)
+    }
+  }
+
+  return [trimmed]
+}
+
+export function shouldUseInfoCardBlurAvatar(isSlugPage, avatarBlurEnabled) {
+  return Boolean(isSlugPage && avatarBlurEnabled)
+}
+
 /**
  * 社交信息卡
  * @param {*} props
@@ -22,19 +56,35 @@ export function InfoCard(props) {
   const icon1 = siteConfig('HEO_INFO_CARD_ICON1', null, CONFIG)
   const url2 = siteConfig('HEO_INFO_CARD_URL2', null, CONFIG)
   const icon2 = siteConfig('HEO_INFO_CARD_ICON2', null, CONFIG)
+  const orcidUrl = siteConfig('CONTACT_ORCID')
+  const orcidIcon = siteConfig('HEO_INFO_CARD_ICON_ORCID', 'fab fa-orcid', CONFIG)
+  const avatarBlurEnabled = siteConfig(
+    'HEO_INFO_CARD_AVATAR_BLUR',
+    false,
+    CONFIG
+  )
+  const useBlurAvatar = shouldUseInfoCardBlurAvatar(
+    isSlugPage,
+    avatarBlurEnabled
+  )
   return (
-    <Card className='wow fadeInUp bg-[#4f65f0] dark:bg-yellow-600 text-white flex flex-col w-72 overflow-hidden relative'>
+    <Card className='wow fadeInUp bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)] text-[var(--heo-color-primary-text)] flex flex-col w-72 overflow-hidden relative'>
       {/* 信息卡牌第一行 */}
       <div className='flex justify-between'>
         {/* 问候语 */}
         <GreetingsWords />
         {/* 头像 */}
         <div
-          className={`${isSlugPage ? 'absolute right-0 -mt-8 -mr-6 hover:opacity-0 hover:scale-150 blur' : 'cursor-pointer'} justify-center items-center flex dark:text-gray-100 transform transitaion-all duration-200`}>
+          className={`${
+            useBlurAvatar
+              ? 'absolute right-0 -mt-8 -mr-6 hover:opacity-0 hover:scale-150 blur'
+              : 'cursor-pointer'
+          } justify-center items-center flex dark:text-gray-100 transform transition-all duration-200`}>
           <LazyImage
             src={siteInfo?.icon}
             className='rounded-full'
-            width={isSlugPage ? 100 : 28}
+            width={useBlurAvatar ? 100 : 28}
+            height={useBlurAvatar ? 100 : 28}
             alt={siteConfig('AUTHOR')}
           />
         </div>
@@ -47,18 +97,25 @@ export function InfoCard(props) {
 
       <div className='flex justify-between'>
         <div className='flex space-x-3  hover:text-black dark:hover:text-white'>
-          {/* 两个社交按钮 */}
+          {/* 社交按钮 */}
           {url1 && (
-            <div className='w-10 text-center bg-indigo-400 p-2 rounded-full  transition-colors duration-200 dark:bg-yellow-500 dark:hover:bg-black hover:bg-white'>
+            <div className='w-10 text-center bg-[var(--heo-color-primary-hover)] p-2 rounded-full  transition-colors duration-200 dark:bg-[var(--heo-color-accent)] dark:hover:bg-black hover:bg-white'>
               <SmartLink href={url1}>
                 <i className={icon1} />
               </SmartLink>
             </div>
           )}
           {url2 && (
-            <div className='bg-indigo-400 p-2 rounded-full w-10 items-center flex justify-center transition-colors duration-200 dark:bg-yellow-500 dark:hover:bg-black hover:bg-white'>
+            <div className='bg-[var(--heo-color-primary-hover)] p-2 rounded-full w-10 items-center flex justify-center transition-colors duration-200 dark:bg-[var(--heo-color-accent)] dark:hover:bg-black hover:bg-white'>
               <SmartLink href={url2}>
                 <i className={icon2} />
+              </SmartLink>
+            </div>
+          )}
+          {orcidUrl && (
+            <div className='bg-[var(--heo-color-primary-hover)] p-2 rounded-full w-10 items-center flex justify-center transition-colors duration-200 dark:bg-[var(--heo-color-accent)] dark:hover:bg-black hover:bg-white'>
+              <SmartLink href={orcidUrl} title='ORCID' aria-label='ORCID'>
+                <i className={orcidIcon} />
               </SmartLink>
             </div>
           )}
@@ -84,7 +141,7 @@ function MoreButton() {
     <SmartLink href={url3}>
       <div
         className={
-          'group bg-indigo-400 dark:bg-yellow-500 hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white flex items-center transition-colors duration-200 py-2 px-3 rounded-full space-x-1'
+          'group bg-[var(--heo-color-primary-hover)] dark:bg-[var(--heo-color-accent)] hover:bg-white dark:hover:bg-black hover:text-black dark:hover:text-white flex items-center transition-colors duration-200 py-2 px-3 rounded-full space-x-1'
         }>
         <ArrowRightCircle
           className={
@@ -101,8 +158,13 @@ function MoreButton() {
  * 欢迎语
  */
 function GreetingsWords() {
-  const greetings = siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG)
+  const greetings = normalizeInfoCardGreetings(
+    siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG)
+  )
   const [greeting, setGreeting] = useState(greetings[0])
+  if (greetings.length === 0) {
+    return null
+  }
   // 每次点击，随机获取greetings中的一个
   const handleChangeGreeting = () => {
     const randomIndex = Math.floor(Math.random() * greetings.length)
@@ -112,7 +174,7 @@ function GreetingsWords() {
   return (
     <div
       onClick={handleChangeGreeting}
-      className=' select-none cursor-pointer py-1 px-2 bg-indigo-400 hover:bg-indigo-50  hover:text-indigo-950 dark:bg-yellow-500 dark:hover:text-white dark:hover:bg-black text-sm rounded-lg  duration-200 transition-colors'>
+      className=' select-none cursor-pointer py-1 px-2 bg-[var(--heo-color-primary-hover)] hover:bg-[var(--heo-color-card-muted)]  hover:text-[var(--heo-color-text)] dark:bg-[var(--heo-color-accent)] dark:hover:text-white dark:hover:bg-black text-sm rounded-lg  duration-200 transition-colors'>
       {greeting}
     </div>
   )
