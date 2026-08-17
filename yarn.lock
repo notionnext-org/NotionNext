@@ -7051,6 +7051,11 @@ notion-types@7.10.0:
   resolved "https://registry.npmjs.org/notion-types/-/notion-types-7.10.0.tgz"
   integrity sha512-t57RdnGnup7NcMGJkrlshe3gXaFYOj565NL1Q1l/MrZZ/K2xbHO06PtBXDEFTFYjvxQagU0NzKzaSNKocU9e4Q==
 
+notion-types@7.11.1:
+  version "7.11.1"
+  resolved "https://registry.yarnpkg.com/notion-types/-/notion-types-7.11.1.tgz#2db827a4d8d65bbd5837ee495243d915b745ca24"
+  integrity sha512-uL16vyo9uFBa5rnI6tJB45+Zc2Z0OPJIK+9fu3kNOKEk7vnjFYXAxgBph71E3JHESntUgaeT/CSRdpERp7DQvw==
+
 notion-utils@7.10.0:
   version "7.10.0"
   resolved "https://registry.npmjs.org/notion-utils/-/notion-utils-7.10.0.tgz"
@@ -7060,6 +7065,17 @@ notion-utils@7.10.0:
     memoize "^10.1.0"
     normalize-url "^8.0.1"
     notion-types "7.10.0"
+    p-queue "^8.1.0"
+
+notion-utils@7.11.1:
+  version "7.11.1"
+  resolved "https://registry.yarnpkg.com/notion-utils/-/notion-utils-7.11.1.tgz#988aceda2c4826dd4ce8df1b7e0510b7e4a7770a"
+  integrity sha512-gKj7nrHOKdllpYQTIB3ENIXOoLfwtyE4hdZPuzUgTl8BjQhyqZtYa2q+yDWvOmhkcOkiygGS1DgLNPJDcyxg2A==
+  dependencies:
+    is-url-superb "^6.1.0"
+    memoize "^10.1.0"
+    normalize-url "^8.0.1"
+    notion-types "7.11.1"
     p-queue "^8.1.0"
 
 npm-run-path@^4.0.1:
