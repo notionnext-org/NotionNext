@@ -4,9 +4,6 @@
 name: Bump package version on main
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:

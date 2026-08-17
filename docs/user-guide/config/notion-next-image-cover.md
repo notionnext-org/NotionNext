@@ -99,6 +99,23 @@ Notion笔记中上方封面图的右侧，点击`Change cover`
 
 ![image.png](/legacy/cc35b0283ed2f202.png)
 
+## 常见问题
+
+### 随机封面图不生效
+
+先确认配置位置。`RANDOM_IMAGE_URL` 目前只支持文件配置或部署环境变量，例如：
+
+```text
+NEXT_PUBLIC_RANDOM_IMAGE_URL=https://example.com/random-image
+NEXT_PUBLIC_RANDOM_IMAGE_NOT_REPLACE_TEXT=images.unsplash.com
+```
+
+它不会从 Notion Config 中读取。
+
+再检查文章自己的封面。如果文章已经设置了普通自定义封面，NotionNext 会优先使用这张图，不会强制替换成随机图。想让随机图生效，可以移除文章封面，或把封面设置成会被 `RANDOM_IMAGE_NOT_REPLACE_TEXT` 命中的图片地址。
+
+如果所有文章都显示同一张随机图，通常是随机图片 API 被缓存。NotionNext 会自动给图片 URL 追加文章 ID 参数，但部分图片服务会忽略这个参数；这种情况需要换一个支持按 query 返回不同图片的 API。
+
 ## 原文链接
 
 https://docs.tangly1024.com/article/notion-next-image-cover

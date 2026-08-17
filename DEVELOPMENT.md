@@ -95,8 +95,6 @@ yarn
 - `yarn perf:audit:themes`：全主题性能审计（输出到 `docs/performance`）。
 - `yarn perf:compress-theme-previews`：批量生成主题预览 WebP 资源。
 
-- `yarn postinstall`：依赖安装后自动执行 `patch-package`。
-
 ### 代码质量工具
 
 ```bash

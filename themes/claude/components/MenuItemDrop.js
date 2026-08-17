@@ -22,7 +22,7 @@ export const MenuItemDrop = ({ link }) => {
           href={link?.href}
           target={link?.target}
           className='dark:hover:text-[var(--primary-color)] dark:hover:bg-white menu-link underline decoration-2 hover:no-underline hover:bg-[#2E405B] hover:text-white text-[var(--primary-color)]  dark:text-gray-200 tracking-widest pb-1 font-bold'>
-          {link?.name}
+          {link?.icon && <i className={`${link?.icon} mr-1`} />} {link?.name}
         </SmartLink>
       )
       }
@@ -59,7 +59,7 @@ export const MenuItemDrop = ({ link }) => {
                     className='dark:hover:bg-gray-900 tracking-widest transition-all duration-200 dark:border-gray-800 pb-3'>
                     <SmartLink href={sLink.href} target={link?.target}>
                       <span className='dark:hover:text-[var(--primary-color)] dark:hover:bg-white menu-link underline decoration-2 hover:no-underline hover:bg-[#2E405B] hover:text-white text-[var(--primary-color)]  dark:text-gray-200 tracking-widest pb-1 font-bold'>
-                        {link?.icon && <i className={sLink?.icon}> &nbsp; </i>}
+                        {sLink?.icon && <i className={`${sLink?.icon} mr-1`} />}
                         {sLink.title}
                       </span>
                     </SmartLink>

@@ -11,6 +11,7 @@
 | --- | --- | --- |
 | 快速上手 | [GETTING_STARTED.md](./GETTING_STARTED.md) | [GETTING_STARTED.en.md](./GETTING_STARTED.en.md) |
 | 愿景与路线图 | [VISION_ROADMAP.md](./VISION_ROADMAP.md) | — |
+| 可持续增长路线图 | [GROWTH_ROADMAP.zh-CN.md](./GROWTH_ROADMAP.zh-CN.md) | — |
 | 开放生态长期计划 | [LONG_TERM_PLAN.md](./LONG_TERM_PLAN.md) | — |
 | 主题色变量计划 | [THEME_COLOR_TOKEN_ROADMAP.zh-CN.md](./THEME_COLOR_TOKEN_ROADMAP.zh-CN.md) | — |
 | 主题控制台设计 | [THEME_CONSOLE_DESIGN.zh-CN.md](./THEME_CONSOLE_DESIGN.zh-CN.md) | — |

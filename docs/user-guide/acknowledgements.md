@@ -29,6 +29,8 @@ NotionNext 能持续运行、修复和更新，依赖长期参与代码、主题
 
 NotionNext 的主题系统来自长期社区共建。主题作者、迁移者和维护者的工作包括视觉实现、多端适配、配置项整理、预览图、文档和后续兼容性维护。
 
+- 感谢 [@govmoe](https://github.com/govmoe)（hatch_blod）贡献 [XuHome 主题](./themes/xuhome.md)，为社区带来完整的新粗野主义博客布局、桌面与移动端适配及可配置组件。
+
 - [主题全览](./themes/THEMES_CATALOG.md)
 - [主题总览](./themes/overview.md)
 - [主题开发与迁移指南（GitHub）](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/THEME_MIGRATION_GUIDE.zh-CN.md)

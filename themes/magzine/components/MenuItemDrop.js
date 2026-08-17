@@ -57,7 +57,7 @@ export const MenuItemDrop = ({ link }) => {
             return (
               <li
                 key={sLink.id}
-                className='py-3 pr-6 hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-200 tracking-widest transition-color duration-200 dark:border-gray-800 '>
+                className='py-3 pr-6 text-gray-700 hover:text-black dark:text-gray-200 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-900 tracking-widest transition-color duration-200 dark:border-gray-800 '>
                 <SmartLink href={sLink.href} target={link?.target}>
                   <span className='text-sm ml-2'>
                     {link?.icon && <i className={`${sLink?.icon} pr-2`}> </i>}

@@ -33,6 +33,19 @@ Coze支持将你的文章内容等等来源信息整理为一个知识库，便�
 
 这里我们还需要在Coze后台创建自己的机器人，并获得一个`BOT_ID`。
 
+### 常见问题：BOT_ID 后几位变成 0
+
+如果你的 `COZE_BOT_ID` 是很长的数字，不建议填在 Notion_config 的数字类型字段中。过长数字可能超过 JavaScript 安全整数范围，读取后末尾会被改成 `000`。
+
+最简单的做法是用部署环境变量配置，并把值当作字符串保存：
+
+```text
+NEXT_PUBLIC_COZE_BOT_ID=你的 Coze Bot ID
+NEXT_PUBLIC_COZE_TITLE=NotionNext助手
+```
+
+在 Vercel、Netlify、Docker 或服务器环境变量中配置后，重新部署即可。不要把 Coze 的访问令牌、个人 PAT 或长期密钥提交到 Git 仓库；如果 Coze 当前 SDK 要求鉴权，建议先放在服务端或边缘函数中处理。
+
 
 ## 如何创建自己的Coze机器人？
 

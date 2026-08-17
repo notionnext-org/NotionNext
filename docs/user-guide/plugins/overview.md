@@ -16,7 +16,9 @@ NotionNext 预支持了一些第三方功能脚本插件。除了评论插件，
 | 音乐播放器 | APlayer / Meting 音乐播放组件 | [音乐播放器](./music-player.md) |
 | Live2D 宠物 | 页面 Live2D 挂件模型 | [Live2D 宠物插件](./notion-next-plugin-live2d.md) |
 | Algolia | 全文搜索索引 | [Algolia 搜索](../config/algolia.md) |
+| OpenAI 兼容 AI 助手 | DeepSeek / OpenAI 兼容模型聊天代理 | [OpenAI 兼容 AI 助手](./notion-next-ai-chat.md) |
 | Google AdSense | 广告收益与文章内广告位 | [Google 广告营收插件](./notion-next-google-adsense.md) |
+| Gemini AI 助手 | 使用自己的 Gemini Key 接入博客 AI 助手 | [Gemini AI 助手](./notion-next-docs-chat.md) |
 | Coze | AI 聊天机器人 | [Coze AI 聊天机器人](./notion-next-coze.md) |
 | Chatbase | AI 聊天机器人 | [Chatbase AI 聊天机器人](./notion-next-chat-base.md) |
 | Facebook Chat | Facebook Messenger 聊天插件，旧教程已失效但保留迁移记录 | [Facebook 聊天插件](./notion-next-facebook-chat-plugn.md) |

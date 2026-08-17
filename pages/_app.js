@@ -17,6 +17,7 @@ import ErrorHandler from '@/lib/utils/errorHandler'
 // 各种扩展插件 这个要阻塞引入
 import BLOG from '@/blog.config'
 import ExternalPlugins from '@/components/ExternalPlugins'
+import PWAInstaller from '@/components/PWAInstaller'
 import SEO from '@/components/SEO'
 import { zhCN } from '@clerk/localizations'
 import dynamic from 'next/dynamic'
@@ -89,6 +90,7 @@ const MyApp = ({ Component, pageProps }) => {
           <SEO {...pageProps} />
           <Component {...pageProps} />
         </GLayout>
+        <PWAInstaller NOTION_CONFIG={pageProps?.NOTION_CONFIG} />
         <ExternalPlugins {...pageProps} />
       </GlobalContextProvider>
     </AppErrorBoundary>

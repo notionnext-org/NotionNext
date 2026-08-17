@@ -7,7 +7,7 @@
 | 身份 | 你最关心的事 | 建议入口 |
 | --- | --- | --- |
 | 技术小白 | 能不能照着步骤搭好，不写代码 | [20 分钟部署路线](#_20-分钟部署路线) |
-| 内容创作者 | 写作是否仍在 Notion，网站是否好看 | [选择内容型主题](./themes/THEMES_CATALOG.md#按场景选主题) |
+| 内容创作者 | 写作是否仍在 Notion，网站是否好看 | [按目标选择模板](./templates.md) |
 | 潜在用户 | NotionNext 和普通博客、Notion 公共页有什么区别 | [首页介绍](../index.md) |
 | 开发者 | 源码结构、配置项、主题扩展是否可控 | [开发者路线](#开发者路线) |
 | 社区贡献者 | 如何反馈问题、补文档、贡献主题 | [参与社区](./community-participate.md) |
@@ -22,7 +22,7 @@
 
 NotionNext 以 Notion 数据库作为内容源。你需要先复制官方模板，然后在自己的 Notion 空间里维护文章、分类、标签、封面和菜单。
 
-继续阅读：[Notion 数据库的使用](./notion-database.md)
+继续阅读：[场景模板入口](./templates.md) · [Notion 数据库的使用](./notion-database.md)
 
 ### 3. Fork 项目代码
 
@@ -77,5 +77,5 @@ Notion 是内容源，GitHub 仓库是站点源码，部署平台只是托管层
 ### 先看哪三篇就够？
 
 1. [Vercel 部署](./deploy-vercel.md)
-2. [Notion 数据库](./notion-database.md)
+2. [场景模板入口](./templates.md)
 3. [主题全览](./themes/THEMES_CATALOG.md)

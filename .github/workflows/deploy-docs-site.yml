@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: 'yarn'
@@ -49,16 +49,11 @@ jobs:
           VITE_DOCS_CHAT_API: /api/docs-chat
         run: yarn docs:site:build
 
-      - name: Build Pages Functions
-        run: npx wrangler pages functions build functions --outfile .vitepress/dist/_worker.js --output-routes-path .vitepress/dist/_routes.json --project-directory .
-
       - name: Set Pages project name
         run: echo "CF_PAGES_PROJECT=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME || 'notionnext-docs' }}" >> "$GITHUB_ENV"
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "4"
-          command: pages deploy .vitepress/dist --project-name=${{ env.CF_PAGES_PROJECT }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler@4 pages deploy .vitepress/dist --project-name=${{ env.CF_PAGES_PROJECT }} --commit-dirty=true

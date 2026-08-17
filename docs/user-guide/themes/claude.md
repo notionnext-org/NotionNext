@@ -51,6 +51,10 @@ CLAUDE_COLOR_BORDER: '#E5E5E0'
 
 主题工具中的调色板会展示当前值，并可直接复制配置项到 Notion Config。
 
+### 菜单图标
+
+`4.10.9` 修复了 Claude 主题普通菜单和子菜单图标显示问题。若 Notion 菜单数据中填写了 icon 类名，菜单项会显示自身配置的图标；未配置 icon 的子菜单不会再生成空白图标占位。
+
 <!-- theme-config-table -->
 
 ### 主要配置项

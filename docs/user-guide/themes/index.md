@@ -10,7 +10,7 @@ node scripts/generate-theme-user-docs.mjs
 
 <!-- theme-index-table -->
 
-## 全部主题（26 个）
+## 全部主题（27 个）
 
 | ID | 名称 | 特性摘要 | 说明 |
 | --- | --- | --- | --- |
@@ -40,6 +40,7 @@ node scripts/generate-theme-user-docs.mjs
 | `starter` | Starter | 落地页与区块化营销向模板。 | [starter.md](./starter.md) |
 | `thoughtlite` | ThoughtLite | 轻阅读向时间线与 Latest 卡片，单列列表与文章卡片排版。 | [thoughtlite.md](./thoughtlite.md) · [实现文档](../../developer/themes/THOUGHTLITE.md) |
 | `typography` | Typography | 排版优先，强调正文阅读与层级。 | [typography.md](./typography.md) |
+| `xuhome` | XuHome | 新粗野主义博客主题，粗边框、偏移阴影、Hero 打字机与响应式导航。 | [xuhome.md](./xuhome.md) |
 
 <!-- /theme-index-table -->
 

@@ -124,7 +124,7 @@ const Style = () => {
         --claude-code-bg: var(--claude-bg);
         --claude-code-border: rgb(222 222 222);
         --claude-code-shell-bg: rgb(243 243 243);
-        --claude-code-shell-border: rgba(255, 255, 255, 0.1);
+        --claude-code-shell-border: rgb(222 222 222);
         --claude-code-shell-text: rgb(10 10 10);
         --claude-code-text: #657b83;
         --claude-code-token-comment: #93a1a1;
@@ -2140,7 +2140,7 @@ const Style = () => {
         color: var(--claude-code-shell-text) !important;
       }
 
-      /* Collapse wrapper from PrismMac: remove extra header/borders to avoid double frame */
+      /* Collapse wrapper from PrismMac: make the shell itself carry the code frame */
       #theme-claude .collapse-wrapper {
         width: 100% !important;
         padding: 0 !important;
@@ -2149,9 +2149,9 @@ const Style = () => {
       #theme-claude .collapse-wrapper > div {
         box-sizing: border-box !important;
         background-clip: border-box !important;
-        border: none !important;
-        border-radius: 0 !important;
-        background: transparent !important;
+        border: 1px solid var(--claude-code-shell-border) !important;
+        border-radius: 0.875rem !important;
+        background: var(--claude-code-shell-bg) !important;
         color: var(--claude-code-shell-text) !important;
         font-family: var(--claude-body-font) !important;
         font-size: 1rem !important;
@@ -2159,13 +2159,14 @@ const Style = () => {
         line-height: 1.75rem !important;
         padding: 0 !important;
         box-shadow: none !important;
+        overflow: hidden !important;
       }
       .dark #theme-claude .collapse-wrapper > div {
         box-sizing: border-box !important;
         background-clip: border-box !important;
-        border: none !important;
-        border-radius: 0 !important;
-        background: transparent !important;
+        border: 1px solid var(--claude-code-shell-border) !important;
+        border-radius: 0.875rem !important;
+        background: var(--claude-code-shell-bg) !important;
         color: var(--claude-code-shell-text) !important;
       }
       #theme-claude .collapse-wrapper .code-toolbar {
@@ -2173,7 +2174,25 @@ const Style = () => {
         padding: 0 !important;
         border: none !important;
         border-radius: 0 !important;
-        background: transparent !important;
+        background: var(--claude-code-shell-bg) !important;
+      }
+      #theme-claude .collapse-panel > .code-toolbar {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: var(--claude-code-shell-bg) !important;
+      }
+      #theme-claude .collapse-panel > .code-toolbar > pre.notion-code {
+        max-width: 100% !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: var(--claude-code-bg) !important;
       }
       #theme-claude .collapse-wrapper > div > div.cursor-pointer.select-none {
         display: none !important;

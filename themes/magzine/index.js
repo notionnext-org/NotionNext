@@ -1,6 +1,5 @@
 import AlgoliaSearchModal from '@/components/AlgoliaSearchModal'
 import Comment from '@/components/Comment'
-import { AdSlot } from '@/components/GoogleAdsense'
 import LoadingCover from '@/components/LoadingCover'
 import replaceSearchResult from '@/components/Mark'
 import NotionPage from '@/components/NotionPage'
@@ -254,9 +253,6 @@ const LayoutSlug = props => {
   return (
     <>
       <div className='w-full mx-auto max-w-screen-3xl'>
-        {/* 广告位 */}
-        <WWAds orientation='horizontal' />
-
         {/* 文章锁 */}
         {lock && <ArticleLock validPassword={validPassword} />}
 
@@ -279,9 +275,18 @@ const LayoutSlug = props => {
 
                   {/* Notion文章主体 */}
                   <article className='max-w-3xl lg:col-span-3 w-full mx-auto px-2 lg:px-0'>
+                    {/* 正文前广告：与左右侧栏顶部对齐 */}
+                    <WWAds
+                      orientation='horizontal'
+                      className='!mt-0 w-full mb-8'
+                    />
+
                     <div id='article-wrapper'>
                       <NotionPage post={post} />
                     </div>
+
+                    {/* 正文末尾广告：与正文保持足够间距 */}
+                    <WWAds orientation='horizontal' className='w-full my-8' />
 
                     {/* 文章底部区域  */}
                     <section>
@@ -325,11 +330,6 @@ const LayoutSlug = props => {
                       <PostGroupLatest {...props} vertical={true} />
                     </div>
 
-                    {/* Adsense */}
-                    <div>
-                      <AdSlot />
-                    </div>
-
                     {/* 留白 */}
                     <div></div>
 
@@ -340,10 +340,6 @@ const LayoutSlug = props => {
 
                     <div>
                       <TouchMeCard />
-                    </div>
-
-                    <div>
-                      <WWAds />
                     </div>
 
                     {/* 底部留白 */}

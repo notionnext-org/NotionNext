@@ -18,11 +18,6 @@ const Style = () => {
         background-color: black;
     }
 
-    #theme-proxio .bg-primary {
-        --tw-bg-opacity: 1;
-        background-color: #121212;
-    }
-
     @media (min-width: 540px) {
         #theme-proxio .container {
             max-width: 540px;
@@ -72,7 +67,7 @@ const Style = () => {
   }
 
 
-  .dark\:bg-dark:is(.dark *) {
+  #theme-proxio .dark\:bg-dark:is(.dark *) {
     background-color: black!important;
  }
 
@@ -263,6 +258,91 @@ const Style = () => {
 }
 
       ${themeConsoleStyle('proxio', CONFIG)}
+
+  #theme-proxio {
+    --proxio-surface-muted: #f9fafb;
+    --proxio-surface-dark: var(--proxio-color-bg-dark, #121212);
+    --proxio-card-dark: var(--proxio-color-card-dark, #181818);
+    --proxio-border-dark: var(--proxio-color-border-dark, #333333);
+  }
+
+  #theme-proxio .proxio-hero {
+    background-color: var(--proxio-surface-dark) !important;
+  }
+
+  #theme-proxio .proxio-navbar-panel {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  @media (max-width: 959.98px) {
+    #theme-proxio .proxio-navbar-panel {
+      background-color: var(--proxio-color-card, #ffffff) !important;
+      border: 1px solid var(--proxio-color-border, #e5e7eb);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12) !important;
+    }
+
+    .dark #theme-proxio .proxio-navbar-panel {
+      background-color: var(--proxio-card-dark) !important;
+      border-color: var(--proxio-border-dark);
+    }
+  }
+
+  #theme-proxio .proxio-section {
+    background-color: var(--proxio-color-bg, #ffffff) !important;
+  }
+
+  #theme-proxio .proxio-section-muted {
+    background-color: var(--proxio-surface-muted) !important;
+  }
+
+  .dark #theme-proxio .proxio-section,
+  .dark #theme-proxio .proxio-section-muted {
+    background-color: var(--proxio-surface-dark) !important;
+  }
+
+  #theme-proxio .proxio-card {
+    background-color: var(--proxio-color-card, #ffffff) !important;
+    border-color: var(--proxio-color-border, #e5e7eb) !important;
+  }
+
+  .dark #theme-proxio .proxio-card {
+    background-color: var(--proxio-card-dark) !important;
+    border-color: var(--proxio-border-dark) !important;
+  }
+
+  #theme-proxio .proxio-pill {
+    background-color: transparent !important;
+    border-color: var(--proxio-color-border, #e5e7eb) !important;
+    color: var(--proxio-color-text, #111827) !important;
+  }
+
+  .dark #theme-proxio .proxio-pill {
+    background-color: var(--proxio-card-dark) !important;
+    border-color: var(--proxio-border-dark) !important;
+    color: var(--proxio-color-text-dark, #f3f4f6) !important;
+  }
+
+  #theme-proxio .proxio-outline-button {
+    background-color: transparent !important;
+    border-color: var(--proxio-color-border, #333333) !important;
+    color: var(--proxio-color-text, #111827) !important;
+  }
+
+  #theme-proxio .proxio-outline-button:hover {
+    background-color: var(--proxio-color-text, #111827) !important;
+    color: var(--proxio-color-bg, #ffffff) !important;
+  }
+
+  .dark #theme-proxio .proxio-outline-button {
+    border-color: var(--proxio-border-dark) !important;
+    color: var(--proxio-color-text-dark, #f3f4f6) !important;
+  }
+
+  .dark #theme-proxio .proxio-outline-button:hover {
+    background-color: var(--proxio-color-text-dark, #f3f4f6) !important;
+    color: var(--proxio-surface-dark) !important;
+  }
   `}</style>
 }
 
