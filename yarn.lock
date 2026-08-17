@@ -7,48 +7,48 @@
   resolved "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.4.4.tgz"
   integrity sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==
 
-"@ai-sdk/gateway@4.0.44":
-  version "4.0.44"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/gateway/-/gateway-4.0.44.tgz#270af041ce95593f611674483c2b6bebd7cf314e"
-  integrity sha512-dQ/AHH1do1iEpWEXdAge37FtpXV17fsj7NkL9w+xuzVgvmI7+dQFeDerul+F2I5czmxe61Lq+TnUREjU92UXYg==
+"@ai-sdk/gateway@4.0.52":
+  version "4.0.52"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/gateway/-/gateway-4.0.52.tgz#1884b98656c76f39ef60f6e1745fffe839d75a5d"
+  integrity sha512-SXUM8jzzuTUJRq+EOgPd5to6DSx0EKslVn+IVZHbUEX6k/3vCPNrvjckbK26HnNxHU/STxm+zTSJteqrO+7Z0w==
   dependencies:
-    "@ai-sdk/provider" "4.0.6"
-    "@ai-sdk/provider-utils" "5.0.23"
+    "@ai-sdk/provider" "4.0.7"
+    "@ai-sdk/provider-utils" "5.0.27"
     "@vercel/oidc" "3.2.0"
 
-"@ai-sdk/google@^4.0.37":
-  version "4.0.37"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/google/-/google-4.0.37.tgz#743922685ce1433642c0492334ba8bd6ac8c8156"
-  integrity sha512-wtf81hl7lAy/cMREfwxeMRcfGl7WrSiZI5nTEDwHqH/dEWEM8lPQn13s9S97nbQn1DHNeyduljH4huCeILP/bw==
+"@ai-sdk/google@^4.0.44":
+  version "4.0.44"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/google/-/google-4.0.44.tgz#717b5226c2921f837cf241c7d1adeeffe304d45c"
+  integrity sha512-bmRTDg06jQD+eX8nf214pET9+Oe8O1+lUIRGbWsGXj9IN2UJkpl1O1x7cvtiboyTtKSLvSRdVtItUfSl8sQ2GA==
   dependencies:
-    "@ai-sdk/provider" "4.0.6"
-    "@ai-sdk/provider-utils" "5.0.23"
+    "@ai-sdk/provider" "4.0.7"
+    "@ai-sdk/provider-utils" "5.0.27"
 
-"@ai-sdk/provider-utils@5.0.23":
-  version "5.0.23"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/provider-utils/-/provider-utils-5.0.23.tgz#da3b2e666860d3c3cc14ca6441e3433d4535e9d5"
-  integrity sha512-mFvAAszenK8Xny3v+4Vntke5IcUkyzjss3gTBOxVWNrSIWmt/FhQ5gCgoJXW7IK11cklRaicMPwOXTnnBtaqFQ==
+"@ai-sdk/provider-utils@5.0.27":
+  version "5.0.27"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/provider-utils/-/provider-utils-5.0.27.tgz#8f7763b392b181df56a13fa9c0114650f1c6e64b"
+  integrity sha512-EzAn4pdgG5g0xXtH6lE2zyNmfjDQIDjATkfqzuidEI35g++hh4+07vnjzkT/RmGmIClPZiRj/Q2GMPV2V7mkHw==
   dependencies:
-    "@ai-sdk/provider" "4.0.6"
+    "@ai-sdk/provider" "4.0.7"
     "@standard-schema/spec" "^1.1.0"
     "@workflow/serde" "4.1.0"
     eventsource-parser "^3.0.8"
     undici "^7.28.0"
 
-"@ai-sdk/provider@4.0.6":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/provider/-/provider-4.0.6.tgz#b7802547701d5192edafeba8f6b32164792cf75e"
-  integrity sha512-YYXjvs8F3q/BdEn9tBDoDuQACotfR7c5foGw/ADsM6iAVC1JabqEjQSkwHv/Kg2vNIr1c2AVHcQb+JYsYk76Qw==
+"@ai-sdk/provider@4.0.7":
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/provider/-/provider-4.0.7.tgz#5c0a2df39b57ca6f63c745dcc9cb0e684a94593d"
+  integrity sha512-6or44XprPzKbr8zkmzosowSE0pxkvJcoojBL+mCZvPUt3kvXp3XSNqeVun9golb1acEfSo6yaEBRT18h2VU+1Q==
   dependencies:
     json-schema "^0.4.0"
 
-"@ai-sdk/vue@^4.0.56":
-  version "4.0.56"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/vue/-/vue-4.0.56.tgz#42162d4e63d0d89d0f355689b745f83f03b9a523"
-  integrity sha512-zaFbFVMkx7jj9gJaTPfQUibJ+H47TCvRATnhvGPagtplVLj+lRjptZ8Bcwt1I1bmh7ios6jQcj32hETeuVBSMg==
+"@ai-sdk/vue@^4.0.65":
+  version "4.0.65"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/vue/-/vue-4.0.65.tgz#580f458132c049d8562f53505ca3759cfd05317b"
+  integrity sha512-BdHxT4ajKbKaysBPedi6iscHIH0BkzAYXCMzszEjBGdzPnneQKxSCFLDz9NtZvhF6zY6acBXB1rwdbYPiEeUQA==
   dependencies:
-    "@ai-sdk/provider-utils" "5.0.23"
-    ai "7.0.56"
+    "@ai-sdk/provider-utils" "5.0.27"
+    ai "7.0.65"
     swrv "^1.2.0"
 
 "@algolia/abtesting@1.18.1":
@@ -2151,10 +2151,10 @@
     "@testing-library/dom" "^9.0.0"
     "@types/react-dom" "^18.0.0"
 
-"@testing-library/user-event@^14.6.3":
-  version "14.6.3"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.6.3.tgz#360bd2e2f496ba738dfd59f114368dc479199a7f"
-  integrity sha512-6dBq67jT8lE+JTE8Exm02Kt6ze43hz1jdiSpSJwtTZiT1xQQ6b7nZYTTQ9njdArdU8XklOwaDp/AbT/eYSKF4g==
+"@testing-library/user-event@^14.6.4":
+  version "14.6.4"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.6.4.tgz#5e5ea378bd7500e66f60a49a2560ad1d8762ddb3"
+  integrity sha512-QCGwP6QrjypBLwyj5cuyfVamkaIEy/XGY+1VDehbtbQqOggYmTFpFOdWR5mPz14vX8vXLMVjDHlRNBcClyO9ew==
 
 "@tootallnate/once@2":
   version "2.0.1"
@@ -2772,14 +2772,14 @@ agent-base@^7.1.0, agent-base@^7.1.2:
   resolved "https://registry.npmmirror.com/agent-base/-/agent-base-7.1.4.tgz"
   integrity sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==
 
-ai@7.0.56, ai@^7.0.19:
-  version "7.0.56"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-7.0.56.tgz#c1e7e8dcd057c00c6c9259c48909786cd80ccd79"
-  integrity sha512-Lp7q9tZFl/TGOpBBNgt2wZ85SoCvJJVlHQksMkqrgiFUnIGOw+L2FWJ0gXuNEngLQTp9+t32k8QuIB7Jc5uKRA==
+ai@7.0.65, ai@^7.0.19:
+  version "7.0.65"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-7.0.65.tgz#a82bd28b4d74062d496f82614b462c621c75be8c"
+  integrity sha512-Uzom971mOHETL9tbeCWDEgbAA/Banj0KnR2obNEWPEUlGnAv2NJjFIxrUZ6F0XxHFDgGVVpnz86BB2CPOZZ83g==
   dependencies:
-    "@ai-sdk/gateway" "4.0.44"
-    "@ai-sdk/provider" "4.0.6"
-    "@ai-sdk/provider-utils" "5.0.23"
+    "@ai-sdk/gateway" "4.0.52"
+    "@ai-sdk/provider" "4.0.7"
+    "@ai-sdk/provider-utils" "5.0.27"
 
 ajv@^6.12.4:
   version "6.12.6"
@@ -5304,10 +5304,10 @@ hast-util-whitespace@^3.0.0:
   dependencies:
     "@types/hast" "^3.0.0"
 
-highlight.js@^11.11.1:
-  version "11.11.1"
-  resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.11.1.tgz#fca06fa0e5aeecf6c4d437239135fabc15213585"
-  integrity sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==
+highlight.js@^11.12.0:
+  version "11.12.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.12.0.tgz#470d918fd556a76debc40fe5e4b540b6b9cb9890"
+  integrity sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==
 
 hookable@^5.5.3:
   version "5.5.3"
