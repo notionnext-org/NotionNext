@@ -3990,9 +3990,9 @@ dequal@2.0.3, dequal@^2.0.0, dequal@^2.0.3:
   resolved "https://registry.npmmirror.com/dequal/-/dequal-2.0.3.tgz"
   integrity sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==
 
-destr@^2.0.3:
+destr@^2.0.5:
   version "2.0.5"
-  resolved "https://registry.npmjs.org/destr/-/destr-2.0.5.tgz"
+  resolved "https://registry.yarnpkg.com/destr/-/destr-2.0.5.tgz#7d112ff1b925fb8d2079fac5bdb4a90973b51fdb"
   integrity sha512-ugFTXCtDZunbzasqBxrK93Ik/DRYsO6S/fedkWEMKqt04xZ4csmnmwGDBAb07QWNaGMAmnTIemsYZCksjATwsA==
 
 destroy@1.2.0, destroy@~1.2.0:
@@ -7004,9 +7004,9 @@ node-addon-api@^7.0.0:
   resolved "https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz"
   integrity sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==
 
-node-fetch-native@^1.6.4:
+node-fetch-native@^1.6.7:
   version "1.6.7"
-  resolved "https://registry.npmjs.org/node-fetch-native/-/node-fetch-native-1.6.7.tgz"
+  resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-1.6.7.tgz#9d09ca63066cc48423211ed4caf5d70075d76a71"
   integrity sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==
 
 node-fetch@^2.6.1:
@@ -7036,36 +7036,25 @@ normalize-url@^8.0.1:
   resolved "https://registry.npmmirror.com/normalize-url/-/normalize-url-8.0.1.tgz"
   integrity sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==
 
-notion-client@7.10.0:
-  version "7.10.0"
-  resolved "https://registry.npmjs.org/notion-client/-/notion-client-7.10.0.tgz"
-  integrity sha512-Rb4/nR4vIRwIExvKiVhZKJEpGoE0IRFlHMKbs0tcZcecZaUVRzVAu7PHuaHC5ivSds26z497dxXYF3mnMrMt7g==
+notion-client@7.12.0:
+  version "7.12.0"
+  resolved "https://registry.yarnpkg.com/notion-client/-/notion-client-7.12.0.tgz#0d4ba82e30e3d54364d66766422d1e96534a4bd9"
+  integrity sha512-Oxqt3DBPLNWDU6PMtErAUQC2sgCUu45BdzrF80tdwN8i2uYo+fMksuOaXhdLV0k38YnC21QQ0DXBlItgWQVHgQ==
   dependencies:
-    notion-types "7.10.0"
-    notion-utils "7.10.0"
-    ofetch "^1.4.1"
-    p-map "^7.0.3"
-
-notion-types@7.10.0:
-  version "7.10.0"
-  resolved "https://registry.npmjs.org/notion-types/-/notion-types-7.10.0.tgz"
-  integrity sha512-t57RdnGnup7NcMGJkrlshe3gXaFYOj565NL1Q1l/MrZZ/K2xbHO06PtBXDEFTFYjvxQagU0NzKzaSNKocU9e4Q==
+    notion-types "7.12.0"
+    notion-utils "7.12.0"
+    ofetch "^1.5.1"
+    p-map "^7.0.4"
 
 notion-types@7.11.1:
   version "7.11.1"
   resolved "https://registry.yarnpkg.com/notion-types/-/notion-types-7.11.1.tgz#2db827a4d8d65bbd5837ee495243d915b745ca24"
   integrity sha512-uL16vyo9uFBa5rnI6tJB45+Zc2Z0OPJIK+9fu3kNOKEk7vnjFYXAxgBph71E3JHESntUgaeT/CSRdpERp7DQvw==
 
-notion-utils@7.10.0:
-  version "7.10.0"
-  resolved "https://registry.npmjs.org/notion-utils/-/notion-utils-7.10.0.tgz"
-  integrity sha512-Z/L+xOzVWM5wBHOqLu3PwCzA/11yzVExMpR8FUcwHbS60DDULSgZgipXQBzKOlbQMnB+04BOkSGDNan+AxfxmA==
-  dependencies:
-    is-url-superb "^6.1.0"
-    memoize "^10.1.0"
-    normalize-url "^8.0.1"
-    notion-types "7.10.0"
-    p-queue "^8.1.0"
+notion-types@7.12.0:
+  version "7.12.0"
+  resolved "https://registry.yarnpkg.com/notion-types/-/notion-types-7.12.0.tgz#3bac5b3d51f6e156d9c937ab6a6396937bd8a11f"
+  integrity sha512-dQr4jyI5WI9uCys0K8FBISH4buVNpwr2MundLGY1suX9SryqPxD15WQYa0Z6DVaUTIIwTEjx8WtgAs82b0ZpPg==
 
 notion-utils@7.11.1:
   version "7.11.1"
@@ -7076,6 +7065,17 @@ notion-utils@7.11.1:
     memoize "^10.1.0"
     normalize-url "^8.0.1"
     notion-types "7.11.1"
+    p-queue "^8.1.0"
+
+notion-utils@7.12.0:
+  version "7.12.0"
+  resolved "https://registry.yarnpkg.com/notion-utils/-/notion-utils-7.12.0.tgz#1624c394ddc7245ce45718541fba04afee652e27"
+  integrity sha512-oFTojJ//jHT9EW9h75+XU9Yn4dY96La9YfoC2Dl+swntqbfuIpSLflLYKhoWPeiucEr4LocbFhnb1yBNWE1UKg==
+  dependencies:
+    is-url-superb "^6.1.0"
+    memoize "^10.1.0"
+    normalize-url "^8.0.1"
+    notion-types "7.12.0"
     p-queue "^8.1.0"
 
 npm-run-path@^4.0.1:
@@ -7176,14 +7176,14 @@ object.values@^1.1.6, object.values@^1.2.1:
     define-properties "^1.2.1"
     es-object-atoms "^1.0.0"
 
-ofetch@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/ofetch/-/ofetch-1.4.1.tgz"
-  integrity sha512-QZj2DfGplQAr2oj9KzceK9Hwz6Whxazmn85yYeVuS3u9XTMOGMRx0kO95MQ+vLsj/S/NwBDMMLU5hpxvI6Tklw==
+ofetch@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/ofetch/-/ofetch-1.5.1.tgz#5c43cc56e03398b273014957060344254505c5c7"
+  integrity sha512-2W4oUZlVaqAPAil6FUg/difl6YhqhUR7x2eZY4bQCko22UXg3hptq9KLQdqFClV+Wu85UX7hNtdGTngi/1BxcA==
   dependencies:
-    destr "^2.0.3"
-    node-fetch-native "^1.6.4"
-    ufo "^1.5.4"
+    destr "^2.0.5"
+    node-fetch-native "^1.6.7"
+    ufo "^1.6.1"
 
 on-finished@~2.4.1:
   version "2.4.1"
@@ -7310,10 +7310,10 @@ p-locate@^5.0.0:
   dependencies:
     p-limit "^3.0.2"
 
-p-map@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.npmmirror.com/p-map/-/p-map-7.0.3.tgz"
-  integrity sha512-VkndIv2fIB99swvQoA65bm+fsmt6UNdGeIB0oxBs+WhAhdh08QA04JXpI7rbB9r08/nkbysKoya9rtDERYOYMA==
+p-map@^7.0.4:
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/p-map/-/p-map-7.0.6.tgz#5b6ee7f1a775faa48599c8d4420f6a39833cd387"
+  integrity sha512-I4Prw6ivkd6p8PiYR1tXASOAOBzIJwu0TB7fqaX0c/8c3QAehNYmX57EijyGGGBt3c/BIowGwV03RVBtXvHEVg==
 
 p-queue@^8.1.0:
   version "8.1.0"
@@ -9227,10 +9227,10 @@ typescript@5.9.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.3.tgz#5b4f59e15310ab17a216f5d6cf53ee476ede670f"
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
-ufo@^1.5.4:
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/ufo/-/ufo-1.6.1.tgz"
-  integrity sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==
+ufo@^1.6.1:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-1.6.4.tgz#7a8fb875fcc6382d2c7d0b3692738b0500a92467"
+  integrity sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==
 
 unbox-primitive@^1.1.0:
   version "1.1.0"
