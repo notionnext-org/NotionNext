@@ -1,4 +1,3 @@
-import DarkModeButton from '@/components/DarkModeButton'
 import { useGlobal } from '@/lib/global'
 import { Dialog, Transition } from '@headlessui/react'
 import SmartLink from '@/components/SmartLink'
@@ -11,6 +10,7 @@ import {
   useState
 } from 'react'
 import { MenuListSide } from './MenuListSide'
+import DarkModeButton from './DarkModeButton'
 import TagGroups from './TagGroups'
 
 /**
@@ -126,21 +126,11 @@ export default function SlideOver(props) {
  * 一个包含图标的按钮
  */
 function DarkModeBlockButton() {
-  const darkModeRef = useRef()
   const { isDarkMode, locale } = useGlobal()
-
-  function handleChangeDarkMode() {
-    darkModeRef?.current?.handleChangeDarkMode()
-  }
   return (
-    <button
-      onClick={handleChangeDarkMode}
-      className={
-        'group duration-200 hover:text-[var(--heo-color-primary-text)] hover:shadow-md hover:bg-[var(--heo-color-primary)] flex justify-between items-center px-2 py-2 border dark:border-gray-600 bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-accent)] rounded-lg'
-      }>
-      <DarkModeButton cRef={darkModeRef} className='group-hover:text-white' />{' '}
-      {isDarkMode ? locale.MENU.LIGHT_MODE : locale.MENU.DARK_MODE}
-    </button>
+    <DarkModeButton
+      label={isDarkMode ? locale.MENU.LIGHT_MODE : locale.MENU.DARK_MODE}
+    />
   )
 }
 
