@@ -3,11 +3,15 @@ jest.mock('@/lib/db/notion/getPostBlocks', () => ({
 }))
 
 import { fetchNotionPageBlocks } from '@/lib/db/notion/getPostBlocks'
-import { inheritHideSidebarFromAncestors } from '@/lib/db/notion/inheritHideSidebar'
+import {
+  __clearCollectionHostCacheForTests,
+  inheritHideSidebarFromAncestors
+} from '@/lib/db/notion/inheritHideSidebar'
 
 describe('inheritHideSidebarFromAncestors', () => {
   beforeEach(() => {
     fetchNotionPageBlocks.mockReset()
+    __clearCollectionHostCacheForTests()
   })
 
   it('leaves pages that already hide the sidebar unchanged', async () => {
@@ -151,6 +155,42 @@ describe('inheritHideSidebarFromAncestors', () => {
     const result = await inheritHideSidebarFromAncestors(post, { allPages })
 
     expect(result.HIDE_SIDEBAR).toBe(true)
-    expect(fetchNotionPageBlocks).toHaveBeenCalledWith('hub-id', 'inherit-hide-sidebar')
+    expect(fetchNotionPageBlocks).toHaveBeenCalledWith(
+      'hub-id',
+      'inherit-hide-sidebar:inherit-sidebar'
+    )
+  })
+
+  it('does not scan pages without HIDE_SIDEBAR when resolving inline databases', async () => {
+    const post = {
+      id: 'leaf-id',
+      blockMap: {
+        block: {
+          'leaf-id': {
+            value: {
+              id: 'leaf-id',
+              type: 'page',
+              parent_table: 'collection',
+              parent_id: 'nested-collection-id'
+            }
+          }
+        }
+      }
+    }
+    const allPages = [
+      { id: 'hub-id', slug: 'suibi', HIDE_SIDEBAR: true },
+      { id: 'other-id', slug: 'other-post', HIDE_SIDEBAR: false },
+      { id: 'another-id', slug: 'another', type: 'Post' }
+    ]
+
+    fetchNotionPageBlocks.mockResolvedValue({ block: {} })
+
+    await inheritHideSidebarFromAncestors(post, { allPages })
+
+    expect(fetchNotionPageBlocks).toHaveBeenCalledTimes(1)
+    expect(fetchNotionPageBlocks).toHaveBeenCalledWith(
+      'hub-id',
+      'inherit-hide-sidebar:inherit-sidebar'
+    )
   })
 })
