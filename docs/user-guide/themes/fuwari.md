@@ -45,6 +45,8 @@
 3. 或字段 **`SIDEBAR`** 填 `false` / `否`
 4. 或已有 **`ext`** 字段写 JSON：`{"HIDE_SIDEBAR":true}`
 
+**Notion 子页面继承**：若父页面已在数据库中配置 `HIDE_SIDEBAR=true`（或 Full width），其 Notion 内嵌子页面会自动继承，无需每个子页单独配置。也支持 **Page 内 inline 数据库** 中的页面（例如 `随笔 → 内嵌数据库 → 子页面`），只要 hosting 的 `随笔` 在主数据库里配置了 `HIDE_SIDEBAR=true`。
+
 ### Fuwari 主题调色
 
 Fuwari 使用单主色色相模型，推荐通过 `FUWARI_THEME_COLOR_HUE` 调整主色：
