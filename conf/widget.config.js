@@ -28,6 +28,12 @@ module.exports = {
   MUSIC_PLAYER_AUDIO_LIST: [
     // 示例音乐列表。除了以下配置外，还可配置歌词，具体配置项看此文档 https://aplayer.js.org/#/zh-Hans/
     {
+      name: 'Für Elise',
+      artist: 'Iwamizu',
+      url: 'http://music.163.com/song/media/outer/url?id=1828149972.mp3',
+      cover: 'https://i.postimg.cc/gcKQkbPT/IMG-8489.png'
+    },
+    {
       name: 'golden hour',
       artist: ' ',
       url: 'http://music.163.com/song/media/outer/url?id=3406904185.mp3',
@@ -234,7 +240,7 @@ module.exports = {
     {
       name: '穢土',
       artist: 'Iwamizu',
-      url: 'http://music.163.com/song/media/outer/url?id=1828198418.mp3',
+      url: 'http://music.163.com/song/media/outer/url?id=1948124294.mp3',
       cover: 'https://i.postimg.cc/gcKQkbPT/IMG-8489.png'
     },
     {
