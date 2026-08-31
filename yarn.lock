@@ -3158,10 +3158,10 @@ axe-core@^4.10.0, axe-core@^4.10.3:
   resolved "https://registry.npmmirror.com/axe-core/-/axe-core-4.11.4.tgz"
   integrity sha512-KunSNx+TVpkAw/6ULfhnx+HWRecjqZGTOyquAoWHYLRSdK1tB5Ihce1ZW+UY3fj33bYAFWPu7W/GRSmmrCGuxA==
 
-axios@>=0.21.1, axios@^1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.19.0.tgz#ddf864d4c8233c0e6873746ab59361537d05ad39"
-  integrity sha512-ht/iuYZXEjFxLH/Hkezgd7m6JKlHHXEUSneaDz8uZe1Gj5QZtCnpyDsckvAiEnT89OEbCLmnte4R4sn7P0EKFw==
+axios@>=0.21.1, axios@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.20.0.tgz#515513445aa60e71d04b6521ca6210829ccb4786"
+  integrity sha512-r8aOh8j9cGKpgQAqpzrUHnSIc6a59Y3Xf/cv8sy1DrHCkZHzQGEuoq1tARk6qSyDdtQGSDgpb9kFlruzPvrgwg==
   dependencies:
     follow-redirects "^1.16.0"
     form-data "^4.0.6"
@@ -4726,11 +4726,6 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.npmmirror.com/etag/-/etag-1.8.1.tgz"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
-
-eventemitter3@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npmmirror.com/eventemitter3/-/eventemitter3-5.0.1.tgz"
-  integrity sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==
 
 eventemitter3@^5.0.4:
   version "5.0.4"
@@ -6714,13 +6709,6 @@ media-typer@0.3.0:
   resolved "https://registry.npmmirror.com/media-typer/-/media-typer-0.3.0.tgz"
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
-memoize@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmmirror.com/memoize/-/memoize-10.1.0.tgz"
-  integrity sha512-MMbFhJzh4Jlg/poq1si90XRlTZRDHVqdlz2mPyGJ6kqMpyHUyVpDd5gpFAvVehW64+RA1eKE9Yt8aSLY7w2Kgg==
-  dependencies:
-    mimic-function "^5.0.1"
-
 memoize@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/memoize/-/memoize-11.0.0.tgz#8472a09bb0457ccbe4e3034ace0fbeeb30a13f7d"
@@ -7016,11 +7004,6 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.npmmirror.com/normalize-path/-/normalize-path-3.0.0.tgz"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
-normalize-url@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.npmmirror.com/normalize-url/-/normalize-url-8.0.1.tgz"
-  integrity sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==
-
 normalize-url@^9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-9.0.1.tgz#c8fe3b4b045074dbe872a357ebc4b7e19d7fb043"
@@ -7036,26 +7019,10 @@ notion-client@7.12.1:
     ofetch "^1.5.1"
     p-map "^7.0.6"
 
-notion-types@7.11.1:
-  version "7.11.1"
-  resolved "https://registry.yarnpkg.com/notion-types/-/notion-types-7.11.1.tgz#2db827a4d8d65bbd5837ee495243d915b745ca24"
-  integrity sha512-uL16vyo9uFBa5rnI6tJB45+Zc2Z0OPJIK+9fu3kNOKEk7vnjFYXAxgBph71E3JHESntUgaeT/CSRdpERp7DQvw==
-
 notion-types@7.12.1:
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/notion-types/-/notion-types-7.12.1.tgz#033164a57e230564f6cf7381f9b5d35df5b83655"
   integrity sha512-QDeHECIR1RZJzZ+baqWTKRAHIKU05G9iNmno9I0+y/NOLmCyfqTZv7xct0JtIvXw0A7ndGoR7cYthFFPbgje+w==
-
-notion-utils@7.11.1:
-  version "7.11.1"
-  resolved "https://registry.yarnpkg.com/notion-utils/-/notion-utils-7.11.1.tgz#988aceda2c4826dd4ce8df1b7e0510b7e4a7770a"
-  integrity sha512-gKj7nrHOKdllpYQTIB3ENIXOoLfwtyE4hdZPuzUgTl8BjQhyqZtYa2q+yDWvOmhkcOkiygGS1DgLNPJDcyxg2A==
-  dependencies:
-    is-url-superb "^6.1.0"
-    memoize "^10.1.0"
-    normalize-url "^8.0.1"
-    notion-types "7.11.1"
-    p-queue "^8.1.0"
 
 notion-utils@7.12.1:
   version "7.12.1"
@@ -7305,14 +7272,6 @@ p-map@^7.0.6:
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-7.0.6.tgz#5b6ee7f1a775faa48599c8d4420f6a39833cd387"
   integrity sha512-I4Prw6ivkd6p8PiYR1tXASOAOBzIJwu0TB7fqaX0c/8c3QAehNYmX57EijyGGGBt3c/BIowGwV03RVBtXvHEVg==
 
-p-queue@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.npmmirror.com/p-queue/-/p-queue-8.1.0.tgz"
-  integrity sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==
-  dependencies:
-    eventemitter3 "^5.0.1"
-    p-timeout "^6.1.2"
-
 p-queue@^9.3.3:
   version "9.3.3"
   resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-9.3.3.tgz#c5e528c7eb361b7ba8eb5a9406902f7f2e75fc8f"
@@ -7320,11 +7279,6 @@ p-queue@^9.3.3:
   dependencies:
     eventemitter3 "^5.0.4"
     p-timeout "^7.0.0"
-
-p-timeout@^6.1.2:
-  version "6.1.4"
-  resolved "https://registry.npmmirror.com/p-timeout/-/p-timeout-6.1.4.tgz"
-  integrity sha512-MyIV3ZA/PmyBN/ud8vV9XzwTrNtR4jFrObymZYnZqMmW0zA8Z17vnT0rBgFE/TlohB+YCHqXMgZzb3Csp49vqg==
 
 p-timeout@^7.0.0:
   version "7.0.1"
