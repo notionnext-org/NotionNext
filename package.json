@@ -63,7 +63,9 @@
     "translate:all": "node scripts/translate/index.js --batch",
     "translate:check": "node scripts/translate/index.js --check-drift",
     "translate:backfill": "node scripts/translate/index.js --backfill",
-    "translate:diagnose": "node scripts/translate/index.js --diagnose"
+    "translate:diagnose": "node scripts/translate/index.js --diagnose",
+    "build:cf": "opennextjs-cloudflare build",
+    "deploy:cf": "opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@clerk/localizations": "^3.37.8",
