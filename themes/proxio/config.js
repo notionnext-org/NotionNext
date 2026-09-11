@@ -202,7 +202,7 @@ const CONFIG = {
   PROXIO_ABOUT_BUTTON_TEXT: '关于我',
 
   // 横向滚动文字
-  PROXIO_BRANDS_ENABLE: true, // 滚动文字
+  PROXIO_BRANDS_ENABLE: false, // 滚动文字
   PROXIO_BRANDS: [
     'ここにある全てが無情で',
   ],
@@ -254,15 +254,15 @@ const CONFIG = {
   PROXIO_FOOTER_PRIVACY_POLICY_TEXT: '天境规约',
   PROXIO_FOOTER_PRIVACY_POLICY_URL: '/privacy-policy',
 
-  PROXIO_FOOTER_PRIVACY_LEGAL_NOTICE_TEXT: '法律声明',
+  PROXIO_FOOTER_PRIVACY_LEGAL_NOTICE_TEXT: '天境声明',
   PROXIO_FOOTER_PRIVACY_LEGAL_NOTICE_URL: '/legacy-notice',
 
-  PROXIO_FOOTER_PRIVACY_TERMS_OF_SERVICE_TEXT: '服务协议',
+  PROXIO_FOOTER_PRIVACY_TERMS_OF_SERVICE_TEXT: '庭院协议',
   PROXIO_FOOTER_PRIVACY_TERMS_OF_SERVICE_URL: '/terms-of-use',
 
   // 404页面的提示语
-  PROXIO_404_TITLE: '我们似乎找不到您要找的页面。',
-  PROXIO_404_TEXT: '抱歉！您要查找的页面不存在。可能已经移动或删除。',
+  PROXIO_404_TITLE: '似乎已迷失在庭院中……',
+  PROXIO_404_TEXT: '您是否还记得来时的路？',
   PROXIO_404_BACK: '请您牵着我的手吧',
 
   // 页面底部的行动呼吁模块
