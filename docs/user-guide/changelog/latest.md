@@ -1,6 +1,131 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.8**（见根目录 `package.json`）
+> 当前主线：**4.10.10**（见根目录 `package.json`）
+
+## 4.10.10 发布要点
+
+`4.10.10` 是一次小版本维护发布，集中收录 `v4.10.9` 之后的近期主线改动。普通站点同步最新 `main` 后重新部署即可；只有需要内嵌子页面层级 URL 或 PWA 安装入口的站点，才需要新增可选配置。
+
+### 性能与外部资源
+
+- 默认不再加载 `Noto Sans SC`、`Noto Serif SC` 等第三方中文 Web Font，未配置自定义字体的站点会优先使用系统字体，减少首屏字体请求和下载体积。
+- 仍保留自定义 Web Font 能力；如需品牌字体，可通过环境变量 `NEXT_PUBLIC_FONT_URL` 或 Notion Config 的 `FONT_URL` 显式开启。中文 Web Font 可能显著增加字体分片请求，站长应根据品牌一致性与首屏性能自行取舍。
+- Google Fonts 的 DNS 预取和预连接只会在实际配置了 `fonts.googleapis.com` 字体地址时输出，避免非 Google 字体配置也触发无效预连接。
+
+使用方法见 [字体字号](../config/notion-next-web-font.md)。
+
+### PWA 安装入口
+
+- 新增可选配置 `PWA_ENABLE=true`，开启后 Android Chrome 可将博客安装到桌面。
+- 安装入口由 Notion Config 或环境变量 `PWA_ENABLE` 控制，主题色可通过 `PWA_THEME_COLOR` 配置。
+- manifest 使用固定路径 `/manifest.json`，默认指向首页 `/`，并使用站点标题、描述和站点图标生成安装信息。
+- `PWA_NAME`、`PWA_SHORT_NAME`、`PWA_ICON` 可作为少数站点的备用覆盖项；默认情况下无需单独配置。
+- 功能默认关闭，不影响未开启站点。
+
+使用方法见 [PWA 安装入口](../config/pwa-install.md)。
+
+### Notion 内嵌子页面 URL
+
+- 新增可选配置，推荐在 Notion Config 中添加 `INNER_PAGE_URL_PARENT_PATH=true`。
+- 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true`。开启后，未收录到数据库的 Notion 内嵌子页面 URL 会跟随当前文章路径，例如 `/article/fpga-studying-notes/{pageId}`。
+- 已收录到 NotionNext 数据库、并拥有明确 `slug / href` 的页面仍优先跳转自己的正式地址，避免影响 sitemap、RSS、站内搜索和旧链接兼容。
+- 该能力只优化访问路径和层级表达；未收录子页面不会因此自动进入 sitemap、RSS 或搜索索引。需要 SEO 收录的页面仍建议加入主数据库并配置明确 `slug`。
+
+使用方法见 [URL 自定义：内嵌子页面跟随父路径](../config/url-customize.md#内嵌子页面跟随父路径)。
+
+### 阅读与主题体验
+
+- 修复静态分享 SVG 被 Next/Image 优化导致的显示风险，分享图标继续按静态资源方式加载。
+- Magzine 主题恢复文章页广告与侧栏间距，避免正文和广告区域贴得过近。
+- 主题设置抽屉增加更顺滑的动效反馈。
+- XuHome 主题完成主线集成，并补充深色模式对比度与调色板实时生效修复。
+- NotionTabs 支持 keep-alive 行为，切换标签时可保留已渲染内容状态。
+- Callout 嵌套子块和无图标 Callout 渲染更稳定。
+
+相关文档：
+
+- [主题目录](../themes/THEMES_CATALOG.md)
+- [Magzine 主题](../themes/magzine.md)
+- [代码样式与侧栏预览](../config/notion-next-code-style.md)
+
+### 部署与依赖
+
+- 继续跟进依赖维护和安全更新，包括 Next.js、Supabase、Vercel Functions 及开发依赖组。
+- Notion 图片浏览器缓存和 Cloudflare 文档继续保持在新版手册中，方便站长按需配置。
+
+相关文档：
+
+- [部署指南索引](../deploy/index.md)
+- [Notion 图片反代与缓存](../deploy/notion-image-proxy.md)
+
+### 升级说明
+
+- 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点：同步最新 `main` 后重新部署即可。
+- 如果要启用 Android Chrome PWA 安装入口，推荐在 Notion Config 添加 `PWA_ENABLE=true`。
+- 如果要启用内嵌子页面父路径 URL，推荐在 Notion Config 添加 `INNER_PAGE_URL_PARENT_PATH=true`。
+- 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true` 后重新部署。
+- 如果你依赖 Docker 镜像，请等待本版本 GitHub Release 对应的 GHCR 镜像发布完成后再拉取。
+
+### GitHub Release
+
+- Release：[v4.10.10](https://github.com/notionnext-org/NotionNext/releases/tag/v4.10.10)
+- 完整变更：[v4.10.9...v4.10.10](https://github.com/notionnext-org/NotionNext/compare/v4.10.9...v4.10.10)
+
+## 4.10.9 发布要点
+
+本版本集中合入 `v4.10.8` 之后的社区修复、Notion 渲染兼容、主题移动端体验、依赖安全更新和 Docker 发布增强。多数站点只需要同步最新 `main` 并重新部署，不需要新增环境变量。
+
+- 新增 OpenAI 兼容 AI 助手代理，可通过 `AI_CHAT_*` 配置接入 DeepSeek 等兼容 `chat/completions` 的模型服务。
+
+### Notion 数据与内容渲染
+
+- Notion Config 读取兼容新版 Notion 数据库块：配置库既可以来自 `collection_view`，也可以来自 `collection_view_page`。
+- 修复页面中包含数据库视图、HTML 块、空 `content` 字段或异常 transclusion 引用时，构建阶段出现 `content is not iterable` 的问题。
+- 文章目录生成会跳过非数组内容，避免数据库视图或特殊块影响整页渲染。
+- 支持 Notion Tabs 块渲染，适合在文章中整理多组并列内容。
+- 自定义菜单可以指向 `Invisible` 页面，并优先使用该隐藏页最终生成的访问地址；`Draft` 等未发布页面不会因此被菜单暴露。
+
+### 阅读与写作体验
+
+- 长代码块在桌面端支持“侧栏查看”，便于阅读超长配置、脚本和日志。
+- 分享按钮在移动端改为横向滚动，不再挤压变形。
+- 加密文章提交按钮在多个主题中统一修复，窄屏下不会只显示半个“提交”。
+- 原创存证、公开清单和一键复制证据能力已进入文档化使用路径，适合原创长文站点逐步启用。
+- 内嵌 Notion 子页面可通过 Notion Config 配置 `INNER_PAGE_URL_PARENT_PATH=true`，或通过环境变量 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true`，让未收录子页的访问地址跟随父级文章路径。
+
+### 主题修复
+
+- Matery 主题优化移动端文章标题、标签换行和正文页间距。
+- Claude / Typography / Game / Nobelium / Plog 等主题补齐菜单和子菜单图标显示。
+- Claude / Typography 子菜单图标条件修正，避免生成空图标占位。
+- Matery 右下角悬浮按钮、分享按钮和标签布局相关修复已合入主线。
+
+### 部署、依赖与安全
+
+- Docker GHCR 镜像发布增加 provenance 与 SBOM attestation，便于自托管用户检查镜像来源和依赖清单。
+- 依赖更新：`next`、`axios`、`@supabase/supabase-js`、`ip-address`、`nanoid` 等。
+- GitHub Actions 更新：`actions/setup-node`、`actions/setup-python`、`actions/stale`、`actions/labeler`、`github/codeql-action`。
+
+### 对应文档
+
+- 升级方式：见 [版本升级指引](../update.md)。
+- Notion 数据库与块兼容：见 [Notion 数据库](../notion-database.md)。
+- 菜单与隐藏页：见 [菜单 Menu / SubMenu](../menu-secondary.md) 与 [隐藏页面](../notion/notionnext-hidden-page.md)。
+- 代码侧栏预览：见 [代码块风格](../config/notion-next-code-style.md)。
+- 主题变化：见 [主题全览](../themes/THEMES_CATALOG.md)、[Matery](../themes/matery.md)、[Claude](../themes/claude.md)、[Typography](../themes/typography.md)。
+- Docker / VPS：见 [部署指南索引](../deploy/)。
+
+### 升级说明
+
+- 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点同步最新代码并重新部署即可。
+- 如果你使用 Notion Config 数据库作为配置来源，建议升级后打开首页确认站点名、主题、菜单等配置是否按预期读取。
+- 如果菜单跳转到隐藏页面，升级后可将目标页面设为 `Invisible`，菜单会指向该页面的真实生成路径。
+- 如果使用自定义主题或深度改过主题菜单组件，建议重点检查菜单图标、子菜单、加密文章提交按钮和移动端分享栏。
+
+### GitHub Release
+
+- Release：[v4.10.9](https://github.com/notionnext-org/NotionNext/releases/tag/v4.10.9)
+- 完整变更：[v4.10.8...v4.10.9](https://github.com/notionnext-org/NotionNext/compare/v4.10.8...v4.10.9)
 
 ## 4.10.8 发布要点
 

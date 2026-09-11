@@ -15,3 +15,4 @@ Important doc entry points:
 - /user-guide/themes/overview
 - /user-guide/reference/features
 - /user-guide/comments/overview
+- /user-guide/plugins/notion-next-docs-chat

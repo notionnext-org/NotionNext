@@ -91,6 +91,7 @@
 | 🧷 外部扩展 | `notion-next-plugin-music-player` | [plugins/music-player.md](./plugins/music-player.md) |
 | 🧷 外部扩展 | `notion-next-plugin-live2d` | [plugins/notion-next-plugin-live2d.md](./plugins/notion-next-plugin-live2d.md) |
 | 🧷 外部扩展 | `notion-next-algolia` | [config/algolia.md](./config/algolia.md) |
+| 🧷 外部扩展 | `notion-next-ai-chat` | [plugins/notion-next-ai-chat.md](./plugins/notion-next-ai-chat.md) |
 | 🧷 外部扩展 | `notion-next-coze` | [plugins/notion-next-coze.md](./plugins/notion-next-coze.md) |
 | 🧷 外部扩展 | `notion-next-chat-base` | [plugins/notion-next-chat-base.md](./plugins/notion-next-chat-base.md) |
 | 🧷 外部扩展 | `notion-next-facebook-chat-plugn` | [plugins/notion-next-facebook-chat-plugn.md](./plugins/notion-next-facebook-chat-plugn.md) |

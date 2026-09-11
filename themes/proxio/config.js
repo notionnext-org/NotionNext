@@ -18,10 +18,10 @@ const CONFIG = {
   // 英雄区两个按钮，如果TEXT留空则隐藏按钮
   PROXIO_HERO_BUTTON_1_TEXT: '', // 英雄区按钮
   PROXIO_HERO_BUTTON_1_URL:
-    '', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_TEXT: '', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_URL: '', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_ICON: '', // 英雄区按钮2的图标，不需要则留空
+    'https://docs.tangly1024.com/article/vercel-deploy-notion-next', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_TEXT: '在Github上关注', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_URL: 'https://github.com/notionnext-org/NotionNext', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_ICON: '/images/starter/github-mark.svg', // 英雄区按钮2的图标，不需要则留空
 
   // 英雄区配图，如需隐藏，改为空值即可 'https://i.postimg.cc/zBDKkT7L/luo-de-xiao.gif'
   PROXIO_HERO_BANNER_IMAGE: 'https://i.postimg.cc/zBDKkT7L/luo-de-xiao.gif', // hero区背景，默认是获取Notion背景，如需另外配置图片可以填写在这里
@@ -67,7 +67,7 @@ const CONFIG = {
     '精益求精雕琢每个元素，确保成品精致统一，令人过目难忘',
 
   PROXIO_FEATURE_BUTTON_TEXT: '了解更多', // 按钮文字
-  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/tangly1024/NotionNext', // 按钮跳转
+  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/notionnext-org/NotionNext', // 按钮跳转
 
   // 首页生涯区块
   PROXIO_CAREER_ENABLE: false, // 区块开关
@@ -228,18 +228,18 @@ const CONFIG = {
     {
       name: '  ',
       menus: [
-        { title: ' ', href: ' ' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
         {
           title: ' ',
           href: ' '
         },
         {
-          title: ' ',
-          href: ' '
+          title: '功能反馈',
+          href: 'https://github.com/notionnext-org/NotionNext/issues/new/choose'
         },
         {
-          title: ' ',
-          href: ' '
+          title: '技术讨论',
+          href: 'https://github.com/notionnext-org/NotionNext/discussions'
         },
         {
           title: ' ',

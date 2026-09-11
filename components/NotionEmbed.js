@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNotionContext } from 'react-notion-x'
+import NotionTabs from '@/components/NotionTabs'
 
 export const HTML_ARTIFACT_RESIZE_MESSAGE = 'notion-next:html-artifact-resize'
 export const HTML_ARTIFACT_MEASURE_MESSAGE = 'notion-next:html-artifact-measure'
@@ -139,6 +140,8 @@ const NotionEmbed = ({ block }) => {
     block?.properties?.source?.[0]?.[0]
   const isHtmlArtifact =
     block?.type === 'embed' && block?.format?.embed_variant === 'html_artifact'
+  const isNotionTabs =
+    block?.type === 'embed' && block?.format?.embed_variant === 'notion_tabs'
   const srcDoc = isHtmlArtifact
     ? block?.format?.html_artifact_content
     : undefined
@@ -181,6 +184,10 @@ const NotionEmbed = ({ block }) => {
 
     return () => window.removeEventListener('message', handleResizeMessage)
   }, [isHtmlArtifact])
+
+  if (isNotionTabs) {
+    return <NotionTabs block={block} />
+  }
 
   if (
     !srcDoc &&

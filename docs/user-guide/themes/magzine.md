@@ -13,6 +13,10 @@
 新主题，需要升级到V4.7.1之后的版本才能使用
 :::
 
+::: tip 4.10.10 更新
+文章页广告与右侧栏间距已恢复，升级到 `4.10.10` 后同步最新代码并重新部署即可，无需新增配置。
+:::
+
 ![桌面端](/legacy/e5089e1db6109fc0.png)
 ![移动端](/legacy/aa0f0b759ff50dec.png)
 
@@ -158,7 +162,7 @@ const CONFIG = {
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/tangly1024/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
         { title: '关于作者', href: '/about' }
       ]
     },
@@ -209,7 +213,7 @@ export default CONFIG
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/tangly1024/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
         { title: '关于作者', href: '/about' }
       ]
     },
@@ -266,7 +270,7 @@ export default CONFIG
         "menus": [
             {
                 "title": "Github",
-                "href": "https://github.com/tangly1024/NotionNext"
+                "href": "https://github.com/notionnext-org/NotionNext"
             },
             {
                 "title": "开发帮助",
@@ -274,11 +278,11 @@ export default CONFIG
             },
             {
                 "title": "功能反馈",
-                "href": "https://github.com/tangly1024/NotionNext/issues/new/choose"
+                "href": "https://github.com/notionnext-org/NotionNext/issues/new/choose"
             },
             {
                 "title": "技术讨论",
-                "href": "https://github.com/tangly1024/NotionNext/discussions"
+                "href": "https://github.com/notionnext-org/NotionNext/discussions"
             },
             {
                 "title": "关于作者",

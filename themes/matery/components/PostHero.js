@@ -13,13 +13,15 @@ export default function PostHero({ post, siteInfo }) {
   return (
     <div
       id='header'
-      className='flex h-96 justify-center align-middle items-center w-full relative bg-black'>
-      <div
+      className='flex h-96 justify-center align-middle items-center w-full relative bg-black'
+    >
+      <h1
         data-wow-delay='.1s'
-        className='wow fadeInUp z-10 leading-snug font-bold xs:text-4xl sm:text-4xl md:text-5xl md:leading-snug text-4xl shadow-text-md flex justify-center text-center text-white'>
+        className='wow fadeInUp z-10 flex w-full max-w-5xl items-center justify-center break-words px-6 text-center text-3xl font-bold leading-tight text-white shadow-text-md sm:px-10 sm:text-4xl sm:leading-snug md:px-12 md:text-5xl'
+      >
         {siteConfig('POST_TITLE_ICON') && <NotionIcon icon={post?.pageIcon} />}
         {title}
-      </div>
+      </h1>
       <LazyImage
         alt={title}
         src={headerImage}

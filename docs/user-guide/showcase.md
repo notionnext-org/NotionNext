@@ -30,9 +30,10 @@
 
 | 站点 | 用途 | 主题 | 提交人 |
 | --- | --- | --- | --- |
-| [NotionNext 主题预览站](https://preview.tangly1024.com/) | 主题预览 | 多主题 | NotionNext |
-| [Tangly Blog](https://blog.tangly1024.com/) | 个人博客 | 未标注 | tangly1024 |
+| [NotionNext 主题预览站](https://preview.tangly1024.com/) | 主题预览 | `多主题` | NotionNext |
+| [Tangly Blog](https://blog.tangly1024.com/) | 个人博客 | `magzine` | [@tangly1024](https://github.com/tangly1024) |
 | [茉灵智库](https://blog.88lin.eu.org) | 个人博客 | `heo` | [@88lin](https://github.com/88lin) |
+| [Cloud09_Space](https://cloud09.space/) | 个人空间 | `endspace` | [@cloud09](https://github.com/cloud09) |
 
 ## 推荐格式
 

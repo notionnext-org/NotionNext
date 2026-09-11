@@ -122,4 +122,55 @@ describe('getCustomMenu', () => {
 
     expect(menus[0].href).toBe('/guide')
   })
+
+  it('uses the generated href when a menu explicitly targets an invisible page', () => {
+    const collectionData = [
+      {
+        id: 'page-pending',
+        type: 'Page',
+        status: 'Invisible',
+        slug: 'pending'
+      },
+      {
+        id: 'menu-pending',
+        type: 'Menu',
+        status: 'Published',
+        title: 'Pending',
+        slug: 'pending',
+        href: '/pending'
+      }
+    ]
+    const sourcePageSlugs = getSourcePageSlugs(collectionData)
+    collectionData[0].slug = 'pending/2026/07/29/pending'
+    collectionData[0].href = '/pending/2026/07/29/pending'
+
+    const menus = getCustomMenu({ collectionData, sourcePageSlugs })
+
+    expect(menus[0].href).toBe('/pending/2026/07/29/pending')
+  })
+
+  it('does not expose an unpublished page through a matching menu slug', () => {
+    const collectionData = [
+      {
+        id: 'page-draft',
+        type: 'Page',
+        status: 'Draft',
+        slug: 'draft',
+        href: '/manual/draft'
+      },
+      {
+        id: 'menu-draft',
+        type: 'Menu',
+        status: 'Published',
+        title: 'Draft',
+        slug: 'draft',
+        href: '/draft'
+      }
+    ]
+    const sourcePageSlugs = getSourcePageSlugs(collectionData)
+
+    const menus = getCustomMenu({ collectionData, sourcePageSlugs })
+
+    expect(menus[0].href).toBe('/draft')
+  })
 })

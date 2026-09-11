@@ -55,7 +55,8 @@ const scenes = {
   claude: '文档风、GitHub 式首页',
   endspace: '工业风加载与侧栏',
   example: '新主题开发骨架',
-  thoughtlite: '时间线首页、Latest 卡片'
+  thoughtlite: '时间线首页、Latest 卡片',
+  xuhome: '高辨识度个人博客、新粗野主义卡片布局'
 }
 
 function extractKeys(configPath) {

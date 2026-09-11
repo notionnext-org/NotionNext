@@ -225,6 +225,7 @@ export default defineConfig({
             { text: '文章封面图', link: '/user-guide/config/notion-next-image-cover' },
             { text: '缓存配置', link: '/user-guide/config/cache-of-notion-next' },
             { text: 'URL 自定义', link: '/user-guide/config/url-customize' },
+            { text: 'PWA 安装入口', link: '/user-guide/config/pwa-install' },
             { text: '站点公告', link: '/user-guide/config/notionnext-notice' },
             { text: '二级菜单', link: '/user-guide/menu-secondary' },
             { text: '网页字体', link: '/user-guide/config/notion-next-web-font' },

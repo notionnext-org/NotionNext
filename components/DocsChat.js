@@ -8,12 +8,20 @@ const makeMessage = (role, text) => ({
 })
 
 export default function DocsChat() {
-  const api = siteConfig('DOCS_CHAT_API')
-  const title = siteConfig('DOCS_CHAT_TITLE', 'AI 助手')
-  const welcome = siteConfig(
-    'DOCS_CHAT_WELCOME',
-    '你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。'
-  )
+  const aiChatApi = siteConfig('AI_CHAT_API')
+  const api = aiChatApi || siteConfig('DOCS_CHAT_API')
+  const title = aiChatApi
+    ? siteConfig('AI_CHAT_TITLE', 'AI 助手')
+    : siteConfig('DOCS_CHAT_TITLE', 'AI 助手')
+  const welcome = aiChatApi
+    ? siteConfig(
+        'AI_CHAT_WELCOME',
+        '你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。'
+      )
+    : siteConfig(
+        'DOCS_CHAT_WELCOME',
+        '你好，我是这个站点的 AI 助手。你可以问我站点内容相关问题。'
+      )
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)

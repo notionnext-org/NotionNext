@@ -15,10 +15,16 @@
 | `NEXT_REVALIDATE_SECOND` | ISR 缓存秒数，越大越省 Vercel 额度 |
 | `PSEUDO_STATIC` | URL 以 `.html` 结尾 |
 | `ENABLE_RSS` | RSS 生成 |
+| `RSS_FULL_CONTENT` | RSS 是否包含文章全文；默认 `true`，设为 `false` 时仅返回文章摘要 |
 | `CUSTOM_MENU` | 使用 Menu/SubMenu 导航 |
 | `CAN_COPY` | 是否允许复制正文；文章可用 `CAN_COPY` 或 `ext.CAN_COPY` 单独覆盖 |
 | `GREETING_WORDS` | 欢迎语打字（部分主题） |
 | `LAYOUT_SIDEBAR_REVERSE` | 侧栏左右反转（hexo/next 等） |
+| `PWA_ENABLE` | 开启 Android Chrome PWA 安装入口 |
+| `PWA_THEME_COLOR` | 配置 PWA 安装入口启用后的主题色 |
+| `PWA_NAME` / `PWA_SHORT_NAME` / `PWA_ICON` | PWA 名称和页面图标（apple-touch-icon）；`PWA_ICON` 不控制 manifest 安装图标 |
+| `PWA_ICON_192` / `PWA_ICON_512` | 可选覆盖 manifest 192×192 / 512×512 普通图标；须提供真实尺寸资源 |
+| `PWA_ICON_192_MASKABLE` / `PWA_ICON_512_MASKABLE` | 可选覆盖 manifest maskable 图标；资源应留有安全边距 |
 | `UUID_REDIRECT` | UUID 重定向到 slug |
 | `CUSTOM_EXTERNAL_JS` / `CSS` | 外链脚本样式 |
 | `BEI_AN` / `BEI_AN_GONGAN` | 备案号 |
@@ -38,6 +44,7 @@
 | `POSTS_SHARE_SERVICES` | 分享渠道列表 |
 | `ARTICLE_EXPIRATION_*` | 文章过期提示（HEO 等主题） |
 | `TAG_SORT_BY_COUNT` | 标签按文章数排序 |
+| `INNER_PAGE_URL_PARENT_PATH` / `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH` | 未收录内嵌子页面 URL 跟随父级文章路径（4.10.10+） |
 
 ## Notion（conf/notion.config.js）
 
@@ -90,6 +97,7 @@
 | `MUSIC_PLAYER_*` | APlayer / Meting，见 [plugins/music-player.md](../plugins/music-player.md) |
 | `WIDGET_PET` / `WIDGET_PET_LINK` | Live2D 宠物 |
 | `CHATBASE_ID` | Chatbase |
+| `AI_CHAT_*` | OpenAI 兼容 AI 助手，支持 DeepSeek 等模型服务 |
 | `WEB_WHIZ_*` | Webwhiz 机器人 |
 | `DIFY_CHATBOT_*` | Dify 嵌入 |
 | `FACEBOOK_PAGE_*` | Facebook Page / Messenger |
@@ -123,7 +131,7 @@
 | `PRISM_THEME_*` | 高亮主题、深浅切换 |
 | `CODE_MAC_BAR` | Mac 窗口三色点 |
 | `CODE_LINE_NUMBERS` | 行号 |
-| `CODE_COLLAPSE` | 折叠长代码 |
+| `CODE_COLLAPSE` | 折叠长代码，桌面端支持侧栏预览 |
 | `MERMAID_CDN` | Mermaid 图表 |
 
 ## 广告（conf/ad.config.js）
@@ -177,11 +185,13 @@
 
 `CONTACT_EMAIL`、`CONTACT_GITHUB`、`CONTACT_TWITTER` 等配置用于在主题的个人资料区或侧栏显示站长联系方式。
 
-| 配置键 | 环境变量 | 说明                                                                |
-| --- | --- |-------------------------------------------------------------------|
+| 配置键 | 环境变量 | 说明 |
+| --- | --- | --- |
 | `CONTACT_ORCID` | `NEXT_PUBLIC_CONTACT_ORCID` | ORCID 主页完整 URL，例如 `https://orcid.org/1234-1234-1234-1234`。留空时不显示。 |
+| `CONTACT_CSDN` | `NEXT_PUBLIC_CONTACT_CSDN` | CSDN 主页完整 URL，例如 `https://blog.csdn.net/username`。留空时不显示。 |
+| `CONTACT_JUEJIN` | `NEXT_PUBLIC_CONTACT_JUEJIN` | 稀土掘金主页完整 URL，例如 `https://juejin.cn/user/1234567890`。留空时不显示。 |
 
-支持读取 Notion Config 中的同名键 `CONTACT_ORCID`，配置优先级为 Notion Config、环境变量、本地配置文件。
+支持读取 Notion Config 中的同名键，配置优先级为 Notion Config、环境变量、本地配置文件。
 
 ## 右键菜单（conf/right-click-menu.js）
 

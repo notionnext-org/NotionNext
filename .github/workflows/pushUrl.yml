@@ -28,7 +28,7 @@ jobs:
       # - name: 'Run baiduPush' # 步骤二，执行sh命令文件
       #   run: npm install && npm run baiduPush # 运行目录是仓库根目录
       - name: Set up Python 3.8
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.8
 

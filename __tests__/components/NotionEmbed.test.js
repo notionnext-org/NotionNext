@@ -14,6 +14,16 @@ jest.mock('react-notion-x', () => ({
   useNotionContext: jest.fn()
 }))
 
+jest.mock('@/components/NotionTabs', () => {
+  const React = require('react')
+
+  return {
+    __esModule: true,
+    default: ({ block }) =>
+      React.createElement('div', { 'data-testid': 'notion-tabs' }, block.id)
+  }
+})
+
 const createHtmlArtifactBlock = (overrides = {}) => ({
   id: 'html-artifact-1',
   type: 'embed',
@@ -117,6 +127,24 @@ describe('NotionEmbed HTML artifact auto height', () => {
     expect(frame).not.toHaveAttribute('srcdoc')
     expect(frame).not.toHaveAttribute('sandbox')
     expect(frame.parentElement).toHaveStyle('height: 300px')
+  })
+
+  it('renders Notion tabs embeds without requiring an iframe source', () => {
+    render(
+      <NotionEmbed
+        block={{
+          id: 'tabs-block',
+          type: 'embed',
+          format: {
+            embed_variant: 'notion_tabs'
+          },
+          content: ['tab-a']
+        }}
+      />
+    )
+
+    expect(screen.getByTestId('notion-tabs')).toHaveTextContent('tabs-block')
+    expect(screen.queryByTitle('iframe embed')).not.toBeInTheDocument()
   })
 })
 

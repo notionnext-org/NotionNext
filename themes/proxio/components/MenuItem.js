@@ -71,7 +71,7 @@ export const MenuItem = ({ link, isOpen, toggleOpen }) => {
 
           {/* 子菜单 */}
           <div
-            className={`submenu dark:border-gray-600 relative left-0 top-full w-[250px] rounded-sm bg-white p-4 transition-all duration-300 dark:bg-dark-2 lg:absolute lg:shadow-lg ${
+            className={`submenu proxio-card relative left-0 top-full w-[250px] rounded-sm border p-4 transition-all duration-300 lg:absolute lg:shadow-lg ${
               open
                 ? 'block opacity-100 visible'
                 : 'hidden opacity-0 invisible'

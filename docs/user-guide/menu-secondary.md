@@ -70,6 +70,12 @@
 提示： 菜单的路径分为**相对路径**和**绝对路径**；请使用绝对路径。
 :::
 
+::: tip 4.10.9 更新
+如果菜单 `slug` 指向一个 `status=Invisible` 的隐藏页面，NotionNext 会优先使用该隐藏页面最终生成的 `href`。这适合把“隐藏页面”作为菜单入口背后的真实内容页，同时仍避免它出现在首页、归档、RSS、Sitemap 和搜索索引里。
+
+未发布的 `Draft` 页面不会因为同名菜单而被公开；如果只是想跳转到外部链接或手写路径，继续在 `slug` 中填写完整路径即可。
+:::
+
 `/about`  这是一个**绝对路径**，它以左斜杆/开头，在博客的任意页面点击此菜单都会跳到 [http://域名/about](http://域名/about) 该路径。
 
 `about` 这是一个**相对路径**，它没有左斜杆/开头，如果在博客首页点击菜单会跳到  [http://域名/about](http://域名/about) 该路径，然如果在 其它页面，例如 `http://域名/tag/标签` 这个页面下，点击菜单，会跳到 [http://域名/tag/标签/about](http://域名/tag/标签/about) ，这会导致你的页面访问错误。
@@ -90,9 +96,13 @@
 Menu,SubMenu 这两个类型本质只是菜单，唯一功能是跳转到slug指定的页面，指定页面可以是任意page\post\外链； 但Menu和SubMenu本身不应该放文章内容。
 :::
 
+::: tip 菜单图标
+`4.10.9` 修复了 Claude、Typography、Game、Nobelium、Plog 等主题中菜单或子菜单图标缺失的问题。若你在 Notion 菜单数据里配置了 Font Awesome 类名，例如 `fas fa-home`，升级后这些主题会按菜单项自身的 icon 字段显示。
+:::
+
 ::: tip 提示
 **特别提醒：**
-在V3.13版本中 ，不要在您的数据库中添加多个视图，这将会导致您的菜单乱序。如需添加视图以便分类整理文章，建议另外新建一个视图单页，参考下文： [https://github.com/tangly1024/NotionNext/issues/1056](https://github.com/tangly1024/NotionNext/issues/1056)
+在V3.13版本中 ，不要在您的数据库中添加多个视图，这将会导致您的菜单乱序。如需添加视图以便分类整理文章，建议另外新建一个视图单页，参考下文： [https://github.com/notionnext-org/NotionNext/issues/1056](https://github.com/notionnext-org/NotionNext/issues/1056)
 :::
 
 在V4.0之后的新版本可以忽略此问题。
