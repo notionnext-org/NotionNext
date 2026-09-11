@@ -24,7 +24,7 @@ const Style = () => {
     /*  菜单下划线动画 */
     #theme-commerce .menu-link {
         text-decoration: none;
-        background-image: linear-gradient(#D2232A, #D2232A);
+        background-image: linear-gradient(#4169E1, #4169E1);
         background-repeat: no-repeat;
         background-position: bottom center;
         background-size: 0 2px;
@@ -33,7 +33,7 @@ const Style = () => {
 
     #theme-commerce .menu-link:hover {
         background-size: 100% 2px;
-        color: #D2232A;
+        color: #4169E1;
     }
 
     /* 设置了从上到下的渐变黑色 */
