@@ -9,10 +9,10 @@ const CONFIG = {
   PROXIO_COLOR_TEXT_MUTED: '#637381',
 
   PROXIO_WELCOME_COVER_ENABLE: true, //是否显示页面进入的欢迎文字
-  PROXIO_WELCOME_TEXT: '欢迎来到此网站，点击任意位置进入', // 欢迎文字，留空则不启用
+  PROXIO_WELCOME_TEXT: '心爱的，再会了', // 欢迎文字，留空则不启用
 
   // 英雄区块导航
-  PROXIO_HERO_ENABLE: true, // 开启英雄区
+  PROXIO_HERO_ENABLE: false, // 开启英雄区
   PROXIO_HERO_TITLE_1: '开源且免费的基于 Notion 笔记的网站构建工具', // 英雄区文字
   PROXIO_HERO_TITLE_2: '通过笔记无感知地建站、成倍放大您的价值', // 英雄区文字
   // 英雄区两个按钮，如果TEXT留空则隐藏按钮
@@ -29,8 +29,8 @@ const CONFIG = {
 
   // 文章区块
   PROXIO_BLOG_ENABLE: true, // 首页博文区块开关
-  PROXIO_BLOG_TITLE: '作品',
-  PROXIO_BLOG_COUNT: 4, // 首页博文区块展示前4篇文章
+  PROXIO_BLOG_TITLE: '在庭院中',
+  PROXIO_BLOG_COUNT: 9, // 首页博文区块展示前4篇文章
   PROXIO_BLOG_TEXT_1: '我的最新动态',
   PROXIO_BLOG_AUTO_SHOW_COVER: false, // 首页博文区块是否默认显示文章主图；false 时保持悬浮显示主图的旧效果
 
@@ -43,7 +43,7 @@ const CONFIG = {
   PROXIO_ANNOUNCEMENT_ENABLE: true, //公告文字区块
 
   // 特性区块
-  PROXIO_FEATURE_ENABLE: true, // 特性区块开关
+  PROXIO_FEATURE_ENABLE: false, // 特性区块开关
   PROXIO_FEATURE_TITLE: '为什么选我',
   PROXIO_FEATURE_TEXT_1: '我能让您的项目焕发光彩',
   PROXIO_FEATURE_TEXT_2: '丰富的案例经验，专业的技术服务，优质的沟通效率',
@@ -70,7 +70,7 @@ const CONFIG = {
   PROXIO_FEATURE_BUTTON_URL: 'https://github.com/tangly1024/NotionNext', // 按钮跳转
 
   // 首页生涯区块
-  PROXIO_CAREER_ENABLE: true, // 区块开关
+  PROXIO_CAREER_ENABLE: false, // 区块开关
   PROXIO_CAREER_TITLE: '生涯',
   PROXIO_CAREER_TEXT: '以下是我的职业生涯',
 
@@ -94,7 +94,7 @@ const CONFIG = {
   ],
 
   // 首页用户测评区块
-  PROXIO_TESTIMONIALS_ENABLE: true, // 测评区块开关
+  PROXIO_TESTIMONIALS_ENABLE: false, // 测评区块开关
   PROXIO_TESTIMONIALS_TITLE: '用户反馈',
   PROXIO_TESTIMONIALS_TEXT_1: '我们的用户怎么说',
   PROXIO_TESTIMONIALS_TEXT_2:
@@ -159,7 +159,7 @@ const CONFIG = {
   ],
 
   //   FAQ 常见问题模块
-  PROXIO_FAQ_ENABLE: true, // 常见问题模块开关
+  PROXIO_FAQ_ENABLE: false, // 常见问题模块开关
   PROXIO_FAQ_TITLE: '常见问题解答',
   PROXIO_FAQ_TEXT_1: '有任何问题吗？请看这里',
   PROXIO_FAQ_TEXT_2: '我们收集了常见的用户疑问',
@@ -183,7 +183,7 @@ const CONFIG = {
   ],
 
   // 关于作者区块
-  PROXIO_ABOUT_ENABLE: true, // 关于作者区块区块开关
+  PROXIO_ABOUT_ENABLE: false, // 关于作者区块区块开关
   PROXIO_ABOUT_TITLE: '关于作者',
   PROXIO_ABOUT_TEXT_1: 'I am an Architect Turned Into a Product Designer',
   PROXIO_ABOUT_TEXT_2:
@@ -204,10 +204,7 @@ const CONFIG = {
   // 横向滚动文字
   PROXIO_BRANDS_ENABLE: true, // 滚动文字
   PROXIO_BRANDS: [
-    'Web Design',
-    'Logo Design',
-    'Mobile App Design',
-    'Product Design'
+    'ここにある全てが無情で',
   ],
 
   PROXIO_FOOTER_SLOGAN: '我们通过技术为品牌和公司创造数字体验。',
@@ -216,45 +213,45 @@ const CONFIG = {
   // 页脚菜单
   PROXIO_FOOTER_LINKS: [
     {
-      name: '友情链接',
+      name: '我找到了你',
       menus: [
         {
-          title: 'Tangly的学习笔记',
-          href: 'https://blog.tangly1024.com'
+          title: '',
+          href: ' '
         },
         {
-          title: 'NotionNext',
-          href: 'https://www.tangly1024.com'
+          title: ' ',
+          href: ' '
         }
       ]
     },
     {
-      name: '开发者',
+      name: '而你也找到了我',
       menus: [
-        { title: 'Github', href: 'https://github.com/tangly1024/NotionNext' },
+        { title: ' ', href: ' ' },
         {
-          title: '开发帮助',
-          href: 'https://docs.tangly1024.com/article/how-to-develop-with-notion-next'
+          title: ' ',
+          href: ' '
         },
         {
-          title: '功能反馈',
-          href: 'https://github.com/tangly1024/NotionNext/issues/new/choose'
+          title: ' ',
+          href: ' '
         },
         {
-          title: '技术讨论',
-          href: 'https://github.com/tangly1024/NotionNext/discussions'
+          title: ' ',
+          href: ' '
         },
         {
-          title: '关于作者',
-          href: 'https://blog.tangly1024.com/about'
+          title: ' ',
+          href: ' '
         }
       ]
     }
   ],
 
-  PROXIO_FOOTER_BLOG_LATEST_TITLE: '最新文章',
+  PROXIO_FOOTER_BLOG_LATEST_TITLE: '庭院动向',
 
-  PROXIO_FOOTER_PRIVACY_POLICY_TEXT: '隐私政策',
+  PROXIO_FOOTER_PRIVACY_POLICY_TEXT: '天境规约',
   PROXIO_FOOTER_PRIVACY_POLICY_URL: '/privacy-policy',
 
   PROXIO_FOOTER_PRIVACY_LEGAL_NOTICE_TEXT: '法律声明',
@@ -266,10 +263,10 @@ const CONFIG = {
   // 404页面的提示语
   PROXIO_404_TITLE: '我们似乎找不到您要找的页面。',
   PROXIO_404_TEXT: '抱歉！您要查找的页面不存在。可能已经移动或删除。',
-  PROXIO_404_BACK: '回到主页',
+  PROXIO_404_BACK: '请您牵着我的手吧',
 
   // 页面底部的行动呼吁模块
-  PROXIO_CTA_ENABLE: true,
+  PROXIO_CTA_ENABLE: false,
   PROXIO_CTA_TITLE: '与我建立联系',
   PROXIO_CTA_TITLE_2: '让我们立刻启动您的项目',
   PROXIO_CTA_DESCRIPTION:
@@ -278,7 +275,7 @@ const CONFIG = {
   PROXIO_CTA_BUTTON_URL: '/about',
   PROXIO_CTA_BUTTON_TEXT: '联系我',
 
-  PROXIO_POST_REDIRECT_ENABLE: true, // 默認開啟重定向
+  PROXIO_POST_REDIRECT_ENABLE: false, // 默認開啟重定向
   PROXIO_POST_REDIRECT_URL: 'https://blog.tangly1024.com', // 重定向域名
   PROXIO_NEWSLETTER: process.env.NEXT_PUBLIC_THEME_PROXIO_NEWSLETTER || false // 是否开启邮件订阅 请先配置mailchimp功能 https://docs.tangly1024.com/article/notion-next-mailchimp
 }
