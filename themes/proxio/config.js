@@ -23,8 +23,8 @@ const CONFIG = {
   PROXIO_HERO_BUTTON_2_URL: ' ', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_ICON: ' ', // 英雄区按钮2的图标，不需要则留空
 
-  // 英雄区配图，如需隐藏，改为空值即可 'true'
-  PROXIO_HERO_BANNER_IMAGE: 'true', // hero区背景，默认是获取Notion背景，如需另外配置图片可以填写在这里
+  // 英雄区配图，如需隐藏，改为空值即可 'https://i.postimg.cc/zBDKkT7L/luo-de-xiao.gif'
+  PROXIO_HERO_BANNER_IMAGE: 'https://i.postimg.cc/zBDKkT7L/luo-de-xiao.gif', // hero区背景，默认是获取Notion背景，如需另外配置图片可以填写在这里
   PROXIO_HERO_BANNER_IFRAME_URL: '', // hero背景区内嵌背景网页 ，可以配置一个网页地址，例如动画网页https://my.spline.design/untitled-b0c6e886227646c34afc82cdc6de4ca2/
 
   // 文章区块
