@@ -18,10 +18,10 @@ const CONFIG = {
   // 英雄区两个按钮，如果TEXT留空则隐藏按钮
   PROXIO_HERO_BUTTON_1_TEXT: '', // 英雄区按钮
   PROXIO_HERO_BUTTON_1_URL:
-    ' ', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_TEXT: ' ', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_URL: ' ', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_ICON: ' ', // 英雄区按钮2的图标，不需要则留空
+    '', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_TEXT: '', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_URL: '', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_ICON: '', // 英雄区按钮2的图标，不需要则留空
 
   // 英雄区配图，如需隐藏，改为空值即可 'https://i.postimg.cc/zBDKkT7L/luo-de-xiao.gif'
   PROXIO_HERO_BANNER_IMAGE: 'https://i.postimg.cc/zBDKkT7L/luo-de-xiao.gif', // hero区背景，默认是获取Notion背景，如需另外配置图片可以填写在这里
