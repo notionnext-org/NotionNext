@@ -72,7 +72,9 @@ export const MenuItemCollapse = props => {
                 key={index}
                 className='font-extralight dark:bg-black text-left px-10 justify-start  bg-gray-50 hover:bg-gray-50 dark:hover:bg-gray-900 tracking-widest transition-all duration-200 border-b dark:border-gray-800 py-3 pr-6'>
                 <SmartLink href={sLink.href} target={link?.target}>
-                  <span className='text-xs'>{sLink.title}</span>
+                  <span className='text-xs'>
+                    {sLink?.icon && <i className={`${sLink.icon} mr-2`} />} {sLink.title}
+                  </span>
                 </SmartLink>
               </div>
             )

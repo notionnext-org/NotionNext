@@ -2,6 +2,12 @@
  * 另一个落地页主题
  */
 const CONFIG = {
+  PROXIO_COLOR_PRIMARY: '#3758f9',
+  PROXIO_COLOR_PRIMARY_HOVER: '#1b44c8',
+  PROXIO_COLOR_BG: '#ffffff',
+  PROXIO_COLOR_DARK: '#121212',
+  PROXIO_COLOR_TEXT_MUTED: '#637381',
+
   PROXIO_WELCOME_COVER_ENABLE: true, //是否显示页面进入的欢迎文字
   PROXIO_WELCOME_TEXT: '欢迎来到此网站，点击任意位置进入', // 欢迎文字，留空则不启用
 
@@ -14,7 +20,7 @@ const CONFIG = {
   PROXIO_HERO_BUTTON_1_URL:
     'https://docs.tangly1024.com/article/vercel-deploy-notion-next', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_TEXT: '在Github上关注', // 英雄区按钮
-  PROXIO_HERO_BUTTON_2_URL: 'https://github.com/tangly1024/NotionNext', // 英雄区按钮
+  PROXIO_HERO_BUTTON_2_URL: 'https://github.com/notionnext-org/NotionNext', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_ICON: '/images/starter/github-mark.svg', // 英雄区按钮2的图标，不需要则留空
 
   // 英雄区配图，如需隐藏，改为空值即可 ''
@@ -26,6 +32,7 @@ const CONFIG = {
   PROXIO_BLOG_TITLE: '作品',
   PROXIO_BLOG_COUNT: 4, // 首页博文区块展示前4篇文章
   PROXIO_BLOG_TEXT_1: '我的最新动态',
+  PROXIO_BLOG_AUTO_SHOW_COVER: false, // 首页博文区块是否默认显示文章主图；false 时保持悬浮显示主图的旧效果
 
   // 区块默认内容显示文章的summary文本，但也支持用自定义图片或logo德国替换掉占位显示内容
   PROXIO_BLOG_PLACEHOLDER_IMG_URL_1: '', // 填写要替换成的图片，支持图床或直接上传到项目中，示例  /images/feature-1.webp
@@ -60,7 +67,7 @@ const CONFIG = {
     '精益求精雕琢每个元素，确保成品精致统一，令人过目难忘',
 
   PROXIO_FEATURE_BUTTON_TEXT: '了解更多', // 按钮文字
-  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/tangly1024/NotionNext', // 按钮跳转
+  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/notionnext-org/NotionNext', // 按钮跳转
 
   // 首页生涯区块
   PROXIO_CAREER_ENABLE: true, // 区块开关
@@ -224,18 +231,18 @@ const CONFIG = {
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/tangly1024/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
         {
           title: '开发帮助',
           href: 'https://docs.tangly1024.com/article/how-to-develop-with-notion-next'
         },
         {
           title: '功能反馈',
-          href: 'https://github.com/tangly1024/NotionNext/issues/new/choose'
+          href: 'https://github.com/notionnext-org/NotionNext/issues/new/choose'
         },
         {
           title: '技术讨论',
-          href: 'https://github.com/tangly1024/NotionNext/discussions'
+          href: 'https://github.com/notionnext-org/NotionNext/discussions'
         },
         {
           title: '关于作者',

@@ -1,5 +1,5 @@
 import { useGlobal } from '@/lib/global'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * 加密文章校验组件
@@ -11,20 +11,24 @@ import { useEffect, useRef } from 'react'
 export const PostLock = props => {
   const { validPassword } = props
   const { locale } = useGlobal()
+  const [showError, setShowError] = useState(false)
+  const passwordInputRef = useRef(null)
+
   const submitPassword = () => {
-    const p = document.getElementById('password')
-    if (!validPassword(p?.value)) {
-      const tips = document.getElementById('tips')
-      if (tips) {
-        tips.innerHTML = ''
-        tips.innerHTML = `<div class='text-red-500 animate__shakeX animate__animated'>${locale.COMMON.PASSWORD_ERROR}</div>`
-      }
+    const value = passwordInputRef.current?.value
+    if (!validPassword(value)) {
+      // 触发抖动动画：先取消再加上，让 CSS 动画重新跑
+      setShowError(false)
+      // 下一帧再设 true，确保动画重启
+      requestAnimationFrame(() => setShowError(true))
+    } else {
+      setShowError(false)
     }
   }
-  const passwordInputRef = useRef(null)
+
   useEffect(() => {
-    // 选中密码输入框并将其聚焦
-    passwordInputRef.current.focus()
+    // 选中密码输入框并将其聚焦（带空保护，组件未挂载时不会崩）
+    passwordInputRef.current?.focus?.()
   }, [])
 
   return (
@@ -45,16 +49,21 @@ export const PostLock = props => {
               }
             }}
             ref={passwordInputRef} // 绑定ref到passwordInputRef变量
-            className='outline-none w-full text-sm pl-5 rounded-l transition focus:shadow-lg  font-light leading-10 bg-gray-100 dark:bg-gray-500'></input>
+            className='outline-none flex-1 min-w-0 text-sm pl-5 rounded-l transition focus:shadow-lg  font-light leading-10 bg-gray-100 dark:bg-gray-500'></input>
           <div
             onClick={submitPassword}
-            className='px-3 whitespace-nowrap cursor-pointer items-center justify-center py-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded-r duration-300'>
-            <i className={'duration-200 cursor-pointer fas fa-key'}>
-              &nbsp;{locale.COMMON.SUBMIT}
-            </i>
+            className='flex items-center justify-center whitespace-nowrap cursor-pointer px-4 leading-10 bg-[var(--heo-color-primary)] hover:bg-[var(--heo-color-primary-hover)] text-[var(--heo-color-primary-text)] rounded-r duration-300 select-none'>
+            <i className={'duration-200 cursor-pointer fas fa-key'} />
+            <span className='ml-1'>{locale.COMMON.SUBMIT}</span>
           </div>
         </div>
-        <div id='tips'></div>
+        <div id='tips'>
+          {showError && (
+            <div className='text-red-500 animate__shakeX animate__animated'>
+              {locale.COMMON.PASSWORD_ERROR}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

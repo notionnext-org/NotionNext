@@ -1,9 +1,12 @@
 import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
-import { fetchGlobalAllData, resolvePostProps } from '@/lib/db/SiteDataApi'
-import { checkSlugHasMorThanTwoSlash, processPostData } from '@/lib/utils/post'
-import { idToUuid } from 'notion-utils'
+import { resolvePostProps } from '@/lib/db/SiteDataApi'
+import { getStaticPathsBase } from '@/lib/build/staticPaths'
+import { isExport } from '@/lib/utils/buildMode'
+import { checkSlugHasMorThanTwoSlash } from '@/lib/utils/post'
 import Slug from '..'
+
+const isStaticExport = process.env.EXPORT === 'true'
 
 /**
  * 根据notion的slug访问页面
@@ -15,33 +18,19 @@ const PrefixSlug = props => {
   return <Slug {...props} />
 }
 
-/**
- * 编译渲染页面路径
- * @returns
- */
-export async function getStaticPaths() {
-  if (!BLOG.isProd) {
-    return {
-      paths: [],
-      fallback: true
-    }
-  }
 
-  const from = 'slug-paths'
-  const { allPages } = await fetchGlobalAllData({ from })
-  const paths = allPages
-    ?.filter(row => checkSlugHasMorThanTwoSlash(row))
-    .map(row => ({
+export async function getStaticPaths() {
+  return getStaticPathsBase({
+    from: 'slug-paths',
+    filterFn: row => checkSlugHasMorThanTwoSlash(row),
+    mapPageToParams: row => ({
       params: {
         prefix: row.slug.split('/')[0],
         slug: row.slug.split('/')[1],
         suffix: row.slug.split('/').slice(2)
       }
-    }))
-  return {
-    paths: paths,
-    fallback: true
-  }
+    })
+  })
 }
 
 /**
@@ -53,6 +42,7 @@ export async function getStaticProps({
   params: { prefix, slug, suffix },
   locale
 }) {
+
   const props = await resolvePostProps({
     prefix,
     slug,
@@ -62,13 +52,14 @@ export async function getStaticProps({
 
   return {
     props,
-    revalidate: process.env.EXPORT
+    revalidate: isStaticExport
       ? undefined
       : siteConfig(
         'NEXT_REVALIDATE_SECOND',
         BLOG.NEXT_REVALIDATE_SECOND,
         props.NOTION_CONFIG
-      )
+      ),
+    notFound: !props.post
   }
 }
 

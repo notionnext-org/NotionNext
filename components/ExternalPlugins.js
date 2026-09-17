@@ -3,7 +3,7 @@ import { convertInnerUrl } from '@/lib/db/notion/convertInnerUrl'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GlobalStyle } from './GlobalStyle'
 import { initGoogleAdsense } from './GoogleAdsense'
 
@@ -12,6 +12,7 @@ import ExternalScript from './ExternalScript'
 import WebWhiz from './Webwhiz'
 import { useGlobal } from '@/lib/global'
 import IconFont from './IconFont'
+import { getPageCanCopy } from '@/lib/utils/copyPermission'
 
 /**
  * 各种插件脚本
@@ -22,9 +23,16 @@ const ExternalPlugin = props => {
   // 读取自Notion的配置
   const { NOTION_CONFIG } = props
   const { lang } = useGlobal()
+  const [pluginsIdle, setPluginsIdle] = useState(false)
+  const innerLinkPages = props?.allLinkPages || props?.allNavPages
   const DISABLE_PLUGIN = siteConfig('DISABLE_PLUGIN', null, NOTION_CONFIG)
   const THEME_SWITCH = siteConfig('THEME_SWITCH', null, NOTION_CONFIG)
   const DEBUG = siteConfig('DEBUG', null, NOTION_CONFIG)
+  const INNER_PAGE_URL_PARENT_PATH = siteConfig(
+    'INNER_PAGE_URL_PARENT_PATH',
+    null,
+    NOTION_CONFIG
+  )
   const ANALYTICS_ACKEE_TRACKER = siteConfig(
     'ANALYTICS_ACKEE_TRACKER',
     null,
@@ -57,6 +65,7 @@ const ExternalPlugin = props => {
     NOTION_CONFIG
   )
   const CAN_COPY = siteConfig('CAN_COPY', null, NOTION_CONFIG)
+  const canCopy = getPageCanCopy(CAN_COPY, props?.post)
   const WEB_WHIZ_ENABLED = siteConfig('WEB_WHIZ_ENABLED', null, NOTION_CONFIG)
   const AD_WWADS_BLOCK_DETECT = siteConfig(
     'AD_WWADS_BLOCK_DETECT',
@@ -121,6 +130,8 @@ const ExternalPlugin = props => {
   // 默认关闭NProgress
   const ENABLE_NPROGRSS = siteConfig('ENABLE_NPROGRSS', false)
   const COZE_BOT_ID = siteConfig('COZE_BOT_ID')
+  const AI_CHAT_API = siteConfig('AI_CHAT_API')
+  const DOCS_CHAT_API = siteConfig('DOCS_CHAT_API')
   const HILLTOP_ADS_META_ID = siteConfig(
     'HILLTOP_ADS_META_ID',
     null,
@@ -132,36 +143,60 @@ const ExternalPlugin = props => {
   const UMAMI_HOST = siteConfig('UMAMI_HOST', null, NOTION_CONFIG)
   const UMAMI_ID = siteConfig('UMAMI_ID', null, NOTION_CONFIG)
 
-  // 自定义样式css和js引入
-  if (isBrowser) {
-    // 初始化AOS动画
-    // 静态导入本地自定义样式
-    loadExternalResource('/css/custom.css', 'css')
-    loadExternalResource('/js/custom.js', 'js')
+  const externalCssList = useMemo(() => {
+    return Array.isArray(CUSTOM_EXTERNAL_CSS)
+      ? CUSTOM_EXTERNAL_CSS.filter(url => !!url)
+      : []
+  }, [CUSTOM_EXTERNAL_CSS])
 
-    // 自动添加图片阴影
-    if (IMG_SHADOW) {
-      loadExternalResource('/css/img-shadow.css', 'css')
+  const externalJsList = useMemo(() => {
+    return Array.isArray(CUSTOM_EXTERNAL_JS)
+      ? CUSTOM_EXTERNAL_JS.filter(url => !!url)
+      : []
+  }, [CUSTOM_EXTERNAL_JS])
+
+  useEffect(() => {
+    if (!isBrowser) {
+      return
     }
 
-    if (ANIMATE_CSS_URL) {
-      loadExternalResource(ANIMATE_CSS_URL, 'css')
-    }
-
-    // 导入外部自定义脚本
-    if (CUSTOM_EXTERNAL_JS && CUSTOM_EXTERNAL_JS.length > 0) {
-      for (const url of CUSTOM_EXTERNAL_JS) {
-        loadExternalResource(url, 'js')
+    const scheduleTask = callback => {
+      if (window.requestIdleCallback) {
+        const taskId = window.requestIdleCallback(callback)
+        return () => window.cancelIdleCallback(taskId)
       }
+      const timeoutId = window.setTimeout(() => callback(), 0)
+      return () => window.clearTimeout(timeoutId)
     }
 
-    // 导入外部自定义样式
-    if (CUSTOM_EXTERNAL_CSS && CUSTOM_EXTERNAL_CSS.length > 0) {
-      for (const url of CUSTOM_EXTERNAL_CSS) {
-        loadExternalResource(url, 'css')
-      }
+    const cancelTasks = []
+    cancelTasks.push(
+      scheduleTask(() => {
+        loadExternalResource('/css/custom.css', 'css')
+        loadExternalResource('/js/custom.js', 'js')
+
+        if (IMG_SHADOW) {
+          loadExternalResource('/css/img-shadow.css', 'css')
+        }
+
+        if (ANIMATE_CSS_URL) {
+          loadExternalResource(ANIMATE_CSS_URL, 'css')
+        }
+
+        for (const url of externalJsList) {
+          loadExternalResource(url, 'js')
+        }
+
+        for (const url of externalCssList) {
+          loadExternalResource(url, 'css')
+        }
+      })
+    )
+
+    return () => {
+      cancelTasks.forEach(cancel => cancel?.())
     }
-  }
+  }, [ANIMATE_CSS_URL, IMG_SHADOW, externalCssList, externalJsList])
 
   const router = useRouter()
   useEffect(() => {
@@ -174,18 +209,44 @@ const ExternalPlugin = props => {
 
     setTimeout(() => {
       // 映射url
-      convertInnerUrl({ allPages: props?.allNavPages, lang: lang })
+      convertInnerUrl({
+        allPages: innerLinkPages,
+        lang: lang,
+        innerPageUrlParentPath: INNER_PAGE_URL_PARENT_PATH
+      })
     }, 500)
-  }, [router])
+  }, [
+    router,
+    ADSENSE_GOOGLE_ID,
+    INNER_PAGE_URL_PARENT_PATH,
+    innerLinkPages,
+    lang
+  ])
 
   useEffect(() => {
-    // 执行注入脚本
-    // eslint-disable-next-line no-eval
-    if (GLOBAL_JS && GLOBAL_JS.trim() !== '') {
-      // console.log('Inject JS:', GLOBAL_JS);
+    if (!isBrowser || !GLOBAL_JS || GLOBAL_JS.trim() === '') {
+      return
     }
-    eval(GLOBAL_JS)
-  })
+
+    try {
+      // eslint-disable-next-line no-eval
+      eval(GLOBAL_JS)
+    } catch (error) {
+      console.error('Failed to execute GLOBAL_JS:', error)
+    }
+  }, [GLOBAL_JS])
+
+  useEffect(() => {
+    if (!isBrowser) return
+    if (window.requestIdleCallback) {
+      const id = window.requestIdleCallback(() => setPluginsIdle(true), {
+        timeout: 3000
+      })
+      return () => window.cancelIdleCallback(id)
+    }
+    const id = window.setTimeout(() => setPluginsIdle(true), 2000)
+    return () => window.clearTimeout(id)
+  }, [])
 
   if (DISABLE_PLUGIN) {
     return null
@@ -197,7 +258,7 @@ const ExternalPlugin = props => {
       <GlobalStyle />
       {ENABLE_ICON_FONT && <IconFont />}
       {MOUSE_FOLLOW && <MouseFollow />}
-      {THEME_SWITCH && <ThemeSwitch />}
+      {pluginsIdle && THEME_SWITCH && <ThemeSwitch />}
       {DEBUG && <DebugPanel />}
       {ANALYTICS_ACKEE_TRACKER && <Ackee />}
       {ANALYTICS_GOOGLE_ID && <Gtag />}
@@ -213,16 +274,18 @@ const ExternalPlugin = props => {
       {COMMENT_TWIKOO_COUNT_ENABLE && <TwikooCommentCounter {...props} />}
       {RIBBON && <Ribbon />}
       {DIFY_CHATBOT_ENABLED && <DifyChatbot />}
-      {CUSTOM_RIGHT_CLICK_CONTEXT_MENU && <CustomContextMenu {...props} />}
-      {!CAN_COPY && <DisableCopy />}
+      {CUSTOM_RIGHT_CLICK_CONTEXT_MENU && (
+        <CustomContextMenu {...props} canCopy={canCopy} />
+      )}
+      {!canCopy && <DisableCopy />}
       {WEB_WHIZ_ENABLED && <WebWhiz />}
       {AD_WWADS_BLOCK_DETECT && <AdBlockDetect />}
       {TIANLI_KEY && <TianliGPT />}
       <VConsole />
       {ENABLE_NPROGRSS && <LoadingProgress />}
-      <AosAnimation />
+      {pluginsIdle && <AosAnimation />}
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && <LA51 />}
-      {COZE_BOT_ID && <Coze />}
+      {AI_CHAT_API || DOCS_CHAT_API ? <DocsChat /> : COZE_BOT_ID && <Coze />}
 
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && (
         <>
@@ -515,6 +578,9 @@ const AosAnimation = dynamic(() => import('@/components/AOSAnimation'), {
 })
 
 const Coze = dynamic(() => import('@/components/Coze'), {
+  ssr: false
+})
+const DocsChat = dynamic(() => import('@/components/DocsChat'), {
   ssr: false
 })
 const LA51 = dynamic(() => import('@/components/LA51'), {

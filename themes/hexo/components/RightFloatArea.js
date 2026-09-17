@@ -43,7 +43,7 @@ export default function RightFloatArea({ floatSlot }) {
       })
     }
 
-    window.addEventListener('scroll', throttledScroll)
+    window.addEventListener('scroll', throttledScroll, { passive: true })
 
     // 初始调用一次检查初始状态
     scrollListener()

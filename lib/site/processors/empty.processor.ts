@@ -14,6 +14,7 @@ export function EmptyData(pageId?: string): SiteData {
     notice: null,
     allPages: [],
     allNavPages: [],
+    allLinkPages: [],
     latestPosts: [],
     categoryOptions: [],
     tagOptions: [],

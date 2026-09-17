@@ -1,14 +1,11 @@
-/**
- * 渲染pdf
- * 直接用googledocs预览pdf
- * @param {*} file
- * @returns
- */
 export function Pdf({ file }) {
-  const src =
-    'https://docs.google.com/viewer?embedded=true&url=' +
-    encodeURIComponent(file)
+  if (!file) return null
+
   return (
-    <embed src={src} type='application/pdf' width='100%' height='100%'></embed>
+    <object data={file} type='application/pdf' width='100%' height='100%'>
+      <a href={file} target='_blank' rel='noopener noreferrer'>
+        打开 PDF
+      </a>
+    </object>
   )
 }

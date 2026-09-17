@@ -44,12 +44,11 @@ const PostListRecommend = ({ latestPosts, allNavPages }) => {
 /**
  * 获取推荐置顶文章
  */
-function getTopPosts({ latestPosts, allNavPages }) {
+export function getTopPosts({ latestPosts, allNavPages }) {
+  const recommendTag = siteConfig('MAGZINE_RECOMMEND_POST_TAG', '', CONFIG)
+
   // 默认展示最近更新
-  if (
-    !siteConfig('MAGZINE_RECOMMEND_POST_TAG') ||
-    siteConfig('MAGZINE_RECOMMEND_POST_TAG') === ''
-  ) {
+  if (!recommendTag || recommendTag === '') {
     return latestPosts
   }
 
@@ -57,17 +56,17 @@ function getTopPosts({ latestPosts, allNavPages }) {
   let sortPosts = []
 
   // 排序方式
-  if (siteConfig('MAGZINE_RECOMMEND_POST_SORT_BY_UPDATE_TIME')) {
-    sortPosts = Object.create(allNavPages).sort((a, b) => {
+  if (siteConfig('MAGZINE_RECOMMEND_POST_SORT_BY_UPDATE_TIME', false, CONFIG)) {
+    sortPosts = [...allNavPages].sort((a, b) => {
       const dateA = new Date(a?.lastEditedDate)
       const dateB = new Date(b?.lastEditedDate)
       return dateB - dateA
     })
   } else {
-    sortPosts = Object.create(allNavPages)
+    sortPosts = [...allNavPages]
   }
 
-  const count = siteConfig('MAGZINE_RECOMMEND_POST_COUNT', 6)
+  const count = siteConfig('MAGZINE_RECOMMEND_POST_COUNT', 6, CONFIG)
   // 只取前4篇
   const topPosts = []
   for (const post of sortPosts) {
@@ -75,7 +74,7 @@ function getTopPosts({ latestPosts, allNavPages }) {
       break
     }
     // 查找标签
-    if (post?.tags?.indexOf(siteConfig('MAGZINE_RECOMMEND_POST_TAG')) >= 0) {
+    if (post?.tags?.indexOf(recommendTag) >= 0) {
       topPosts.push(post)
     }
   }

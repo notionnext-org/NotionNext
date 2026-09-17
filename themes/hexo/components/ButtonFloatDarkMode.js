@@ -26,6 +26,7 @@ export default function ButtonDarkModeFloat() {
   return (
     <div
       onClick={handleChangeDarkMode}
+      title={`${isDarkMode ? 'Light Mode' : 'Dark Mode'}`}
       className={
         'justify-center items-center w-7 h-7 text-center transform hover:scale-105 duration-200'
       }>

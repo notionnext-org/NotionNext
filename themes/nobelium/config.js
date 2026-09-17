@@ -1,5 +1,6 @@
 const CONFIG = {
   NOBELIUM_NAV_NOTION_ICON: true, // 是否读取Notion图标作为站点头像 ; 否则默认显示黑色SVG方块
+  NOBELIUM_COLOR_PRIMARY: '#6b7280',
 
   // 特殊菜单
   NOBELIUM_MENU_RANDOM_POST: true, // 是否显示随机跳转文章按钮

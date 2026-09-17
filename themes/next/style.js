@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持tailwindCSS的 @apply 语法
@@ -28,7 +30,9 @@ const Style = () => {
         background-size: 100% 2px;
         color: #4e80ee;
       }
-    `}</style>
+
+      ${themeConsoleStyle('next', CONFIG)}
+  `}</style>
   )
 }
 

@@ -1,0 +1,8 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NotionNext logo">
+  <rect width="256" height="256" fill="#111c35"/>
+  <rect x="57" y="40" width="38" height="147" fill="#fff"/>
+  <polygon points="86,40 124,40 217,147 217,187 179,187 86,80" fill="#fff"/>
+  <rect x="179" y="40" width="38" height="147" fill="#fff"/>
+  <polygon points="95,80 179,177 179,137 95,40" fill="#111c35"/>
+  <rect x="207" y="196" width="24" height="24" fill="#fff"/>
+</svg>

@@ -62,7 +62,7 @@ function checkConfigFiles() {
     { path: 'tailwind.config.js', name: 'Tailwind 配置' },
     { path: 'tsconfig.json', name: 'TypeScript 配置' },
     { path: '.eslintrc.js', name: 'ESLint 配置' },
-    { path: '.prettierrc.js', name: 'Prettier 配置' },
+    { path: '.prettierrc.json', name: 'Prettier 配置' },
     { path: 'jest.config.js', name: 'Jest 配置' },
     { path: '.npmrc', name: 'NPM 配置' }
   ]

@@ -1,11 +1,14 @@
 import { getOrSetDataWithCache } from '@/lib/cache/cache_manager'
 import { fetchNotionPageBlocks } from '@/lib/db/notion/getPostBlocks'
 
-export async function fetchNotionRecordMap(pageId: string, from?: string) {
-  return getOrSetDataWithCache(
+export async function fetchNotionRecordMap(
+  pageId: string,
+  from?: string
+): Promise<unknown> {
+  return (await getOrSetDataWithCache(
     `site_data_${pageId}`,
-    async () => fetchNotionPageBlocks(pageId, from, 0),
+    async () => fetchNotionPageBlocks(pageId, from),
     pageId,
     from
-  )
+  )) as unknown
 }

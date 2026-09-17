@@ -13,7 +13,7 @@ const NotionIcon = ({ icon }) => {
   }
   fontSize = (Math.round(imgSize / 2) - 1) > 0 ? (Math.round(imgSize / 2) - 1) : ''
   if (icon.startsWith('http') || icon.startsWith('data:')) {
-    return <LazyImage src={icon} className={`w-10 h-10 inline`}/>
+    return <LazyImage src={icon} width={40} height={40} className={`w-10 h-10 inline`}/>
   }
 
   return <span className={`mr-1 text-4xl`}>{icon}</span>

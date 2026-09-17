@@ -44,16 +44,16 @@ export const PostLock = props => {
               }
             }}
             ref={passwordInputRef} // 绑定ref到passwordInputRef变量
-            className='outline-none w-full text-sm pl-5 rounded-l transition focus:shadow-lg font-light leading-10 text-black dark:bg-gray-500 bg-gray-50'></input>
+            className='outline-none flex-1 min-w-0 text-sm pl-5 rounded-l transition focus:shadow-lg font-light leading-10 text-black dark:bg-gray-500 bg-gray-50'></input>
           <div
             onClick={submitPassword}
-            className='px-3 whitespace-nowrap cursor-pointer items-center justify-center py-2 rounded-r duration-300 bg-gray-300'>
+            className='flex items-center justify-center whitespace-nowrap cursor-pointer px-4 leading-10 rounded-r duration-300 bg-gray-300 select-none'>
             <i
               className={
                 'duration-200 cursor-pointer fas fa-key dark:text-black'
-              }>
-              &nbsp;{locale.COMMON.SUBMIT}
-            </i>
+              }
+            />
+            <span className='ml-1'>{locale.COMMON.SUBMIT}</span>
           </div>
         </div>
         <div id='tips'></div>

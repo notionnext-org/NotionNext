@@ -46,7 +46,7 @@ const Catalog = ({ post }) => {
       tRef?.current?.scrollTo({ top: 28 * index, behavior: 'smooth' })
     }, throttleMs)
 
-    window.addEventListener('scroll', actionSectionScrollSpy)
+    window.addEventListener('scroll', actionSectionScrollSpy, { passive: true })
     actionSectionScrollSpy()
     return () => {
       window.removeEventListener('scroll', actionSectionScrollSpy)

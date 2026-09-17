@@ -19,7 +19,7 @@ export default function Messenger() {
 
   // 延时7秒，或页面滚动时加载该组件
   useEffect(() => {
-    window.addEventListener('scroll', showTheComponent);
+    window.addEventListener('scroll', showTheComponent, { passive: true });
     setTimeout(() => {
       showTheComponent()
     }, 7000);

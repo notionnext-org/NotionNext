@@ -34,7 +34,7 @@ export const Logo = props => {
     }, throttleMs)
 
     navBarScrollListener()
-    window.addEventListener('scroll', navBarScrollListener)
+    window.addEventListener('scroll', navBarScrollListener, { passive: true })
     return () => {
       window.removeEventListener('scroll', navBarScrollListener)
     }

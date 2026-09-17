@@ -31,6 +31,7 @@ import SlotBar from './components/SlotBar'
 import TagItemMini from './components/TagItemMini'
 import TocDrawer from './components/TocDrawer'
 import TocDrawerButton from './components/TocDrawerButton'
+import ArticleSwitchPlaceholder from './components/ArticleSwitchPlaceholder'
 import CONFIG from './config'
 import { Style } from './style'
 
@@ -54,6 +55,14 @@ const LayoutBase = props => {
   const { onLoading, fullWidth } = useGlobal()
   const router = useRouter()
   const showRandomButton = siteConfig('HEXO_MENU_RANDOM', false, CONFIG)
+  const isArticleSlugPage = router.pathname === '/[prefix]/[slug]'
+  const hexoArticleRouteLoading = siteConfig(
+    'HEXO_ARTICLE_ROUTE_LOADING',
+    true,
+    CONFIG
+  )
+  const showArticleSwitchPlaceholder =
+    hexoArticleRouteLoading && isArticleSlugPage && onLoading
 
   const headerSlot = post ? (
     <PostHero {...props} />
@@ -112,7 +121,7 @@ const LayoutBase = props => {
         {/* 主区块 */}
         <main
           id='wrapper'
-          className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background-gray dark:bg-black w-full py-8 md:px-8 lg:px-24 min-h-screen relative`}>
+          className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? 'pt-0' : 'pt-16'} bg-hexo-background-gray dark:bg-black w-full md:px-8 lg:px-24 min-h-screen relative`}>
           <div
             id='container-inner'
             className={
@@ -123,21 +132,25 @@ const LayoutBase = props => {
             }>
             <div
               className={`${className || ''} w-full ${fullWidth ? '' : 'max-w-4xl'} h-full overflow-hidden`}>
-              <Transition
-                show={!onLoading}
-                appear={true}
-                enter='transition ease-in-out duration-700 transform order-first'
-                enterFrom='opacity-0 translate-y-16'
-                enterTo='opacity-100'
-                leave='transition ease-in-out duration-300 transform'
-                leaveFrom='opacity-100 translate-y-0'
-                leaveTo='opacity-0 -translate-y-16'
-                unmount={false}>
-                {/* 主区上部嵌入 */}
-                {slotTop}
+              {showArticleSwitchPlaceholder ? (
+                <ArticleSwitchPlaceholder />
+              ) : (
+                <Transition
+                  show={isArticleSlugPage ? true : !onLoading}
+                  appear={true}
+                  enter='transition ease-in-out duration-700 transform order-first'
+                  enterFrom='opacity-0 translate-y-16'
+                  enterTo='opacity-100'
+                  leave='transition ease-in-out duration-300 transform'
+                  leaveFrom='opacity-100 translate-y-0'
+                  leaveTo='opacity-0 -translate-y-16'
+                  unmount={false}>
+                  {/* 主区上部嵌入 */}
+                  {slotTop}
 
-                {children}
-              </Transition>
+                  {children}
+                </Transition>
+              )}
             </div>
 
             {/* 右侧栏 */}
@@ -291,8 +304,6 @@ const LayoutSlug = props => {
           <div className='overflow-x-auto flex-grow mx-auto md:w-full md:px-5 '>
             <article
               id='article-wrapper'
-              itemScope
-              itemType='https://schema.org/Movie'
               className='subpixel-antialiased overflow-y-hidden'>
               {/* Notion文章主体 */}
               <section className='px-5 justify-center mx-auto max-w-2xl lg:max-w-full'>

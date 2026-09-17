@@ -27,7 +27,7 @@ export default function ArticleInfo(props) {
             </div>
             <SmartLink href="/about" passHref legacyBehavior>
                 <div className='flex pt-2'>
-                    <LazyImage src={siteInfo?.icon} className='rounded-full cursor-pointer' width={22} alt={siteConfig('AUTHOR')} />
+                    <LazyImage src={siteInfo?.icon} className='rounded-full cursor-pointer' width={22} height={22} alt={siteConfig('AUTHOR')} />
 
                     <div className="mr-3 ml-2 my-auto text-green-500 cursor-pointer">
                         {siteConfig('AUTHOR')}

@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unknown-property */
+import CONFIG from './config'
+import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 /**
  * 此处样式只对当前主题生效
  * 此处不支持tailwindCSS的 @apply 语法
@@ -15,7 +17,9 @@ const Style = () => {
       .bottom-button-group {
         box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.1);
       }
-    `}</style>
+
+      ${themeConsoleStyle('gitbook', CONFIG)}
+  `}</style>
   )
 }
 

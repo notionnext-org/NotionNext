@@ -27,7 +27,6 @@ export const MenuItemDrop = ({ link }) => {
           target={link?.target}
           className={`${selected && 'border-b-2 border-[#D2232A]'} h-full flex space-x-1 whitespace-nowrap items-center font-sans menu-link pl-2 pr-4  dark:text-gray-200 no-underline tracking-widest pb-1`}>
           {link?.icon && <i className={link?.icon} />} <div>{link?.name}</div>
-          {/* {hasSubMenu && <i className='px-2 fa fa-angle-down'></i>} */}
         </SmartLink>
       )}
 
@@ -46,9 +45,10 @@ export const MenuItemDrop = ({ link }) => {
           style={{ backdropFilter: 'blur(3px)' }}
           className={`${show ? 'visible opacity-100 shadow-lg' : 'invisible opacity-0'} overflow-hidden bg-white transition-all duration-300 z-20 absolute block  `}>
           {link.subMenus.map((sLink, index) => {
+            const subMenuKey = sLink?.href || sLink?.title || `submenu-${index}`
             return (
               <li
-                key={index}
+                key={subMenuKey}
                 className='cursor-pointer hover:bg-red-300 text-gray-900 hover:text-black tracking-widest transition-all duration-200 dark:border-gray-800  py-1 pr-6 pl-3'>
                 <SmartLink href={sLink.href} target={link?.target}>
                   <span className='text-sm text-nowrap font-extralight'>

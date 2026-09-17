@@ -26,9 +26,14 @@ export async function getStaticProps({ params: { tag }, locale }) {
   props.postCount = props.posts.length
 
   // 处理分页
-  if (siteConfig('POST_LIST_STYLE') === 'scroll') {
+  const POST_LIST_STYLE = siteConfig(
+    'POST_LIST_STYLE',
+    'page',
+    props?.NOTION_CONFIG
+  )
+  if (POST_LIST_STYLE === 'scroll') {
     // 滚动列表 给前端返回所有数据
-  } else if (siteConfig('POST_LIST_STYLE') === 'page') {
+  } else if (POST_LIST_STYLE === 'page') {
     props.posts = props.posts?.slice(
       0,
       siteConfig('POSTS_PER_PAGE', 12, props?.NOTION_CONFIG)
@@ -55,6 +60,9 @@ export async function getStaticProps({ params: { tag }, locale }) {
  * @param tags
  */
 function getTagNames(tags) {
+  if (!Array.isArray(tags)) {
+    return []
+  }
   const tagNames = []
   tags.forEach(tag => {
     tagNames.push(tag.name)
@@ -68,8 +76,8 @@ export async function getStaticPaths() {
   const tagNames = getTagNames(tagOptions)
 
   return {
-    paths: Object.keys(tagNames).map(index => ({
-      params: { tag: tagNames[index] }
+    paths: tagNames.map(tag => ({
+      params: { tag }
     })),
     fallback: true
   }

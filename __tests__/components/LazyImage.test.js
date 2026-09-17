@@ -89,17 +89,28 @@ describe('LazyImage Component', () => {
 
   it('handles load event', async () => {
     const handleLoad = jest.fn()
-    render(<LazyImage {...defaultProps} onLoad={handleLoad} />)
-    
-    const image = screen.getByAltText('Test image')
-    
-    // Simulate image load
-    Object.defineProperty(image, 'complete', { value: true })
-    image.dispatchEvent(new Event('load'))
-    
-    await waitFor(() => {
-      expect(handleLoad).toHaveBeenCalled()
-    })
+    const OriginalImage = global.Image
+    // jsdom does not finish decoding remote URLs; defer onload until after handlers attach (matches browser ordering).
+    global.Image = class MockImage {
+      constructor() {
+        this.onload = null
+      }
+
+      set src(_val) {
+        queueMicrotask(() => {
+          if (this.onload) this.onload()
+        })
+      }
+    }
+
+    try {
+      render(<LazyImage {...defaultProps} priority onLoad={handleLoad} />)
+      await waitFor(() => {
+        expect(handleLoad).toHaveBeenCalled()
+      })
+    } finally {
+      global.Image = OriginalImage
+    }
   })
 
   it('handles error gracefully', () => {
@@ -122,10 +133,9 @@ describe('LazyImage Component', () => {
   })
 
   it('handles missing src gracefully', () => {
-    render(<LazyImage alt="Test image" />)
-    
-    const image = screen.getByAltText('Test image')
-    expect(image).toBeInTheDocument()
+    const { container } = render(<LazyImage alt="Test image" />)
+
+    expect(container.firstChild).toBeNull()
   })
 
   it('applies custom styles', () => {

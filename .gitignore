@@ -7,10 +7,15 @@
 
 # testing
 /coverage
+/test-results
 
 # next.js
 /.next/
 /out/
+
+# vitepress (docs site)
+.vitepress/cache
+.vitepress/dist
 
 # production
 /build
@@ -26,6 +31,7 @@ yarn-error.log*
 
 # local env files
 .env.local
+.env.docs.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -37,6 +43,12 @@ yarn-error.log*
 # dev
 /data.json
 /pnpm-lock.yaml
+.codex-temp/
+.codex-remote-attachments/
+.codex-*.md
+tmp-followup-*.md
+notionnext-*-comment.txt
+output/
 .idea
 .vscode
 
@@ -52,3 +64,10 @@ package-lock.json
 # yarn.lock
 
 .notion-api-lock
+.tmp/
+.perf/
+tsconfig.tsbuildinfo
+webpack-internal:/
+
+# Local Cloudflare Worker route configuration
+/cloudflare/notion-image-proxy/wrangler.toml
