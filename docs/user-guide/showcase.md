@@ -34,6 +34,7 @@
 | [Tangly Blog](https://blog.tangly1024.com/) | 个人博客 | `magzine` | [@tangly1024](https://github.com/tangly1024) |
 | [茉灵智库](https://blog.88lin.eu.org) | 个人博客 | `heo` | [@88lin](https://github.com/88lin) |
 | [Cloud09_Space](https://cloud09.space/) | 个人空间 | `endspace` | [@cloud09](https://github.com/cloud09) |
+| [Aerosand](https://aerosand.cn/) | 产品官网 | `Starter` | [@aerosand](https://github.com/aerosand) |
 
 ## 推荐格式
 

@@ -56,42 +56,55 @@ Opc 是面向个人主页、一人公司和独立开发者的入口主题。首�
 
 ### 常用信息配置
 
-| 配置键 | 说明 |
-| --- | --- |
-| `OPC_NAME` | 顶部名称 |
-| `OPC_KICKER` | 首屏标签 |
-| `OPC_TITLE` | 主标题 |
-| `OPC_SUBTITLE` | 副标题 |
-| `OPC_DESCRIPTION` | 主介绍 |
-| `OPC_PRIMARY_TEXT` | 主按钮文字 |
-| `OPC_PRIMARY_URL` | 主按钮链接 |
-| `OPC_SECONDARY_TEXT` | 副按钮文字 |
-| `OPC_SECONDARY_URL` | 副按钮链接 |
-| `OPC_STATUS_TEXT` | 状态标签 |
-| `OPC_CARD_TITLE` | 工作流卡片标题 |
-| `OPC_CARD_DESCRIPTION` | 工作流说明 |
-| `OPC_NOW_TITLE` | 近况标题 |
-| `OPC_NOW_DESCRIPTION` | 近况说明 |
-| `OPC_NOW_ITEMS` | 近况标签，英文逗号分隔 |
+| 配置键                 | 说明                   |
+| ---------------------- | ---------------------- |
+| `OPC_NAME`             | 顶部名称               |
+| `OPC_KICKER`           | 首屏标签               |
+| `OPC_TITLE`            | 主标题                 |
+| `OPC_SUBTITLE`         | 副标题                 |
+| `OPC_DESCRIPTION`      | 主介绍                 |
+| `OPC_PRIMARY_TEXT`     | 主按钮文字             |
+| `OPC_PRIMARY_URL`      | 主按钮链接             |
+| `OPC_SECONDARY_TEXT`   | 副按钮文字             |
+| `OPC_SECONDARY_URL`    | 副按钮链接             |
+| `OPC_STATUS_TEXT`      | 状态标签               |
+| `OPC_CARD_TITLE`       | 工作流卡片标题         |
+| `OPC_CARD_DESCRIPTION` | 工作流说明             |
+| `OPC_NOW_TITLE`        | 近况标题               |
+| `OPC_NOW_DESCRIPTION`  | 近况说明               |
+| `OPC_NOW_ITEMS`        | 近况标签，英文逗号分隔 |
+
+### 旧地址重定向
+
+如果旧文章地址已经迁移到其他域名，可以选择性开启 404 重定向。只有当前地址在本站不存在时才会跳转，旧地址的路径、查询参数和 hash 会保留。
+
+在 **Notion Config** 表中添加：
+
+```text
+REDIRECT_ENABLE = true
+REDIRECT_LINK = https://blog.example.com
+```
+
+例如访问 `https://example.com/article/test`，会跳转到 `https://blog.example.com/article/test`。默认 `REDIRECT_ENABLE` 为 `false`；关闭时仍显示正常的 404 页面。也可以使用环境变量 `NEXT_PUBLIC_REDIRECT_ENABLE` 和 `NEXT_PUBLIC_REDIRECT_LINK`。
 
 ### 配色配置
 
 Opc 支持主题控制台调整浅色和深色基础色：
 
-| 配置键 | 说明 |
-| --- | --- |
-| `OPC_COLOR_PRIMARY` | 浅色主色 |
-| `OPC_COLOR_BG` | 浅色页面背景 |
-| `OPC_COLOR_CARD` | 浅色卡片背景 |
-| `OPC_COLOR_TEXT` | 浅色主文字 |
-| `OPC_COLOR_TEXT_SECONDARY` | 浅色次级文字 |
-| `OPC_COLOR_BORDER` | 浅色边框 |
-| `OPC_COLOR_PRIMARY_DARK` | 深色主色 |
-| `OPC_COLOR_BG_DARK` | 深色页面背景 |
-| `OPC_COLOR_CARD_DARK` | 深色卡片背景 |
-| `OPC_COLOR_TEXT_DARK` | 深色主文字 |
+| 配置键                          | 说明         |
+| ------------------------------- | ------------ |
+| `OPC_COLOR_PRIMARY`             | 浅色主色     |
+| `OPC_COLOR_BG`                  | 浅色页面背景 |
+| `OPC_COLOR_CARD`                | 浅色卡片背景 |
+| `OPC_COLOR_TEXT`                | 浅色主文字   |
+| `OPC_COLOR_TEXT_SECONDARY`      | 浅色次级文字 |
+| `OPC_COLOR_BORDER`              | 浅色边框     |
+| `OPC_COLOR_PRIMARY_DARK`        | 深色主色     |
+| `OPC_COLOR_BG_DARK`             | 深色页面背景 |
+| `OPC_COLOR_CARD_DARK`           | 深色卡片背景 |
+| `OPC_COLOR_TEXT_DARK`           | 深色主文字   |
 | `OPC_COLOR_TEXT_SECONDARY_DARK` | 深色次级文字 |
-| `OPC_COLOR_BORDER_DARK` | 深色边框 |
+| `OPC_COLOR_BORDER_DARK`         | 深色边框     |
 
 <!-- /theme-config-table -->
 
