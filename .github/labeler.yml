@@ -1,0 +1,29 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/**
+          - '**/*.md'
+
+docs-site:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .vitepress/**
+
+theme:
+  - changed-files:
+      - any-glob-to-any-file:
+          - themes/**
+
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - conf/**
+          - blog.config.js
+          - lib/config.js
+
+core:
+  - changed-files:
+      - any-glob-to-any-file:
+          - lib/db/**
+          - pages/**
+          - next.config.js

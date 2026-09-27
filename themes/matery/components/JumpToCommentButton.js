@@ -17,10 +17,16 @@ const JumpToCommentButton = () => {
     }
   }
 
-  return <div className={'justify-center items-center text-center'} onClick={navToComment}>
-        <i id="darkModeButton" className={`fas fa-comments transform hover:scale-105 duration-200 text-white
-         text-sm  bg-indigo-700 w-10 h-10 rounded-full dark:bg-black cursor-pointer py-3`} />
+  return (
+    <div
+      className='flex justify-center items-center text-center select-none'
+      onClick={navToComment}>
+      <i
+        id='jumpToCommentButton'
+        className='fas fa-comments transform hover:scale-105 duration-200 text-white bg-indigo-700 w-10 h-10 rounded-full dark:bg-black cursor-pointer flex justify-center items-center'
+      />
     </div>
+  )
 }
 
 export default JumpToCommentButton

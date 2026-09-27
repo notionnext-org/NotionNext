@@ -1,50 +1,80 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
  * 侧边栏抽屉面板，可以从侧面拉出
  * @returns {JSX.Element}
  * @constructor
  */
-const SideBarDrawer = ({ children, isOpen, onOpen, onClose, className }) => {
+const SideBarDrawer = ({
+  children,
+  isOpen,
+  onOpen,
+  onClose,
+  className,
+  showOnPC = false
+}) => {
   const router = useRouter()
+
+  /**
+   * 移动端：打开抽屉后同一手势会触发「幽灵点击」落在全屏遮罩上导致立刻关闭。
+   * 打开后短时间内遮罩 pointer-events: none，超时后再响应关闭。
+   */
+  const [backdropInteractive, setBackdropInteractive] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) {
+      setBackdropInteractive(false)
+      return
+    }
+    setBackdropInteractive(false)
+    const id = window.setTimeout(() => setBackdropInteractive(true), 180)
+    return () => window.clearTimeout(id)
+  }, [isOpen])
+
   useEffect(() => {
     const sideBarDrawerRouteListener = () => {
-      switchSideDrawerVisible(false)
+      onClose && onClose()
     }
     router.events.on('routeChangeComplete', sideBarDrawerRouteListener)
     return () => {
       router.events.off('routeChangeComplete', sideBarDrawerRouteListener)
     }
-  }, [router.events])
+  }, [onClose, router.events])
 
   // 点击按钮更改侧边抽屉状态
-  const switchSideDrawerVisible = (showStatus) => {
+  const switchSideDrawerVisible = showStatus => {
     if (showStatus) {
       onOpen && onOpen()
     } else {
       onClose && onClose()
     }
-    const sideBarDrawer = window.document.getElementById('sidebar-drawer')
-    const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
-
-    if (showStatus) {
-      sideBarDrawer?.classList.replace('-ml-60', 'ml-0')
-      sideBarDrawerBackground?.classList.replace('hidden', 'block')
-    } else {
-      sideBarDrawer?.classList.replace('ml-0', '-ml-60')
-      sideBarDrawerBackground?.classList.replace('block', 'hidden')
-    }
   }
 
-  return <div id='sidebar-wrapper' className={' block lg:hidden top-0 ' + className }>
-    <div id="sidebar-drawer" className={`${isOpen ? 'ml-0 w-60 visible' : '-ml-60 max-w-side invisible'} bg-white dark:bg-gray-900 shadow-black shadow-lg flex flex-col duration-300 fixed h-full left-0 overflow-y-scroll scroll-hidden top-0 z-30`}>
-      {children}
-    </div>
+  return (
+    <div
+      id='sidebar-wrapper'
+      className={`block ${showOnPC ? '' : 'lg:hidden'} top-0`}>
+      <div
+        id='sidebar-drawer'
+        className={`z-[70] ${className} ${isOpen ? 'translate-x-0 opacity-100' : 'pointer-events-none translate-x-[-104%] opacity-0'} transform-gpu transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] bg-white dark:bg-gray-900 flex flex-col fixed h-full left-0 overflow-y-scroll top-0 will-change-transform`}>
+        {children}
+      </div>
 
-    {/* 背景蒙版 */}
-    <div id='sidebar-drawer-background' onClick={() => { switchSideDrawerVisible(false) }}
-      className={`${isOpen ? 'block' : 'hidden'} animate__animated animate__fadeIn fixed top-0 duration-300 left-0 z-20 w-full h-full bg-black/70`}/>
-  </div>
+      {/* 背景蒙版 */}
+      <div
+        id='sidebar-drawer-background'
+        role='presentation'
+        onClick={() => {
+          if (!backdropInteractive) return
+          switchSideDrawerVisible(false)
+        }}
+        className={`fixed top-0 left-0 z-[60] h-full w-full bg-black/70 transition-opacity duration-200 ease-out ${
+          isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+        } ${isOpen && !backdropInteractive ? 'pointer-events-none' : ''}`}
+      />
+    </div>
+  )
 }
+
 export default SideBarDrawer

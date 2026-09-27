@@ -1,5 +1,17 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Join Notion CN Community
+  - name: 参与社区（文档与贡献入口）
+    url: https://notionnext.tangly1024.com/user-guide/community-participate
+    about: 四步路径：提问 → 改文档 → 改代码 → 成为维护者
+  - name: GitHub Discussions（使用问答 · 想法 · 文档）
+    url: https://github.com/notionnext-org/NotionNext/discussions
+    about: 官方协作主战场；部署/配置问题优先发 Discussion
+  - name: 在线文档站
+    url: https://notionnext.tangly1024.com/
+    about: 使用说明（与 main 分支 docs/user-guide 同步）
+  - name: 旧版 Notion 教程
+    url: https://docs.tangly1024.com
+    about: 历史 Notion 托管教程（含截图）；新版见 notionnext.tangly1024.com
+  - name: Notion 站长社群（Telegram，非官方支持）
     url: https://t.me/Notionso
-    about: Ask and discuss Notion and Nobelium with other community members.
+    about: Notion 站长闲聊；技术 Bug 请用 GitHub Issue / Discussions

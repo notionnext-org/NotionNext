@@ -1,6 +1,5 @@
 import { useGlobal } from '@/lib/global'
-import throttle from 'lodash.throttle'
-import Link from 'next/link'
+import SmartLink from '@/components/SmartLink'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import CategoryGroup from './CategoryGroup'
 import Collapse from '@/components/Collapse'
@@ -10,8 +9,8 @@ import SearchDrawer from './SearchDrawer'
 import TagGroups from './TagGroups'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
-
-let windowTop = 0
+import { useNextGlobal } from '..'
+import { useRouter } from 'next/router'
 
 /**
  * 顶部导航
@@ -23,50 +22,89 @@ const TopNav = (props) => {
   const { locale } = useGlobal()
   const searchDrawer = useRef()
   const collapseRef = useRef(null)
+  const router = useRouter()
+  const rafRef = useRef(null)
+  const navRef = useRef(null)
+  const windowTopRef = useRef(0)
+  const [isOpen, changeShow] = useState(false)
 
-  const scrollTrigger = useCallback(throttle(() => {
-    const scrollS = window.scrollY
-    if (scrollS >= windowTop && scrollS > 10) {
-      const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('top-0', '-top-40')
-      windowTop = scrollS
-    } else {
-      const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('-top-40', 'top-0')
-      windowTop = scrollS
+  const scrollTrigger = useCallback(() => {
+    if (rafRef.current) {
+      return
     }
-  }, 200), [])
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      const scrollS = window.scrollY
+      if (!navRef.current) {
+        navRef.current = document.querySelector('#sticky-nav')
+      }
+      if (scrollS >= windowTopRef.current && scrollS > 10) {
+        navRef.current && navRef.current.classList.replace('top-0', '-top-40')
+        windowTopRef.current = scrollS
+      } else {
+        navRef.current && navRef.current.classList.replace('-top-40', 'top-0')
+        windowTopRef.current = scrollS
+      }
+    })
+  }, [])
+
+  const menuCollapseHide = useCallback(() => {
+    changeShow(false)
+  }, [])
 
   // 监听滚动
   useEffect(() => {
     if (siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse') {
+      navRef.current = document.querySelector('#sticky-nav')
       scrollTrigger()
-      window.addEventListener('scroll', scrollTrigger)
+      window.addEventListener('scroll', scrollTrigger, { passive: true })
     }
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
       siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse' && window.removeEventListener('scroll', scrollTrigger)
     }
-  }, [])
+  }, [scrollTrigger])
 
-  const [isOpen, changeShow] = useState(false)
+  // 监听滚动
+  useEffect(() => {
+    router.events.on('routeChangeComplete', menuCollapseHide)
+    return () => {
+      router.events.off('routeChangeComplete', menuCollapseHide)
+    }
+  }, [menuCollapseHide, router.events])
 
+  /**
+   * 点击切换页面后关闭这点菜单
+   */
   const toggleMenuOpen = () => {
     changeShow(!isOpen)
   }
 
+  const { searchModal } = useNextGlobal()
+  const showSearchModal = () => {
+    if (siteConfig('ALGOLIA_APP_ID')) {
+      searchModal?.current?.openSearch()
+    } else {
+      searchDrawer?.current?.show()
+    }
+  }
+
+  //   搜索栏
   const searchDrawerSlot = <>
         {categories && (
             <section className='mt-8'>
                 <div className='text-sm flex flex-nowrap justify-between font-light px-2'>
                     <div className='text-gray-600 dark:text-gray-200'><i className='mr-2 fas fa-th-list' />{locale.COMMON.CATEGORY}</div>
-                    <Link
+                    <SmartLink
                         href={'/category'}
                         passHref
-                        className='mb-3 text-gray-400 hover:text-black dark:text-gray-400 dark:hover:text-white hover:underline cursor-pointer'>
+                        className='mb-3 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white hover:underline cursor-pointer'>
 
                         {locale.COMMON.MORE} <i className='fas fa-angle-double-right' />
 
-                    </Link>
+                    </SmartLink>
                 </div>
                 <CategoryGroup currentCategory={currentCategory} categories={categories} />
             </section>
@@ -76,14 +114,14 @@ const TopNav = (props) => {
             <section className='mt-4'>
                 <div className='text-sm py-2 px-2 flex flex-nowrap justify-between font-light dark:text-gray-200'>
                     <div className='text-gray-600 dark:text-gray-200'><i className='mr-2 fas fa-tag' />{locale.COMMON.TAGS}</div>
-                    <Link
+                    <SmartLink
                         href={'/tag'}
                         passHref
-                        className='text-gray-400 hover:text-black  dark:hover:text-white hover:underline cursor-pointer'>
+                        className='text-gray-500 hover:text-black  dark:hover:text-white hover:underline cursor-pointer'>
 
                         {locale.COMMON.MORE} <i className='fas fa-angle-double-right' />
 
-                    </Link>
+                    </SmartLink>
                 </div>
                 <div className='p-2'>
                     <TagGroups tags={tags} currentTag={currentTag} />
@@ -112,8 +150,8 @@ const TopNav = (props) => {
 
                     {/* 右侧功能 */}
                     <div className='mr-1 flex justify-end items-center text-sm space-x-4 font-serif dark:text-gray-200'>
-                        <div className="cursor-pointer block lg:hidden" onClick={() => { searchDrawer?.current?.show() }}>
-                            <i className="mr-2 fas fa-search" />{locale.NAV.SEARCH}
+                        <div className="cursor-pointer block lg:hidden" onClick={showSearchModal}>
+                            <i className="mr-2 fas fa-search" />
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ export default function Messenger() {
 
   // 延时7秒，或页面滚动时加载该组件
   useEffect(() => {
-    window.addEventListener('scroll', showTheComponent);
+    window.addEventListener('scroll', showTheComponent, { passive: true });
     setTimeout(() => {
       showTheComponent()
     }, 7000);
@@ -116,7 +116,11 @@ class MessengerCustomerChat extends Component {
             js = d.createElement(s);
             js.id = id;
             js.src = `https://connect.facebook.net/${language}/sdk/xfbml.customerchat.js`;
-            fjs.parentNode.insertBefore(js, fjs);
+            if (fjs && fjs.parentNode && fjs.parentNode.contains(fjs)) {
+              fjs.parentNode.insertBefore(js, fjs);
+            } else {
+              document.body.appendChild(js);
+            }
         })(document, 'script', 'facebook-jssdk');
         /* eslint-enable */
   }

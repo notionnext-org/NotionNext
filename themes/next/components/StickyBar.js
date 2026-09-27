@@ -1,42 +1,53 @@
-import throttle from 'lodash.throttle'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
 
-let windowTop = 0
-
 /**
- * 标签组导航条，默认隐藏仅在移动端显示
+ * 固定条横向样式优化
  * @param tags
  * @returns {JSX.Element}
  * @constructor
  */
 const StickyBar = ({ children }) => {
-  // 滚动页面时导航条样式调整
-  const scrollTrigger = useCallback(throttle(() => {
+  const rafRef = useRef(null)
+  const barRef = useRef(null)
+  const windowTopRef = useRef(0)
+
+  // 滚动时进行滑动优化
+  const scrollTrigger = useCallback(() => {
     if (siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'normal') {
       return
     }
-    const scrollS = window.scrollY
-    if (scrollS >= windowTop && scrollS > 10) {
-      const stickyBar = document.querySelector('#sticky-bar')
-      stickyBar && stickyBar.classList.replace('top-14', 'top-0')
-      windowTop = scrollS
-    } else {
-      const stickyBar = document.querySelector('#sticky-bar')
-      stickyBar && stickyBar.classList.replace('top-0', 'top-14')
-      windowTop = scrollS
+    if (rafRef.current) {
+      return
     }
-  }, 200), [])
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      const scrollS = window.scrollY
+      if (!barRef.current) {
+        barRef.current = document.querySelector('#sticky-bar')
+      }
+      if (scrollS >= windowTopRef.current && scrollS > 10) {
+        barRef.current && barRef.current.classList.replace('top-14', 'top-0')
+      } else {
+        barRef.current && barRef.current.classList.replace('top-0', 'top-14')
+      }
+      windowTopRef.current = scrollS
+    })
+  }, [])
 
   // 监听滚动
   useEffect(() => {
-    window.addEventListener('scroll', scrollTrigger)
+    barRef.current = document.querySelector('#sticky-bar')
+    window.addEventListener('scroll', scrollTrigger, { passive: true })
     scrollTrigger()
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
       window.removeEventListener('scroll', scrollTrigger)
     }
-  }, [])
+  }, [scrollTrigger])
 
   if (!children) return <></>
 

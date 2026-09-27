@@ -1,5 +1,5 @@
 import { useGlobal } from '@/lib/global'
-import Link from 'next/link'
+import SmartLink from '@/components/SmartLink'
 import { useEffect, useRef } from 'react'
 import Card from './Card'
 import SearchInput from './SearchInput'
@@ -23,33 +23,33 @@ export default function SearchNav(props) {
     <div className="my-6 px-2">
         <SearchInput cRef={cRef} {...props} />
         {/* 分类 */}
-        <Card className="w-full mt-4 bg-white dark:bg-[#1a191d]">
+        <Card className="w-full mt-4 bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)]">
             <div className="dark:text-gray-200 mb-5 mx-3 text-3xl">
                 {locale.COMMON.CATEGORY}:
             </div>
             <div id="category-list" className="duration-200 flex flex-wrap mx-8">
                 {categoryOptions?.map(category => {
                   return (
-                      <Link
+                      <SmartLink
                           key={category.name}
                           href={`/category/${category.name}`}
                           passHref
                           legacyBehavior>
                           <div
                               className={
-                                  ' duration-300 dark:hover:text-white dark:text-gray-200 rounded-2xl px-3 cursor-pointer py-1 hover:bg-indigo-600 dark:hover:bg-yellow-600 hover:text-white'
+                                  ' duration-300 dark:hover:text-white dark:text-gray-200 rounded-2xl px-3 cursor-pointer py-1 hover:bg-[var(--heo-color-primary)] dark:hover:bg-[var(--heo-color-accent)] hover:text-[var(--heo-color-primary-text)]'
                               }
                           >
                               <i className="mr-4 fas fa-folder" />
                               {category.name}({category.count})
                           </div>
-                      </Link>
+                      </SmartLink>
                   )
                 })}
             </div>
         </Card>
         {/* 标签 */}
-        <Card className="w-full mt-4 bg-white dark:bg-[#1a191d]">
+        <Card className="w-full mt-4 bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)]">
             <div className="dark:text-gray-200 mb-5 ml-4 text-3xl">
                 {locale.COMMON.TAGS}:
             </div>

@@ -1,0 +1,19 @@
+title: "🛠️ "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        开发相关讨论（架构、PR 评审、RFC）。提交代码前请阅读 [CONTRIBUTING.zh-CN.md](https://github.com/notionnext-org/NotionNext/blob/main/CONTRIBUTING.zh-CN.md) 与 [MAINTENANCE_PHILOSOPHY](https://github.com/notionnext-org/NotionNext/blob/main/docs/developer/MAINTENANCE_PHILOSOPHY.zh-CN.md)。
+  - type: textarea
+    id: topic
+    attributes:
+      label: 讨论主题
+    validations:
+      required: true
+  - type: input
+    id: pr
+    attributes:
+      label: 相关 PR / Issue 链接（可选）
+    validations:
+      required: false

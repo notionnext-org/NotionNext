@@ -1,186 +1,176 @@
+<div align="center">
+
+<img src="https://github.com/user-attachments/assets/c111204d-2016-4343-92e4-83357cac4b19" width="96" height="96" alt="NotionNext Logo" />
+
 # NotionNext
 
+Build an independent website from Notion.
+
+Keep writing in Notion, and publish your content as a blog, portfolio, knowledge base, directory, or product website.
+
 <p>
-  <a aria-label="GitHub commit activity" href="https://github.com/tangly1024/NotionNext/commits/main" title="GitHub commit activity">
-    <img src="https://img.shields.io/github/commit-activity/m/tangly1024/NotionNext?style=for-the-badge"/>
+  <a href="https://preview.tangly1024.com/">Live Preview</a>
+  ·
+  <a href="https://notionnext.tangly1024.com/user-guide/start-here">Get Started</a>
+  ·
+  <a href="https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG">Themes</a>
+  ·
+  <a href="https://notionnext.tangly1024.com/user-guide/showcase">Showcase</a>
+  ·
+  <a href="https://notionnext.tangly1024.com/">Docs</a>
+  ·
+  <a href="https://github.com/notionnext-org/NotionNext/discussions">Discussions</a>
+</p>
+
+<p>
+  <a aria-label="GitHub commit activity" href="https://github.com/notionnext-org/NotionNext/commits/main" title="GitHub commit activity">
+    <img src="https://img.shields.io/github/commit-activity/m/notionnext-org/NotionNext?style=for-the-badge"/>
   </a>
-  <a aria-label="GitHub contributors" href="https://github.com/tangly1024/NotionNext/graphs/contributors" title="GitHub contributors">
-    <img src="https://img.shields.io/github/contributors/tangly1024/NotionNext?color=orange&style=for-the-badge"/>
+  <a aria-label="GitHub contributors" href="https://github.com/notionnext-org/NotionNext/graphs/contributors" title="GitHub contributors">
+    <img src="https://img.shields.io/github/contributors/notionnext-org/NotionNext?color=orange&style=for-the-badge"/>
   </a>
   <a aria-label="Build status" href="#" title="Build status">
-    <img src="https://img.shields.io/github/deployments/tangly1024/NotionNext/Production?logo=Vercel&style=for-the-badge"/>
+    <img src="https://img.shields.io/github/deployments/notionnext-org/NotionNext/Production?logo=Vercel&style=for-the-badge"/>
   </a>
   <a aria-label="Powered by Vercel" href="https://vercel.com?utm_source=Craigary&utm_campaign=oss" title="Powered by Vercel">
     <img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" height="28"/>
   </a>
 </p>
 
+[中文](./README.md) | English
 
-[中文文档](./README.md) | README in English
+</div>
 
-<hr/>
+---
 
-A static blog system built with NextJS and Notion API, deployed on Vercel. Designed for Notion and all creators.
+## What Is NotionNext?
 
+NotionNext is an open-source website system built with **Next.js + Notion API**. You keep managing posts, categories, tags, menus, and pages in Notion. NotionNext turns that content into an independent website that can be visited, searched, customized, and operated over the long term.
 
-## Preview
+It is useful for creators, indie hackers, designers, photographers, course authors, open-source maintainers, and small teams that want a fast website for content, docs, portfolios, or product pages.
 
-Live Demo：[https://preview.tangly1024.com/](https://preview.tangly1024.com/) ，Project supports switching between multiple themes. Can't find a theme you like? How about [contributing](/CONTRIBUTING.md) one?~
+## What Can You Build?
 
-| Next | Medium | Hexo | Fukasawa |
-|--|--|--|--|
-| <img src='./docs/theme-next.png' width='300'/> [NEXT](https://preview.tangly1024.com/?theme=next)  | <img src='./docs/theme-medium.png' width='300'/> [MEDIUM](https://preview.tangly1024.com/?theme=medium) | <img src='./docs/theme-hexo.png' width='300'/> [HEXO](https://preview.tangly1024.com/?theme=hexo) | <img src='./docs/theme-fukasawa.png' width='300'/> [FUKASAWA](https://preview.tangly1024.com/?theme=fukasawa) |
+| Goal | Recommended Entry | Best For |
+| --- | --- | --- |
+| Personal blog | [Get started](https://notionnext.tangly1024.com/user-guide/start-here) | Writers, developers, students |
+| Portfolio or personal brand | [Choose a theme by use case](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) | Designers, photographers, freelancers |
+| Product website or SaaS landing page | [Starter / Landing / Proxio](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) | Indie products, startups, small teams |
+| Knowledge base or docs site | [GitBook / Claude](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) | Open-source projects, course authors, teams |
+| Directory or resource hub | [Nav theme](https://notionnext.tangly1024.com/user-guide/themes/nav) | Curators and community operators |
 
-## Get Start!
+## Why NotionNext?
 
-It only takes a few minutes to set up your personal site:
+- **Keep using Notion**: posts, categories, tags, covers, menus, and pages stay in Notion.
+- **Short path to launch**: duplicate the Notion template, fork the repository, connect Vercel, and deploy.
+- **Many built-in themes**: 26 themes for blogs, docs, portfolios, product sites, galleries, and directories.
+- **Built for long-term operation**: custom domains, SEO, Sitemap, RSS, comments, analytics, search, ads, and email subscription.
+- **Open-source and controllable**: source code, configuration, and themes live in your own repository.
+- **Clear data path**: Notion stores the content, the website handles publishing, and future migration remains possible.
 
-- [Quick Deployment Tutorial - Multiple Options Available](https://tangly1024.com/article/notion-next) 
+## 20-Minute Deployment Path
 
-- [Customization Guide - How to Configure Feature Plugins](https://tangly1024.com/article/notion-next-guide) 
+1. Open the [theme preview site](https://preview.tangly1024.com/) and choose the site style you want.
+2. Duplicate the official NotionNext Notion template.
+3. Fork this repository to your GitHub account.
+4. Deploy with [Vercel](https://notionnext.tangly1024.com/user-guide/deploy-vercel).
+5. Set `NOTION_PAGE_ID` and other required environment variables.
+6. After launch, configure your theme, domain, comments, analytics, and search as needed.
 
-- [Development Guide - How to Conduct Local Development](https://tangly1024.com/article/how-to-develop-with-notion-next)
- 
-- [Update Guide - How to Get the Latest Upgrade Patch](https://tangly1024.com/article/how-to-update-notionnext)
+New users should start with the [Get Started guide](https://notionnext.tangly1024.com/user-guide/start-here).
 
-- [Version History - Check Feature Highlights for Each Version](https://tangly1024.com/article/notion-next-changelogs)
+## Themes
+
+- Live theme switcher: [preview.tangly1024.com](https://preview.tangly1024.com/)
+- Built-in themes: [Themes catalog](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG)
+- Theme docs in this repository: [docs/user-guide/themes/](./docs/user-guide/themes/)
+
+| Use Case | Start With |
+| --- | --- |
+| Personal blog | `simple`, `hexo`, `nobelium`, `typography` |
+| Docs / knowledge base | `gitbook`, `claude`, `thoughtlite` |
+| Portfolio / personal brand | `opc`, `proxio`, `starter`, `landing` |
+| Product website | `starter`, `landing`, `commerce` |
+| Photo / visual content | `photo`, `plog`, `magzine` |
+| Directory | `nav` |
+
+## Local Development
+
+Use Node 22 and Yarn 1. Node 20 cannot install the current dependency set because `@ai-sdk/google` requires Node >=22.
+
+```bash
+nvm use || nvm install
+npm i -g yarn
+yarn
+yarn dev
+```
+
+Common commands:
+
+| Command | Purpose |
+| --- | --- |
+| `yarn dev` | Start local development |
+| `yarn build` | Build for production |
+| `yarn export` | Static export |
+| `yarn docs:site:dev` | Preview the docs site locally |
+| `yarn docs:site:build` | Build the docs site |
+
+## Documentation
+
+| Content | Link |
+| --- | --- |
+| Docs site | [notionnext.tangly1024.com](https://notionnext.tangly1024.com) |
+| New user guide | [Get started](https://notionnext.tangly1024.com/user-guide/start-here) |
+| Use-case templates | [Choose by goal](https://notionnext.tangly1024.com/user-guide/templates) |
+| Configuration index | [Features and configuration](https://notionnext.tangly1024.com/user-guide/reference/features) |
+| Theme docs | [26 built-in themes](https://notionnext.tangly1024.com/user-guide/themes/THEMES_CATALOG) |
+| Showcase | [User websites](https://notionnext.tangly1024.com/user-guide/showcase): submit your site after launch |
+| Docs source | [docs/](./docs/) |
+
+## Community
+
+The canonical repository is maintained by [notionnext-org](https://github.com/notionnext-org). Contributions to code, docs, themes, issues, reviews, and discussions are welcome.
+
+| Content | Link |
+| --- | --- |
+| Community guide | [community-participate.md](./docs/user-guide/community-participate.md) |
+| Vision and roadmap | [VISION_ROADMAP.md](./docs/developer/VISION_ROADMAP.md) |
+| Contributing | [CONTRIBUTING.md](./CONTRIBUTING.md) |
+| Governance | [GOVERNANCE.md](./GOVERNANCE.md) |
+| Maintainers | [MAINTAINERS.md](./MAINTAINERS.md) |
+| Code of Conduct | [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) |
+| Discussions | [GitHub Discussions](https://github.com/notionnext-org/NotionNext/discussions) |
+
+If you cloned from the old repository before the transfer, update your remote:
+
+```bash
+git remote set-url origin https://github.com/notionnext-org/NotionNext.git
+git remote -v
+```
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org)
+- **Styles**: [Tailwind CSS](https://tailwindcss.com/)
+- **Rendering**: [react-notion-x](https://github.com/NotionX/react-notion-x)
+- **Comments**: Twikoo, Giscus, Gitalk, Cusdis, Utterances
+- **Deployment**: [Vercel](https://vercel.com)
 
 ## Acknowledgements
 
 Special thanks to Craig Hart for initiating the Nobelium project.
 
 <table><tr align="left">
-  <td align="center"><a href="https://github.com/craigary" title="Craig Hart"><img src="https://avatars.githubusercontent.com/u/10571717" width="64px;"alt="Craig Hart"/></a><br/><a href="https://github.com/craigary" title="Craig Hart">Craig Hart</a></td>
+  <td align="center"><a href="https://github.com/craigary" title="Craig Hart"><img src="https://avatars.githubusercontent.com/u/10571717" width="64px;" alt="Craig Hart"/></a><br/><a href="https://github.com/craigary" title="Craig Hart">Craig Hart</a></td>
 </tr></table>
 
-## Contributors
+Thanks to everyone who contributes code, themes, docs, issues, reviews, and release maintenance.
 
-<table>
-  <tr align="left">
-  <td align="center">
-  <a href="https://github.com/tangly1024" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/15920488" width="64px;"alt="tangly1024"/><br/><sub><b>tangly1024</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=tangly1024" title="Owner" >🎫 🔧 🐛</a>
-  </td> 
-    
-  <td align="center">
-    <a href="https://github.com/uWayLu"  style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/21689326" width="64px;" alt="uWayLu"/><br/><sub><b>uWayLu</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=uWayLu" title="uWayLu" >🔧 🐛</a>
-  </td>
-    
-  <td align="center">
-    <a href="https://github.com/txs" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/554329" width="64px;" alt="txs"/><br/><sub><b>txs</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=txs" title="txs" >🔧 🐛</a>
-  </td>
+[![Contributors](https://contrib.rocks/image?repo=notionnext-org/NotionNext)](https://github.com/notionnext-org/NotionNext/graphs/contributors)
 
-  <td align="center">
-    <a href="https://github.com/yuzhanglong" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/56540811" width="64px;" alt="yuzhanglong"/><br/><sub><b>yuzhanglong</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=yuzhanglong" title="yuzhanglong" >🔧 🐛</a>
-  </td> 
-    
-  <td align="center">
-    <a href="https://github.com/Hscpro" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/13926044" width="64px;" alt="Hscpro"/><br/><sub><b>Hscpro</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=Hscpro" title="Hscpro" >🔧 🐛</a>
-  </td> 
-    
-  <td align="center">
-    <a href="https://github.com/JensonMiao" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/46488783" width="64px;" alt="JensonMiao"/><br/><sub><b>JensonMiao</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=JensonMiao" title="JensonMiao" >🔧 🐛</a>
-  </td> 
-  
-  <td align="center">
-    <a href="https://github.com/haixin1225" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/28828438" width="64px;"  alt="haixin1225"/><br/><sub><b>haixin1225</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=haixin1225" title="haixin1225" >🔧 🐛</a>
-  </td>
+## Usage Statement
 
-  <td align="center">
-    <a href="https://github.com/mouyase" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/7844572" width="64px;"  alt="mouyase"/><br/><sub><b>mouyase</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=mouyase" title="mouyase" >🔧 🐛</a>
-  </td>
-  
-  <td align="center">
-    <a href="https://github.com/qfdk" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/2404478" width="64px;"  alt="qfdk"/><br/><sub><b>qfdk</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=qfdk" title="qfdk" >🔧 🐛</a>
-  </td>
-  
-  <td align="center">
-    <a href="https://github.com/ifyz" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/118271360" width="64px;"  alt="ifyz"/><br/><sub><b>ifyz</b></sub></a><br><a href="https://github.com/tangly1024/NotionNext/commits?author=ifyz" title="ifyz" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/liqun98" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/71168966" width="64px;"  alt="Liqun Zhao"/><br/><sub><b>Liqun Zhao</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=liqun98" title="liqun98" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/Ylarod" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/30978685" width="64px;"  alt="Ylarod"/><br/><sub><b>Ylarod</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=Ylarod" title="Ylarod" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/lifeafter619" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/65111206" width="64px;"  alt="Etherrreal."/><br/><sub><b>Etherrreal.</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=lifeafter619" title="Etherrreal." >🔧 🐛</a>
-  </td>
-  
-  <td align="center">
-  <a href="https://github.com/ykxkykx" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/17985993" width="64px;"  alt="Joshua Astray"/><br/><sub><b>Joshua Astray</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=ykxkykx" title="ykxkykx" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/Vixcity" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/57704177" width="64px;"  alt="Vixcity"/><br/><sub><b>Vixcity</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=Vixcity" title="Vixcity" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/ipatpat" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/39089551" width="64px;"  alt="ipatpat"/><br/><sub><b>ipatpat</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=ipatpat" title="ipatpat" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/xloong" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/8479955" width="64px;"  alt="xloong"/><br/><sub><b>xloong</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=xloong" title="xloong" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/expoli" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/31023767" width="64px;"  alt="expoli"/><br/><sub><b>expoli</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=expoli" title="expoli" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/SuperHuangXu" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/14816052" width="64px;"  alt="SuperHuangXu"/><br/><sub><b>bUBBLE</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=SuperHuangXu" title="SuperHuangXu" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/Pylogmon" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/59004461" width="64px;"  alt="Pylogmon"/><br/><sub><b>派了个萌 </b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=Pylogmon" title="Pylogmon" >🔧 🐛</a>
-  </td>
-  
-  <td align="center">
-    <a href="https://github.com/SkysCrystal" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/49473463" width="64px;"  alt="SkysCrystal"/><br/><sub><b>Simon Shi</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=SkysCrystal" title="SkysCrystal" >🔧 🐛</a>
-  </td>
-  
-  <td align="center">
-    <a href="https://github.com/siygle" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/173408" width="64px;"  alt="S.Y. Lee"/><br/><sub><b>S.Y. Lee</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=siygle" title="siygle" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/fighting-bug" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/56441589" width="64px;"  alt="fighting-buf"/><br/><sub><b>fighting-buf</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=fighting-bug" title="fighting-buf" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/cliouo" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/71540889" width="64px;"  alt="cliouo"/><br/><sub><b>cliouo</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=cliouo" title="cliouo" >🔧 🐛</a>
-  </td>
-  
-  <td align="center">
-    <a href="https://github.com/sudeakq" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/102792219" width="64px;"  alt="Sude Akgün"/><br/><sub><b>Sude Akgün</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=sudeakq" title="sudeakq" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/fgprodigal" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/769910" width="64px;"  alt="Ray"/><br/><sub><b>Ray</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=fgprodigal" title="Ray" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/hongzzz" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/25585061" width="64px;"  alt="Hongzzz"/><br/><sub><b>Hongzzz</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=hongzzz" title="hongzzz" >🔧 🐛</a>
-  </td>
-
-  <td align="center">
-    <a href="https://github.com/RedhairHambagu" style="display:inline-block;width:80px"><img src="https://avatars.githubusercontent.com/u/129669334" width="64px;"  alt="RedhairHambagu"/><br/><sub><b>RedhairHambagu</b></sub></a><br/><a href="https://github.com/tangly1024/NotionNext/commits?author=RedhairHambagu" title="RedhairHambagu" >🔧 🐛</a>
-  </td>
-
-</tr>
-</table>
-
-
-## Technologies Used
-
-- **Technical Framework**: [Next.js](https://nextjs.org)
-- **Styles**: [Tailwind CSS](https://www.tailwindcss.cn/)
-- **Rendering Tool**: [React-notion-x](https://github.com/NotionX/react-notion-x)
-- **COMMENT**: [Twikoo](https://github.com/imaegoo/twikoo), [Giscus](https://giscus.app/zh-CN), [Gitalk](https://gitalk.github.io), [Cusdis](https://cusdis.com), [Utterances](https://utteranc.es)
-- **ICON**: [Fontawesome](https://fontawesome.com/v6/icons/)
-
+This project is free and open source. Use it for personal learning and lawful website publishing. Do not use it to publish illegal content or conduct unlawful activities.
 
 ## License
 

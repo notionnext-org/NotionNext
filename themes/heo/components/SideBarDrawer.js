@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 /**
  * 侧边栏抽屉面板，可以从侧面拉出
@@ -8,6 +8,30 @@ import { useEffect } from 'react'
  */
 const SideBarDrawer = ({ children, isOpen, onOpen, onClose, className }) => {
   const router = useRouter()
+
+  // 点击按钮更改侧边抽屉状态
+  // 用 useCallback 稳定引用，下方 useEffect 才能正确放进依赖
+  const switchSideDrawerVisible = useCallback(
+    (showStatus) => {
+      if (showStatus) {
+        onOpen && onOpen()
+      } else {
+        onClose && onClose()
+      }
+      const sideBarDrawer = window.document.getElementById('sidebar-drawer')
+      const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
+
+      if (showStatus) {
+        sideBarDrawer?.classList.replace('-mr-72', 'mr-0')
+        sideBarDrawerBackground?.classList.replace('hidden', 'block')
+      } else {
+        sideBarDrawer?.classList.replace('mr-0', '-mr-72')
+        sideBarDrawerBackground?.classList.replace('block', 'hidden')
+      }
+    },
+    [onOpen, onClose]
+  )
+
   useEffect(() => {
     const sideBarDrawerRouteListener = () => {
       switchSideDrawerVisible(false)
@@ -16,26 +40,7 @@ const SideBarDrawer = ({ children, isOpen, onOpen, onClose, className }) => {
     return () => {
       router.events.off('routeChangeComplete', sideBarDrawerRouteListener)
     }
-  }, [router.events])
-
-  // 点击按钮更改侧边抽屉状态
-  const switchSideDrawerVisible = (showStatus) => {
-    if (showStatus) {
-      onOpen && onOpen()
-    } else {
-      onClose && onClose()
-    }
-    const sideBarDrawer = window.document.getElementById('sidebar-drawer')
-    const sideBarDrawerBackground = window.document.getElementById('sidebar-drawer-background')
-
-    if (showStatus) {
-      sideBarDrawer?.classList.replace('-mr-72', 'mr-0')
-      sideBarDrawerBackground?.classList.replace('hidden', 'block')
-    } else {
-      sideBarDrawer?.classList.replace('mr-0', '-mr-72')
-      sideBarDrawerBackground?.classList.replace('block', 'hidden')
-    }
-  }
+  }, [router.events, switchSideDrawerVisible])
 
   return <div id='sidebar-wrapper' className={' block md:hidden top-0 ' + className }>
 
