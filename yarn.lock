@@ -2420,10 +2420,10 @@
   resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.6.1.tgz#b4e16daf445cf6cd365a91e43d86e9e5b3428ddc"
   integrity sha512-oH9He/bEM+6oKlv3chWuOOcp8Y6fo6/PSro8hEkgCW3pu9/OiCXiUpRUogDh3Fs3LH2sosDrx8CxeOLBEE+afg==
 
-"@vercel/cli-config@0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@vercel/cli-config/-/cli-config-0.2.7.tgz#11b1bd0c8e6d619f6ed91e56d8888ad49aa22f08"
-  integrity sha512-KeSN2HBp8puZrj7kVjSEneDi9yBqW4nAD9AnhGhdYjGNpHl7IkXZVb3HnNe0WWc5+20RlUtmAGWNPQ8qP5QBhQ==
+"@vercel/cli-config@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@vercel/cli-config/-/cli-config-0.3.0.tgz#3657e4e6886c6e5da93796c129e0d7958dad724c"
+  integrity sha512-kQLt5Pm8wKd7/imzDY9/9u0tf8OuRkAuXI+s7j057FSUrXapAmumJSKwDqnR4ZZqdWoUcNLlFAgVIAdiwcGTcw==
   dependencies:
     xdg-app-paths "5"
     zod "4.1.11"
@@ -2435,24 +2435,24 @@
   dependencies:
     execa "5.1.1"
 
-"@vercel/functions@^3.9.8":
-  version "3.9.8"
-  resolved "https://registry.yarnpkg.com/@vercel/functions/-/functions-3.9.8.tgz#45055f4d4600728c3ecd5e3f7496d7d3bc917c10"
-  integrity sha512-ISnh/3ACFkWZhtwvRz7H1uG+A/7nr6lY1H9bd7s1SQv9GU0aBpBraI5hnmylUumperdwL+9QGme2s4L06VRw9g==
+"@vercel/functions@^3.9.9":
+  version "3.9.9"
+  resolved "https://registry.yarnpkg.com/@vercel/functions/-/functions-3.9.9.tgz#8f53f037e3f221ba868d4c1fc25c57f4cb8383c1"
+  integrity sha512-ocN/BNsIswReoyqfU1huilNyBM9tvY9kFXgYj0LlyPRATC1dt35gj2jN5hs9+Nag/CRyVQOX58L2FEhvL+0sSA==
   dependencies:
-    "@vercel/oidc" "3.8.8"
+    "@vercel/oidc" "3.8.9"
 
 "@vercel/oidc@3.2.0":
   version "3.2.0"
   resolved "https://registry.npmmirror.com/@vercel/oidc/-/oidc-3.2.0.tgz#5782a4d4904443f015808705b5537cf9c3b68528"
   integrity sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug==
 
-"@vercel/oidc@3.8.8":
-  version "3.8.8"
-  resolved "https://registry.yarnpkg.com/@vercel/oidc/-/oidc-3.8.8.tgz#9f2b8fa5d964cd1ccc74d088e564b18596163b35"
-  integrity sha512-aeq4/sgVh80zO6j2H+7FRfsG6NOXBrvzV1EEO8IdXPEJgwHIPakP+BFq3QmprsEQ18bIimds07kvaYhm2lehtg==
+"@vercel/oidc@3.8.9":
+  version "3.8.9"
+  resolved "https://registry.yarnpkg.com/@vercel/oidc/-/oidc-3.8.9.tgz#4f93c73be236bcffb9176d29437f65fae3da025d"
+  integrity sha512-TcbdH3YtGS2KU98T99dN4sbf+E4vbJZsJTRN97wKQ7QWQ0BR7U02QX3KN4+5GHxBtKTj1c5CnvTTitc2ZRad0A==
   dependencies:
-    "@vercel/cli-config" "0.2.7"
+    "@vercel/cli-config" "0.3.0"
     "@vercel/cli-exec" "1.0.1"
     jose "^5.9.6"
 
