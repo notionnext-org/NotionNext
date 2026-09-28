@@ -2022,17 +2022,17 @@
   dependencies:
     tslib "^2.8.0"
 
-"@tabler/icons-react@^3.36.1":
-  version "3.43.0"
-  resolved "https://registry.npmmirror.com/@tabler/icons-react/-/icons-react-3.43.0.tgz"
-  integrity sha512-rXUuCQEeRbEk3lJxs3gwzdtaaITSwc/JUbp+AkqsGff5uBpzZw7eKPDk53xKoKLyjrbj82Ai4GuVG0kO89Jf5g==
+"@tabler/icons-react@^3.48.0":
+  version "3.48.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.48.0.tgz#d9459d69f4933f753ec0d7658d4d431c22781a85"
+  integrity sha512-OCeAlpaWHEMV+EsgdVeGQ3YuKfmfnThZhc++CaZ/ujYzi5+/DONDQlX4OGvH1ikYhIfmc0grI4otJgHy7QAvng==
   dependencies:
-    "@tabler/icons" "3.43.0"
+    "@tabler/icons" "3.48.0"
 
-"@tabler/icons@3.43.0":
-  version "3.43.0"
-  resolved "https://registry.npmmirror.com/@tabler/icons/-/icons-3.43.0.tgz"
-  integrity sha512-qXwS17Op9jqr3Asvu31fejyw8+OnRDKH7oR8nQXyUgW1pI44ET8OKG9kssy+XIvvAIyej6gZdGmviNUn1VMfPw==
+"@tabler/icons@3.48.0":
+  version "3.48.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.48.0.tgz#08ad2b8c328ef5115b10ea306a52b6d9271f7b32"
+  integrity sha512-lQk06gVHNVBnJp0UOgtth54mcZBJM7rdYKsAxKOProj1bbSAx+/xiuOWfHlyvgdL3M+Y+I0HINrjHa3ygp8eXQ==
 
 "@tanstack/react-virtual@^3.0.0-beta.60":
   version "3.11.0"
