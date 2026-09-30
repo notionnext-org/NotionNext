@@ -136,37 +136,46 @@ const OpcDarkModeButton = ({ compact = false }) => {
   )
 }
 
-const SiteHeader = () => (
-  <header className='opc-header sticky top-0 z-30'>
-    <div className='mx-auto flex max-w-[80rem] items-center gap-4 px-5 py-4 md:px-8'>
-      <SmartLink href='/' className='opc-brand'>
-        <span className='opc-brand-mark' aria-hidden='true'>
-          T
-        </span>
-        <span className='whitespace-nowrap text-sm font-semibold tracking-[0.12em]'>
-          {c('OPC_NAME')}
-        </span>
-      </SmartLink>
+const SiteHeader = () => {
+  const router = useRouter()
+  const isHomePage = router.pathname === '/'
 
-      <nav className='ml-2 hidden items-center gap-5 text-sm md:flex'>
-        {[
-          ['#pipeline', '流水线'],
-          ['#directions', '方向'],
-          ['#records', '记录']
-        ].map(([href, label]) => (
-          <a key={href} href={href} className='opc-nav-link'>
-            {label}
-          </a>
-        ))}
-      </nav>
+  return (
+    <header className='opc-header sticky top-0 z-30'>
+      <div className='mx-auto flex max-w-[80rem] items-center gap-4 px-5 py-4 md:px-8'>
+        <SmartLink href='/' className='opc-brand'>
+          <span className='opc-brand-mark' aria-hidden='true'>
+            T
+          </span>
+          <span className='whitespace-nowrap text-sm font-semibold tracking-[0.12em]'>
+            {c('OPC_NAME')}
+          </span>
+        </SmartLink>
 
-      <div className='ml-auto flex items-center gap-3'>
-        <StageTag stage='running'>{c('OPC_STATUS_TEXT')}</StageTag>
-        <OpcDarkModeButton compact />
+        <nav className='ml-2 hidden items-center gap-5 text-sm md:flex'>
+          {[
+            ['pipeline', '流水线'],
+            ['directions', '方向'],
+            ['records', '记录']
+          ].map(([id, label]) => (
+            <a
+              key={id}
+              href={`${isHomePage ? '' : '/'}#${id}`}
+              className='opc-nav-link'
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+
+        <div className='ml-auto flex items-center gap-3'>
+          <StageTag stage='running'>{c('OPC_STATUS_TEXT')}</StageTag>
+          <OpcDarkModeButton compact />
+        </div>
       </div>
-    </div>
-  </header>
-)
+    </header>
+  )
+}
 
 /* ------------------------------------------------------------------ *
  * 首屏
