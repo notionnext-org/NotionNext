@@ -409,8 +409,9 @@ const PostCard = ({ post }) => (
 
 const RECORDS_PREVIEW = 4
 
-const RecordsPanel = ({ posts }) => {
+const RecordsPanel = ({ posts, postCount }) => {
   const list = (posts || []).slice(0, RECORDS_PREVIEW)
+  const totalPosts = postCount ?? posts?.length ?? 0
 
   return (
     <section id='records' className='opc-block'>
@@ -419,9 +420,9 @@ const RecordsPanel = ({ posts }) => {
         title={c('OPC_RECORDS_TITLE')}
         description={c('OPC_RECORDS_DESCRIPTION')}
         action={
-          posts?.length > 0 && (
+          totalPosts > 0 && (
             <ActionLink href='/archive' className='shrink-0'>
-              查看全部 {posts.length} 篇
+              查看全部 {totalPosts} 篇
             </ActionLink>
           )
         }
@@ -1062,7 +1063,7 @@ const LayoutIndex = props => {
       <HeroSection siteIcon={siteIcon} siteCover={siteCover} />
       <DirectionsPanel />
       <MethodPanel />
-      <RecordsPanel posts={posts} />
+      <RecordsPanel posts={posts} postCount={props?.postCount} />
     </main>
   )
 }
