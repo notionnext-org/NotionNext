@@ -16,6 +16,10 @@ const list = key =>
     .split(',')
     .map(item => item.trim())
     .filter(Boolean)
+const siteName = () =>
+  c('OPC_NAME') || siteConfig('TITLE') || siteConfig('AUTHOR') || '个人主页'
+const pageTitle = () =>
+  c('OPC_TITLE') || siteConfig('AUTHOR') || siteConfig('TITLE') || '个人主页'
 
 const isExternal = href => typeof href === 'string' && /^https?:\/\//.test(href)
 
@@ -66,6 +70,21 @@ const DIRECTION_DETAILS = {
   流量媒体: '获客渠道 · 自动搭建',
   AI企业工作流: '组织协作 · 自动运行',
   量化交易: '策略观察 · 长期研究'
+}
+
+const parseDirection = value => {
+  const [name, requestedStage, ...details] = value
+    .split('|')
+    .map(part => part.trim())
+  const stage = ['ready', 'running', 'review', 'done'].includes(requestedStage)
+    ? requestedStage
+    : DIRECTION_STAGES[name] || 'ready'
+
+  return {
+    name,
+    stage,
+    detail: details.join('|') || DIRECTION_DETAILS[name] || '持续实验和迭代'
+  }
 }
 
 const getPostHref = post => post?.href || (post?.slug ? `/${post.slug}` : '#')
@@ -148,7 +167,7 @@ const SiteHeader = () => {
             T
           </span>
           <span className='whitespace-nowrap text-sm font-semibold tracking-[0.12em]'>
-            {c('OPC_NAME')}
+            {siteName()}
           </span>
         </SmartLink>
 
@@ -225,7 +244,7 @@ const TaskTicket = ({ icon, cover, title }) => (
       <div className='min-w-0'>
         <div className='opc-muted text-xs'>执行主体</div>
         <div className='mt-0.5 truncate text-sm font-semibold'>
-          {c('OPC_NAME')}
+          {siteName()}
         </div>
       </div>
     </div>
@@ -283,7 +302,7 @@ const HeroSection = ({ siteIcon, siteCover }) => (
       <div className='opc-hero-grid'>
         <div className='opc-hero-copy'>
           <div className='opc-eyebrow'>{c('OPC_KICKER')}</div>
-          <h1 className='opc-display mt-6'>{c('OPC_TITLE')}</h1>
+          <h1 className='opc-display mt-6'>{pageTitle()}</h1>
           <div className='opc-subtitle mt-5'>{c('OPC_SUBTITLE')}</div>
           <p className='opc-muted mt-6 max-w-xl text-base leading-8'>
             {c('OPC_DESCRIPTION')}
@@ -298,7 +317,7 @@ const HeroSection = ({ siteIcon, siteCover }) => (
           </div>
         </div>
 
-        <TaskTicket icon={siteIcon} cover={siteCover} title={c('OPC_TITLE')} />
+        <TaskTicket icon={siteIcon} cover={siteCover} title={pageTitle()} />
       </div>
 
       <div id='pipeline' className='opc-hero-rail'>
@@ -334,10 +353,8 @@ const StatStrip = ({ runningCount, directionCount }) => {
 }
 
 const DirectionsPanel = () => {
-  const items = list('OPC_NOW_ITEMS')
-  const running = items.filter(
-    item => DIRECTION_STAGES[item] === 'running'
-  ).length
+  const items = list('OPC_NOW_ITEMS').map(parseDirection)
+  const running = items.filter(item => item.stage === 'running').length
 
   return (
     <section id='directions' className='opc-block'>
@@ -351,14 +368,10 @@ const DirectionsPanel = () => {
       />
       <ul className='opc-list'>
         {items.map(item => (
-          <li key={item} className='opc-list-row'>
-            <span className='opc-list-name'>{item}</span>
-            <span className='opc-muted opc-list-detail'>
-              {DIRECTION_DETAILS[item] || '持续实验和迭代'}
-            </span>
-            <StageTag stage={DIRECTION_STAGES[item]}>
-              {DIRECTION_STAGES[item] || 'ready'}
-            </StageTag>
+          <li key={item.name} className='opc-list-row'>
+            <span className='opc-list-name'>{item.name}</span>
+            <span className='opc-muted opc-list-detail'>{item.detail}</span>
+            <StageTag stage={item.stage}>{item.stage}</StageTag>
           </li>
         ))}
       </ul>
@@ -388,24 +401,59 @@ const MethodPanel = () => (
   </section>
 )
 
-const PostCard = ({ post }) => (
-  <SmartLink
-    href={getPostHref(post)}
-    className='opc-record block border-t py-5 transition'
-  >
-    <div className='flex flex-wrap items-baseline gap-x-3 gap-y-1'>
-      <span className='opc-muted text-xs tabular-nums'>
-        {post?.publishDay || post?.lastEditedDay || '长期记录'}
-      </span>
-      <h3 className='text-base font-semibold'>{post?.title}</h3>
-    </div>
-    {post?.summary && (
-      <p className='opc-muted mt-2 line-clamp-2 text-sm leading-6'>
-        {post.summary}
-      </p>
-    )}
-  </SmartLink>
-)
+const PostCard = ({ post }) => {
+  const cover = post?.pageCoverThumbnail || post?.pageCover
+
+  return (
+    <SmartLink
+      href={getPostHref(post)}
+      className={`opc-record group block transition ${
+        cover ? 'md:flex md:items-center md:gap-6' : ''
+      }`}
+    >
+      {cover && (
+        <LazyImage
+          src={cover}
+          alt={`${post?.title || '文章'} 封面`}
+          className='mb-4 h-56 w-full rounded-md object-cover sm:h-64 md:mb-0 md:h-48 md:w-[35%] md:max-w-[360px] md:min-w-[260px]'
+        />
+      )}
+      <div className={`min-w-0 flex-1 ${cover ? 'md:py-4 md:pr-3' : ''}`}>
+        <div className='flex items-baseline justify-between gap-4'>
+          <div className='flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1'>
+            <span className='opc-muted text-xs tabular-nums'>
+              {post?.publishDay || post?.lastEditedDay || '长期记录'}
+            </span>
+            <h3
+              className={`font-semibold ${
+                cover ? 'text-lg md:text-xl' : 'text-base'
+              }`}
+            >
+              {post?.title}
+            </h3>
+          </div>
+          {cover && (
+            <span
+              aria-hidden='true'
+              className='opc-record-arrow opc-muted shrink-0 text-lg transition'
+            >
+              ↗
+            </span>
+          )}
+        </div>
+        {post?.summary && (
+          <p
+            className={`opc-muted mt-2 line-clamp-2 text-sm leading-6 ${
+              cover ? 'max-w-2xl' : ''
+            }`}
+          >
+            {post.summary}
+          </p>
+        )}
+      </div>
+    </SmartLink>
+  )
+}
 
 const RECORDS_PREVIEW = 4
 
@@ -847,6 +895,10 @@ const Style = () => (
       padding-bottom: 1.75rem;
     }
 
+    #theme-opc #records .opc-section-head {
+      border-bottom: 0;
+    }
+
     @media (min-width: 768px) {
       #theme-opc .opc-section-head {
         flex-direction: row;
@@ -975,13 +1027,32 @@ const Style = () => (
       border-color: var(--opc-hairline);
     }
 
-    #theme-opc .opc-record:first-child {
-      border-top: 0;
-      padding-top: 1.5rem;
+    #theme-opc .opc-record {
+      border: 1px solid var(--opc-hairline);
+      border-radius: 0.75rem;
+      background: color-mix(in srgb, var(--opc-console-card) 72%, transparent);
+      padding: 0.75rem;
+    }
+
+    #theme-opc .opc-record + .opc-record {
+      margin-top: 1rem;
+    }
+
+    #theme-opc .opc-record:hover {
+      border-color: var(--opc-accent-line);
+      background: color-mix(
+        in srgb,
+        var(--opc-console-primary) 4%,
+        var(--opc-console-card)
+      );
     }
 
     #theme-opc .opc-record:hover h3 {
       color: var(--opc-console-primary);
+    }
+
+    #theme-opc .opc-record:hover .opc-record-arrow {
+      transform: translate(2px, -2px);
     }
 
     #theme-opc .opc-record h3 {
@@ -1101,9 +1172,11 @@ const LayoutSlug = props => {
   )
 }
 
-const PageShell = ({ title, description, children }) => (
-  <main className='mx-auto max-w-3xl px-5 py-12 md:px-8'>
-    <div className='opc-eyebrow'>{c('OPC_NAME')}</div>
+const PageShell = ({ title, description, children, wide = false }) => (
+  <main
+    className={`mx-auto ${wide ? 'max-w-7xl' : 'max-w-3xl'} px-5 py-12 md:px-8`}
+  >
+    <div className='opc-eyebrow'>{siteName()}</div>
     <h1 className='mt-5 text-3xl font-semibold tracking-tight sm:text-4xl'>
       {title}
     </h1>
@@ -1212,7 +1285,7 @@ const LayoutArchive = props => {
   const groups = Object.keys(props.archivePosts || {})
 
   return (
-    <PageShell title='归档' description='按时间整理的长期记录。'>
+    <PageShell title='归档' description='按时间整理的长期记录。' wide>
       <div className='flex flex-col gap-10'>
         {groups.length > 0 ? (
           groups.map(year => (
