@@ -1176,7 +1176,7 @@ const PageShell = ({ title, description, children, wide = false }) => (
   <main
     className={`mx-auto ${wide ? 'max-w-7xl' : 'max-w-3xl'} px-5 py-12 md:px-8`}
   >
-    <div className='opc-eyebrow'>{c('OPC_NAME')}</div>
+    <div className='opc-eyebrow'>{siteName()}</div>
     <h1 className='mt-5 text-3xl font-semibold tracking-tight sm:text-4xl'>
       {title}
     </h1>
