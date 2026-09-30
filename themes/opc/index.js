@@ -1112,10 +1112,13 @@ const Pager = ({ page = 1, postCount = 0, posts = [] }) => {
     Number(siteConfig('POSTS_PER_PAGE')) || posts.length || postCount || 1
   const currentPage = Number(page) || 1
   const totalPage = Math.ceil(postCount / perPage)
-  const basePath = router.asPath
-    .split('?')[0]
-    .replace(/\/page\/[1-9]\d*/, '')
-    .replace(/\/$/, '')
+  const category = router.query.category
+  const tag = router.query.tag
+  const basePath = router.pathname.startsWith('/category/')
+    ? `/category/${Array.isArray(category) ? category[0] : category || ''}`
+    : router.pathname.startsWith('/tag/')
+      ? `/tag/${Array.isArray(tag) ? tag[0] : tag || ''}`
+      : ''
 
   if (totalPage <= 1) return null
 
@@ -1124,7 +1127,7 @@ const Pager = ({ page = 1, postCount = 0, posts = [] }) => {
       <SmartLink
         href={
           currentPage <= 2
-            ? `${basePath || '/'}`
+            ? basePath || '/'
             : `${basePath}/page/${currentPage - 1}`
         }
         className={
@@ -1139,7 +1142,11 @@ const Pager = ({ page = 1, postCount = 0, posts = [] }) => {
         {currentPage} / {totalPage}
       </span>
       <SmartLink
-        href={`${basePath}/page/${currentPage + 1}`}
+        href={
+          basePath
+            ? `${basePath}/page/${currentPage + 1}`
+            : `/page/${currentPage + 1}`
+        }
         className={
           currentPage < totalPage
             ? 'opc-secondary-action rounded-md border px-4 py-2'
