@@ -388,24 +388,59 @@ const MethodPanel = () => (
   </section>
 )
 
-const PostCard = ({ post }) => (
-  <SmartLink
-    href={getPostHref(post)}
-    className='opc-record block border-t py-5 transition'
-  >
-    <div className='flex flex-wrap items-baseline gap-x-3 gap-y-1'>
-      <span className='opc-muted text-xs tabular-nums'>
-        {post?.publishDay || post?.lastEditedDay || '长期记录'}
-      </span>
-      <h3 className='text-base font-semibold'>{post?.title}</h3>
-    </div>
-    {post?.summary && (
-      <p className='opc-muted mt-2 line-clamp-2 text-sm leading-6'>
-        {post.summary}
-      </p>
-    )}
-  </SmartLink>
-)
+const PostCard = ({ post }) => {
+  const cover = post?.pageCoverThumbnail || post?.pageCover
+
+  return (
+    <SmartLink
+      href={getPostHref(post)}
+      className={`opc-record group block transition ${
+        cover ? 'md:flex md:items-center md:gap-6' : ''
+      }`}
+    >
+      {cover && (
+        <LazyImage
+          src={cover}
+          alt={`${post?.title || '文章'} 封面`}
+          className='mb-4 h-56 w-full rounded-md object-cover sm:h-64 md:mb-0 md:h-48 md:w-[35%] md:max-w-[360px] md:min-w-[260px]'
+        />
+      )}
+      <div className={`min-w-0 flex-1 ${cover ? 'md:py-4 md:pr-3' : ''}`}>
+        <div className='flex items-baseline justify-between gap-4'>
+          <div className='flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1'>
+            <span className='opc-muted text-xs tabular-nums'>
+              {post?.publishDay || post?.lastEditedDay || '长期记录'}
+            </span>
+            <h3
+              className={`font-semibold ${
+                cover ? 'text-lg md:text-xl' : 'text-base'
+              }`}
+            >
+              {post?.title}
+            </h3>
+          </div>
+          {cover && (
+            <span
+              aria-hidden='true'
+              className='opc-record-arrow opc-muted shrink-0 text-lg transition'
+            >
+              ↗
+            </span>
+          )}
+        </div>
+        {post?.summary && (
+          <p
+            className={`opc-muted mt-2 line-clamp-2 text-sm leading-6 ${
+              cover ? 'max-w-2xl' : ''
+            }`}
+          >
+            {post.summary}
+          </p>
+        )}
+      </div>
+    </SmartLink>
+  )
+}
 
 const RECORDS_PREVIEW = 4
 
@@ -847,6 +882,10 @@ const Style = () => (
       padding-bottom: 1.75rem;
     }
 
+    #theme-opc #records .opc-section-head {
+      border-bottom: 0;
+    }
+
     @media (min-width: 768px) {
       #theme-opc .opc-section-head {
         flex-direction: row;
@@ -975,13 +1014,32 @@ const Style = () => (
       border-color: var(--opc-hairline);
     }
 
-    #theme-opc .opc-record:first-child {
-      border-top: 0;
-      padding-top: 1.5rem;
+    #theme-opc .opc-record {
+      border: 1px solid var(--opc-hairline);
+      border-radius: 0.75rem;
+      background: color-mix(in srgb, var(--opc-console-card) 72%, transparent);
+      padding: 0.75rem;
+    }
+
+    #theme-opc .opc-record + .opc-record {
+      margin-top: 1rem;
+    }
+
+    #theme-opc .opc-record:hover {
+      border-color: var(--opc-accent-line);
+      background: color-mix(
+        in srgb,
+        var(--opc-console-primary) 4%,
+        var(--opc-console-card)
+      );
     }
 
     #theme-opc .opc-record:hover h3 {
       color: var(--opc-console-primary);
+    }
+
+    #theme-opc .opc-record:hover .opc-record-arrow {
+      transform: translate(2px, -2px);
     }
 
     #theme-opc .opc-record h3 {
@@ -1101,8 +1159,10 @@ const LayoutSlug = props => {
   )
 }
 
-const PageShell = ({ title, description, children }) => (
-  <main className='mx-auto max-w-3xl px-5 py-12 md:px-8'>
+const PageShell = ({ title, description, children, wide = false }) => (
+  <main
+    className={`mx-auto ${wide ? 'max-w-7xl' : 'max-w-3xl'} px-5 py-12 md:px-8`}
+  >
     <div className='opc-eyebrow'>{c('OPC_NAME')}</div>
     <h1 className='mt-5 text-3xl font-semibold tracking-tight sm:text-4xl'>
       {title}
@@ -1212,7 +1272,7 @@ const LayoutArchive = props => {
   const groups = Object.keys(props.archivePosts || {})
 
   return (
-    <PageShell title='归档' description='按时间整理的长期记录。'>
+    <PageShell title='归档' description='按时间整理的长期记录。' wide>
       <div className='flex flex-col gap-10'>
         {groups.length > 0 ? (
           groups.map(year => (
