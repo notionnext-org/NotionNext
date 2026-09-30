@@ -16,6 +16,10 @@ const list = key =>
     .split(',')
     .map(item => item.trim())
     .filter(Boolean)
+const siteName = () =>
+  c('OPC_NAME') || siteConfig('TITLE') || siteConfig('AUTHOR') || '个人主页'
+const pageTitle = () =>
+  c('OPC_TITLE') || siteConfig('AUTHOR') || siteConfig('TITLE') || '个人主页'
 
 const isExternal = href => typeof href === 'string' && /^https?:\/\//.test(href)
 
@@ -66,6 +70,21 @@ const DIRECTION_DETAILS = {
   流量媒体: '获客渠道 · 自动搭建',
   AI企业工作流: '组织协作 · 自动运行',
   量化交易: '策略观察 · 长期研究'
+}
+
+const parseDirection = value => {
+  const [name, requestedStage, ...details] = value
+    .split('|')
+    .map(part => part.trim())
+  const stage = ['ready', 'running', 'review', 'done'].includes(requestedStage)
+    ? requestedStage
+    : DIRECTION_STAGES[name] || 'ready'
+
+  return {
+    name,
+    stage,
+    detail: details.join('|') || DIRECTION_DETAILS[name] || '持续实验和迭代'
+  }
 }
 
 const getPostHref = post => post?.href || (post?.slug ? `/${post.slug}` : '#')
@@ -148,7 +167,7 @@ const SiteHeader = () => {
             T
           </span>
           <span className='whitespace-nowrap text-sm font-semibold tracking-[0.12em]'>
-            {c('OPC_NAME')}
+            {siteName()}
           </span>
         </SmartLink>
 
@@ -225,7 +244,7 @@ const TaskTicket = ({ icon, cover, title }) => (
       <div className='min-w-0'>
         <div className='opc-muted text-xs'>执行主体</div>
         <div className='mt-0.5 truncate text-sm font-semibold'>
-          {c('OPC_NAME')}
+          {siteName()}
         </div>
       </div>
     </div>
@@ -283,7 +302,7 @@ const HeroSection = ({ siteIcon, siteCover }) => (
       <div className='opc-hero-grid'>
         <div className='opc-hero-copy'>
           <div className='opc-eyebrow'>{c('OPC_KICKER')}</div>
-          <h1 className='opc-display mt-6'>{c('OPC_TITLE')}</h1>
+          <h1 className='opc-display mt-6'>{pageTitle()}</h1>
           <div className='opc-subtitle mt-5'>{c('OPC_SUBTITLE')}</div>
           <p className='opc-muted mt-6 max-w-xl text-base leading-8'>
             {c('OPC_DESCRIPTION')}
@@ -298,7 +317,7 @@ const HeroSection = ({ siteIcon, siteCover }) => (
           </div>
         </div>
 
-        <TaskTicket icon={siteIcon} cover={siteCover} title={c('OPC_TITLE')} />
+        <TaskTicket icon={siteIcon} cover={siteCover} title={pageTitle()} />
       </div>
 
       <div id='pipeline' className='opc-hero-rail'>
@@ -334,10 +353,8 @@ const StatStrip = ({ runningCount, directionCount }) => {
 }
 
 const DirectionsPanel = () => {
-  const items = list('OPC_NOW_ITEMS')
-  const running = items.filter(
-    item => DIRECTION_STAGES[item] === 'running'
-  ).length
+  const items = list('OPC_NOW_ITEMS').map(parseDirection)
+  const running = items.filter(item => item.stage === 'running').length
 
   return (
     <section id='directions' className='opc-block'>
@@ -351,14 +368,10 @@ const DirectionsPanel = () => {
       />
       <ul className='opc-list'>
         {items.map(item => (
-          <li key={item} className='opc-list-row'>
-            <span className='opc-list-name'>{item}</span>
-            <span className='opc-muted opc-list-detail'>
-              {DIRECTION_DETAILS[item] || '持续实验和迭代'}
-            </span>
-            <StageTag stage={DIRECTION_STAGES[item]}>
-              {DIRECTION_STAGES[item] || 'ready'}
-            </StageTag>
+          <li key={item.name} className='opc-list-row'>
+            <span className='opc-list-name'>{item.name}</span>
+            <span className='opc-muted opc-list-detail'>{item.detail}</span>
+            <StageTag stage={item.stage}>{item.stage}</StageTag>
           </li>
         ))}
       </ul>
