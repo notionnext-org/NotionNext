@@ -180,6 +180,13 @@ const LayoutSlug = props => {
         )
     }
 
+    // 目录显示条件统一收口：锁定态不显示（服务端已生成 post.toc，
+    // 目录有数据不代表文章已解锁）、开关开启且存在目录数据
+    const showCatalog =
+        !lock &&
+        siteConfig('PROXIO_POST_CATALOG_ENABLE', false, CONFIG) &&
+        (post?.toc?.length ?? 0) > 0
+
     return (
         <>
             <Banner title={post?.title} description={post?.summary} />
@@ -189,10 +196,7 @@ const LayoutSlug = props => {
                         id='container-inner'
                         className={
                             'w-full p-4' +
-                            (siteConfig('PROXIO_POST_CATALOG_ENABLE', false, CONFIG) &&
-                            post?.toc?.length > 0
-                                ? ' xl:w-[calc(100%-16rem)]'
-                                : '')
+                            (showCatalog ? ' xl:w-[calc(100%-16rem)]' : '')
                         }>
                         {lock && <ArticleLock validPassword={validPassword} />}
 
@@ -205,7 +209,7 @@ const LayoutSlug = props => {
                         )}
                     </div>
                     {/* 桌面端侧边栏目录（默认关闭，PROXIO_POST_CATALOG_ENABLE 开启；仅 xl 及以上显示） */}
-                    {siteConfig('PROXIO_POST_CATALOG_ENABLE', false, CONFIG) && post?.toc?.length > 0 && (
+                    {showCatalog && (
                         <aside
                             id='proxio-post-catalog'
                             className='hidden xl:block xl:flex-shrink-0 xl:w-60 p-4'
@@ -220,9 +224,7 @@ const LayoutSlug = props => {
                 </div>
             </div>
             {/* 移动端悬浮目录入口（PROXIO_POST_CATALOG_ENABLE 开启时） */}
-            {siteConfig('PROXIO_POST_CATALOG_ENABLE', false, CONFIG) && (
-                <MobileCatalog post={post} />
-            )}
+            {showCatalog && <MobileCatalog post={post} />}
         </>
     )
 }
