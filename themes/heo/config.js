@@ -27,6 +27,7 @@ const CONFIG = {
     { title: '欢迎来到我的博客', url: 'https://blog.tangly1024.com' },
     { title: '访问文档中心获取更多帮助', url: 'https://docs.tangly1024.com' }
   ],
+  HEO_NOTICE_BAR_INTERVAL: 3000, // 多条通知的切换间隔，单位毫秒；非正数或无效值回退为 3000
 
   // 英雄区左右侧组件颠倒位置
   HEO_HERO_REVERSE: false,

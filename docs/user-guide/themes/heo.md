@@ -66,15 +66,42 @@ HEO_COLOR_ACCENT: '#f59e0b'
 
 ## 1. 顶部横幅
 
-可以滚动当前的通知内容，并且支持点击跳转到指定链接，配置方式 themes/heo/config.js
+顶部通知栏使用 `HEO_NOTICE_BAR` 配置，多条通知按顺序纵向切换。可以在 `themes/heo/config.js` 中修改，也可以在 Notion Config 表中添加同名配置；Notion Config 的值优先于主题配置文件。
 
-```JavaScript
-// 首页顶部通知条滚动内容，如不需要可以留空 []
-  NOTICE_BAR: [
-    { title: '欢迎来到我的博客', url: 'https://blog.tangly1024.com' },
-    { title: '访问文档中心获取更多帮助', url: '/user-guide/intro' }
-  ],
+| 配置项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `HEO_NOTICE_BAR` | 两条示例通知 | 通知数组，每项包含 `title` 和可选的 `url`；设为 `[]` 可隐藏通知栏 |
+| `HEO_NOTICE_BAR_INTERVAL` | `3000` | 多条通知的切换间隔，单位为毫秒；例如 `5000` 表示每 5 秒切换一次 |
+
+在 `themes/heo/config.js` 的 `CONFIG` 对象中修改对应配置，例如：
+
+```js
+HEO_NOTICE_BAR_INTERVAL: 5000,
+HEO_NOTICE_BAR: [
+  { title: '欢迎来到我的博客', url: '/' },
+  {
+    title: '文档更新通知：新增了主题配置、部署教程和常见问题说明，点击这条通知查看完整内容。',
+    url: 'https://example.com/announcement'
+  },
+  {
+    title: '站点维护通知：本周六晚上将进行站点维护，期间部分页面可能暂时无法访问。维护完成后会在首页发布通知，感谢您的理解与支持！'
+  }
+],
 ```
+
+请将示例中的 `url` 替换为自己的页面地址。通知内容填写在 `title` 中；不填写 `url` 时，点击通知会在弹层中展示完整的 `title`。
+
+在 Notion Config 表中，`HEO_NOTICE_BAR_INTERVAL` 的值可直接填写 `5000`；`HEO_NOTICE_BAR` 的值需要填写使用双引号的合法 JSON 数组，不包含配置键、注释或尾逗号。具体格式见[如何配置站点](../config-site.md)。
+
+显示与交互规则：
+
+- 手机端（视口宽度小于 `720px`）：标题单行显示，过长时以省略号截断。
+- 桌面端：保留原有的居中显示和纵向切换动画。
+- 配置了 `url`：点击通知在新标签页打开链接，可在目标页面查看详细内容。
+- 未配置 `url`：点击通知打开全文弹层，可使用关闭按钮或 `Escape` 键关闭。弹层打开时暂停轮播，关闭后等待一个完整间隔再切换。
+- 只有一条通知时不自动切换；通知数组为空时隐藏整个通知栏。
+
+`HEO_NOTICE_BAR_INTERVAL` 接受数字或数字字符串。非正数、非有限数、非数字以及大于 `2147483647` 的值会回退到 `3000` 毫秒；`0` 不表示停止轮播。
 
 
 ## 2. 英雄区
