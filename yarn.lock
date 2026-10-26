@@ -7,48 +7,48 @@
   resolved "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.4.4.tgz"
   integrity sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==
 
-"@ai-sdk/gateway@4.0.116":
-  version "4.0.116"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/gateway/-/gateway-4.0.116.tgz#a5f471c30abb4ab4a75ee6db394064c1f88a7e08"
-  integrity sha512-YK2As2GpxmyHi5w6R4FLepiLcs6MbIMxh6nyTMgHaoHKoM5aWEXvKDe/JqdMQ1ivOy3EPJiEBgRI677YTGxfHQ==
+"@ai-sdk/gateway@4.0.123":
+  version "4.0.123"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/gateway/-/gateway-4.0.123.tgz#1ddb06197e1b7fe0799427c45d0ffd936e26e635"
+  integrity sha512-IC6w1vADmRyOfB7Kl9A7348p5pazYodb2humlQAahSJSBW9MGCoafbM8h8+rgukYBSV8gjcZoAxPxPX5RQK8mw==
   dependencies:
-    "@ai-sdk/provider" "4.0.29"
-    "@ai-sdk/provider-utils" "5.0.62"
+    "@ai-sdk/provider" "4.0.33"
+    "@ai-sdk/provider-utils" "5.0.67"
     "@vercel/oidc" "3.2.0"
 
-"@ai-sdk/google@^4.0.99":
-  version "4.0.99"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/google/-/google-4.0.99.tgz#3e91a283e16df2deb9f2398eb316afe5f52eec80"
-  integrity sha512-pa3qI4X807oRAHVrJXfgkNHa4EOXEwOAJJYLVIwBk6PHKUW3S35mr/AvN46czyqn+5XNDwihHSF2iR3YiaV+sQ==
+"@ai-sdk/google@^4.0.104":
+  version "4.0.104"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/google/-/google-4.0.104.tgz#d19387ca07acfe376e9cb4f778532314739862b0"
+  integrity sha512-7wSW1ajTBHPMV0cNeba8g42sZHElmc92yRTh8ZsBjkg9Zbg6hmPaPO1kBirSsJUc4oKe9jlp4+5i/0BfFu8RHA==
   dependencies:
-    "@ai-sdk/provider" "4.0.29"
-    "@ai-sdk/provider-utils" "5.0.62"
+    "@ai-sdk/provider" "4.0.33"
+    "@ai-sdk/provider-utils" "5.0.67"
 
-"@ai-sdk/provider-utils@5.0.62":
-  version "5.0.62"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/provider-utils/-/provider-utils-5.0.62.tgz#001ed8ddeb5d546e8430cefcb44d3fab0169aef7"
-  integrity sha512-//6sHa6QNQdM2KHOg5pxp1UMFQB4U8cqdw/kSm9BMr0DLeaFgG3TXZfxhpwRZmxgBpOrzMVZ/gwLXH309+Ortw==
+"@ai-sdk/provider-utils@5.0.67":
+  version "5.0.67"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/provider-utils/-/provider-utils-5.0.67.tgz#617e32b12de39508b39bb94b10b3d97d32081603"
+  integrity sha512-EUzV6GXutGcesWKOY8tRKgijfuv1LUBpqAquMh5k0n74NCjDbca5d5ZG12qhVtM2X5UwM4B2ZMP2XpnAwZlA8Q==
   dependencies:
-    "@ai-sdk/provider" "4.0.29"
+    "@ai-sdk/provider" "4.0.33"
     "@standard-schema/spec" "^1.1.0"
     "@workflow/serde" "4.1.0"
     eventsource-parser "^3.0.8"
     undici "^7.29.0"
 
-"@ai-sdk/provider@4.0.29":
-  version "4.0.29"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/provider/-/provider-4.0.29.tgz#df5db17349851e2d87c8278e96e37ef30a94b4a3"
-  integrity sha512-nV7UpLADtKn9f0xfnxVZAeFEKuNkScJv5rOpHL7qeWe2EwEEBa3pd6P0QVK6D6coCJ0E8FyCgoM50AffTYrzDQ==
+"@ai-sdk/provider@4.0.33":
+  version "4.0.33"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/provider/-/provider-4.0.33.tgz#06899c81e93cf76d4a65590da0fee57744d80d8b"
+  integrity sha512-C6ylMuAXjgqKJllp6ODIJwUltK/tm3ZmIj4V2fqENP3Y8gif2DyeJSsTcDwFrXppgEKcrBisi/BWx2tYeoeCAw==
   dependencies:
     json-schema "^0.4.0"
 
-"@ai-sdk/vue@^4.0.143":
-  version "4.0.143"
-  resolved "https://registry.yarnpkg.com/@ai-sdk/vue/-/vue-4.0.143.tgz#cb668cb04909afd972a0c47e2b2d1c109aa8370a"
-  integrity sha512-/6qlDfAA8UBVAJmoYBImBwkMREYBNhVecI8EVMRY276bnGssUvruAUlLDvwVTIglzDmJ5rI1qwCTAdz26na3yQ==
+"@ai-sdk/vue@^4.0.150":
+  version "4.0.150"
+  resolved "https://registry.yarnpkg.com/@ai-sdk/vue/-/vue-4.0.150.tgz#5fc74ea6a8b5c3b3199fedbf449de303b326b5c8"
+  integrity sha512-Km+35nN+jy2rbdTq5FgoTV2pmcOzJIBFU6fUKIrw/ktImN4KJCXaIUH5COVq9efe+8SBRqnonLGxREVkYEC2cg==
   dependencies:
-    "@ai-sdk/provider-utils" "5.0.62"
-    ai "7.0.143"
+    "@ai-sdk/provider-utils" "5.0.67"
+    ai "7.0.150"
     swrv "^1.2.0"
 
 "@algolia/abtesting@1.18.1":
@@ -1575,10 +1575,10 @@
     "@napi-rs/canvas-win32-arm64-msvc" "0.1.100"
     "@napi-rs/canvas-win32-x64-msvc" "0.1.100"
 
-"@netlify/plugin-nextjs@^5.16.2":
-  version "5.16.2"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.16.2.tgz#54b6df6306f2e467c9b2e6117e97ee6cd2327586"
-  integrity sha512-bjB7UsijeAbWFceYeDOHG9vnRQ+AQGCn3198OB0ctXI43W4VXm7rG155dBaX9kpJyRf5zrcf321I1ZpWwi/neg==
+"@netlify/plugin-nextjs@^5.16.4":
+  version "5.16.4"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.16.4.tgz#c466779292d2fd95323bcfdcc230ae17f1e8b194"
+  integrity sha512-yvFqkPxCeDrdC9y51Fxt5rK0lNWPo+esoc5uYbHBkM6kgop7s7jL2NtFFjN8g5SitbCnXoVm+dOlrgKEYfdx2g==
 
 "@next/bundle-analyzer@^15.5.28":
   version "15.5.28"
@@ -2728,14 +2728,14 @@ agent-base@^7.1.0, agent-base@^7.1.2:
   resolved "https://registry.npmmirror.com/agent-base/-/agent-base-7.1.4.tgz"
   integrity sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==
 
-ai@7.0.143, ai@^7.0.19:
-  version "7.0.143"
-  resolved "https://registry.yarnpkg.com/ai/-/ai-7.0.143.tgz#01834b0c893561ca7915d1529067b04bbfaa5191"
-  integrity sha512-y9QNgCK9QRHRCcHEUNoU2vemJ+q2zFX5M9T7xHCMZutfcWCqZPckkAfDbp+KHwqZDiJs5AqoKazj64cb20m5PA==
+ai@7.0.150, ai@^7.0.19:
+  version "7.0.150"
+  resolved "https://registry.yarnpkg.com/ai/-/ai-7.0.150.tgz#b282257940423563881ba0e5ea06041a7c30bb5f"
+  integrity sha512-ZTgHXBTJf2ad0elG2HWhbNTUGPaYy8e5pzK4A8LP/dDa48bvIRi8Iv1/bQhklFmFssosajAjCsAZrieBUa+hYA==
   dependencies:
-    "@ai-sdk/gateway" "4.0.116"
-    "@ai-sdk/provider" "4.0.29"
-    "@ai-sdk/provider-utils" "5.0.62"
+    "@ai-sdk/gateway" "4.0.123"
+    "@ai-sdk/provider" "4.0.33"
+    "@ai-sdk/provider-utils" "5.0.67"
 
 ajv@^6.12.4:
   version "6.12.6"
@@ -7371,10 +7371,10 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.2.0:
   resolved "https://registry.npmmirror.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@8.4.31, postcss@^8.4.23, postcss@^8.4.43, postcss@^8.4.47, postcss@^8.5.29:
-  version "8.5.30"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.30.tgz#f76f192357d2b7026b651fd2c7baa60d05325a9e"
-  integrity sha512-zkd+e9S1AQHhmaBKye9zlFHWjOwVgqXl1q3ECYy8561K7qxR2cREf/STLskulBFd78k6AOFeA+ff1TtEzk9bAA==
+postcss@8.4.31, postcss@^8.4.23, postcss@^8.4.43, postcss@^8.4.47, postcss@^8.5.29, postcss@^8.5.31:
+  version "8.5.31"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.31.tgz#d44731fa02f8ae8371629ec7220e2ae0dbdf23ec"
+  integrity sha512-YUbWYCgErwnMAVkjUnYa+KlMBzGpHwiIt/DE7f0G33AuX2LH9UcTk6KgWxd3zRU+pN3u/C+Xl3EnMLM4Hea7Sg==
   dependencies:
     nanoid "^3.3.20"
     picocolors "^1.1.1"
