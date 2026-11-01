@@ -35,6 +35,7 @@ const CONFIG = {
     { title: '人活一辈子，谁不急个眼'},
     { title: '欢迎来我的Bilibili主页逛逛 :)', url: 'https://space.bilibili.com/334597217' }
   ],
+  HEO_NOTICE_BAR_INTERVAL: 3000, // 多条通知的切换间隔，单位毫秒；非正数或无效值回退为 3000
 
   // 英雄区左右侧组件颠倒位置
   HEO_HERO_REVERSE: false,
