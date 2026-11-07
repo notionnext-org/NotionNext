@@ -195,6 +195,7 @@ HERO_TITLE_3: 'TANGLY1024.COM',
 ```
 
 </details>
+
 ![Untitled](/legacy/447da302a4673a35.png)
 
 1. **左下角三个导航标签**，点击跳到特定页面，可以在 [themes/heo/configs.js](https://github.com/notionnext-org/NotionNext/blob/b9f52f386c1a7110a15ba5bf005c8eccb190b1f3/themes/heo/config.js#L20-L23) 中配置

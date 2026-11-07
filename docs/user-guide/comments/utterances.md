@@ -29,7 +29,7 @@ You can't perform that action at this time. You signed in with another tab or wi
 </details>
 
 <details>
-<summary>2.在github中安装[utterance插件](https://github.com/apps/utterances)</summary>
+<summary>2.在github中安装<a href="https://github.com/apps/utterances">utterance插件</a></summary>
 
 访问此地址安装：[https://github.com/apps/utterances](https://github.com/apps/utterances) ， 点击右上角install即可
 ![Untitled](/legacy/41ec5fc90fe2e094.png)
@@ -59,7 +59,7 @@ You can't perform that action at this time. You signed in with another tab or wi
 </details>
 
 <details>
-<summary>2.添加完环境变量记得`Redploy`项目。</summary>
+<summary>2.添加完环境变量记得<code>Redploy</code>项目。</summary>
 
 ![Untitled](/legacy/f57abdcff2f0a275.png)
 

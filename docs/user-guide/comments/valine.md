@@ -35,14 +35,14 @@ Zeabur (https://zeabur.com) 是一个帮助开发者们可以一键部署自己�
 ### 获取APP ID 和 APP Key
 
 <details>
-<summary>1.请先[登录](https://leancloud.cn/dashboard/login.html#/signin)或[注册](https://leancloud.cn/dashboard/login.html#/signup) `LeanCloud`, 进入[控制台](https://leancloud.cn/dashboard/applist.html#/apps)后点击左下角[创建应用](https://leancloud.cn/dashboard/applist.html#/newapp)：</summary>
+<summary>1.请先<a href="https://leancloud.cn/dashboard/login.html#/signin">登录</a>或<a href="https://leancloud.cn/dashboard/login.html#/signup">注册</a> <code>LeanCloud</code>, 进入<a href="https://leancloud.cn/dashboard/applist.html#/apps">控制台</a>后点击左下角<a href="https://leancloud.cn/dashboard/applist.html#/newapp">创建应用</a>：</summary>
 
 ![image](/legacy/f4ffa7172a352d5c.jpg)
 
 </details>
 
 <details>
-<summary>2.进入刚刚创建的应用，选择左下角的`设置`&gt;`应用Key`，查看你的`APP ID`和`APP Key`。</summary>
+<summary>2.进入刚刚创建的应用，选择左下角的<code>设置</code>&gt;<code>应用Key</code>，查看你的<code>APP ID</code>和<code>APP Key</code>。</summary>
 
 ![Untitled](/legacy/fd532d4e76f2541d.png)
 
@@ -64,7 +64,7 @@ Zeabur (https://zeabur.com) 是一个帮助开发者们可以一键部署自己�
 </details>
 
 <details>
-<summary>`NEXT_PUBLIC_VALINE_SERVER_URLS` 说明</summary>
+<summary><code>NEXT_PUBLIC_VALINE_SERVER_URLS</code> 说明</summary>
 
 此参数选填，在应用内部会尝试自动获取，如果发现获取失败，请手动提供配置，配置方法：
 在LeanCloud刚创建的应用中，选择左下角的`设置`&gt;`应用Key`，找到`Request 域名` 第一行： 注意，需要手动在域名前加上 `https://` 否则会无法访问valine评论。

@@ -67,7 +67,7 @@ NotionNext 将 `status` 作为公开入口的基础开关。官方约定如下�
 Notion是很灵活的，若只是想要为某个词句做简短的扩充说明，可以使用Toggle的特性，可以很方便地对内容进行折叠和补充解释。例如：
 
 <details>
-<summary>什么是Toggle ，**← 点击展开**</summary>
+<summary>什么是Toggle ，<strong>← 点击展开</strong></summary>
 
 这是被默认折叠起来的内容，当用户感兴趣时可以自己选择点开查看。
 按斜杆`/` 键，选择插入一个`Toggle list` 后，可以得到一个可以折叠的内容块。
