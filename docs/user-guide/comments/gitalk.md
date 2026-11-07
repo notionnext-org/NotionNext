@@ -28,7 +28,7 @@ You can't perform that action at this time. You signed in with another tab or wi
 </details>
 
 <details>
-<summary>创建一个[授权秘钥](https://github.com/settings/applications/new)，并保存您的`ClientID`与`ClientSecret`</summary>
+<summary>创建一个<a href="https://github.com/settings/applications/new">授权秘钥</a>，并保存您的<code>ClientID</code>与<code>ClientSecret</code></summary>
 
 `Authorization callback URL` 填写您网站域名
 [Build software better, together](https://github.com/settings/applications/new)
@@ -57,7 +57,7 @@ vercel后台需要添加5个变量
 </details>
 
 <details>
-<summary>添加完环境变量记得`Redploy`项目。</summary>
+<summary>添加完环境变量记得<code>Redploy</code>项目。</summary>
 
 ![Untitled](/legacy/e654fbf5b9468e05.png)
 

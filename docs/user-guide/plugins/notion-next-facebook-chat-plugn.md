@@ -78,6 +78,7 @@ facebook上创建一个公共主页很简单，按照步骤创建好主页后，
 ![Untitled](/legacy/e365517c5a367f0a.png)
 
 </details>
+
 正确方式，在公共主页左侧点击`设置` → 点击`品牌内容`
 ![Untitled](/legacy/15b9d7b2bf8b3ec5.png)
 ![Untitled](/legacy/af5c89c30b3f234a.png)
