@@ -46,6 +46,27 @@ describe('notionComments helpers', () => {
     ).toMatchObject({ ok: true, spam: true })
   })
 
+  test('allows anonymous comments only when enabled and ignores a supplied email', () => {
+    const comment = { postId: 'post-1', content: 'hello' }
+    expect(validateCommentPayload(comment)).toEqual({
+      ok: false,
+      error: 'Invalid author email'
+    })
+    expect(validateCommentPayload(comment, { anonymous: true })).toMatchObject({
+      ok: true,
+      value: { author: '', nickname: '' }
+    })
+    expect(
+      validateCommentPayload(
+        { ...comment, author: 'reader@example.com', nickname: 'Reader' },
+        { anonymous: true }
+      )
+    ).toMatchObject({ ok: true, value: { author: '', nickname: 'Reader' } })
+    expect(formatNotionComment({ id: 'anonymous', properties: {} }).author).toBe(
+      '匿名访客'
+    )
+  })
+
   test('formats Notion database pages', () => {
     expect(
       formatNotionComment({

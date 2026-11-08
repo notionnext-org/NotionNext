@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const ROOT_PAGE_SIZE = 10
 const REPLY_PAGE_SIZE = 2
+const anonymousMode = process.env.NEXT_PUBLIC_COMMENT_NOTION_ANONYMOUS === 'true'
 
 const formatTime = value => {
   const date = new Date(value)
@@ -61,7 +62,9 @@ const NotionComments = ({ postId }) => {
 
   const submitComment = async event => {
     event.preventDefault()
-    if (!content.trim() || !author.trim() || submitting) return
+    if (!content.trim() || (!anonymousMode && !author.trim()) || submitting) {
+      return
+    }
 
     setSubmitting(true)
     setError('')
@@ -73,7 +76,7 @@ const NotionComments = ({ postId }) => {
         body: JSON.stringify({
           postId,
           content,
-          author,
+          ...(anonymousMode ? {} : { author }),
           nickname,
           parentId: replyTo,
           website
@@ -246,7 +249,11 @@ const NotionComments = ({ postId }) => {
             tabIndex={-1}
             value={website}
           />
-          <div className='grid gap-2 sm:grid-cols-[1fr_1fr_auto]'>
+          <div
+            className={`grid gap-2 ${
+              anonymousMode ? 'sm:grid-cols-[1fr_auto]' : 'sm:grid-cols-[1fr_1fr_auto]'
+            }`}
+          >
             <input
               className='min-w-0 rounded-md border border-gray-300 bg-transparent p-2 text-sm outline-none focus:border-blue-500 dark:border-gray-600'
               maxLength={40}
@@ -254,15 +261,17 @@ const NotionComments = ({ postId }) => {
               placeholder='昵称'
               value={nickname}
             />
-            <input
-              className='min-w-0 rounded-md border border-gray-300 bg-transparent p-2 text-sm outline-none focus:border-blue-500 dark:border-gray-600'
-              maxLength={254}
-              onChange={event => setAuthor(event.target.value)}
-              placeholder='邮箱，不会公开'
-              required
-              type='email'
-              value={author}
-            />
+            {!anonymousMode && (
+              <input
+                className='min-w-0 rounded-md border border-gray-300 bg-transparent p-2 text-sm outline-none focus:border-blue-500 dark:border-gray-600'
+                maxLength={254}
+                onChange={event => setAuthor(event.target.value)}
+                placeholder='邮箱，不会公开'
+                required
+                type='email'
+                value={author}
+              />
+            )}
             <button
               type='submit'
               className='rounded-md bg-blue-600 px-4 py-2 text-sm text-white disabled:opacity-60'
