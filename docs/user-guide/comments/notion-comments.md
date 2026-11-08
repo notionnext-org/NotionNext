@@ -2,7 +2,7 @@
 
 NotionComments 使用一个 Notion 数据库保存评论，适合不想额外部署 Twikoo、Waline 等评论后端的站点。
 
-这不是 Notion 页面右上角的官方评论区，而是通过 Notion API 写入你自己的评论数据库。访客只需要填写邮箱和评论内容，不需要登录 Notion。
+这不是 Notion 页面右上角的官方评论区，而是通过 Notion API 写入你自己的评论数据库。访客不需要登录 Notion；默认需要填写邮箱，也可以开启无需邮箱的匿名模式。
 
 ## 适合谁使用
 
@@ -77,7 +77,7 @@ Notion API 支持读取和创建页面评论，但它更适合工作区内部协
 | `CreatedAt` | Date   | 评论提交时间                                       |
 | `UserAgent` | Text   | 浏览器 User-Agent，用于排查垃圾评论                |
 
-基础字段必须存在；增强字段是可选的。旧数据库不添加增强字段也能继续提交评论，只是不会启用昵称保存、审核状态和额外排查信息。
+基础字段必须存在；增强字段是可选的。旧数据库不添加增强字段也能继续提交评论，只是不会启用昵称保存、审核状态和额外排查信息。启用审核时，必须添加 `Status` select 字段，否则提交会失败，避免评论意外公开。
 
 建议把这个数据库放在站点数据库之外，方便单独管理评论。
 
@@ -160,8 +160,11 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 NEXT_PUBLIC_COMMENT_NOTION_ENABLE=true
 NOTION_COMMENT_DATABASE_ID=your_comment_database_id
 NOTION_TOKEN=secret_xxx
+# 可选：匿名模式不要求邮箱，昵称选填
+NEXT_PUBLIC_COMMENT_NOTION_ANONYMOUS=false
 # 可选：开启后新评论写入 Pending，前台只显示 Approved
-NOTION_COMMENT_REQUIRE_APPROVAL=false
+# 未设置时，匿名模式默认开启审核，普通模式默认关闭
+# NOTION_COMMENT_REQUIRE_APPROVAL=true
 # 可选：同一 IP 每分钟最多提交次数，默认 5
 NOTION_COMMENT_RATE_LIMIT=5
 ```
@@ -171,10 +174,13 @@ NOTION_COMMENT_RATE_LIMIT=5
 - `NEXT_PUBLIC_COMMENT_NOTION_ENABLE`：开启 NotionComments。
 - `NOTION_COMMENT_DATABASE_ID`：评论数据库 ID。
 - `NOTION_TOKEN`：Notion integration token，是服务端密钥，不要加 `NEXT_PUBLIC_` 前缀。
-- `NOTION_COMMENT_REQUIRE_APPROVAL`：是否开启审核。设置为 `true` 后，新评论会写入 `Pending`，需要站长在 Notion 数据库中改成 `Approved` 才会显示。
+- `NEXT_PUBLIC_COMMENT_NOTION_ANONYMOUS`：设置为 `true` 后隐藏邮箱输入框；昵称选填，不填时显示“匿名访客”。服务端会忽略请求中传入的邮箱，也不会将 IP、User-Agent 或邮箱哈希写入 Notion。
+- `NOTION_COMMENT_REQUIRE_APPROVAL`：是否开启审核。设置为 `true` 后，新评论会写入 `Pending`，需要站长在 Notion 数据库中改成 `Approved` 才会显示。未设置时，匿名模式默认开启审核，普通模式默认关闭；显式设置 `false` 可以关闭审核。
 - `NOTION_COMMENT_RATE_LIMIT`：基础频率限制，默认同一 IP 每分钟 5 条。
 
 修改环境变量后需要重新部署。
+
+匿名模式不要求访客提供身份信息，但不代表网络层面无法识别：托管平台和网络服务可能仍会处理或记录 IP 等访问数据。服务端在处理请求时仍使用 IP 进行基础频率限制，该限制只保存在当前进程内存中，不是多实例环境下的全局防刷。匿名模式不支持通过邮箱发送回复通知或验证评论所有权。现有历史评论及其中保存的信息不会被自动删除。
 
 ## 获取数据库 ID
 
