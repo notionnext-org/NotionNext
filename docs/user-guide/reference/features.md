@@ -99,7 +99,7 @@
 | 键 | 说明 |
 | --- | --- |
 | `THEME_SWITCH` | 在线切换主题面板 |
-| `MUSIC_PLAYER_*` | APlayer / Meting，见 [plugins/music-player.md](../plugins/music-player.md) |
+| `MUSIC_PLAYER_*` | APlayer / Meting；其中 `MUSIC_PLAYER_METING_API` 可通过环境变量 `NEXT_PUBLIC_MUSIC_PLAYER_METING_API` 自定义 MetingJS API 服务地址（默认使用 i-meto），见 [plugins/music-player.md](../plugins/music-player.md) |
 | `WIDGET_PET` / `WIDGET_PET_LINK` | Live2D 宠物 |
 | `CHATBASE_ID` | Chatbase |
 | `AI_CHAT_*` | OpenAI 兼容 AI 助手，支持 DeepSeek 等模型服务 |
