@@ -1,7 +1,7 @@
 # 音乐播放器
 > 迁移自：[音乐播放器](https://docs.tangly1024.com/article/notion-next-plugin-music-player)
 > 发布日期：2023-8-4
-> 最后编辑：2024-9-7
+> 最后编辑：2026-11-9
 > 原栏目：🧷 外部扩展
 
 ## 开启方式
@@ -40,7 +40,23 @@
   MUSIC_PLAYER_METING_LRC_TYPE: process.env.NEXT_PUBLIC_MUSIC_PLAYER_METING_LRC_TYPE || '1', // 可选值： 3 | 1 | 0（0：禁用 lrc 歌词，1：lrc 格式的字符串，3：lrc 文件 url）
 ```
 
-> 待完善
+## 自定义 Meting API 地址
+
+MetingJS 默认使用 `https://api.i-meto.com/meting/api` 获取歌单和歌曲播放地址。如果默认服务无法访问，或希望使用其他兼容服务，可以通过环境变量指定自定义 API 地址，无需修改 `components/Player.js`。
+
+在 Vercel、Cloudflare Pages 等部署平台的环境变量设置中添加：
+
+```dotenv
+NEXT_PUBLIC_MUSIC_PLAYER_METING_API=https://your-meting-api.example.com/meting/api?server=:server&type=:type&id=:id&r=:r
+```
+
+配置要求：
+
+- 地址需要兼容 [MetingJS API](https://github.com/metowolf/MetingJS) 的请求格式，并支持 `server`、`type`、`id`、`r` 等参数占位符。
+- 自定义 API 服务需要允许博客域名跨域访问（CORS），否则浏览器无法请求接口。
+- 未设置该环境变量时，继续使用默认的 i-meto 地址，不影响现有配置。
+- `NEXT_PUBLIC_` 环境变量会在构建时写入前端资源；修改后需要重新部署站点。
+- 如果自定义服务需要鉴权，请注意该变量会暴露给浏览器，不要在其中放置需要保密的密钥。
 
 ## 原文链接
 
