@@ -44,8 +44,8 @@ const PaginationNumber = ({ page, totalPage }) => {
 
   return (
     <>
-      {/* pc端分页按钮 */}
-      <div className='hidden lg:flex justify-between items-end mt-10 font-medium text-black duration-500 dark:text-gray-300 pt-3 space-x-2 overflow-x-auto'>
+      {/* pc端分页按钮，增加mb-0清除底部间距 */}
+      <div className='hidden lg:flex justify-between items-end mt-10 mb-0 font-medium text-black duration-500 dark:text-gray-300 pt-3 space-x-2 overflow-x-auto'>
         {/* 上一页 */}
         <SmartLink
           href={{
@@ -100,9 +100,8 @@ const PaginationNumber = ({ page, totalPage }) => {
         </SmartLink>
       </div>
 
-      {/* 移动端分页 */}
-
-      <div className='lg:hidden w-full flex flex-row'>
+      {/* 移动端分页，增加mb-0 */}
+      <div className='lg:hidden w-full flex flex-row mb-0'>
         {/* 上一页 */}
         <SmartLink
           href={{
@@ -170,7 +169,7 @@ function getPageElement(page, currentPage, pagePrefix) {
  * @param {*} totalPage
  * @returns
  */
-function generatePages(pagePrefix, page, currentPage, totalPage) {
+function generatePages(pagePrefix, page, pagePrefix, currentPage, totalPage) {
   const pages = []
   const groupCount = 7 // 最多显示页签数
   if (totalPage <= groupCount) {
