@@ -327,6 +327,13 @@ img {
   background-size:300% 100%;
   animation: l1 1s infinite linear;
   }
+
+/* 消除文章列表分页下方多余空白 */
+#container {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
   @keyframes l1 {
   0% {background-position: right}
 }
