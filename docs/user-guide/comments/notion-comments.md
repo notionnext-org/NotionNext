@@ -89,22 +89,21 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 
 ### 1. 新建连接
 
-1. 打开 [Notion integrations](https://www.notion.so/my-integrations)。
-2. 点击 `New integration` 或 `新建集成`。
-3. 名称可以填写 `Notion_Comment`，方便以后识别。
-4. 选择你的 Notion 工作区。
-5. 类型选择内部集成或 Internal integration。
-6. 保存后进入这个 integration 的管理页面。
+1. 打开 [Notion 开发者连接页面](https://www.notion.so/my-integrations)，登录存放评论数据库的 Notion 账号。
+2. 在 `Developer connections` 页面，点击右上角蓝色的 **`+ New connection`**。旧版界面可能显示 `New integration` 或 `新建集成`，它们是同一个创建入口；不要选择 `Personal access tokens` 或 `MCP tokens`。
+3. 名称填写 `Notion_Comment`（也可以自定义），然后在 `Associated workspace` 中选择评论数据库所在的工作区。
+4. 完成创建。新建连接默认为内部连接；如果界面没有类型选项，直接继续即可。
+5. 创建后点击该连接，进入管理页面。
+
+如果看不到目标工作区或无法创建连接，先确认登录的账号和工作区是否正确，并检查创建连接的权限；需要时请工作区所有者协助。
 
 ### 2. 配置功能权限
 
-在 integration 管理页的 `配置` 页面，找到 `功能` 区域。
+在连接管理页打开 `Configuration` / `配置`，找到 `Capabilities` / `功能` 区域，开启以下内容权限并保存：
 
-内容功能建议这样勾选：
-
-- 勾选 `读取内容`：用于读取评论数据库中的评论。
-- 勾选 `插入内容`：用于把新评论写入评论数据库。
-- `更新内容` 可选：当前基础评论功能不依赖它；如果以后要在站点侧编辑评论、标记审核状态，再开启它。
+- `Read content` / `读取内容`：读取评论数据库中的评论。
+- `Insert content` / `插入内容`：将新评论写入评论数据库。
+- `Update content` / `更新内容` 可选：当前基础评论功能不依赖它。
 
 评论功能不要勾选：
 
@@ -115,11 +114,7 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 
 ### 3. 复制访问令牌
 
-在同一个 `配置` 页面找到 `集成令牌` 或 `访问令牌`。
-
-1. 点击令牌输入框右侧的复制按钮。
-2. 复制出来的值一般以 `secret_` 开头。
-3. 把这个值保存为部署环境变量 `NOTION_TOKEN`。
+在同一个 `Configuration` / `配置` 页面找到 `API token` / `集成令牌`，点击复制按钮，将其保存为部署环境变量 `NOTION_TOKEN`。请复制该连接自己的令牌，不要使用 `Personal access token` 或 `MCP token`。
 
 注意：
 
@@ -133,11 +128,9 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 
 推荐做法：
 
-1. 打开你前面创建的评论数据库页面。
-2. 点击页面右上角 `...`。
-3. 找到 `Connections` 或 `连接`。
-4. 搜索并选择刚创建的 `Notion_Comment`。
-5. 确认添加。
+1. 打开**复制到你自己工作区的**评论数据库页面，不要在原始模板页面操作。
+2. 点击页面右上角 `...`，选择 `Connections` / `连接`，再点击 `Add connection` / `添加连接`。
+3. 搜索并选择刚创建的 `Notion_Comment`，确认添加。
 
 如果你在 integration 管理页的 `内容访问权限` 页面操作，也可以点击 `编辑权限`，搜索评论数据库所在页面或数据库，然后添加访问权限。建议只授权评论数据库，不要把整个工作区都授权给这个 integration。
 
@@ -159,7 +152,7 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 ```bash
 NEXT_PUBLIC_COMMENT_NOTION_ENABLE=true
 NOTION_COMMENT_DATABASE_ID=your_comment_database_id
-NOTION_TOKEN=secret_xxx
+NOTION_TOKEN=your_connection_api_token
 # 可选：匿名模式不要求邮箱，昵称选填
 NEXT_PUBLIC_COMMENT_NOTION_ANONYMOUS=false
 # 可选：开启后新评论写入 Pending，前台只显示 Approved
@@ -190,7 +183,7 @@ NOTION_COMMENT_RATE_LIMIT=5
 https://www.notion.so/workspace/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=yyyy
 ```
 
-`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` 这段 32 位 ID 就是数据库 ID。复制时可以保留或去掉中间的短横线，Notion API 都能识别。
+`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` 这段 32 位 ID 就是数据库 ID。复制时可以保留或去掉中间的短横线，Notion API 都能识别。请使用**复制到自己工作区后的评论数据库**的地址，不要使用模板链接中的 ID，也不要把 `?v=` 后面的视图 ID 当成数据库 ID。
 
 ## 启用和验证
 
