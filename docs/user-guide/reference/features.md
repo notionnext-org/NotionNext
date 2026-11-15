@@ -68,6 +68,7 @@
 | 系列键前缀 | 插件 |
 | --- | --- |
 | `COMMENT_TWIKOO_*` / `NEXT_PUBLIC_COMMENT_ENV_ID` | Twikoo |
+| `COMMENT_NOTION_ENABLE` / `NEXT_PUBLIC_COMMENT_NOTION_ENABLE` | NotionComments；服务端配置及限制见 [NotionComments 教程](../comments/notion-comments.md) |
 | `COMMENT_WALINE_*` / `NEXT_PUBLIC_WALINE_*` | Waline（Notion Config 可用 `WALINE_*` 别名，4.9+） |
 | `COMMENT_VALINE_*` / `NEXT_PUBLIC_VALINE_*` | Valine |
 | `COMMENT_GISCUS_*` | Giscus |

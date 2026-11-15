@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { getThemeSidebarItems } from '../scripts/lib/builtin-themes.mjs'
 
@@ -115,8 +116,44 @@ export default defineConfig({
   ignoreDeadLinks: [/^https?:\/\//],
   head: [
     ['link', { rel: 'icon', href: '/brand/notionnext-logo.png', type: 'image/png' }],
-    ['link', { rel: 'apple-touch-icon', href: '/brand/notionnext-logo.png' }]
+    ['link', { rel: 'apple-touch-icon', href: '/brand/notionnext-logo.png' }],
+    ['link', { rel: 'alternate', type: 'text/plain', title: 'LLM documentation index', href: '/llms.txt' }]
   ],
+  transformHead({ pageData }) {
+    return [
+      ['link', { rel: 'alternate', type: 'text/markdown', title: 'Markdown source', href: `/${pageData.relativePath}` }]
+    ]
+  },
+  buildEnd(siteConfig) {
+    const groups = new Map<string, string[]>()
+    const categories: Record<string, string> = {
+      'user-guide': '用户指南',
+      developer: '开发文档',
+      community: '社区',
+      design: '设计',
+      performance: '性能'
+    }
+
+    for (const page of siteConfig.pages) {
+      const sourcePath = join(siteConfig.srcDir, page)
+      const outputPath = join(siteConfig.outDir, page)
+      const content = readFileSync(sourcePath, 'utf8')
+      mkdirSync(dirname(outputPath), { recursive: true })
+      writeFileSync(outputPath, content)
+
+      const group = categories[page.split('/')[0]] || '其他文档'
+      const title = getMarkdownTitle(sourcePath).replace(/[\[\]]/g, '')
+      const entries = groups.get(group) || []
+      entries.push(`- [${title}](/${page})`)
+      groups.set(group, entries)
+    }
+
+    const sections = Array.from(groups, ([group, entries]) =>
+      `## ${group}\n\n${entries.sort().join('\n')}`
+    )
+    writeFileSync(join(siteConfig.outDir, 'llms.txt'),
+      `# NotionNext 使用说明\n\n> NotionNext 部署、配置、主题、开发与社区文档。链接指向本次构建的 Markdown 源文件。\n\n使用说明：先读取 [AI 配置指南](/user-guide/ai-configuration.md)，确认用户站点、版本、部署方式与授权，再查阅对应功能教程并实际验证。手册不提供账户访问权限；不要公开令牌。\n\n${sections.join('\n\n')}\n`)
+  },
   transformHtml(html) {
     return html.replace(/rel="preload stylesheet"/g, 'rel="stylesheet"')
   },
