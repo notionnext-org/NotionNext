@@ -1,0 +1,31 @@
+name: Stale issues
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v11
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 45
+          days-before-close: 14
+          stale-issue-label: stale
+          close-issue-reason: not_planned
+          exempt-issue-labels: pinned,security,good first issue,help wanted,documentation
+          stale-issue-message: >
+            此 Issue 已超过 45 天无新活动。若问题仍存在，请留言并附上当前版本与复现步骤。
+            使用类问题请优先发 Discussions。
+          close-issue-message: 因长期无活动已自动关闭。如需帮助请重新开 Issue 或到 Discussions 提问。
+          days-before-stale-pr: 30
+          days-before-close-pr: 14
+          stale-pr-label: stale
+          stale-pr-message: 此 PR 已超过 30 天无更新，请 rebase 或关闭。

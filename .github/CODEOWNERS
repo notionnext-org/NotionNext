@@ -1,0 +1,11 @@
+# 仅高影响路径请求 Founder 过目，降低日常 PR 对管理者的打扰。
+# 文档与主题 PR 无 CODEOWNERS → 由具备 Write 的维护者按 GOVERNANCE 合并即可。
+# 详见 docs/developer/MAINTAINER_RUNBOOK.zh-CN.md
+
+/lib/db/                    @tangly1024
+/pages/api/                 @tangly1024
+/next.config.js             @tangly1024
+/blog.config.js             @tangly1024
+/package.json               @tangly1024
+/yarn.lock                  @tangly1024
+/.github/workflows/         @tangly1024

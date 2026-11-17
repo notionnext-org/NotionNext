@@ -1,5 +1,4 @@
 import { useGlobal } from '@/lib/global'
-import throttle from 'lodash.throttle'
 import SmartLink from '@/components/SmartLink'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import CategoryGroup from './CategoryGroup'
@@ -13,8 +12,6 @@ import { siteConfig } from '@/lib/config'
 import { useNextGlobal } from '..'
 import { useRouter } from 'next/router'
 
-let windowTop = 0
-
 /**
  * 顶部导航
  * @param {*} param0
@@ -26,32 +23,49 @@ const TopNav = (props) => {
   const searchDrawer = useRef()
   const collapseRef = useRef(null)
   const router = useRouter()
+  const rafRef = useRef(null)
+  const navRef = useRef(null)
+  const windowTopRef = useRef(0)
+  const [isOpen, changeShow] = useState(false)
 
-  const scrollTrigger = useCallback(throttle(() => {
-    const scrollS = window.scrollY
-    if (scrollS >= windowTop && scrollS > 10) {
-      const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('top-0', '-top-40')
-      windowTop = scrollS
-    } else {
-      const nav = document.querySelector('#sticky-nav')
-      nav && nav.classList.replace('-top-40', 'top-0')
-      windowTop = scrollS
+  const scrollTrigger = useCallback(() => {
+    if (rafRef.current) {
+      return
     }
-  }, 200), [])
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      const scrollS = window.scrollY
+      if (!navRef.current) {
+        navRef.current = document.querySelector('#sticky-nav')
+      }
+      if (scrollS >= windowTopRef.current && scrollS > 10) {
+        navRef.current && navRef.current.classList.replace('top-0', '-top-40')
+        windowTopRef.current = scrollS
+      } else {
+        navRef.current && navRef.current.classList.replace('-top-40', 'top-0')
+        windowTopRef.current = scrollS
+      }
+    })
+  }, [])
+
+  const menuCollapseHide = useCallback(() => {
+    changeShow(false)
+  }, [])
 
   // 监听滚动
   useEffect(() => {
     if (siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse') {
+      navRef.current = document.querySelector('#sticky-nav')
       scrollTrigger()
-      window.addEventListener('scroll', scrollTrigger)
+      window.addEventListener('scroll', scrollTrigger, { passive: true })
     }
     return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
       siteConfig('NEXT_NAV_TYPE', null, CONFIG) === 'autoCollapse' && window.removeEventListener('scroll', scrollTrigger)
     }
-  }, [])
-
-  const [isOpen, changeShow] = useState(false)
+  }, [scrollTrigger])
 
   // 监听滚动
   useEffect(() => {
@@ -59,15 +73,11 @@ const TopNav = (props) => {
     return () => {
       router.events.off('routeChangeComplete', menuCollapseHide)
     }
-  }, [])
+  }, [menuCollapseHide, router.events])
 
   /**
    * 点击切换页面后关闭这点菜单
    */
-  const menuCollapseHide = () => {
-    changeShow(false)
-  }
-
   const toggleMenuOpen = () => {
     changeShow(!isOpen)
   }

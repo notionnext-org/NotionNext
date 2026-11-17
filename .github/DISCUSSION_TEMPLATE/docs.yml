@@ -1,0 +1,28 @@
+title: "📖 "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        文档改进建议。若你已写好修改，可直接编辑 `docs/user-guide/` 并提 PR（页底「在 GitHub 上维护此页」）。
+        维护流程见 [maintain-docs.md](https://notionnext.tangly1024.com/user-guide/maintain-docs)。
+  - type: textarea
+    id: page
+    attributes:
+      label: 相关页面或 slug
+      placeholder: 例如 /user-guide/deploy-vercel 或 docs.tangly1024.com/article/...
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 建议修改内容
+    validations:
+      required: true
+  - type: checkboxes
+    id: volunteer
+    attributes:
+      label: 我愿意
+      options:
+        - label: 自行提交 PR 修复
+        - label: 仅提供建议，由维护者处理

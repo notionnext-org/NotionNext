@@ -36,8 +36,11 @@ const CONFIG = {
   NEXT_WIDGET_DARK_MODE: false, // 显示日间/夜间模式切换
   NEXT_WIDGET_TOC: true, // 移动端显示悬浮目录
 
+  NEXT_COLOR_PRIMARY: '#4e80ee',
+  NEXT_COLOR_BG: '#eeedee',
+
   NEXT_ARTICLE_RELATE_POSTS: true, // 相关文章推荐
-  NEXT_ARTICLE_COPYRIGHT: true, // 文章版权声明
+  NEXT_ARTICLE_COPYRIGHT: true, // 文章版权声明：true 全部显示；false 全部关闭；custom 仅填写 copyright 时显示
   NEXT_ARTICLE_NOT_BY_AI: false, // 显示非AI写作
   NEXT_ARTICLE_INFO: true // 显示文章信息
 }

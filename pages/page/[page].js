@@ -1,6 +1,9 @@
+import { getPublicPostBlockMap } from '@/lib/utils/publicPost'
 import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
 import { fetchGlobalAllData, getPostBlocks } from '@/lib/db/SiteDataApi'
+import { formatNotionBlock } from '@/lib/db/notion/getPostBlocks'
+import { adapterNotionBlockMap } from '@/lib/utils/notion.util'
 import { DynamicLayout } from '@/themes/theme'
 
 /**
@@ -56,7 +59,11 @@ export async function getStaticProps({ params: { page }, locale }) {
       if (post.password && post.password !== '') {
         continue
       }
-      post.blockMap = await getPostBlocks(post.id, 'slug', POST_PREVIEW_LINES)
+      const rawBlockMap = await getPostBlocks(post.id, 'slug', POST_PREVIEW_LINES)
+      post.blockMap = getPublicPostBlockMap(post, adapterNotionBlockMap(rawBlockMap), props.allPages)
+      if (post.blockMap?.block) {
+        post.blockMap.block = formatNotionBlock(post.blockMap.block)
+      }
     }
   }
 

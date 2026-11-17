@@ -11,7 +11,6 @@ export default function LogoBar({ siteInfo, className }) {
         href='/'
         className='inline-flex items-center whitespace-nowrap logo font-semibold hover:bg-black hover:text-white p-2 rounded-xl duration-200 dark:text-gray-200'>
         <LazyImage
-          priority
           src={siteInfo?.icon}
           width={24}
           height={20}

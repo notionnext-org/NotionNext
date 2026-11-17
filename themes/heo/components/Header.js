@@ -2,7 +2,7 @@ import { siteConfig } from '@/lib/config'
 import { isBrowser } from '@/lib/utils'
 import throttle from 'lodash.throttle'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import DarkModeButton from './DarkModeButton'
 import Logo from './Logo'
 import { MenuListTop } from './MenuListTop'
@@ -21,9 +21,13 @@ const Header = props => {
   const [textWhite, setTextWhite] = useState(false)
   const [navBgWhite, setBgWhite] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
+  // 是否存在文章页背景图（仅客户端检测）
+  const [hasPostBg, setHasPostBg] = useState(false)
 
   const router = useRouter()
   const slideOverRef = useRef()
+  // 缓存 #post-bg 节点的引用，避免每次滚动都重新查询 DOM
+  const postBgRef = useRef(null)
 
   const toggleMenuOpen = () => {
     slideOverRef?.current?.toggleSlideOvers()
@@ -31,40 +35,48 @@ const Header = props => {
 
   /**
    * 根据滚动条，切换导航栏样式
+   * 用 useMemo 持有 throttle 实例，避免每次渲染重建
    */
-  const scrollTrigger = useCallback(
-    throttle(() => {
-      const scrollS = window.scrollY
-      // 导航栏设置 白色背景
-      if (scrollS <= 1) {
-        setFixedNav(false)
-        setBgWhite(false)
-        setTextWhite(false)
+  const scrollTrigger = useMemo(
+    () =>
+      throttle(() => {
+        const scrollS = window.scrollY
+        // 导航栏设置 白色背景
+        if (scrollS <= 1) {
+          setFixedNav(false)
+          setBgWhite(false)
+          setTextWhite(false)
 
-        // 文章详情页特殊处理
-        if (document?.querySelector('#post-bg')) {
+          // 文章详情页特殊处理
+          if (postBgRef.current) {
+            setFixedNav(true)
+            setTextWhite(true)
+          }
+        } else {
+          // 向下滚动后的导航样式
           setFixedNav(true)
-          setTextWhite(true)
+          setTextWhite(false)
+          setBgWhite(true)
         }
-      } else {
-        // 向下滚动后的导航样式
-        setFixedNav(true)
-        setTextWhite(false)
-        setBgWhite(true)
-      }
-    }, 100)
+      }, 100),
+    []
   )
+
+  // 路由变化后重新探测 #post-bg 与初始化导航状态
   useEffect(() => {
+    postBgRef.current = document.querySelector('#post-bg')
+    setHasPostBg(!!postBgRef.current)
     scrollTrigger()
-  }, [router])
+  }, [router.asPath, scrollTrigger])
 
   // 监听滚动
   useEffect(() => {
-    window.addEventListener('scroll', scrollTrigger)
+    window.addEventListener('scroll', scrollTrigger, { passive: true })
     return () => {
       window.removeEventListener('scroll', scrollTrigger)
+      scrollTrigger.cancel?.()
     }
-  }, [])
+  }, [scrollTrigger])
 
   // 导航栏根据滚动轮播菜单内容
   useEffect(() => {
@@ -88,7 +100,7 @@ const Header = props => {
     }
 
     if (isBrowser) {
-      window.addEventListener('scroll', handleScroll)
+      window.addEventListener('scroll', handleScroll, { passive: true })
     }
 
     return () => {
@@ -133,7 +145,7 @@ const Header = props => {
       `}</style>
 
       {/* fixed时留白高度 */}
-      {fixedNav && !document?.querySelector('#post-bg') && (
+      {fixedNav && !hasPostBg && (
         <div className='h-16'></div>
       )}
 
@@ -143,7 +155,7 @@ const Header = props => {
         className={`z-20 h-16 top-0 w-full duration-300 transition-all
             ${fixedNav ? 'fixed' : 'relative bg-transparent'} 
             ${textWhite ? 'text-white ' : 'text-black dark:text-white'}  
-            ${navBgWhite ? 'bg-white dark:bg-[#18171d] shadow' : 'bg-transparent'}`}>
+            ${navBgWhite ? 'bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-bg-dark)] shadow' : 'bg-transparent'}`}>
         <div className='flex h-full mx-auto justify-between items-center max-w-[86rem] px-6'>
           {/* 左侧logo */}
           <Logo {...props} />

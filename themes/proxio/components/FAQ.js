@@ -18,13 +18,13 @@ export const FAQ = () => {
   return (
     <>
       {/* <!-- ====== FAQ Section Start --> */}
-      <section className="relative overflow-hidden bg-white pb-8 pt-20 dark:bg-dark lg:pb-[50px] lg:pt-[120px]">
+      <section className="proxio-section relative overflow-hidden pb-8 pt-20 lg:pb-[50px] lg:pt-[120px]">
         <div className='max-w-2xl mx-auto wow fadeInUp' data-wow-delay='.2s'>
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4">
               <div className="mx-auto mb-[60px] max-w-[520px] text-center flex flex-col space-y-4">
                 <div>
-                  <span className='px-3 py-0.5 rounded-2xl dark:bg-dark-1 border border-gray-200 dark:border-[#333333] dark:text-white'>
+                  <span className='proxio-pill px-3 py-0.5 rounded-2xl border'>
                     {siteConfig('PROXIO_FAQ_TITLE')}
                   </span>
                 </div>
@@ -46,7 +46,7 @@ export const FAQ = () => {
                 className="w-full px-4 cursor-pointer"
                 onClick={() => toggleFAQ(index)}
               >
-                <div className="p-4 border rounded-lg dark:bg-[#0E0E0E] bg-white dark:bg-dark-1 border-gray-200 dark:border-[#333333]">
+                <div className="proxio-card p-4 border rounded-lg">
                   {/* 问题部分 */}
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold text-dark dark:text-white">

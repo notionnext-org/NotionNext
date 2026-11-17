@@ -1,28 +1,67 @@
 import { loadExternalResource } from '@/lib/utils'
 
+let markJsLoadPromise = null
+
+function escapeSearchKeyword(search) {
+  return String(search).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function runOnIdle() {
+  return new Promise(resolve => {
+    const done = () => resolve()
+
+    if (typeof window === 'undefined' || typeof window.requestIdleCallback !== 'function') {
+      setTimeout(done, 0)
+      return
+    }
+
+    window.requestIdleCallback(done, { timeout: 800 })
+  })
+}
+
+function ensureMarkScript() {
+  if (!markJsLoadPromise) {
+    markJsLoadPromise = loadExternalResource(
+      'https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js',
+      'js'
+    )
+  }
+  return markJsLoadPromise
+}
+
 /**
- * 将搜索结果的关键词高亮
+ * Highlights search keywords in DOM safely without blocking main-thread work.
  */
 export default async function replaceSearchResult({ doms, search, target }) {
-  if (!doms || !search || !target) {
+  if (!doms || !search || !target || typeof window === 'undefined') {
+    return
+  }
+
+  const keyword = String(search).trim()
+  if (!keyword) {
     return
   }
 
   try {
-    await loadExternalResource('https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js', 'js')
+    await ensureMarkScript()
+    await runOnIdle()
+
     const Mark = window.Mark
+    if (!Mark) return
+
+    const regex = new RegExp(escapeSearchKeyword(keyword), 'gim')
+
+    const markContainer = container => {
+      const instance = new Mark(container)
+      instance.markRegExp(regex, target)
+    }
+
     if (doms instanceof HTMLCollection) {
-      for (const container of doms) {
-        const re = new RegExp(search, 'gim')
-        const instance = new Mark(container)
-        instance.markRegExp(re, target)
-      }
+      Array.from(doms).forEach(markContainer)
     } else {
-      const re = new RegExp(search, 'gim')
-      const instance = new Mark(doms)
-      instance.markRegExp(re, target)
+      markContainer(doms)
     }
   } catch (error) {
-    console.error('markjs 加载失败', error)
+    console.error('Search highlight failed:', error)
   }
 }

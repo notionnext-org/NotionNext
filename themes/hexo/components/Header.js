@@ -41,7 +41,7 @@ const Header = props => {
 
   // 监听滚动
   useEffect(() => {
-    window.addEventListener('scroll', topNavStyleHandler)
+    window.addEventListener('scroll', topNavStyleHandler, { passive: true })
     router.events.on('routeChangeComplete', topNavStyleHandler)
     topNavStyleHandler()
     return () => {

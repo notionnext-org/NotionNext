@@ -1,17 +1,19 @@
 import BLOG from '@/blog.config'
 import useNotification from '@/components/Notification'
-import OpenWrite from '@/components/OpenWrite'
+import TechGrow from '@/components/TechGrow'
 import { siteConfig } from '@/lib/config'
-import { fetchGlobalAllData, resolvePostProps } from '@/lib/db/SiteDataApi'
+import { resolvePostProps } from '@/lib/db/SiteDataApi'
 import { useGlobal } from '@/lib/global'
-import { getPageTableOfContents } from '@/lib/db/notion/getPageTableOfContents'
-import { getPasswordQuery } from '@/lib/utils/password'
-import { checkSlugHasMorThanTwoSlash, checkSlugHasNoSlash, processPostData } from '@/lib/utils/post'
+import useProtectedPost from '@/hooks/useProtectedPost'
+import ArticleLock from '@/components/ArticleLock'
+import { checkSlugHasNoSlash } from '@/lib/utils/post'
 import { DynamicLayout } from '@/themes/theme'
-import md5 from 'js-md5'
 import { useRouter } from 'next/router'
-import { idToUuid } from 'notion-utils'
-import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { getStaticPathsBase } from '@/lib/build/staticPaths'
+import { isExport } from '@/lib/utils/buildMode'
+
+const isStaticExport = process.env.EXPORT === 'true'
 
 /**
  * 根据notion的slug访问页面
@@ -20,114 +22,67 @@ import { useEffect, useState } from 'react'
  * @returns
  */
 const Slug = props => {
-  const { post } = props
   const router = useRouter()
   const { locale } = useGlobal()
-
-  // 文章锁🔐
-  const [lock, setLock] = useState(post?.password && post?.password !== '')
+  const access = useProtectedPost(props.post, router, locale, props.postUnlockUnavailable)
   const { showNotification, Notification } = useNotification()
-
-  /**
-   * 验证文章密码
-   * @param {*} passInput
-   */
-  const validPassword = passInput => {
-    if (!post) {
-      return false
-    }
-    const encrypt = md5(post?.slug + passInput)
-    if (passInput && encrypt === post?.password) {
-      setLock(false)
-      // 输入密码存入localStorage，下次自动提交
-      localStorage.setItem('password_' + router.asPath, passInput)
-      showNotification(locale.COMMON.ARTICLE_UNLOCK_TIPS) // 设置解锁成功提示显示
-      return true
-    }
-    return false
+  const validPassword = async password => {
+    const valid = await access.validPassword(password)
+    if (valid) showNotification(locale.COMMON.ARTICLE_UNLOCK_TIPS)
+    return valid
   }
-
-  // 文章加载
-  useEffect(() => {
-    // 文章加密
-    if (post?.password && post?.password !== '') {
-      setLock(true)
-    } else {
-      setLock(false)
-    }
-
-    // 读取上次记录 自动提交密码
-    const passInputs = getPasswordQuery(router.asPath)
-    if (passInputs.length > 0) {
-      for (const passInput of passInputs) {
-        if (validPassword(passInput)) {
-          break // 密码验证成功，停止尝试
-        }
-      }
-    }
-  }, [post])
-
-  // 文章加载
-  useEffect(() => {
-    if (lock) {
-      return
-    }
-    // 文章解锁后生成目录与内容
-    if (post?.blockMap?.block) {
-      post.content = Object.keys(post.blockMap.block).filter(
-        key => post.blockMap.block[key]?.value?.parent_id === post.id
-      )
-      post.toc = getPageTableOfContents(post, post.blockMap)
-    }
-  }, [router, lock])
-
-  props = { ...props, lock, validPassword }
   const theme = siteConfig('THEME', BLOG.THEME, props.NOTION_CONFIG)
   return (
     <>
-      {/* 文章布局 */}
-      <DynamicLayout theme={theme} layoutName='LayoutSlug' {...props} />
-      {/* 解锁密码提示框 */}
-      {post?.password && post?.password !== '' && !lock && <Notification />}
-      {/* 导流工具 */}
-      <OpenWrite />
+      {access.unlockError && <p role='alert' className='p-4 text-center text-red-600'>{access.unlockError}</p>}
+      {props.postUnlockUnavailable
+        ? <ArticleLock unavailable post={props.post} />
+        : <DynamicLayout theme={theme} layoutName='LayoutSlug' {...props} {...access} validPassword={validPassword} />}
+      {props.post?.password && !access.lock && <Notification />}
+      <TechGrow lock={access.lock} />
     </>
   )
 }
 
-export async function getStaticPaths() {
-  if (!BLOG.isProd) {
-    return {
-      paths: [],
-      fallback: true
-    }
-  }
-
-  const from = 'slug-paths'
-  const { allPages } = await fetchGlobalAllData({ from })
-  const paths = allPages
-    ?.filter(row => checkSlugHasNoSlash(row))
-    .map(row => ({ params: { prefix: row.slug } }))
-  return {
-    paths: paths,
-    fallback: true
-  }
+Slug.propTypes = {
+  post: PropTypes.shape({
+    id: PropTypes.string,
+    slug: PropTypes.string,
+    password: PropTypes.string,
+    content: PropTypes.array,
+    toc: PropTypes.array,
+    blockMap: PropTypes.shape({
+      block: PropTypes.object
+    })
+  }),
+  NOTION_CONFIG: PropTypes.object
 }
 
-export async function getStaticProps({ params: { prefix }, locale }) {
+export async function getStaticPaths() {
+  return getStaticPathsBase({
+    from: 'slug-paths',
+    filterFn: row => checkSlugHasNoSlash(row),
+    mapPageToParams: row => ({ params: { prefix: row.slug } })
+  })
+}
+
+export async function getStaticProps({ params: { prefix }, locale, revalidateReason }) {
   const props = await resolvePostProps({
     prefix,
     locale,
+    revalidateReason,
   })
+
   return {
     props,
-    revalidate: process.env.EXPORT
+    revalidate: isStaticExport
       ? undefined
       : siteConfig(
         'NEXT_REVALIDATE_SECOND',
         BLOG.NEXT_REVALIDATE_SECOND,
         props.NOTION_CONFIG
-      )
+      ),
+    notFound: !props.post
   }
 }
 

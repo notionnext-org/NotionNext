@@ -1,6 +1,8 @@
 import Tabs from '@/components/Tabs'
 import { siteConfig } from '@/lib/config'
+import { hasEnabledComments, isCommentProviderEnabled } from '@/lib/utils/comments'
 import { isBrowser, isSearchEngineBot } from '@/lib/utils'
+import { stripTransientQueryParamsFromAsPath } from '@/lib/utils/stripTransientUrlParams'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -26,6 +28,9 @@ const Comment = ({ frontMatter, className }) => {
   const COMMENT_UTTERRANCES_REPO = siteConfig('COMMENT_UTTERRANCES_REPO')
   const COMMENT_GITALK_CLIENT_ID = siteConfig('COMMENT_GITALK_CLIENT_ID')
   const COMMENT_WEBMENTION_ENABLE = siteConfig('COMMENT_WEBMENTION_ENABLE')
+  const COMMENT_NOTION_ENABLE =
+    siteConfig('COMMENT_NOTION_ENABLE') === true ||
+    siteConfig('COMMENT_NOTION_ENABLE') === 'true'
 
   useEffect(() => {
     // Check if the component is visible in the viewport
@@ -49,21 +54,33 @@ const Comment = ({ frontMatter, className }) => {
     }
   }, [frontMatter])
 
-  // 当连接中有特殊参数时跳转到评论区
-  if (
-    isBrowser &&
-    ('giscus' in router.query || router.query.target === 'comment')
-  ) {
-    setTimeout(() => {
-      const url = router.asPath.replace('?target=comment', '')
-      history.replaceState({}, '', url)
-      document
-        ?.getElementById('comment')
-        ?.scrollIntoView({ block: 'start', behavior: 'smooth' })
-    }, 1000)
-  }
+  useEffect(() => {
+    if (!isBrowser || !router.isReady) {
+      return
+    }
+    const hasGiscus = 'giscus' in router.query
+    const scrollComment = router.query.target === 'comment'
+    if (!hasGiscus && !scrollComment) {
+      return
+    }
+    if (scrollComment && !hasGiscus) {
+      const cleanPath = stripTransientQueryParamsFromAsPath(router.asPath)
+      window.history.replaceState(window.history.state, '', cleanPath)
+      router
+        .replace(cleanPath, undefined, { scroll: false, shallow: true })
+        .catch(() => {})
+    }
+    if (scrollComment || hasGiscus) {
+      const t = window.setTimeout(() => {
+        document
+          ?.getElementById('comment')
+          ?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      }, 400)
+      return () => window.clearTimeout(t)
+    }
+  }, [router.isReady, router.asPath, router.query])
 
-  if (!frontMatter) {
+  if (!frontMatter || !hasEnabledComments(siteConfig)) {
     return null
   }
 
@@ -81,7 +98,8 @@ const Comment = ({ frontMatter, className }) => {
       key={frontMatter?.id}
       id='comment'
       ref={commentRef}
-      className={`comment mt-5 text-gray-800 dark:text-gray-300 ${className || ''}`}>
+      className={`comment mt-5 text-gray-800 dark:text-gray-300 ${className || ''}`}
+    >
       {/* 延迟加载评论区 */}
       {!shouldLoad && (
         <div className='text-center'>
@@ -92,43 +110,43 @@ const Comment = ({ frontMatter, className }) => {
 
       {shouldLoad && (
         <Tabs>
-          {COMMENT_ARTALK_SERVER && (
+          {isCommentProviderEnabled(COMMENT_ARTALK_SERVER) && (
             <div key='Artalk'>
               <Artalk />
             </div>
           )}
 
-          {COMMENT_TWIKOO_ENV_ID && (
+          {isCommentProviderEnabled(COMMENT_TWIKOO_ENV_ID) && (
             <div key='Twikoo'>
               <TwikooCompenent />
             </div>
           )}
 
-          {COMMENT_WALINE_SERVER_URL && (
+          {isCommentProviderEnabled(COMMENT_WALINE_SERVER_URL) && (
             <div key='Waline'>
               <WalineComponent />
             </div>
           )}
 
-          {COMMENT_VALINE_APP_ID && (
+          {isCommentProviderEnabled(COMMENT_VALINE_APP_ID) && (
             <div key='Valine' name='reply'>
               <ValineComponent path={frontMatter.id} />
             </div>
           )}
 
-          {COMMENT_GISCUS_REPO && (
+          {isCommentProviderEnabled(COMMENT_GISCUS_REPO) && (
             <div key='Giscus'>
               <GiscusComponent className='px-2' />
             </div>
           )}
 
-          {COMMENT_CUSDIS_APP_ID && (
+          {isCommentProviderEnabled(COMMENT_CUSDIS_APP_ID) && (
             <div key='Cusdis'>
               <CusdisComponent frontMatter={frontMatter} />
             </div>
           )}
 
-          {COMMENT_UTTERRANCES_REPO && (
+          {isCommentProviderEnabled(COMMENT_UTTERRANCES_REPO) && (
             <div key='Utterance'>
               <UtterancesComponent
                 issueTerm={frontMatter.id}
@@ -137,15 +155,21 @@ const Comment = ({ frontMatter, className }) => {
             </div>
           )}
 
-          {COMMENT_GITALK_CLIENT_ID && (
+          {isCommentProviderEnabled(COMMENT_GITALK_CLIENT_ID) && (
             <div key='GitTalk'>
               <GitalkComponent frontMatter={frontMatter} />
             </div>
           )}
 
-          {COMMENT_WEBMENTION_ENABLE && (
+          {isCommentProviderEnabled(COMMENT_WEBMENTION_ENABLE) && (
             <div key='WebMention'>
               <WebMentionComponent frontMatter={frontMatter} className='px-2' />
+            </div>
+          )}
+
+          {COMMENT_NOTION_ENABLE && (
+            <div key='Notion'>
+              <NotionCommentsComponent postId={frontMatter.id} />
             </div>
           )}
         </Tabs>
@@ -203,5 +227,10 @@ const WebMentionComponent = dynamic(
 const ValineComponent = dynamic(() => import('@/components/ValineComponent'), {
   ssr: false
 })
+
+const NotionCommentsComponent = dynamic(
+  () => import('@/components/NotionComments'),
+  { ssr: false }
+)
 
 export default Comment

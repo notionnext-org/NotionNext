@@ -1,4 +1,9 @@
 const CONFIG = {
+  MAGZINE_COLOR_PRIMARY: '#7BE986',
+  MAGZINE_COLOR_PRIMARY_DARK: '#62BA6B',
+  MAGZINE_COLOR_BG: '#f6f6f1',
+  MAGZINE_COLOR_SCROLLBAR: '#4e4e4e',
+
   // 首屏信息栏按钮文字
   MAGZINE_HOME_BANNER_ENABLE: true, // 首屏右上角的宣传位
   MAGZINE_HOME_BUTTON: true,
@@ -12,6 +17,8 @@ const CONFIG = {
     '借助NotionNext，获得助您开创、经营和扩展业务所需的全部工具和帮助。',
   MAGZINE_HOME_TIPS: 'AI时代来临，这是属于超级个体的狂欢盛宴！',
 
+  MAGZINE_HERO_SUB_POST_COUNT: 2, // 首屏英雄区次要文章数量，通常2篇，如果关闭Banner，推荐改为3篇
+
   // 首页底部推荐文章标签, 例如 [推荐] , 最多六篇文章; 若留空白''，则推荐最近更新文章
   MAGZINE_RECOMMEND_POST_TAG: '推荐',
   MAGZINE_RECOMMEND_POST_COUNT: 6,
@@ -22,7 +29,7 @@ const CONFIG = {
   MAGZINE_RIGHT_PANEL_DARK: process.env.NEXT_PUBLIC_MAGZINE_RIGHT_DARK || false, // 右侧面板深色模式
 
   MAGZINE_POST_LIST_COVER: true, // 文章列表显示图片封面
-  MAGZINE_POST_LIST_PREVIEW: true, // 列表显示文章预览
+  MAGZINE_POST_LIST_PREVIEW: false, // 列表显示文章预览
   MAGZINE_POST_LIST_CATEGORY: true, // 列表显示文章分类
   MAGZINE_POST_LIST_TAG: true, // 列表显示文章标签
 
@@ -54,18 +61,18 @@ const CONFIG = {
     {
       name: '开发者',
       menus: [
-        { title: 'Github', href: 'https://github.com/tangly1024/NotionNext' },
+        { title: 'Github', href: 'https://github.com/notionnext-org/NotionNext' },
         {
           title: '开发帮助',
           href: 'https://docs.tangly1024.com/article/how-to-develop-with-notion-next'
         },
         {
           title: '功能反馈',
-          href: 'https://github.com/tangly1024/NotionNext/issues/new/choose'
+          href: 'https://github.com/notionnext-org/NotionNext/issues/new/choose'
         },
         {
           title: '技术讨论',
-          href: 'https://github.com/tangly1024/NotionNext/discussions'
+          href: 'https://github.com/notionnext-org/NotionNext/discussions'
         },
         {
           title: '关于作者',

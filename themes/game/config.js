@@ -1,4 +1,8 @@
 const CONFIG = {
+  GAME_COLOR_BG: '#ffffff',
+  GAME_COLOR_SCROLLBAR: '#4e4e4e',
+  GAME_COLOR_PRIMARY: '#22c55e',
+
   GAME_NAV_NOTION_ICON: true, // 是否读取Notion图标作为站点头像 ; 否则默认显示黑色SVG方块
 
   GAME_RECOMMEND_TAG: 'Recommend', // 打了此Tag，被视为推荐
