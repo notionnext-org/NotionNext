@@ -1,3 +1,4 @@
+import { hasEnabledComments } from '@/lib/utils/comments'
 /**
  *   HEO 主题说明
  *  > 主题设计者 [张洪](https://zhheo.com/)
@@ -259,15 +260,7 @@ const LayoutSlug = props => {
     setHasCode(hasCode)
   }, [])
 
-  const commentEnable =
-    siteConfig('COMMENT_TWIKOO_ENV_ID') ||
-    siteConfig('COMMENT_WALINE_SERVER_URL') ||
-    siteConfig('COMMENT_VALINE_APP_ID') ||
-    siteConfig('COMMENT_GISCUS_REPO') ||
-    siteConfig('COMMENT_CUSDIS_APP_ID') ||
-    siteConfig('COMMENT_UTTERRANCES_REPO') ||
-    siteConfig('COMMENT_GITALK_CLIENT_ID') ||
-    siteConfig('COMMENT_WEBMENTION_ENABLE')
+  const commentEnable = post?.comment !== 'Hide' && hasEnabledComments(siteConfig)
 
   const router = useRouter()
   const waiting404 = siteConfig('POST_WAITING_TIME_FOR_404') * 1000
@@ -330,8 +323,8 @@ const LayoutSlug = props => {
             </article>
 
             {/* 评论区 */}
-            {fullWidth ? null : (
-              <div className={`${commentEnable && post ? '' : 'hidden'}`}>
+            {!fullWidth && commentEnable && (
+              <div>
                 <hr className='my-4 border-dashed' />
                 {/* 评论区上方广告 */}
                 <div className='py-2'>

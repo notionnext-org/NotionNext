@@ -1,4 +1,4 @@
-# 全站功能与配置索引（4.10.2）
+# 全站功能与配置索引（4.11.0）
 
 配置源文件：`blog.config.js` 聚合 `conf/*.config.js`。环境变量多为 `NEXT_PUBLIC_<键名>`（服务端专用键无此前缀，见各文件注释）。
 
@@ -13,8 +13,9 @@
 | `APPEARANCE` | `light` / `dark` / `auto` |
 | `APPEARANCE_DARK_TIME` | 自动夜间时段，如 `[18, 6]` |
 | `NEXT_REVALIDATE_SECOND` | ISR 缓存秒数，越大越省 Vercel 额度 |
+| `CACHE_REVALIDATION_TOKEN` | 保护 `/api/cache` 的 Bearer 令牌；升级须知见[最新版本更新日志](../changelog/latest.md#升级须知-请先阅读) |
 | `PSEUDO_STATIC` | URL 以 `.html` 结尾 |
-| `ENABLE_RSS` | RSS 生成 |
+| `ENABLE_RSS` | RSS 生成；开启后构建时输出 `/rss/feed.xml`、`/rss/atom.xml`、`/rss/feed.json`，页面 `<head>` 也会输出 RSS 自动发现声明 |
 | `RSS_FULL_CONTENT` | RSS 是否包含文章全文；默认 `true`，设为 `false` 时仅返回文章摘要 |
 | `CUSTOM_MENU` | 使用 Menu/SubMenu 导航 |
 | `CAN_COPY` | 是否允许复制正文；文章可用 `CAN_COPY` 或 `ext.CAN_COPY` 单独覆盖 |
@@ -46,6 +47,10 @@
 | `TAG_SORT_BY_COUNT` | 标签按文章数排序 |
 | `INNER_PAGE_URL_PARENT_PATH` / `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH` | 未收录内嵌子页面 URL 跟随父级文章路径（4.10.10+） |
 
+## Notion OAuth 授权
+
+从本站 `/api/auth/notion` 发起授权。旧的直接携带 code 访问回调方式已不再接受，配置与兼容说明见[Notion OAuth 授权入口](../../developer/NOTION_OAUTH.zh-CN.md)。
+
 ## Notion（conf/notion.config.js）
 
 见 [notion-4x.md](./notion-4x.md)。
@@ -63,6 +68,7 @@
 | 系列键前缀 | 插件 |
 | --- | --- |
 | `COMMENT_TWIKOO_*` / `NEXT_PUBLIC_COMMENT_ENV_ID` | Twikoo |
+| `COMMENT_NOTION_ENABLE` / `NEXT_PUBLIC_COMMENT_NOTION_ENABLE` | NotionComments；服务端配置及限制见 [NotionComments 教程](../comments/notion-comments.md) |
 | `COMMENT_WALINE_*` / `NEXT_PUBLIC_WALINE_*` | Waline（Notion Config 可用 `WALINE_*` 别名，4.9+） |
 | `COMMENT_VALINE_*` / `NEXT_PUBLIC_VALINE_*` | Valine |
 | `COMMENT_GISCUS_*` | Giscus |
@@ -185,11 +191,13 @@
 
 `CONTACT_EMAIL`、`CONTACT_GITHUB`、`CONTACT_TWITTER` 等配置用于在主题的个人资料区或侧栏显示站长联系方式。
 
-| 配置键 | 环境变量 | 说明                                                                |
-| --- | --- |-------------------------------------------------------------------|
+| 配置键 | 环境变量 | 说明 |
+| --- | --- | --- |
 | `CONTACT_ORCID` | `NEXT_PUBLIC_CONTACT_ORCID` | ORCID 主页完整 URL，例如 `https://orcid.org/1234-1234-1234-1234`。留空时不显示。 |
+| `CONTACT_CSDN` | `NEXT_PUBLIC_CONTACT_CSDN` | CSDN 主页完整 URL，例如 `https://blog.csdn.net/username`。留空时不显示。 |
+| `CONTACT_JUEJIN` | `NEXT_PUBLIC_CONTACT_JUEJIN` | 稀土掘金主页完整 URL，例如 `https://juejin.cn/user/1234567890`。留空时不显示。 |
 
-支持读取 Notion Config 中的同名键 `CONTACT_ORCID`，配置优先级为 Notion Config、环境变量、本地配置文件。
+支持读取 Notion Config 中的同名键，配置优先级为 Notion Config、环境变量、本地配置文件。
 
 ## 右键菜单（conf/right-click-menu.js）
 

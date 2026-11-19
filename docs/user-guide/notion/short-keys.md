@@ -112,7 +112,7 @@ Notion 配备了完整的键盘和Markdown快捷键，因此您无需触摸鼠�
 - 在任何文本块的开头或结尾键入 `/color` 以更改其颜色或突出显示颜色。 (要删除颜色或突出显示，只需键入 `/default`.) 示例： `/blue`, `/blue background`
 
 <details>
-<summary>数字组合快捷键`cmd/ctrl` + `option/shift` + `[num]` (我用的比较少)</summary>
+<summary>数字组合快捷键<code>cmd/ctrl</code> + <code>option/shift</code> + <code>[num]</code> (我用的比较少)</summary>
 
 以下这些内容创建的快捷方式，在Mac上代表 `cmd` + `option` 组合，Windows 和 Linux 要用 `ctrl` + `shift` 组合：
   - 按下 `cmd/ctrl` + `option/shift` + `0` 创建 文本.

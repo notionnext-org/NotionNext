@@ -27,6 +27,7 @@ const CONFIG = {
     { title: '欢迎来到我的博客', url: 'https://blog.tangly1024.com' },
     { title: '访问文档中心获取更多帮助', url: 'https://docs.tangly1024.com' }
   ],
+  HEO_NOTICE_BAR_INTERVAL: 3000, // 多条通知的切换间隔，单位毫秒；非正数或无效值回退为 3000
 
   // 英雄区左右侧组件颠倒位置
   HEO_HERO_REVERSE: false,
@@ -73,6 +74,8 @@ const CONFIG = {
   HEO_INFO_CARD_URL2: 'https://github.com/tangly1024',
   HEO_INFO_CARD_ICON2: 'fab fa-github',
   HEO_INFO_CARD_ICON_ORCID: 'fab fa-orcid',
+  HEO_INFO_CARD_ICON_CSDN: 'fab fa-csdn',
+  HEO_INFO_CARD_ICON_JUEJIN: 'fab fa-juejin',
   HEO_INFO_CARD_URL3: 'https://www.tangly1024.com',
   HEO_INFO_CARD_TEXT3: '了解更多',
 

@@ -2,7 +2,7 @@
 
 NotionComments 使用一个 Notion 数据库保存评论，适合不想额外部署 Twikoo、Waline 等评论后端的站点。
 
-这不是 Notion 页面右上角的官方评论区，而是通过 Notion API 写入你自己的评论数据库。访客只需要填写邮箱和评论内容，不需要登录 Notion。
+这不是 Notion 页面右上角的官方评论区，而是通过 Notion API 写入你自己的评论数据库。访客不需要登录 Notion；默认需要填写邮箱，也可以开启无需邮箱的匿名模式。
 
 ## 适合谁使用
 
@@ -13,6 +13,14 @@ NotionComments 使用一个 Notion 数据库保存评论，适合不想额外部
 如果你需要后台审核、邮件通知、垃圾评论过滤、社交登录或头像系统，Twikoo、Waline、Artalk 仍然更合适。
 
 > 部署限制：NotionComments 依赖本站的 `/api/notion-comments` 服务端接口，只支持 Vercel、Netlify、Zeabur、VPS、Node.js 服务等动态部署。使用 `yarn export` 生成纯静态站点时，没有服务端 API，不能使用这个插件。
+
+## 执行前检查
+
+为已有站点配置时，先确认当前部署平台、目标环境（生产或预览）、是否已有可用的评论数据库及 Integration，并检查相关变量是否已设置及其生效方式。复用现有配置；不要覆盖其他评论插件、站点的 `NOTION_TOKEN` 或其他环境的配置。`NOTION_TOKEN` 也可能被站点其他功能使用，更换前须确认影响。
+
+需要具备目标 Notion 工作区中创建数据库、创建连接并授权数据库的权限，以及目标部署环境变量的修改权限。缺少权限或无法确认现有配置时，说明具体缺项并停止需要该权限的操作，不要猜测凭据或数据库 ID。公开变量 `NEXT_PUBLIC_*` 会进入浏览器构建产物；Token 只能存于服务端密钥配置或未提交的本地环境文件，不能打印、粘贴到对话、日志、截图或提交到仓库。检查密钥时只报告是否存在，不输出值。
+
+先确认目标环境采用普通模式还是匿名模式，以及是否已有显式的审核配置；保留现有选择。部署平台中的变量可能覆盖文件中的值，应以目标环境实际生效的设置为准。修改前记录变量名及是否存在，不记录密钥值；完成后按部署平台流程重新构建或部署，使客户端与服务端使用一致的设置。
 
 ## 为什么选择独立评论数据库
 
@@ -77,7 +85,7 @@ Notion API 支持读取和创建页面评论，但它更适合工作区内部协
 | `CreatedAt` | Date   | 评论提交时间                                       |
 | `UserAgent` | Text   | 浏览器 User-Agent，用于排查垃圾评论                |
 
-基础字段必须存在；增强字段是可选的。旧数据库不添加增强字段也能继续提交评论，只是不会启用昵称保存、审核状态和额外排查信息。
+普通模式写入所有基础字段；匿名模式不写入 `Author` 和 `IpAddress`。为兼容两种模式，建议保留全部基础字段。增强字段是可选的；没有 `Nickname` 时不会保存昵称。启用审核时必须添加 `Status` select 字段，否则提交会失败。读取时 `Approved` 和状态为空的旧记录都会公开，因此启用审核前应检查现有记录的状态，避免误以为空状态会被隐藏。
 
 建议把这个数据库放在站点数据库之外，方便单独管理评论。
 
@@ -89,22 +97,21 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 
 ### 1. 新建连接
 
-1. 打开 [Notion integrations](https://www.notion.so/my-integrations)。
-2. 点击 `New integration` 或 `新建集成`。
-3. 名称可以填写 `Notion_Comment`，方便以后识别。
-4. 选择你的 Notion 工作区。
-5. 类型选择内部集成或 Internal integration。
-6. 保存后进入这个 integration 的管理页面。
+1. 打开 [Notion 开发者连接页面](https://www.notion.so/my-integrations)，登录存放评论数据库的 Notion 账号。
+2. 在 `Developer connections` 页面，点击右上角蓝色的 **`+ New connection`**。旧版界面可能显示 `New integration` 或 `新建集成`，它们是同一个创建入口；不要选择 `Personal access tokens` 或 `MCP tokens`。
+3. 名称填写 `Notion_Comment`（也可以自定义），然后在 `Associated workspace` 中选择评论数据库所在的工作区。
+4. 完成创建。新建连接默认为内部连接；如果界面没有类型选项，直接继续即可。
+5. 创建后点击该连接，进入管理页面。
+
+如果看不到目标工作区或无法创建连接，先确认登录的账号和工作区是否正确，并检查创建连接的权限；需要时请工作区所有者协助。
 
 ### 2. 配置功能权限
 
-在 integration 管理页的 `配置` 页面，找到 `功能` 区域。
+在连接管理页打开 `Configuration` / `配置`，找到 `Capabilities` / `功能` 区域，开启以下内容权限并保存：
 
-内容功能建议这样勾选：
-
-- 勾选 `读取内容`：用于读取评论数据库中的评论。
-- 勾选 `插入内容`：用于把新评论写入评论数据库。
-- `更新内容` 可选：当前基础评论功能不依赖它；如果以后要在站点侧编辑评论、标记审核状态，再开启它。
+- `Read content` / `读取内容`：读取评论数据库中的评论。
+- `Insert content` / `插入内容`：将新评论写入评论数据库。
+- `Update content` / `更新内容` 可选：当前基础评论功能不依赖它。
 
 评论功能不要勾选：
 
@@ -115,11 +122,7 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 
 ### 3. 复制访问令牌
 
-在同一个 `配置` 页面找到 `集成令牌` 或 `访问令牌`。
-
-1. 点击令牌输入框右侧的复制按钮。
-2. 复制出来的值一般以 `secret_` 开头。
-3. 把这个值保存为部署环境变量 `NOTION_TOKEN`。
+在同一个 `Configuration` / `配置` 页面找到 `API token` / `集成令牌`，点击复制按钮，将其保存为部署环境变量 `NOTION_TOKEN`。请复制该连接自己的令牌，不要使用 `Personal access token` 或 `MCP token`。
 
 注意：
 
@@ -133,11 +136,9 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 
 推荐做法：
 
-1. 打开你前面创建的评论数据库页面。
-2. 点击页面右上角 `...`。
-3. 找到 `Connections` 或 `连接`。
-4. 搜索并选择刚创建的 `Notion_Comment`。
-5. 确认添加。
+1. 打开**复制到你自己工作区的**评论数据库页面，不要在原始模板页面操作。
+2. 点击页面右上角 `...`，选择 `Connections` / `连接`，再点击 `Add connection` / `添加连接`。
+3. 搜索并选择刚创建的 `Notion_Comment`，确认添加。
 
 如果你在 integration 管理页的 `内容访问权限` 页面操作，也可以点击 `编辑权限`，搜索评论数据库所在页面或数据库，然后添加访问权限。建议只授权评论数据库，不要把整个工作区都授权给这个 integration。
 
@@ -159,9 +160,12 @@ Integration 可以理解成“给 NotionNext 使用的机器人账号”。Notio
 ```bash
 NEXT_PUBLIC_COMMENT_NOTION_ENABLE=true
 NOTION_COMMENT_DATABASE_ID=your_comment_database_id
-NOTION_TOKEN=secret_xxx
+NOTION_TOKEN=your_connection_api_token
+# 可选：匿名模式不要求邮箱，昵称选填
+NEXT_PUBLIC_COMMENT_NOTION_ANONYMOUS=false
 # 可选：开启后新评论写入 Pending，前台只显示 Approved
-NOTION_COMMENT_REQUIRE_APPROVAL=false
+# 未设置时，匿名模式默认开启审核，普通模式默认关闭
+# NOTION_COMMENT_REQUIRE_APPROVAL=true
 # 可选：同一 IP 每分钟最多提交次数，默认 5
 NOTION_COMMENT_RATE_LIMIT=5
 ```
@@ -171,10 +175,13 @@ NOTION_COMMENT_RATE_LIMIT=5
 - `NEXT_PUBLIC_COMMENT_NOTION_ENABLE`：开启 NotionComments。
 - `NOTION_COMMENT_DATABASE_ID`：评论数据库 ID。
 - `NOTION_TOKEN`：Notion integration token，是服务端密钥，不要加 `NEXT_PUBLIC_` 前缀。
-- `NOTION_COMMENT_REQUIRE_APPROVAL`：是否开启审核。设置为 `true` 后，新评论会写入 `Pending`，需要站长在 Notion 数据库中改成 `Approved` 才会显示。
+- `NEXT_PUBLIC_COMMENT_NOTION_ANONYMOUS`：设置为 `true` 后隐藏邮箱输入框；昵称选填，不填时显示“匿名访客”。服务端会忽略请求中传入的邮箱，也不会将 IP、User-Agent 或邮箱哈希写入 Notion。
+- `NOTION_COMMENT_REQUIRE_APPROVAL`：是否开启审核。设置为 `true` 后，新评论会写入 `Pending`，需要站长在 Notion 数据库中改成 `Approved` 才会显示。未设置时，匿名模式默认开启审核，普通模式默认关闭；显式设置 `false` 可以关闭审核。
 - `NOTION_COMMENT_RATE_LIMIT`：基础频率限制，默认同一 IP 每分钟 5 条。
 
-修改环境变量后需要重新部署。
+以上是示例，不要直接覆盖已有设置。尤其不要把审核变量设为空字符串来表示未设置：只有变量真正不存在时才按模式采用默认值；设置为空字符串时审核关闭。修改环境变量后需要重新构建或部署，确保目标环境的客户端和服务端使用相同的匿名模式设置。
+
+匿名模式不要求访客提供身份信息，但不代表网络层面无法识别：托管平台和网络服务可能仍会处理或记录 IP 等访问数据。服务端在处理请求时仍使用 IP 进行基础频率限制，该限制只保存在当前进程内存中，不是多实例环境下的全局防刷。匿名模式不支持通过邮箱发送回复通知或验证评论所有权。现有历史评论及其中保存的信息不会被自动删除。
 
 ## 获取数据库 ID
 
@@ -184,21 +191,21 @@ NOTION_COMMENT_RATE_LIMIT=5
 https://www.notion.so/workspace/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx?v=yyyy
 ```
 
-`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` 这段 32 位 ID 就是数据库 ID。复制时可以保留或去掉中间的短横线，Notion API 都能识别。
+`xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` 这段 32 位 ID 就是数据库 ID。复制时可以保留或去掉中间的短横线，Notion API 都能识别。请使用**复制到自己工作区后的评论数据库**的地址，不要使用模板链接中的 ID，也不要把 `?v=` 后面的视图 ID 当成数据库 ID。
 
 ## 启用和验证
 
-1. 部署后打开任意文章页。
-2. 滚动到评论区，应该能看到 `Notion` 评论 Tab 或评论表单。
-3. 输入邮箱和评论内容并提交。
-4. 回到 Notion 评论数据库，确认新增了一条记录。
-5. 如果开启了审核，把这条记录的 `Status` 从 `Pending` 改为 `Approved`，刷新文章页后再确认显示。
+1. 确认目标环境已完成部署，打开一篇未隐藏评论的文章，滚动到评论区；多个插件启用时选择 `Notion` Tab。
+2. 使用不含敏感信息的测试内容提交一条评论。普通模式填写有效邮箱；匿名模式不填写邮箱，昵称可留空。正文不能为空且最多 2000 字符，昵称最多 40 字符。
+3. 在自己的评论数据库确认新增记录的 `PostId` 与文章页面 ID 一致，正文正确。匿名模式检查该记录未写入邮箱、IP、User-Agent 和邮箱哈希；昵称需要 `Nickname` 字段才能保存。
+4. 开启审核时，确认新记录为 `Pending` 且刷新后不公开；将其改为 `Approved`，刷新后确认显示。未开启审核时，确认评论刷新后显示。再提交一条回复，确认关联和显示正常。
+5. 验证完成后在 Notion 删除测试评论及其回复；记录验证的目标环境、模式和结果，不记录 Token、访客邮箱或其他个人信息。
 
 评论按文章的 Notion 页面 ID 写入 `PostId`，所以文章改 slug 不会丢失评论关联。
 
 ## 使用效果
 
-评论提交后，会同时出现在文章评论区和你的 Notion 评论数据库中：
+评论提交后会写入 Notion 评论数据库；开启审核时，批准后才会出现在文章评论区：
 
 ![NotionComments 使用效果](/legacy/notion-comments-demo.png)
 
@@ -249,7 +256,9 @@ NotionComments 需要 `/api/notion-comments` 服务端接口来读取和写入 N
 - `NOTION_COMMENT_DATABASE_ID` 是否是评论数据库 ID。
 - 评论数据库是否已共享给对应 integration。
 - 数据库字段名称和类型是否与文档表格一致。
-- 如果开启了审核，`Status` 是否已经改成 `Approved`。
+- 如果开启了审核，数据库是否有名为 `Status`、类型为 Select 的字段；缺少该字段会导致提交失败。`Pending` 改为 `Approved` 是提交成功后的显示步骤。
+
+检查浏览器网络请求的状态码和服务端日志时，不要复制 Token、完整请求体、邮箱或 IP：`400` 表示输入无效，检查正文、邮箱及长度；`429` 表示触发频率限制，等待一分钟后重试；`500` 表示服务端或 Notion 操作失败，检查变量是否存在、数据库授权、字段类型及服务端错误。若网络中断或返回错误，重试前先检查数据库是否已经写入，避免重复评论。无法访问部署配置或 Notion 时，报告缺少的权限和已观察到的状态，不要声称验证成功。
 
 ### Netlify 部署后接口 404
 
@@ -259,8 +268,9 @@ NotionComments 需要 `/api/notion-comments` 服务端接口来读取和写入 N
 https://你的域名/api/notion-comments?postId=test
 ```
 
-- 返回 `[]` 或 `500`：说明 API Route 已部署成功，再检查 Notion Token、数据库 ID、共享权限和字段。
-- 返回 `404`：说明请求还没有进入 NotionComments 接口，优先检查 Netlify 是否启用了 Next.js API Routes，不要使用 `yarn export`，也不要把发布目录设成 `out`。
+- 返回 JSON 数组：接口可读取数据库；`[]` 只说明该 `postId` 没有公开评论，不能证明写入正常。
+- 返回接口的 JSON `500`：请求已到达接口但读取失败，检查服务端配置、数据库 ID 和共享权限。其他 `500` 页面还可能来自部署平台，应查看平台日志确认来源。
+- 返回 `404`：检查 Netlify 是否启用了 Next.js API Routes，不要使用 `yarn export`，也不要把发布目录设成 `out`；同时确认访问的是正确域名和部署环境。
 
 Netlify 项目应使用 Next.js 动态部署能力；构建日志里需要能看到 Next.js 插件和 Functions / API Routes 相关输出。
 
@@ -275,6 +285,7 @@ Netlify 项目应使用 Next.js 动态部署能力；构建日志里需要能看
 ## 安全建议
 
 - 不要把 `NOTION_TOKEN` 写进 `blog.config.js` 或任何前端可见配置。
+- 如果令牌意外泄露，应在 Notion 撤销或轮换，并更新所有依赖它的服务端环境变量；不要在排查时再次公开旧令牌。
 - 不要给 integration 授权整个工作区，只共享评论数据库即可。
 - 如果站点评论量变大，建议开启 `NOTION_COMMENT_REQUIRE_APPROVAL`，在 Notion 数据库里手动审核。
 - 评论内容会公开显示，不要让用户提交敏感信息。

@@ -9,6 +9,17 @@ import Swipe from './Swipe'
  */
 export function NoticeBar() {
   let notices = siteConfig('HEO_NOTICE_BAR', null, CONFIG)
+  const noticeInterval = siteConfig('HEO_NOTICE_BAR_INTERVAL', 3000, CONFIG)
+  const configuredInterval =
+    typeof noticeInterval === 'number' || typeof noticeInterval === 'string'
+      ? Number(noticeInterval)
+      : NaN
+  const interval =
+    Number.isFinite(configuredInterval) &&
+    configuredInterval > 0 &&
+    configuredInterval <= 2147483647
+      ? configuredInterval
+      : 3000
   const { locale } = useGlobal()
   if (typeof notices === 'string') {
     notices = JSON.parse(notices)
@@ -19,12 +30,12 @@ export function NoticeBar() {
 
   return (
     <div className='max-w-[86rem] w-full mx-auto flex h-12 mb-4 px-5 font-bold'>
-      <div className='animate__animated animate__fadeIn animate__fast group cursor-pointer bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] dark:text-white hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] border dark:border-gray-700  duration-200 hover:shadow-md transition-all rounded-xl w-full h-full flex items-center justify-between px-5'>
-        <span className='whitespace-nowrap'>{locale.COMMON.NOW}</span>
-        <div className='w-full h-full hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)] flex justify-center items-center'>
-          <Swipe items={notices} />
+      <div className='animate__animated animate__fadeIn animate__fast group cursor-pointer bg-[var(--heo-color-card)] dark:bg-[var(--heo-color-card-dark)] dark:text-white hover:border-[var(--heo-color-border)] dark:hover:border-[var(--heo-color-border-dark)] border dark:border-gray-700  duration-200 hover:shadow-md transition-all rounded-xl min-w-0 w-full h-full flex items-center justify-between px-5'>
+        <span className='shrink-0 whitespace-nowrap'>{locale.COMMON.NOW}</span>
+        <div className='min-w-0 flex-1 mx-2 md:mx-0 h-full hover:text-[var(--heo-color-primary)] dark:hover:text-[var(--heo-color-accent)] flex justify-center items-center'>
+          <Swipe items={notices} interval={interval} />
         </div>
-        <div>
+        <div className='shrink-0' aria-hidden='true'>
           <ArrowRightCircle className={'w-5 h-5'} />
         </div>
       </div>

@@ -2203,12 +2203,13 @@ figure.notion-asset-wrapper.notion-asset-wrapper-video > div {
 }
 
 /* Respect Notion Gallery's "Show page icon" view setting. */
-.notion-gallery-hide-page-icons .notion-page-title-icon {
+.notion-gallery-hide-page-icons .notion-gallery .notion-page-title-icon {
   display: none;
 }
 
 /* Respect the Gallery title property's visibility setting. */
 .notion-gallery-hide-titles
+  .notion-gallery
   .notion-collection-card-body
   > .notion-collection-card-property:first-child {
   display: none;
@@ -2321,4 +2322,15 @@ html.dark .notion-tabs-tab[aria-selected='true'] {
 
 html.dark .notion-tabs-panel {
   color: #e5e7eb;
+}
+
+/* The gallery visibility wrapper (components/NotionCollection.js) is a flex
+   item inside react-notion-x's column flex layout. Without stretching, it
+   shrinks to its content and Notion's `.notion-collection { min-width: 100% }`
+   resolves against the wrapper instead of the page, collapsing the Gallery
+   grid into a single column. */
+.notion-gallery-visibility-wrapper {
+  align-self: stretch;
+  width: 100%;
+  min-width: 100%;
 }

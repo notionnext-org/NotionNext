@@ -25,14 +25,14 @@ Valine和Waline两个插件均要借助LeanCloud提供的云函数，云数据�
 ### 获取APP ID 和 APP Key
 
 <details>
-<summary>1.请先[登录](https://leancloud.cn/dashboard/login.html#/signin)或[注册](https://leancloud.cn/dashboard/login.html#/signup) `LeanCloud`, 进入[控制台](https://leancloud.cn/dashboard/applist.html#/apps)后点击左下角[创建应用](https://leancloud.cn/dashboard/applist.html#/newapp)：</summary>
+<summary>1.请先<a href="https://leancloud.cn/dashboard/login.html#/signin">登录</a>或<a href="https://leancloud.cn/dashboard/login.html#/signup">注册</a> <code>LeanCloud</code>, 进入<a href="https://leancloud.cn/dashboard/applist.html#/apps">控制台</a>后点击左下角<a href="https://leancloud.cn/dashboard/applist.html#/newapp">创建应用</a>：</summary>
 
 ![image](/legacy/f4ffa7172a352d5c.jpg)
 
 </details>
 
 <details>
-<summary>2.进入刚刚创建的应用，选择左下角的`设置`&gt;`应用Key`，查看你的`APP ID`和`APP Key`。</summary>
+<summary>2.进入刚刚创建的应用，选择左下角的<code>设置</code>&gt;<code>应用Key</code>，查看你的<code>APP ID</code>和<code>APP Key</code>。</summary>
 
 ![Untitled](/legacy/d1361e8fe97109c2.png)
 
@@ -56,19 +56,21 @@ Valine和Waline两个插件均要借助LeanCloud提供的云函数，云数据�
 ![Untitled](/legacy/460fce1846c6e668.png)
 
 </details>
-  - 1. 点**[此链接](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftangly1024%2Fwaline&demo-title=WalineForNotionNext)**一键部署waline。
+
+1. 点**[此链接](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftangly1024%2Fwaline&demo-title=WalineForNotionNext)**一键部署waline。
+
 <details>
 <summary>2. 配置环境变量 （点击展开）</summary>
 
-    - 进入环境变量配置页面
+- 进入环境变量配置页面
 在Vercel后台刚部署好的Waline项目中，找到 **Settings** →  **Environment Variables**：
 ![B60A41AC-6BC2-4F91-B3FB-FC742AD1BB27.png](/legacy/1a13c4dc8f6e6ea4.png)
-    - 配置三个环境变量 `LEAN_ID`，`LEAN_KEY` ， `LEAN_MASTER_KEY` 。(它们的值分别对应上一步在 LeanCloud 中获得的 `APP ID`, `APP KEY`, `Master Key`。)，配置变量如下图：
+- 配置三个环境变量 `LEAN_ID`，`LEAN_KEY` ， `LEAN_MASTER_KEY` 。(它们的值分别对应上一步在 LeanCloud 中获得的 `APP ID`, `APP KEY`, `Master Key`。)，配置变量如下图：
 ![Untitled](/legacy/476b942890765788.png)
 ::: tip 提示
 注意：
 如果你使用 LeanCloud 国内版，请额外配置 `LEAN_SERVER` 环境变量，值为你绑定好的域名。否则可能会提示错误：”`serverURL option is required for apps from CN region`“，[详见此ISSUE](https://github.com/notionnext-org/NotionNext/issues/308#issuecomment-1157330084)。
-    - 最后要`redeploy`这个项目使配置生效。
+- 最后要`redeploy`这个项目使配置生效。
 ![Untitled](/legacy/4ef8e75bf93a31c6.png)
 :::
 

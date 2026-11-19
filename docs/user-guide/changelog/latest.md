@@ -1,20 +1,85 @@
 # 最新版本与更新日志
 
-> 当前主线：**4.10.10**（见根目录 `package.json`）
+> 当前主线：**4.11.0**（见根目录 `package.json`）
+
+## 4.11.0 发布要点
+
+`4.11.0` 收录 `v4.10.10` 之后的主线改动（约 180 个提交）。其中有**两项不兼容变更**（缓存维护接口、Notion OAuth 授权入口），升级前请先阅读下面的「升级须知」；其余普通站点同步最新 `main` 后重新部署即可。
+
+### 升级须知（请先阅读）
+
+1. **缓存维护接口需要令牌（不兼容）**：`/api/cache` 必须配置 `CACHE_REVALIDATION_TOKEN` 并携带 `Authorization: Bearer <令牌>`；未配置时返回 HTTP 503，不再允许无令牌清理缓存。已有的维护脚本需补充环境变量和请求头。详见 [数据缓存与页面重建](../../developer/CACHE_MAINTENANCE.zh-CN.md)。
+2. **Notion OAuth 授权入口变更（不兼容）**：升级后必须从本站 `/api/auth/notion` 发起授权；旧的直接携带 code 访问回调的方式不再接受。详见 [Notion OAuth 授权入口](../../developer/NOTION_OAUTH.zh-CN.md)。
+3. **Notion 图片**：新版 Notion 接口返回的 `file.notion.com` 图片链接已适配图片反代和签名刷新，之前为解决图片过期而临时设置 `API_BASE_URL=https://www.notion.so/api/v3` 的站点，升级后不再需要该设置。外链（http/https）图片现在也会经 `NEXT_PUBLIC_NOTION_HOST` 的图片中转端点加载，使用自定义反代地址的站点请确认中转端可用。
+4. **字体**：默认不再加载 `Noto Sans SC`、`Noto Serif SC` 等第三方中文 Web Font，未配置自定义字体的站点会改用系统字体，外观会有变化。需要品牌字体请显式配置 `NEXT_PUBLIC_FONT_URL`（或 Notion Config 的 `FONT_URL`）。
+5. **非本站工作区的页面会返回 404**：通过页面 id 兜底渲染时会校验页面是否属于本站 Notion 工作区，工作区 id 默认自动推导，也可用 `NOTION_WORKSPACE_ID` 指定（多站点用逗号分隔）。注意页面网址中的 id 不是工作区 id，无法确认时应留空以自动推导。见 [NOTION_WORKSPACE_ID](../config/notion-workspace-id.md)。
+6. **访问统计默认端点**：不蒜子默认脚本已切换为社区维护的 Vercount（`https://events.vercount.one/js`），可用 `NEXT_PUBLIC_BUSUANZI_SCRIPT_URL` 覆盖。见 [不蒜子统计](../analytics/busuanzi.md)。
+7. **Mailchimp 新订阅需要确认邮件**：新建成员由直接 `subscribed` 改为 `pending`，收件人确认后才完成订阅。页面显示“Subscription request received…”只表示请求已处理，重复邮箱使用同一提示，也不会自动恢复已退订成员。详见 [Mailchimp 邮件订阅](../plugins/mailchimp.md)。
+8. **页面重建失败与重试**：`/api/revalidate` 部分页面失败时由 HTTP 200 改为 500；仍需读取 `results` 和 `remainingPaths`，仅用普通 `paths` 请求重试失败页并续传未尝试页。不要为 `all: true` 或 `invalidateData: true` 配置自动重试，否则会再次全清数据。详见 [数据缓存与页面重建](../../developer/CACHE_MAINTENANCE.zh-CN.md)。
+
+### 图片与 Notion 数据
+
+- 恢复 `NEXT_PUBLIC_NOTION_HOST` 图片反代与签名刷新，适配 `file.notion.com` 新图片 CDN（#4476、#4473）。
+- 外链图片经图片中转端点加载，避免防盗链图床拒绝带本站 Referer 的请求；反代图片支持高清缩放与随机图替换。
+- 正文图片放大时通过图片库的打开事件加载高清来源，修复放大副本移到正文外后未触发高清替换的问题；切换或离开文章时关闭该文章的放大图片和遮罩，打开动画尚未结束时也会完成清理；高清加载失败的竞态不会留下损坏副本。
+- 数据库的 Created time / Last edited time 系统属性不再丢失；嵌套 Gallery 视图设置、Gallery 单列显示问题已修复。
+- 内嵌页面链接解析会先去掉 query 与 hash 再提取页面 ID。
+
+使用方法见 [Notion 图片反代与缓存](../deploy/notion-image-proxy.md)。
+
+### 安全与接口
+
+- `/api/revalidate` 的单页请求默认只重建指定页；清理数据须显式传入 `invalidateData: true`，全站请求使用 `all: true`。批量重建默认每次最多 25 页，约 45 秒后停止启动新页面并以 HTTP 202 返回剩余路径供调用方续传，兼容未启用 Fluid Compute 的 Vercel Hobby 项目。多实例或 Serverless 部署要实现同步失效，必须配置所有实例共用的 Redis。
+- Notion OAuth 改为服务端授权流程：授权结果不再携带原始 token 或用户资料进入 URL、页面 props 和日志，回调绑定授权发起时的随机 state cookie。
+- 修复任意公开 Notion 块 id 可被渲染到本站域名下的问题（见升级须知 5）。
+- Mailchimp 订阅结果处理、Algolia 搜索请求生命周期的问题已修复；依赖安全审计补丁已合入。
+- 全量数据失效也会清理 `ai_summary_*`；配置 `AI_SUMMARY_API` 的站点可能在后续重建或访问时重新调用付费摘要服务，长 `AI_SUMMARY_CACHE_TIME` 不能避免此次失效。高频 webhook 宜使用默认的单页或 `paths` 刷新，按需集中执行数据清理。
+
+### 新功能与可选配置
+
+- **PWA 安装入口**：新增可选配置 `PWA_ENABLE=true`，开启后 Android Chrome 可将博客安装到桌面；主题色可通过 `PWA_THEME_COLOR` 配置，manifest 使用固定路径 `/manifest.json`；默认关闭，不影响未开启站点。使用方法见 [PWA 安装入口](../config/pwa-install.md)。
+- **NotionNext Content MCP**（可选）：内置零依赖 MCP 服务器，让 Claude Code、Codex、Cursor 等 AI 助手按 NotionNext 数据契约管理 Notion 内容。见 [NotionNext Content MCP](../../developer/NOTIONNEXT_CONTENT_MCP.md)。
+- RSS：`RSS_FULL_CONTENT=false` 时只输出摘要（默认全文）。订阅地址统一为 `/rss/feed.xml`（另有 `/rss/atom.xml`、`/rss/feed.json`），页面 `<head>` 已输出 `rel="alternate"` 自动发现声明，浏览器和 Feedly 等阅读器可直接识别；旧地址 `/feed` 仍以 308 跳转到它。
+- 多个主题新增 CSDN、稀土掘金联系入口（`NEXT_PUBLIC_CONTACT_CSDN`、`NEXT_PUBLIC_CONTACT_JUEJIN`）；公告改用 Notion 页面标题；simple 主题页头页脚新增站点访问统计；统计卡片改用站点 PV，与页脚口径一致。
+
+### 主题
+
+- opc：首页围绕任务流水线重做，归档卡片与新手引导优化。
+- Proxio：侧栏目录与加锁文章显示，切换文章后收起上一页的目录抽屉。
+- Fuwari：NotionComments 评论、`FUWARI_HERO_ENABLE` 关闭 Hero 后的布局、移动端菜单、按页面隐藏侧栏、搜索页改进；文章评论区域和浮动入口统一遵循评论开关、隐藏设置和锁定状态，密码输入提示使用当前语言。
+- heo：昼夜切换、控件与评论、回弹背景修复。
+- XuHome 同步上游目录与音频更新；Magzine 封面间距；starter 导航栏 hover 配色；hero 打字脚本初始化时机。
+
+### 部署与依赖
+
+- 依赖更新：`next` 15.5.27、`notion-client` / `notion-utils` / `react-notion-x` 7.12.1，以及一批 patch / minor 更新。
+- 仓库地址已迁移到 `notionnext-org/NotionNext`，文档与配置中的旧地址已清理。
+- Vercel 保留 html 站点验证 URL。
+
+### 升级说明
+
+- 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点：先阅读上面的「升级须知」，同步最新 `main` 后重新部署即可。
+- 如果你有调用 `/api/cache` 或 `/api/revalidate` 的脚本、或使用 Notion OAuth 授权，必须按升级须知调整。
+- 如果你依赖 Docker 镜像，请等待本版本 GitHub Release 对应的 GHCR 镜像发布完成后再拉取。
+
+### GitHub Release
+
+- Release：[v4.11.0](https://github.com/notionnext-org/NotionNext/releases/tag/v4.11.0)
+- 完整变更：[v4.10.10...v4.11.0](https://github.com/notionnext-org/NotionNext/compare/v4.10.10...v4.11.0)
+
+## 待发布：文章密码验证升级
+
+- 文章密码改为服务端验证；公开 HTML 与页面数据只提供保护标记和摘要，验证成功后才返回正文。所有内置主题均支持异步解锁，包括 OPC 和 Landing。
+- GitHub Pages 等纯静态部署仍可使用 `EXPORT=true` 构建。密码文章仅生成锁页，明确提示当前站点不支持解锁；公开文章继续正常导出。需要在线解锁时请使用带 Next.js 服务端的部署方式。
+- 公开文章只在构建或导出时允许安全降级：正文获取失败时显示摘要，后处理失败时保留已经过滤的正文。运行时 ISR 出错会保留上一次成功页面，避免以不完整内容覆盖；受保护正文和无法确认访问权限的 UUID 页面不会降级放行。
+- 未入目录的 UUID 子页面会补查祖先链，并继承公开发布（`Published`）或隐藏发布（`Invisible`）目录祖先的密码。隐藏发布子页面仍可通过链接访问，草稿不会放行。仅同工作区但没有已发布目录祖先的独立页面仍返回 404；需要访问时请将其加入目录并发布。
+- 旧版密码 URL 和 localStorage 会在尝试迁移后清理；新解锁状态仅保留在当前页面，刷新后需重新输入密码。更新后请重新生成旧静态产物及搜索索引。
+
+反向代理配置、自定义主题适配和限流边界见 [文章密码与服务端访问](../../developer/POST_ACCESS.zh-CN.md)。
 
 ## 4.10.10 发布要点
 
-`4.10.10` 是一次小版本维护发布，集中收录 `v4.10.9` 之后的近期主线改动。普通站点同步最新 `main` 后重新部署即可；只有需要内嵌子页面层级 URL 或 PWA 安装入口的站点，才需要新增可选配置。
-
-### PWA 安装入口
-
-- 新增可选配置 `PWA_ENABLE=true`，开启后 Android Chrome 可将博客安装到桌面。
-- 安装入口由 Notion Config 或环境变量 `PWA_ENABLE` 控制，主题色可通过 `PWA_THEME_COLOR` 配置。
-- manifest 使用固定路径 `/manifest.json`，默认指向首页 `/`，并使用站点标题、描述和站点图标生成安装信息。
-- `PWA_NAME`、`PWA_SHORT_NAME`、`PWA_ICON` 可作为少数站点的备用覆盖项；默认情况下无需单独配置。
-- 功能默认关闭，不影响未开启站点。
-
-使用方法见 [PWA 安装入口](../config/pwa-install.md)。
+`4.10.10` 是一次小版本维护发布，集中收录 `v4.10.9` 之后的近期主线改动。普通站点同步最新 `main` 后重新部署即可；只有需要内嵌子页面层级 URL 的站点，才需要新增可选配置。
 
 ### Notion 内嵌子页面 URL
 
@@ -53,7 +118,6 @@
 ### 升级说明
 
 - 普通 Vercel / Netlify / Cloudflare Pages / Docker 站点：同步最新 `main` 后重新部署即可。
-- 如果要启用 Android Chrome PWA 安装入口，推荐在 Notion Config 添加 `PWA_ENABLE=true`。
 - 如果要启用内嵌子页面父路径 URL，推荐在 Notion Config 添加 `INNER_PAGE_URL_PARENT_PATH=true`。
 - 也可以在部署平台添加 `NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true` 后重新部署。
 - 如果你依赖 Docker 镜像，请等待本版本 GitHub Release 对应的 GHCR 镜像发布完成后再拉取。
