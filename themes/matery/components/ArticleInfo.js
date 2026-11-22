@@ -11,15 +11,15 @@ export const ArticleInfo = props => {
 
   return (
     <section className='mb-3 dark:text-gray-200'>
-      <div className='my-3'>
-        {post.tagItems && (
-          <div className='flex flex-nowrap overflow-x-auto'>
+      {post.tagItems?.length > 0 && (
+        <div className='my-4'>
+          <div className='flex flex-wrap items-center gap-2'>
             {post.tagItems.map(tag => (
               <TagItemMiddle key={tag.name} tag={tag} />
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className='flex flex-wrap gap-3 mt-5 text-sm'>
         {post?.type !== 'Page' && (
@@ -27,7 +27,8 @@ export const ArticleInfo = props => {
             <SmartLink
               href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
               passHref
-              className='cursor-pointer whitespace-nowrap'>
+              className='cursor-pointer whitespace-nowrap'
+            >
               <i className='far fa-calendar-minus fa-fw' />{' '}
               {locale.COMMON.POST_TIME}: {post?.publishDay}
             </SmartLink>

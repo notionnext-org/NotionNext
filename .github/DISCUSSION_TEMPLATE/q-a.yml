@@ -1,0 +1,29 @@
+title: "❓ "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提问。请尽量提供 **NotionNext 版本**、**部署平台**（Vercel / Cloudflare 等）与**复现步骤**，便于志愿者回复。
+        若确认是 Bug，请改用 [Bug Report](https://github.com/notionnext-org/NotionNext/issues/new/choose)。
+  - type: textarea
+    id: question
+    attributes:
+      label: 问题描述
+      placeholder: 你想实现什么 / 遇到了什么现象？
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: 环境信息
+      placeholder: 版本号（package.json）、部署方式、相关 env 变量名（勿贴密钥）
+    validations:
+      required: false
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已尝试的步骤
+      placeholder: 已查阅的文档链接、已改的配置等
+    validations:
+      required: false

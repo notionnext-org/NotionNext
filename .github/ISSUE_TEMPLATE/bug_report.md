@@ -3,7 +3,10 @@ name: Bug report （Bug反馈）
 about: 报告一个软件的BUG来让NotionNext变得更好
 title: ''
 labels: bug
-assignees: tangly1024
+---
+
+> 若为「如何使用 / 部署咨询」而非可复现缺陷，请改用 [Discussions · 使用问答](https://github.com/notionnext-org/NotionNext/discussions/new/choose)，Issue 仅用于可跟踪的 Bug。
+
 ---
 
 <!--

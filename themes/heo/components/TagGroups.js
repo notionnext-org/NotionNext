@@ -22,8 +22,8 @@ const TagGroups = ({ tags, className }) => {
                         className={'cursor-pointer inline-block  whitespace-nowrap'}
                     >
                         <div className={`${className || ''} 
-                            ${selected ? 'text-white bg-blue-600 dark:bg-yellow-600' : ''}  
-                            flex items-center hover:bg-blue-600 dark:hover:bg-yellow-600 hover:scale-110 hover:text-white rounded-lg px-2 py-0.5 duration-150 transition-all`}
+                            ${selected ? 'text-[var(--heo-color-primary-text)] bg-[var(--heo-color-primary)] dark:bg-[var(--heo-color-accent)]' : ''}
+                            flex items-center hover:bg-[var(--heo-color-primary)] dark:hover:bg-[var(--heo-color-accent)] hover:scale-110 hover:text-[var(--heo-color-primary-text)] rounded-lg px-2 py-0.5 duration-150 transition-all`}
                         >
                             <div className="text-lg">{tag.name} </div>
                             {tag.count

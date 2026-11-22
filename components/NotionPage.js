@@ -1,11 +1,14 @@
 import { siteConfig } from '@/lib/config'
 import { compressImage, mapImgUrl } from '@/lib/db/notion/mapImage'
+import NotionEmbed from '@/components/NotionEmbed'
+import NotionLink from '@/components/NotionLink'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
 import mediumZoom from '@fisch0920/medium-zoom'
 import 'katex/dist/katex.min.css'
 import dynamic from 'next/dynamic'
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { NotionRenderer } from 'react-notion-x'
+import OriginalityProof from './OriginalityProof'
 
 /**
  * 整个站点的核心组件
@@ -19,15 +22,10 @@ const NotionPage = ({ post, className }) => {
   const POST_DISABLE_DATABASE_CLICK = siteConfig('POST_DISABLE_DATABASE_CLICK')
   const SPOILER_TEXT_TAG = siteConfig('SPOILER_TEXT_TAG')
 
-  const zoom =
-    isBrowser &&
-    mediumZoom({
-      //   container: '.notion-viewport',
-      background: 'rgba(0, 0, 0, 0.2)',
-      margin: getMediumZoomMargin()
-    })
-
-  const zoomRef = useRef(zoom ? zoom.clone() : null)
+  const zoomRef = useRef(null)
+  const articleRef = useRef(null)
+  const zoomOwnerId = useId()
+  const zoomSequence = useRef(0)
   const IMAGE_ZOOM_IN_WIDTH = siteConfig('IMAGE_ZOOM_IN_WIDTH', 1200)
   // 页面首次打开时执行的勾子
   useEffect(() => {
@@ -39,6 +37,12 @@ const NotionPage = ({ post, className }) => {
   useEffect(() => {
     // 相册视图点击禁止跳转，只能放大查看图片
     if (POST_DISABLE_GALLERY_CLICK) {
+      if (!zoomRef.current && isBrowser) {
+        zoomRef.current = mediumZoom({
+          background: 'rgba(0, 0, 0, 0.2)',
+          margin: getMediumZoomMargin()
+        })
+      }
       // 针对页面中的gallery视图，点击后是放大图片还是跳转到gallery的内部页面
       processGalleryImg(zoomRef?.current)
     }
@@ -47,43 +51,94 @@ const NotionPage = ({ post, className }) => {
     if (POST_DISABLE_DATABASE_CLICK) {
       processDisableDatabaseUrl()
     }
+  }, [post, POST_DISABLE_GALLERY_CLICK, POST_DISABLE_DATABASE_CLICK])
 
-    /**
-     * 放大查看图片时替换成高清图像
-     */
-    const observer = new MutationObserver((mutationsList, observer) => {
-      mutationsList.forEach(mutation => {
-        if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'class'
-        ) {
-          if (mutation.target.classList.contains('medium-zoom-image--opened')) {
-            // 等待动画完成后替换为更高清的图像
-            setTimeout(() => {
-              // 获取该元素的 src 属性
-              const src = mutation?.target?.getAttribute('src')
-              //   替换为更高清的图像
-              mutation?.target?.setAttribute(
-                'src',
-                compressImage(src, IMAGE_ZOOM_IN_WIDTH)
-              )
-            }, 800)
-          }
-        }
-      })
-    })
+  useEffect(() => {
+    const articleRoot = articleRef.current
+    if (!articleRoot) return
+    const zoomSources = new Map()
+    const activeZooms = new Map()
+    const markerAttribute = 'data-notionnext-zoom-id'
+    const finishZoom = (image, entry) => {
+      // A broken image can become complete before its error event. medium-zoom
+      // may already have appended that HD copy, then lose its reference on error.
+      document.querySelectorAll(
+        `.medium-zoom-image--opened[${markerAttribute}="${entry.marker}"]`
+      ).forEach(copy => copy.remove())
+      if (image.getAttribute(markerAttribute) === entry.marker) {
+        if (entry.previousMarker === null) image.removeAttribute(markerAttribute)
+        else image.setAttribute(markerAttribute, entry.previousMarker)
+      }
+    }
+    const prepareZoomSource = event => {
+      const image = event.target
+      if (image.tagName !== 'IMG') return
+      const zoom = event.detail?.zoom
+      if (zoom) {
+        const marker = `${zoomOwnerId}-${++zoomSequence.current}`
+        activeZooms.set(image, { zoom, marker, previousMarker: image.getAttribute(markerAttribute) })
+        image.setAttribute(markerAttribute, marker)
+      }
+      if (image.hasAttribute('data-zoom-src')) return
+      const source = image.currentSrc || image.getAttribute('src')
+      const hdSource = compressImage(source, IMAGE_ZOOM_IN_WIDTH)
+      if (!hdSource || hdSource === source) return
+      zoomSources.set(image, hdSource)
+      image.setAttribute('data-zoom-src', hdSource)
+    }
+    const restoreZoomSource = image => {
+      if (!zoomSources.has(image)) return
+      if (image.getAttribute('data-zoom-src') === zoomSources.get(image)) {
+        image.removeAttribute('data-zoom-src')
+      }
+      zoomSources.delete(image)
+    }
+    const onZoomClosed = event => {
+      restoreZoomSource(event.target)
+      const entry = activeZooms.get(event.target)
+      if (entry) finishZoom(event.target, entry)
+      activeZooms.delete(event.target)
+    }
+    const onZoomImageError = event => {
+      const image = event.target
+      if (!image.classList?.contains('medium-zoom-image--opened')) return
+      const marker = image.getAttribute(markerAttribute)
+      if ([...activeZooms.values()].some(entry => entry.marker === marker)) image.remove()
+    }
 
-    // 监视页面元素和属性变化
-    observer.observe(document.body, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ['class']
-    })
+    // medium-zoom dispatches a non-bubbling open event on the original image
+    // before cloning it into document.body. Supply HD there so its own loader
+    // can fall back to the thumbnail if the HD request fails.
+    articleRoot.addEventListener('medium-zoom:open', prepareZoomSource, true)
+    articleRoot.addEventListener('medium-zoom:closed', onZoomClosed, true)
+    document.addEventListener('error', onZoomImageError, true)
 
     return () => {
-      observer.disconnect()
+      articleRoot.removeEventListener('medium-zoom:open', prepareZoomSource, true)
+      articleRoot.removeEventListener('medium-zoom:closed', onZoomClosed, true)
+      document.removeEventListener('error', onZoomImageError, true)
+      zoomSources.forEach((_source, image) => restoreZoomSource(image))
+      activeZooms.forEach((entry, image) => {
+        const { zoom } = entry
+        if (zoom.getZoomedImage() !== image) {
+          finishZoom(image, entry)
+          return
+        }
+        const closeZoom = () => {
+          if (zoom.getZoomedImage() === image) void zoom.close()
+        }
+        // close() is ignored while opening. The original may already be detached,
+        // so listen on it directly and close as soon as that animation finishes.
+        image.addEventListener('medium-zoom:opened', closeZoom, { once: true })
+        image.addEventListener('medium-zoom:closed', () => {
+          image.removeEventListener('medium-zoom:opened', closeZoom)
+          finishZoom(image, entry)
+        }, { once: true })
+        closeZoom()
+      })
+      activeZooms.clear()
     }
-  }, [post])
+  }, [post, IMAGE_ZOOM_IN_WIDTH, zoomOwnerId])
 
   useEffect(() => {
     // Spoiler文本功能
@@ -98,22 +153,6 @@ const NotionPage = ({ post, className }) => {
         })
       })
     }
-
-    // 查找所有具有 'notion-collection-page-properties' 类的元素,删除notion自带的页面properties
-    const timer = setTimeout(() => {
-      // 查找所有具有 'notion-collection-page-properties' 类的元素
-      const elements = document.querySelectorAll(
-        '.notion-collection-page-properties'
-      )
-
-      // 遍历这些元素并将其从 DOM 中移除
-      elements?.forEach(element => {
-        element?.remove()
-      })
-    }, 1000) // 1000 毫秒 = 1 秒
-
-    // 清理定时器，防止组件卸载时执行
-    return () => clearTimeout(timer)
   }, [post])
 
   // const cleanBlockMap = cleanBlocksWithWarn(post?.blockMap);
@@ -122,6 +161,7 @@ const NotionPage = ({ post, className }) => {
   return (
     <div
       id='notion-article'
+      ref={articleRef}
       className={`mx-auto overflow-hidden ${className || ''}`}>
       <NotionRenderer
         recordMap={post?.blockMap}
@@ -130,19 +170,30 @@ const NotionPage = ({ post, className }) => {
         components={{
           Code,
           Collection,
+          Embed: NotionEmbed,
           Equation,
+          Link: NotionLink,
           Modal,
           Pdf,
+          Quote: NotionQuote,
           Tweet
         }}
       />
 
       <AdEmbed />
-      <PrismMac />
+      <OriginalityProof proof={post?.originalityProof} />
+      {hasCodeBlock(post?.blockMap) && <PrismMac />}
     </div>
   )
 }
 
+const hasCodeBlock = blockMap => {
+  const blocks = blockMap?.block
+  if (!blocks) return false
+  return Object.values(blocks).some(
+    item => item?.value?.type === 'code'
+  )
+}
 
 /**
  * 页面的数据库链接禁止跳转，只能查看
@@ -246,7 +297,7 @@ const Equation = dynamic(
       await import('@/lib/plugins/mhchem')
       return m.Equation
     }),
-  { ssr: false }
+  { ssr: true }
 )
 
 // 原版文档
@@ -281,10 +332,7 @@ const AdEmbed = dynamic(
 )
 
 const Collection = dynamic(
-  () =>
-    import('react-notion-x/build/third-party/collection').then(
-      m => m.Collection
-    ),
+  () => import('@/components/NotionCollection'),
   {
     ssr: true
   }
@@ -297,6 +345,40 @@ const Modal = dynamic(
 
 const Tweet = ({ id }) => {
   return <TweetEmbed tweetId={id} />
+}
+
+// Custom Quote override: react-notion-x drops quotes without properties.title
+// (returns null from early guard). This renders them correctly — fixes #4140.
+const NotionQuote = ({ block, children }) => {
+  const title = block?.properties?.title
+  return (
+    <blockquote className='notion-quote'>
+      {title && <NotionText value={title} />}
+      {children}
+    </blockquote>
+  )
+}
+
+// Minimal inline text renderer for Notion rich-text arrays.
+// Each segment is [plainText, [[formatType, optionalValue], ...]].
+const NotionText = ({ value }) => {
+  if (!Array.isArray(value)) return null
+  return value.map((segment, i) => {
+    if (!Array.isArray(segment) || !segment[0]) return null
+    const [text, formats] = segment
+    let element = <>{text}</>
+    if (Array.isArray(formats)) {
+      for (const fmt of formats) {
+        const type = Array.isArray(fmt) ? fmt[0] : fmt
+        if (type === 'b') element = <strong>{element}</strong>
+        else if (type === 'i') element = <em>{element}</em>
+        else if (type === 's') element = <s>{element}</s>
+        else if (type === 'c') element = <code>{element}</code>
+        else if (type === 'a') element = <a href={Array.isArray(fmt) ? fmt[1] : '#'}>{element}</a>
+      }
+    }
+    return <span key={i}>{element}</span>
+  })
 }
 
 export default NotionPage

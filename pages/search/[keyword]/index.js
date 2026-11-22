@@ -1,9 +1,11 @@
+import { getPublicPostBlockMap } from '@/lib/utils/publicPost'
 import BLOG from '@/blog.config'
 import { getDataFromCache } from '@/lib/cache/cache_manager'
 import { siteConfig } from '@/lib/config'
 import { fetchGlobalAllData } from '@/lib/db/SiteDataApi'
 import { DynamicLayout } from '@/themes/theme'
 import { getPageContentText } from '@/lib/db/notion/getPageContentText'
+import { getPageBlockCacheKey } from '@/lib/db/notion/getPostBlocks'
 
 const Index = props => {
   const theme = siteConfig('THEME', BLOG.THEME, props.NOTION_CONFIG)
@@ -40,6 +42,7 @@ export async function getStaticProps({ params: { keyword }, locale }) {
     props.posts = props.posts?.slice(0, POSTS_PER_PAGE)
   }
   props.keyword = keyword
+  delete props.allPages
   return {
     props,
     revalidate: process.env.EXPORT
@@ -71,8 +74,8 @@ async function filterByMemCache(allPosts, keyword) {
     keyword = keyword.trim().toLowerCase()
   }
   for (const post of allPosts) {
-    const cacheKey = 'page_block_' + post.id
-    const page = await getDataFromCache(cacheKey, true)
+    const cacheKey = getPageBlockCacheKey(post.id, post.lastEditedDate)
+    const page = getPublicPostBlockMap(post, await getDataFromCache(cacheKey, true), allPosts)
     const tagContent =
       post?.tags && Array.isArray(post?.tags) ? post?.tags.join(' ') : ''
     const categoryContent =

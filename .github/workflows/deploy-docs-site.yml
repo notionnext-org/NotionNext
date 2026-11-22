@@ -1,0 +1,59 @@
+# VitePress 文档站 → Cloudflare Pages（不依赖 CF「连接 Git」）
+# 适用于组织仓库、个人仓库均可。需在 GitHub 配置 Secrets，见 docs/user-guide/deploy/cloudflare-pages-docs.md
+
+name: Deploy docs site (VitePress)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - '.vitepress/**'
+      - 'README.md'
+      - 'functions/**'
+      - 'scripts/generate-theme-user-docs.mjs'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/deploy-docs-site.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-docs-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build VitePress
+        env:
+          VITE_GISCUS_REPO_ID: ${{ secrets.VITE_GISCUS_REPO_ID }}
+          VITE_GISCUS_CATEGORY_ID: ${{ secrets.VITE_GISCUS_CATEGORY_ID }}
+          VITE_GISCUS_ENABLED: ${{ vars.VITE_GISCUS_ENABLED }}
+          VITE_DOCS_CHAT_API: /api/docs-chat
+        run: yarn docs:site:build
+
+      - name: Set Pages project name
+        run: echo "CF_PAGES_PROJECT=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME || 'notionnext-docs' }}" >> "$GITHUB_ENV"
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler@4 pages deploy .vitepress/dist --project-name=${{ env.CF_PAGES_PROJECT }} --commit-dirty=true

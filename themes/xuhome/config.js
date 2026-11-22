@@ -1,0 +1,39 @@
+const CONFIG = {
+  XUHOME_BG_IMAGE: '', // 页面背景图路径；留空则使用纯色背景
+  XUHOME_HERO_ENABLE: true, // 首页显示 Hero 区
+  XUHOME_HERO_TITLE: process.env.NEXT_PUBLIC_XUHOME_HERO_TITLE || '',
+  XUHOME_HERO_BIO: process.env.NEXT_PUBLIC_XUHOME_HERO_BIO || '',
+  XUHOME_HERO_TEXTS: ['Hello.', 'Welcome.', 'Enjoy reading.'], // 打字机轮播文字
+  XUHOME_HERO_TITLE_COLOR: '#0284c7', // Hero 标题颜色
+  XUHOME_HERO_BIO_COLOR: '#475569', // Hero 简介颜色
+  XUHOME_HERO_TYPE_SPEED: 80, // 打字速度（毫秒/字）
+  XUHOME_HERO_DELETE_SPEED: 40, // 删除速度（毫秒/字）
+  XUHOME_HERO_TYPE_PAUSE: 2000, // 每段文字停留时间（毫秒）
+  XUHOME_MENU_ARCHIVE: true, // 显示归档入口
+  XUHOME_MENU_TAG: true, // 显示标签入口
+  XUHOME_MENU_SEARCH: true, // 显示搜索入口
+  XUHOME_SIDEBAR: true, // 桌面端显示侧边栏
+  XUHOME_ARTICLE_RECOMMEND_POSTS: true, // 文章页显示推荐内容
+  XUHOME_UPTIME_ENABLE: true, // 显示站点运行时长
+  XUHOME_UPTIME_TITLE: 'Running',
+  XUHOME_UPTIME_SINCE: '2024-01-01', // 建站日期（YYYY-MM-DD）
+
+  // 主题控制台配色
+  XUHOME_COLOR_PRIMARY: '#0284c7',
+  XUHOME_COLOR_PRIMARY_HOVER: '#0ea5e9',
+  XUHOME_COLOR_ACCENT: '#fde68a',
+  XUHOME_COLOR_BG: '#faf8f5',
+  XUHOME_COLOR_CARD: '#ffffff',
+  XUHOME_COLOR_TEXT: '#0f172a',
+  XUHOME_COLOR_TEXT_SECONDARY: '#475569',
+  XUHOME_COLOR_BORDER: '#0284c7',
+  XUHOME_COLOR_PRIMARY_DARK: '#38bdf8',
+  XUHOME_COLOR_PRIMARY_HOVER_DARK: '#7dd3fc',
+  XUHOME_COLOR_ACCENT_DARK: '#facc15',
+  XUHOME_COLOR_BG_DARK: '#0b1120',
+  XUHOME_COLOR_CARD_DARK: '#172033',
+  XUHOME_COLOR_TEXT_DARK: '#f8fafc',
+  XUHOME_COLOR_TEXT_SECONDARY_DARK: '#cbd5e1',
+  XUHOME_COLOR_BORDER_DARK: '#38bdf8'
+}
+export default CONFIG

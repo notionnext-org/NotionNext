@@ -1,5 +1,6 @@
 import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import DarkModeButton from '@/components/DarkModeButton'
+import AnalyticsBusuanzi from '@/components/AnalyticsBusuanzi'
 import { siteConfig } from '@/lib/config'
 
 /**
@@ -23,6 +24,8 @@ export default function Footer(props) {
           &copy;{`${copyrightDate}`} LoveTree.
         </div>
         <div>与所有美好一起追赶着你.</div>
+        <div>All rights reserved.</div>
+        <AnalyticsBusuanzi />
       </div>
     </footer>
   )

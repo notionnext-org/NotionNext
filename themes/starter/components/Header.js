@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import DashboardButton from '@/components/ui/dashboard/DashboardButton'
-import { siteConfig } from '@/lib/config'
+import { starterConfig } from '../config'
 import { useGlobal } from '@/lib/global'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import throttle from 'lodash.throttle'
@@ -30,7 +30,7 @@ export const Header = props => {
       setColor('')
     }
     // ======= Sticky
-    window.addEventListener('scroll', navBarScollListener)
+    window.addEventListener('scroll', navBarScollListener, { passive: true })
     return () => {
       window.removeEventListener('scroll', navBarScollListener)
     }
@@ -73,16 +73,16 @@ export const Header = props => {
                 {enableClerk && (
                   <>
                     <SignedOut>
-                      <div className='hidden sm:flex gap-4'>
+                      <div className='hidden sm:flex items-center gap-3'>
                         <SmartLink
-                          href={siteConfig('STARTER_NAV_BUTTON_1_URL', '')}
-                          className={`loginBtn ${buttonTextColor} p-2 text-base font-medium hover:opacity-70`}>
-                          {siteConfig('STARTER_NAV_BUTTON_1_TEXT')}
+                          href={starterConfig('STARTER_NAV_BUTTON_1_URL', '')}
+                          className={`loginBtn ${buttonTextColor} whitespace-nowrap p-2 text-base font-medium hover:opacity-70`}>
+                          {starterConfig('STARTER_NAV_BUTTON_1_TEXT')}
                         </SmartLink>
                         <SmartLink
-                          href={siteConfig('STARTER_NAV_BUTTON_2_URL', '')}
-                          className={`signUpBtn ${buttonTextColor} p-2 rounded-md bg-white bg-opacity-20 py-2 text-base font-medium duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark`}>
-                          {siteConfig('STARTER_NAV_BUTTON_2_TEXT')}
+                          href={starterConfig('STARTER_NAV_BUTTON_2_URL', '')}
+                          className={`signUpBtn ${buttonTextColor} whitespace-nowrap p-2 rounded-md py-2 text-base font-medium duration-300 ease-in-out`}>
+                          {starterConfig('STARTER_NAV_BUTTON_2_TEXT')}
                         </SmartLink>
                       </div>
                     </SignedOut>
@@ -93,16 +93,16 @@ export const Header = props => {
                   </>
                 )}
                 {!enableClerk && (
-                  <div className='hidden sm:flex gap-4'>
+                  <div className='hidden sm:flex items-center gap-3'>
                     <SmartLink
-                      href={siteConfig('STARTER_NAV_BUTTON_1_URL', '')}
-                      className={`loginBtn ${buttonTextColor} p-2 text-base font-medium hover:opacity-70`}>
-                      {siteConfig('STARTER_NAV_BUTTON_1_TEXT')}
+                      href={starterConfig('STARTER_NAV_BUTTON_1_URL', '')}
+                      className={`loginBtn ${buttonTextColor} whitespace-nowrap p-2 text-base font-medium hover:opacity-70`}>
+                      {starterConfig('STARTER_NAV_BUTTON_1_TEXT')}
                     </SmartLink>
                     <SmartLink
-                      href={siteConfig('STARTER_NAV_BUTTON_2_URL', '')}
-                      className={`signUpBtn ${buttonTextColor} p-2 rounded-md bg-white bg-opacity-20 py-2 text-base font-medium duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark`}>
-                      {siteConfig('STARTER_NAV_BUTTON_2_TEXT')}
+                      href={starterConfig('STARTER_NAV_BUTTON_2_URL', '')}
+                      className={`signUpBtn ${buttonTextColor} whitespace-nowrap p-2 rounded-md py-2 text-base font-medium duration-300 ease-in-out`}>
+                      {starterConfig('STARTER_NAV_BUTTON_2_TEXT')}
                     </SmartLink>
                   </div>
                 )}

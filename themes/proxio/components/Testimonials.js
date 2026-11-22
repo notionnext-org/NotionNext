@@ -41,14 +41,14 @@ export const Testimonials = () => {
       {/* <!-- ====== Testimonial Section Start --> */}
       <section
         id="testimonials"
-        className="overflow-hidden bg-gray-1 py-20 dark:bg-black md:py-[60px]"
+        className="proxio-section-muted overflow-hidden py-20 md:py-[60px]"
       >
         <div className="container mx-auto flex flex-col md:flex-row items-start gap-10">
           {/* 左侧标题和描述 */}
           <div className="flex flex-col space-y-8 w-full md:w-1/2 text-center md:text-left">
 
             <div>
-              <span className='px-3 py-0.5 rounded-2xl dark:bg-dark-1 border border-gray-200 dark:border-[#333333] dark:text-white'>
+              <span className='proxio-pill px-3 py-0.5 rounded-2xl border'>
                 {siteConfig('PROXIO_TESTIMONIALS_TITLE')}
               </span>
             </div>
@@ -62,7 +62,7 @@ export const Testimonials = () => {
             <div className='mt-8 w-full flex justify-start items-center'>
               <SmartLink
                 href={siteConfig('PROXIO_TESTIMONIALS_BUTTON_URL', '')}
-                className='px-4 py-2 rounded-3xl border dark:border-gray-200 border-[#333333] text-base font-medium text-dark hover:bg-gray-100 dark:text-white dark:hover:bg-white dark:hover:text-black duration-200'>
+                className='proxio-outline-button px-4 py-2 rounded-3xl border text-base font-medium duration-200'>
                 {siteConfig('PROXIO_TESTIMONIALS_BUTTON_TEXT')}
                 <i className="pl-4 fa-solid fa-arrow-right"></i>
               </SmartLink>
@@ -79,7 +79,7 @@ export const Testimonials = () => {
               {PROXIO_TESTIMONIALS_ITEMS?.map((item, index) => (
                 <div
                   key={index}
-                  className="mb-6 rounded-xl bg-white px-4 py-[30px] shadow-testimonial border dark:bg-[#0E0E0E] sm:px-[30px] dark:border-[#333333] "
+                  className="proxio-card mb-6 rounded-xl px-4 py-[30px] shadow-testimonial border sm:px-[30px]"
                 >
                   <p className="mb-6 text-base text-body-color dark:text-dark-6">
                     “{item.PROXIO_TESTIMONIALS_ITEM_TEXT}”
@@ -110,7 +110,7 @@ export const Testimonials = () => {
               {PROXIO_TESTIMONIALS_ITEMS?.map((item, index) => (
                 <div
                   key={`clone-${index}`}
-                  className="mb-6 rounded-xl bg-white px-4 py-[30px] shadow-testimonial border dark:bg-[#0E0E0E] sm:px-[30px] dark:border-[#333333] "
+                  className="proxio-card mb-6 rounded-xl px-4 py-[30px] shadow-testimonial border sm:px-[30px]"
                 >
                   <p className="mb-6 text-base text-body-color dark:text-dark-6">
                     “{item.PROXIO_TESTIMONIALS_ITEM_TEXT}”

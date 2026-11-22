@@ -1,0 +1,35 @@
+title: "组织成员申请: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        若你已满足 [GOVERNANCE](https://github.com/notionnext-org/NotionNext/blob/main/GOVERNANCE.zh-CN.md#申请组织协作权限) 中的条件（如 1～2 个合并 PR）但**尚未收到组织邀请**，请在此留言，维护者会按队列处理。
+  - type: input
+    id: username
+    attributes:
+      label: GitHub 用户名
+      placeholder: "@your-handle"
+    validations:
+      required: true
+  - type: textarea
+    id: prs
+    attributes:
+      label: 已合并 PR 链接（每行一条）
+      placeholder: https://github.com/notionnext-org/NotionNext/pull/...
+    validations:
+      required: true
+  - type: textarea
+    id: domain
+    attributes:
+      label: 希望负责的域
+      placeholder: 例如 docs/user-guide、某主题、CI 等
+    validations:
+      required: true
+  - type: textarea
+    id: availability
+    attributes:
+      label: 可投入时间（可选）
+      placeholder: 例如每周若干小时、主要时区等
+    validations:
+      required: false

@@ -1,3 +1,4 @@
+import { hasEnabledComments } from '@/lib/utils/comments'
 import { siteConfig } from '@/lib/config'
 import CONFIG from '../config'
 
@@ -6,8 +7,8 @@ import CONFIG from '../config'
  * @returns {JSX.Element}
  * @constructor
  */
-const ButtonJumpToComment = () => {
-  if (!siteConfig('HEXO_WIDGET_TO_COMMENT', null, CONFIG)) {
+const ButtonJumpToComment = ({ post }) => {
+  if (post?.comment === 'Hide' || !hasEnabledComments(siteConfig) || !siteConfig('HEXO_WIDGET_TO_COMMENT', null, CONFIG)) {
     return <></>
   }
 
@@ -27,7 +28,8 @@ const ButtonJumpToComment = () => {
   return (
     <div
       className='flex space-x-1 items-center justify-center transform hover:scale-105 duration-200 w-7 h-7 text-center'
-      onClick={navToComment}>
+      onClick={navToComment}
+      title='Jump to Comment'>
       <i className='fas fa-comment text-xs' />
     </div>
   )
