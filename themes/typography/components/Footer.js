@@ -21,8 +21,9 @@ export default function Footer(props) {
 
       <div className='font-bold text-[var(--primary-color)] dark:text-white py-6 text-sm flex flex-col gap-2 items-center'>
         <div>
-          &copy;{`${copyrightDate}`} {siteConfig('AUTHOR')}.
+          &copy;{`${copyrightDate}`} LoveTree.
         </div>
+        <div>与所有美好一起追赶着你.</div>
         <div>All rights reserved.</div>
         <AnalyticsBusuanzi />
       </div>
